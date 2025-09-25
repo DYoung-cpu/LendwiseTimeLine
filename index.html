@@ -1,0 +1,591 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>
+      LendWise Mortgage - Building the Future of Mortgage Technology
+    </title>
+    <link rel="stylesheet" href="styles.css" />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap"
+      rel="stylesheet"
+    />
+  </head>
+  <body>
+    <!-- Corner WISR (hidden by default) - TOP RIGHT -->
+    <div class="wisr-corner" id="wisr-corner" style="display: none;">
+      <div class="wisr-corner-glow"></div>
+      <div class="wisr-corner-circle">
+        <video id="corner-owl-video" autoplay muted loop playsinline>
+          <source src="wisr-owl.mp4" type="video/mp4" />
+        </video>
+        <!-- Teleportation effect videos -->
+        <video id="corner-dematerialize" muted playsinline style="display: none;">
+          <source src="owl-dematerialization.mp4" type="video/mp4" />
+        </video>
+        <video id="corner-materialize" muted playsinline style="display: none;">
+          <source src="owl-materialization.mp4" type="video/mp4" />
+        </video>
+        <div class="corner-mask-overlay"></div>
+      </div>
+    </div>
+    <!-- Hero Section with WISR -->
+    <section class="hero">
+      <div class="hero-background">
+        <div class="gradient-overlay"></div>
+        <div class="animated-shapes"></div>
+      </div>
+      <div class="container">
+        <div class="hero-content">
+          <!-- WISR Video Circle -->
+          <div class="wisr-showcase" id="wisr-assistant">
+            <div class="wisr-glow"></div>
+            <div class="wisr-video-circle">
+              <video id="main-owl-video" autoplay muted loop playsinline>
+                <source src="wisr-owl.mp4" type="video/mp4" />
+              </video>
+              <!-- Teleportation effect videos -->
+              <video id="main-dematerialize" muted playsinline style="display: none;">
+                <source src="owl-dematerialization.mp4" type="video/mp4" />
+              </video>
+              <video id="main-materialize" muted playsinline style="display: none;">
+                <source src="owl-materialization.mp4" type="video/mp4" />
+              </video>
+              <div class="video-mask-overlay"></div>
+            </div>
+            <div class="wisr-label">Click to Ask WISR</div>
+          </div>
+
+          <h1 class="hero-title">
+            <span class="company-name">LendWise Mortgage</span>
+            <span class="hero-subtitle"
+              >Redefining what it is to
+              <span class="gradient-text">Mortgage</span></span
+            >
+          </h1>
+
+          <p class="hero-description">
+            Revolutionizing the lending industry through AI-powered technology,
+            seamless integrations, and a relentless focus on efficiency and
+            customer success.
+          </p>
+
+          <div class="hero-metrics">
+            <div class="metric">
+              <div class="metric-value">2025</div>
+              <div class="metric-label">Founded</div>
+            </div>
+            <div class="metric">
+              <div class="metric-value" id="days-operating">0</div>
+              <div class="metric-label">Days Building</div>
+            </div>
+            <div class="metric">
+              <div class="metric-value" id="milestones-complete">0</div>
+              <div class="metric-label">Milestones Complete</div>
+            </div>
+            <div class="metric">
+              <div class="metric-value">AI-First</div>
+              <div class="metric-label">Technology</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Company Overview -->
+    <section class="company-overview">
+      <div class="container">
+        <div class="section-header">
+          <h2>Our Mission</h2>
+          <p class="section-subtitle">
+            Complete integration from application to funding
+          </p>
+        </div>
+        <div class="overview-grid">
+          <div class="overview-card">
+            <div class="card-icon">
+              <svg
+                width="32"
+                height="32"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2"
+              >
+                <path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z" />
+              </svg>
+            </div>
+            <h3>Technology-First Approach</h3>
+            <p>
+              Leveraging AI and automation to eliminate friction in the mortgage
+              process
+            </p>
+          </div>
+          <div class="overview-card">
+            <div class="card-icon">
+              <svg
+                width="32"
+                height="32"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2"
+              >
+                <path d="M12 2L2 7l10 5 10-5-10-5z" />
+                <path d="M2 17l10 5 10-5" />
+                <path d="M2 12l10 5 10-5" />
+              </svg>
+            </div>
+            <h3>Seamless Integration</h3>
+            <p>
+              Connecting every step from loan origination to closing in one
+              unified platform
+            </p>
+          </div>
+          <div class="overview-card">
+            <div class="card-icon">
+              <svg
+                width="32"
+                height="32"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2"
+              >
+                <circle cx="12" cy="12" r="10" />
+                <path d="M12 6v6l4 2" />
+              </svg>
+            </div>
+            <h3>Speed & Efficiency</h3>
+            <p>
+              Reducing loan processing time through intelligent automation and
+              workflow optimization
+            </p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Master Progress Tracker -->
+    <section class="progress-tracker">
+      <div class="container">
+        <div class="section-header">
+          <h2>Company Implementation Tracker</h2>
+          <p class="section-subtitle">
+            Real-time progress on our journey to revolutionize mortgage lending
+          </p>
+        </div>
+
+        <!-- Overall Progress -->
+        <div class="overall-progress">
+          <div class="progress-ring">
+            <svg width="200" height="200">
+              <circle cx="100" cy="100" r="90" class="progress-ring-bg" />
+              <circle
+                cx="100"
+                cy="100"
+                r="90"
+                class="progress-ring-fill"
+                id="overall-ring"
+              />
+            </svg>
+            <div class="progress-ring-content">
+              <span class="percentage" id="overall-percentage">0%</span>
+              <span class="label">Complete</span>
+            </div>
+          </div>
+          <div class="progress-summary">
+            <h3>Overall Company Progress</h3>
+            <div class="summary-stats">
+              <div class="stat-box">
+                <span class="stat-number" id="phases-complete">0</span>
+                <span class="stat-text">of 6 Phases Complete</span>
+              </div>
+              <div class="stat-box">
+                <span class="stat-number" id="next-milestone-days">0</span>
+                <span class="stat-text">Days to Next Milestone</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Milestone Categories -->
+        <div class="milestone-grid">
+          <!-- Corporate Foundation -->
+          <div class="milestone-category" data-category="foundation">
+            <div class="category-header">
+              <h3>📊 Corporate Foundation</h3>
+              <span class="category-progress">85%</span>
+            </div>
+            <div class="milestones">
+              <div class="milestone completed">
+                <span class="milestone-icon">✓</span>
+                <span class="milestone-text">Company Incorporation</span>
+                <span class="milestone-date">Jan 2025</span>
+              </div>
+              <div class="milestone completed">
+                <span class="milestone-icon">✓</span>
+                <span class="milestone-text">EIN & Business Registration</span>
+                <span class="milestone-date">Jan 2025</span>
+              </div>
+              <div class="milestone completed">
+                <span class="milestone-icon">✓</span>
+                <span class="milestone-text"
+                  >Corporate Structure Established</span
+                >
+                <span class="milestone-date">Jan 2025</span>
+              </div>
+              <div class="milestone in-progress">
+                <span class="milestone-icon">⟳</span>
+                <span class="milestone-text"
+                  >Headquarters Location Secured</span
+                >
+                <span class="milestone-date">Q1 2025</span>
+              </div>
+              <div class="milestone">
+                <span class="milestone-icon">○</span>
+                <span class="milestone-text">Office Build-Out Complete</span>
+                <span class="milestone-date">Q2 2025</span>
+              </div>
+            </div>
+            <div class="progress-bar">
+              <div class="progress-fill" style="width: 85%"></div>
+            </div>
+          </div>
+
+          <!-- Regulatory & Compliance -->
+          <div class="milestone-category" data-category="regulatory">
+            <div class="category-header">
+              <h3>⚖️ Regulatory & Compliance</h3>
+              <span class="category-progress">70%</span>
+            </div>
+            <div class="milestones">
+              <div class="milestone completed">
+                <span class="milestone-icon">✓</span>
+                <span class="milestone-text">NMLS Company Registration</span>
+                <span class="milestone-date">Jan 2025</span>
+              </div>
+              <div class="milestone completed">
+                <span class="milestone-icon">✓</span>
+                <span class="milestone-text"
+                  >Initial State License Application</span
+                >
+                <span class="milestone-date">Feb 2025</span>
+              </div>
+              <div class="milestone in-progress">
+                <span class="milestone-icon">⟳</span>
+                <span class="milestone-text"
+                  >Multi-State Licensing (10 States)</span
+                >
+                <span class="milestone-date">Q2 2025</span>
+              </div>
+              <div class="milestone in-progress">
+                <span class="milestone-icon">⟳</span>
+                <span class="milestone-text">Warehouse Line of Credit</span>
+                <span class="milestone-date">Q2 2025</span>
+              </div>
+              <div class="milestone">
+                <span class="milestone-icon">○</span>
+                <span class="milestone-text">FHA/VA/USDA Approval</span>
+                <span class="milestone-date">Q3 2025</span>
+              </div>
+              <div class="milestone">
+                <span class="milestone-icon">○</span>
+                <span class="milestone-text">50-State Licensing</span>
+                <span class="milestone-date">Q4 2025</span>
+              </div>
+            </div>
+            <div class="progress-bar">
+              <div class="progress-fill" style="width: 70%"></div>
+            </div>
+          </div>
+
+          <!-- Technology Infrastructure -->
+          <div class="milestone-category" data-category="technology">
+            <div class="category-header">
+              <h3>💻 Technology Infrastructure</h3>
+              <span class="category-progress">60%</span>
+            </div>
+            <div class="milestones">
+              <div class="milestone completed">
+                <span class="milestone-icon">✓</span>
+                <span class="milestone-text"
+                  >Cloud Infrastructure Setup (AWS)</span
+                >
+                <span class="milestone-date">Jan 2025</span>
+              </div>
+              <div class="milestone completed">
+                <span class="milestone-icon">✓</span>
+                <span class="milestone-text">Core Development Environment</span>
+                <span class="milestone-date">Jan 2025</span>
+              </div>
+              <div class="milestone in-progress">
+                <span class="milestone-icon">⟳</span>
+                <span class="milestone-text">LOS Integration (Encompass)</span>
+                <span class="milestone-date">Q1 2025</span>
+              </div>
+              <div class="milestone in-progress">
+                <span class="milestone-icon">⟳</span>
+                <span class="milestone-text">POS System Integration</span>
+                <span class="milestone-date">Q2 2025</span>
+              </div>
+              <div class="milestone">
+                <span class="milestone-icon">○</span>
+                <span class="milestone-text">Credit Bureau Integration</span>
+                <span class="milestone-date">Q2 2025</span>
+              </div>
+              <div class="milestone">
+                <span class="milestone-icon">○</span>
+                <span class="milestone-text"
+                  >Automated Underwriting System</span
+                >
+                <span class="milestone-date">Q3 2025</span>
+              </div>
+            </div>
+            <div class="progress-bar">
+              <div class="progress-fill" style="width: 60%"></div>
+            </div>
+          </div>
+
+          <!-- Product Development -->
+          <div class="milestone-category" data-category="product">
+            <div class="category-header">
+              <h3>🚀 Product Development</h3>
+              <span class="category-progress">75%</span>
+            </div>
+            <div class="milestones">
+              <div class="milestone completed">
+                <span class="milestone-icon">✓</span>
+                <span class="milestone-text">Mission Control CRM Alpha</span>
+                <span class="milestone-date">Jan 2025</span>
+              </div>
+              <div class="milestone completed">
+                <span class="milestone-icon">✓</span>
+                <span class="milestone-text">WISR AI Assistant Core</span>
+                <span class="milestone-date">Feb 2025</span>
+              </div>
+              <div class="milestone in-progress">
+                <span class="milestone-icon">⟳</span>
+                <span class="milestone-text">Email & Calendar Integration</span>
+                <span class="milestone-date">Q1 2025</span>
+              </div>
+              <div class="milestone in-progress">
+                <span class="milestone-icon">⟳</span>
+                <span class="milestone-text">Automated Lead Distribution</span>
+                <span class="milestone-date">Q2 2025</span>
+              </div>
+              <div class="milestone">
+                <span class="milestone-icon">○</span>
+                <span class="milestone-text">Mobile Application Launch</span>
+                <span class="milestone-date">Q3 2025</span>
+              </div>
+              <div class="milestone">
+                <span class="milestone-icon">○</span>
+                <span class="milestone-text">Voice AI Integration</span>
+                <span class="milestone-date">Q4 2025</span>
+              </div>
+            </div>
+            <div class="progress-bar">
+              <div class="progress-fill" style="width: 75%"></div>
+            </div>
+          </div>
+
+          <!-- Investor & Partnerships -->
+          <div class="milestone-category" data-category="investor">
+            <div class="category-header">
+              <h3>🤝 Investors & Partnerships</h3>
+              <span class="category-progress">45%</span>
+            </div>
+            <div class="milestones">
+              <div class="milestone completed">
+                <span class="milestone-icon">✓</span>
+                <span class="milestone-text">Seed Funding Secured</span>
+                <span class="milestone-date">Jan 2025</span>
+              </div>
+              <div class="milestone in-progress">
+                <span class="milestone-icon">⟳</span>
+                <span class="milestone-text">Series A Fundraising</span>
+                <span class="milestone-date">Q2 2025</span>
+              </div>
+              <div class="milestone in-progress">
+                <span class="milestone-icon">⟳</span>
+                <span class="milestone-text">First Investor Approval</span>
+                <span class="milestone-date">Q2 2025</span>
+              </div>
+              <div class="milestone">
+                <span class="milestone-icon">○</span>
+                <span class="milestone-text">5+ Investor Relationships</span>
+                <span class="milestone-date">Q3 2025</span>
+              </div>
+              <div class="milestone">
+                <span class="milestone-icon">○</span>
+                <span class="milestone-text"
+                  >Strategic Technology Partnerships</span
+                >
+                <span class="milestone-date">Q3 2025</span>
+              </div>
+              <div class="milestone">
+                <span class="milestone-icon">○</span>
+                <span class="milestone-text">National Investor Network</span>
+                <span class="milestone-date">Q4 2025</span>
+              </div>
+            </div>
+            <div class="progress-bar">
+              <div class="progress-fill" style="width: 45%"></div>
+            </div>
+          </div>
+
+          <!-- Market Expansion -->
+          <div class="milestone-category" data-category="expansion">
+            <div class="category-header">
+              <h3>🌎 Market Expansion</h3>
+              <span class="category-progress">30%</span>
+            </div>
+            <div class="milestones">
+              <div class="milestone completed">
+                <span class="milestone-icon">✓</span>
+                <span class="milestone-text">Founding Team Assembled</span>
+                <span class="milestone-date">Jan 2025</span>
+              </div>
+              <div class="milestone in-progress">
+                <span class="milestone-icon">⟳</span>
+                <span class="milestone-text">First 10 Loan Officers</span>
+                <span class="milestone-date">Q2 2025</span>
+              </div>
+              <div class="milestone">
+                <span class="milestone-icon">○</span>
+                <span class="milestone-text">First Branch Office</span>
+                <span class="milestone-date">Q3 2025</span>
+              </div>
+              <div class="milestone">
+                <span class="milestone-icon">○</span>
+                <span class="milestone-text">50+ Loan Officers</span>
+                <span class="milestone-date">Q4 2025</span>
+              </div>
+              <div class="milestone">
+                <span class="milestone-icon">○</span>
+                <span class="milestone-text">5 Regional Offices</span>
+                <span class="milestone-date">2026</span>
+              </div>
+              <div class="milestone">
+                <span class="milestone-icon">○</span>
+                <span class="milestone-text">National Presence</span>
+                <span class="milestone-date">2026</span>
+              </div>
+            </div>
+            <div class="progress-bar">
+              <div class="progress-fill" style="width: 30%"></div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Recent Achievements -->
+        <div class="achievements">
+          <h3>Recent Achievements</h3>
+          <div class="achievement-timeline">
+            <div class="achievement">
+              <div class="achievement-date">Feb 15, 2025</div>
+              <div class="achievement-content">
+                <div class="achievement-badge">NEW</div>
+                <h4>WISR AI Assistant Core Complete</h4>
+                <p>
+                  Successfully deployed the core AI intelligence system for
+                  automated loan officer assistance
+                </p>
+              </div>
+            </div>
+            <div class="achievement">
+              <div class="achievement-date">Feb 1, 2025</div>
+              <div class="achievement-content">
+                <h4>NMLS Registration Approved</h4>
+                <p>
+                  Received official NMLS company registration and unique
+                  identifier
+                </p>
+              </div>
+            </div>
+            <div class="achievement">
+              <div class="achievement-date">Jan 15, 2025</div>
+              <div class="achievement-content">
+                <h4>Mission Control CRM Alpha Launch</h4>
+                <p>
+                  First version of our proprietary CRM system deployed for
+                  internal testing
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Vision Section -->
+    <section class="vision">
+      <div class="container">
+        <div class="vision-content">
+          <h2>The LendWise Difference</h2>
+          <div class="vision-grid">
+            <div class="vision-item">
+              <h3>AI-Powered Efficiency</h3>
+              <p>
+                WISR, our proprietary AI assistant, automates routine tasks and
+                provides intelligent recommendations, allowing loan officers to
+                focus on relationships.
+              </p>
+            </div>
+            <div class="vision-item">
+              <h3>Complete Integration</h3>
+              <p>
+                From application to funding, every step is connected in our
+                unified platform, eliminating data silos and reducing processing
+                time.
+              </p>
+            </div>
+            <div class="vision-item">
+              <h3>Built by Industry Experts</h3>
+              <p>
+                With 24+ years of mortgage banking experience, we're building
+                the tools we always wished we had.
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Call to Action -->
+    <section class="cta-section">
+      <div class="container">
+        <div class="cta-content">
+          <h2>Join the Revolution</h2>
+          <p>Be part of the future of mortgage technology</p>
+          <div class="cta-buttons">
+            <a href="#" class="btn-primary">Partner With Us</a>
+            <a href="#" class="btn-secondary">Learn More</a>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+      <div class="container">
+        <div class="footer-content">
+          <div class="footer-brand">
+            <span class="logo">LendWise Mortgage</span>
+            <p>Building tomorrow's lending technology today</p>
+          </div>
+          <div class="footer-info">
+            <p>
+              &copy; 2025 LendWise Mortgage Corporation. All rights reserved.
+            </p>
+            <p>NMLS #[Pending] | Equal Housing Lender</p>
+          </div>
+        </div>
+      </div>
+    </footer>
+
+    <script src="script.js"></script>
+  </body>
+</html>

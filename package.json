@@ -1,0 +1,25 @@
+{
+  "name": "lendwise-landing",
+  "version": "1.0.0",
+  "description": "LendWise Mortgage Landing Page - Coming Soon",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js",
+    "dev": "node server.js"
+  },
+  "keywords": [
+    "lendwise",
+    "mortgage",
+    "landing-page",
+    "crm"
+  ],
+  "author": "David Young",
+  "license": "ISC",
+  "dependencies": {
+    "express": "^4.18.2"
+  },
+  "devDependencies": {
+    "eslint": "^9.33.0",
+    "prettier": "^3.6.2"
+  }
+}

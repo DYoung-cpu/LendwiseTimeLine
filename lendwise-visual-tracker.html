@@ -1,0 +1,1083 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>LendWise Evolution - Interactive Progress Timeline</title>
+    
+    <!-- GSAP Animation Library -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
+    
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+            background: linear-gradient(180deg, #0a0e27 0%, #1a1f3a 50%, #0D4F3C 100%);
+            color: #fff;
+            overflow-x: auto;
+            min-height: 100vh;
+            position: relative;
+        }
+        
+        /* Animated Background Grid */
+        .bg-grid {
+            position: fixed;
+            width: 100%;
+            height: 100%;
+            background-image: 
+                linear-gradient(rgba(0, 217, 166, 0.1) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(0, 217, 166, 0.1) 1px, transparent 1px);
+            background-size: 50px 50px;
+            animation: grid-move 20s linear infinite;
+            z-index: -1;
+        }
+        
+        @keyframes grid-move {
+            0% { transform: translate(0, 0); }
+            100% { transform: translate(50px, 50px); }
+        }
+        
+        /* Header with Live Stats */
+        .header {
+            background: rgba(0, 0, 0, 0.5);
+            backdrop-filter: blur(20px);
+            border-bottom: 3px solid #FFD700;
+            padding: 20px 0;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+        }
+        
+        .header-content {
+            max-width: 1600px;
+            margin: 0 auto;
+            padding: 0 30px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .logo-section {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+        }
+        
+        .logo {
+            font-size: 2.5em;
+            font-weight: bold;
+            background: linear-gradient(135deg, #FFD700, #FFA500, #FFD700);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            text-transform: uppercase;
+            letter-spacing: 3px;
+            animation: shimmer 3s ease-in-out infinite;
+        }
+        
+        @keyframes shimmer {
+            0%, 100% { filter: brightness(1) hue-rotate(0deg); }
+            50% { filter: brightness(1.5) hue-rotate(10deg); }
+        }
+        
+        .live-indicator {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            background: rgba(255, 0, 0, 0.2);
+            padding: 5px 15px;
+            border-radius: 20px;
+            border: 1px solid #ff0000;
+        }
+        
+        .live-dot {
+            width: 8px;
+            height: 8px;
+            background: #ff0000;
+            border-radius: 50%;
+            animation: pulse-live 1.5s ease-in-out infinite;
+        }
+        
+        @keyframes pulse-live {
+            0%, 100% { opacity: 1; transform: scale(1); }
+            50% { opacity: 0.5; transform: scale(1.5); }
+        }
+        
+        .stats-panel {
+            display: flex;
+            gap: 40px;
+        }
+        
+        .stat-card {
+            text-align: center;
+            padding: 10px 20px;
+            background: rgba(255, 215, 0, 0.1);
+            border-radius: 10px;
+            border: 1px solid rgba(255, 215, 0, 0.3);
+            transition: all 0.3s ease;
+        }
+        
+        .stat-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 20px rgba(255, 215, 0, 0.2);
+        }
+        
+        .stat-number {
+            font-size: 2em;
+            font-weight: bold;
+            color: #00d9a6;
+            text-shadow: 0 0 20px rgba(0, 217, 166, 0.5);
+        }
+        
+        .stat-label {
+            font-size: 0.9em;
+            color: rgba(255, 255, 255, 0.7);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-top: 5px;
+        }
+        
+        /* Main Timeline Container */
+        .timeline-wrapper {
+            padding: 60px 30px 100px;
+            min-height: 600px;
+            position: relative;
+            max-width: 1800px;
+            margin: 0 auto;
+        }
+        
+        /* Visual Progress Bar */
+        .master-progress {
+            margin-bottom: 80px;
+            position: relative;
+        }
+        
+        .progress-title {
+            text-align: center;
+            font-size: 2.5em;
+            margin-bottom: 30px;
+            background: linear-gradient(135deg, #FFD700, #00d9a6);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+        }
+        
+        .progress-container {
+            background: rgba(0, 0, 0, 0.5);
+            border-radius: 30px;
+            padding: 8px;
+            position: relative;
+            overflow: hidden;
+            border: 2px solid rgba(255, 215, 0, 0.3);
+        }
+        
+        .progress-track {
+            height: 60px;
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 25px;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(90deg, 
+                #00d9a6 0%, 
+                #10b981 25%, 
+                #FFD700 50%, 
+                #FFA500 75%, 
+                #FFD700 100%);
+            background-size: 200% 100%;
+            border-radius: 25px;
+            width: 0%;
+            transition: width 3s ease;
+            animation: gradient-shift 3s ease-in-out infinite;
+            display: flex;
+            align-items: center;
+            justify-content: flex-end;
+            padding-right: 20px;
+            box-shadow: 0 0 30px rgba(255, 215, 0, 0.5);
+        }
+        
+        @keyframes gradient-shift {
+            0%, 100% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+        }
+        
+        .progress-text {
+            font-size: 1.8em;
+            font-weight: bold;
+            color: #0a0e27;
+            text-shadow: 0 0 10px rgba(255, 255, 255, 0.5);
+        }
+        
+        /* Evolution Timeline */
+        .evolution-timeline {
+            position: relative;
+            margin-top: 100px;
+            padding: 50px 0;
+        }
+        
+        .timeline-path {
+            height: 8px;
+            background: linear-gradient(90deg, 
+                #00d9a6 0%, 
+                #00d9a6 17%, 
+                rgba(255, 215, 0, 0.3) 17%, 
+                rgba(255, 215, 0, 0.3) 100%);
+            position: relative;
+            border-radius: 4px;
+            box-shadow: 0 4px 20px rgba(0, 217, 166, 0.3);
+        }
+        
+        .timeline-glow {
+            position: absolute;
+            top: -10px;
+            left: 0;
+            right: 0;
+            height: 28px;
+            background: linear-gradient(90deg, 
+                rgba(0, 217, 166, 0.5) 0%, 
+                rgba(0, 217, 166, 0.5) 17%, 
+                transparent 17%);
+            filter: blur(10px);
+            border-radius: 14px;
+        }
+        
+        /* Milestone Markers */
+        .milestones {
+            position: relative;
+            margin-top: -54px;
+        }
+        
+        .milestone-marker {
+            position: absolute;
+            transform: translateX(-50%);
+            cursor: pointer;
+            transition: all 0.3s ease;
+            z-index: 10;
+        }
+        
+        .milestone-marker:hover {
+            transform: translateX(-50%) translateY(-10px) scale(1.1);
+        }
+        
+        .milestone-icon-wrapper {
+            width: 100px;
+            height: 100px;
+            background: linear-gradient(135deg, #0D4F3C, #00d9a6);
+            border: 4px solid #FFD700;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+            transition: all 0.3s ease;
+        }
+        
+        .milestone-marker.completed .milestone-icon-wrapper {
+            background: linear-gradient(135deg, #00d9a6, #10b981);
+            box-shadow: 0 0 40px rgba(0, 217, 166, 0.6);
+            animation: pulse-complete 2s ease-in-out infinite;
+        }
+        
+        .milestone-marker.in-progress .milestone-icon-wrapper {
+            background: linear-gradient(135deg, #FFD700, #FFA500);
+            box-shadow: 0 0 40px rgba(255, 215, 0, 0.6);
+            animation: spin-progress 3s linear infinite;
+        }
+        
+        .milestone-marker.upcoming .milestone-icon-wrapper {
+            background: rgba(255, 255, 255, 0.1);
+            border-color: rgba(255, 255, 255, 0.5);
+            opacity: 0.7;
+        }
+        
+        @keyframes pulse-complete {
+            0%, 100% { transform: scale(1); box-shadow: 0 0 20px rgba(0, 217, 166, 0.6); }
+            50% { transform: scale(1.05); box-shadow: 0 0 40px rgba(0, 217, 166, 0.8); }
+        }
+        
+        @keyframes spin-progress {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
+        }
+        
+        .milestone-icon {
+            font-size: 3em;
+            z-index: 2;
+        }
+        
+        .milestone-label {
+            position: absolute;
+            top: 120px;
+            left: 50%;
+            transform: translateX(-50%);
+            text-align: center;
+            width: 150px;
+            font-size: 0.9em;
+            font-weight: bold;
+            color: #FFD700;
+            text-shadow: 0 2px 10px rgba(0, 0, 0, 0.5);
+        }
+        
+        .milestone-date {
+            position: absolute;
+            top: 140px;
+            left: 50%;
+            transform: translateX(-50%);
+            text-align: center;
+            width: 150px;
+            font-size: 0.8em;
+            color: rgba(255, 255, 255, 0.6);
+        }
+        
+        /* Milestone positions */
+        .milestone-1 { left: 5%; }
+        .milestone-2 { left: 17%; }
+        .milestone-3 { left: 29%; }
+        .milestone-4 { left: 41%; }
+        .milestone-5 { left: 53%; }
+        .milestone-6 { left: 65%; }
+        .milestone-7 { left: 77%; }
+        .milestone-8 { left: 89%; }
+        
+        /* Modal for Milestone Details */
+        .modal-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0, 0, 0, 0.8);
+            backdrop-filter: blur(10px);
+            display: none;
+            align-items: center;
+            justify-content: center;
+            z-index: 2000;
+            animation: fadeIn 0.3s ease;
+        }
+        
+        .modal-overlay.active {
+            display: flex;
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+        
+        .modal-content {
+            background: linear-gradient(135deg, #0D4F3C, #0a0e27);
+            border: 3px solid #FFD700;
+            border-radius: 20px;
+            padding: 40px;
+            max-width: 600px;
+            width: 90%;
+            max-height: 80vh;
+            overflow-y: auto;
+            position: relative;
+            box-shadow: 0 20px 60px rgba(255, 215, 0, 0.3);
+            animation: slideUp 0.4s ease;
+        }
+        
+        @keyframes slideUp {
+            from { transform: translateY(50px); opacity: 0; }
+            to { transform: translateY(0); opacity: 1; }
+        }
+        
+        .modal-header {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+            margin-bottom: 20px;
+        }
+        
+        .modal-icon {
+            width: 80px;
+            height: 80px;
+            background: linear-gradient(135deg, #FFD700, #FFA500);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2.5em;
+        }
+        
+        .modal-title {
+            font-size: 2em;
+            color: #FFD700;
+            flex: 1;
+        }
+        
+        .modal-close {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            width: 40px;
+            height: 40px;
+            background: rgba(255, 255, 255, 0.1);
+            border: 2px solid rgba(255, 255, 255, 0.3);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-size: 1.5em;
+        }
+        
+        .modal-close:hover {
+            background: rgba(255, 0, 0, 0.2);
+            border-color: #ff0000;
+            transform: rotate(90deg);
+        }
+        
+        .modal-body {
+            color: rgba(255, 255, 255, 0.9);
+            line-height: 1.8;
+        }
+        
+        .modal-status {
+            display: inline-block;
+            padding: 8px 20px;
+            border-radius: 20px;
+            font-weight: bold;
+            text-transform: uppercase;
+            margin-top: 20px;
+        }
+        
+        .status-completed {
+            background: rgba(0, 217, 166, 0.2);
+            color: #00d9a6;
+            border: 2px solid #00d9a6;
+        }
+        
+        .status-in-progress {
+            background: rgba(255, 215, 0, 0.2);
+            color: #FFD700;
+            border: 2px solid #FFD700;
+        }
+        
+        .status-upcoming {
+            background: rgba(255, 255, 255, 0.1);
+            color: rgba(255, 255, 255, 0.7);
+            border: 2px solid rgba(255, 255, 255, 0.3);
+        }
+        
+        /* AI Training Visual Grid */
+        .ai-section {
+            margin-top: 150px;
+            padding: 80px 30px;
+            background: rgba(0, 0, 0, 0.3);
+            border-top: 3px solid #FFD700;
+        }
+        
+        .ai-title {
+            text-align: center;
+            font-size: 3em;
+            margin-bottom: 50px;
+            background: linear-gradient(135deg, #FFD700, #00d9a6, #FFD700);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            text-transform: uppercase;
+            letter-spacing: 3px;
+        }
+        
+        .ai-modules-visual {
+            display: flex;
+            justify-content: space-around;
+            align-items: center;
+            max-width: 1400px;
+            margin: 0 auto;
+            flex-wrap: wrap;
+            gap: 30px;
+        }
+        
+        .ai-module-card {
+            width: 200px;
+            height: 250px;
+            background: linear-gradient(135deg, rgba(13, 79, 60, 0.3), rgba(0, 217, 166, 0.1));
+            border: 3px solid rgba(0, 217, 166, 0.5);
+            border-radius: 20px;
+            padding: 30px 20px;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.4s ease;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .ai-module-card::before {
+            content: '';
+            position: absolute;
+            top: -100%;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(180deg, transparent, rgba(255, 215, 0, 0.3), transparent);
+            transition: top 0.5s ease;
+        }
+        
+        .ai-module-card:hover::before {
+            top: 100%;
+        }
+        
+        .ai-module-card:hover {
+            transform: translateY(-20px) scale(1.05);
+            box-shadow: 0 30px 60px rgba(0, 217, 166, 0.4);
+            border-color: #FFD700;
+        }
+        
+        .ai-module-icon {
+            font-size: 4em;
+            margin-bottom: 20px;
+            filter: drop-shadow(0 5px 10px rgba(0, 0, 0, 0.5));
+        }
+        
+        .ai-module-name {
+            font-size: 1.1em;
+            color: #FFD700;
+            font-weight: bold;
+            margin-bottom: 10px;
+        }
+        
+        .ai-module-status {
+            font-size: 0.9em;
+            color: rgba(255, 255, 255, 0.6);
+            padding: 5px 10px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 10px;
+            display: inline-block;
+        }
+        
+        /* Legend */
+        .legend {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            background: rgba(0, 0, 0, 0.8);
+            backdrop-filter: blur(10px);
+            border: 2px solid rgba(255, 215, 0, 0.3);
+            border-radius: 15px;
+            padding: 20px;
+            z-index: 100;
+        }
+        
+        .legend-title {
+            font-size: 1.2em;
+            color: #FFD700;
+            margin-bottom: 15px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+        
+        .legend-item {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 10px;
+        }
+        
+        .legend-dot {
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            border: 2px solid #FFD700;
+        }
+        
+        .legend-dot.completed {
+            background: linear-gradient(135deg, #00d9a6, #10b981);
+        }
+        
+        .legend-dot.in-progress {
+            background: linear-gradient(135deg, #FFD700, #FFA500);
+        }
+        
+        .legend-dot.upcoming {
+            background: rgba(255, 255, 255, 0.1);
+            border-color: rgba(255, 255, 255, 0.5);
+        }
+        
+        .legend-text {
+            color: rgba(255, 255, 255, 0.8);
+            font-size: 0.9em;
+        }
+    </style>
+</head>
+<body>
+    <!-- Animated Background -->
+    <div class="bg-grid"></div>
+    
+    <!-- Header -->
+    <div class="header">
+        <div class="header-content">
+            <div class="logo-section">
+                <div class="logo">LendWise Evolution</div>
+                <div class="live-indicator">
+                    <div class="live-dot"></div>
+                    <span style="color: #fff; font-size: 0.9em;">LIVE</span>
+                </div>
+            </div>
+            <div class="stats-panel">
+                <div class="stat-card">
+                    <div class="stat-number" id="days-count">235</div>
+                    <div class="stat-label">Days Active</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-number" id="progress-percent">28%</div>
+                    <div class="stat-label">Complete</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-number" id="milestone-count">2/11</div>
+                    <div class="stat-label">Milestones</div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Main Timeline -->
+    <div class="timeline-wrapper">
+        <!-- Master Progress Bar -->
+        <div class="master-progress">
+            <h2 class="progress-title">Journey to Market Domination</h2>
+            <div class="progress-container">
+                <div class="progress-track">
+                    <div class="progress-fill" id="main-progress">
+                        <span class="progress-text">28%</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Evolution Timeline -->
+        <div class="evolution-timeline">
+            <div class="timeline-path">
+                <div class="timeline-glow"></div>
+            </div>
+            
+            <!-- Milestones -->
+            <div class="milestones">
+                <!-- Milestone 1: Birth -->
+                <div class="milestone-marker milestone-1 completed" data-milestone="1">
+                    <div class="milestone-icon-wrapper">
+                        <span class="milestone-icon">🚀</span>
+                    </div>
+                    <div class="milestone-label">Birth of LendWise</div>
+                    <div class="milestone-date">Jan 2025</div>
+                </div>
+                
+                <!-- Milestone 2: HQ -->
+                <div class="milestone-marker milestone-2 in-progress" data-milestone="2">
+                    <div class="milestone-icon-wrapper">
+                        <span class="milestone-icon">🏢</span>
+                    </div>
+                    <div class="milestone-label">Corporate HQ</div>
+                    <div class="milestone-date">Q2 2025</div>
+                </div>
+                
+                <!-- Milestone 3: Licenses -->
+                <div class="milestone-marker milestone-3 upcoming" data-milestone="3">
+                    <div class="milestone-icon-wrapper">
+                        <span class="milestone-icon">📜</span>
+                    </div>
+                    <div class="milestone-label">NMLS/DRE/DFPI</div>
+                    <div class="milestone-date">Q3 2025</div>
+                </div>
+                
+                <!-- Milestone 4: LOS -->
+                <div class="milestone-marker milestone-4 upcoming" data-milestone="4">
+                    <div class="milestone-icon-wrapper">
+                        <span class="milestone-icon">🔗</span>
+                    </div>
+                    <div class="milestone-label">LOS Integration</div>
+                    <div class="milestone-date">Q3 2025</div>
+                </div>
+                
+                <!-- Milestone 5: Pricing -->
+                <div class="milestone-marker milestone-5 upcoming" data-milestone="5">
+                    <div class="milestone-icon-wrapper">
+                        <span class="milestone-icon">💰</span>
+                    </div>
+                    <div class="milestone-label">Pricing & POS</div>
+                    <div class="milestone-date">Q4 2025</div>
+                </div>
+                
+                <!-- Milestone 6: WISR -->
+                <div class="milestone-marker milestone-6 upcoming" data-milestone="6">
+                    <div class="milestone-icon-wrapper">
+                        <span class="milestone-icon">🤖</span>
+                    </div>
+                    <div class="milestone-label">WISR AI</div>
+                    <div class="milestone-date">Q4 2025</div>
+                </div>
+                
+                <!-- Milestone 7: AI Training -->
+                <div class="milestone-marker milestone-7 upcoming" data-milestone="7">
+                    <div class="milestone-icon-wrapper">
+                        <span class="milestone-icon">🧠</span>
+                    </div>
+                    <div class="milestone-label">AI Training</div>
+                    <div class="milestone-date">Q1 2026</div>
+                </div>
+                
+                <!-- Milestone 8: Launch -->
+                <div class="milestone-marker milestone-8 upcoming" data-milestone="8">
+                    <div class="milestone-icon-wrapper">
+                        <span class="milestone-icon">🎯</span>
+                    </div>
+                    <div class="milestone-label">Market Launch</div>
+                    <div class="milestone-date">Q2 2026</div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- AI Training Section -->
+    <div class="ai-section">
+        <h2 class="ai-title">AI Training Pipeline</h2>
+        <div class="ai-modules-visual">
+            <div class="ai-module-card">
+                <div class="ai-module-icon">📋</div>
+                <div class="ai-module-name">Opening AI</div>
+                <div class="ai-module-status">Planning</div>
+            </div>
+            <div class="ai-module-card">
+                <div class="ai-module-icon">⚙️</div>
+                <div class="ai-module-name">Processing AI</div>
+                <div class="ai-module-status">Design Phase</div>
+            </div>
+            <div class="ai-module-card">
+                <div class="ai-module-icon">📊</div>
+                <div class="ai-module-name">Underwriting AI</div>
+                <div class="ai-module-status">Research</div>
+            </div>
+            <div class="ai-module-card">
+                <div class="ai-module-icon">💵</div>
+                <div class="ai-module-name">Funding AI</div>
+                <div class="ai-module-status">Conceptual</div>
+            </div>
+            <div class="ai-module-card">
+                <div class="ai-module-icon">✅</div>
+                <div class="ai-module-name">Post-Closing AI</div>
+                <div class="ai-module-status">Roadmap</div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Legend -->
+    <div class="legend">
+        <div class="legend-title">Status Guide</div>
+        <div class="legend-item">
+            <div class="legend-dot completed"></div>
+            <span class="legend-text">Completed</span>
+        </div>
+        <div class="legend-item">
+            <div class="legend-dot in-progress"></div>
+            <span class="legend-text">In Progress</span>
+        </div>
+        <div class="legend-item">
+            <div class="legend-dot upcoming"></div>
+            <span class="legend-text">Upcoming</span>
+        </div>
+    </div>
+    
+    <!-- Modal -->
+    <div class="modal-overlay" id="modal">
+        <div class="modal-content">
+            <div class="modal-close" onclick="closeModal()">×</div>
+            <div class="modal-header">
+                <div class="modal-icon" id="modal-icon"></div>
+                <h3 class="modal-title" id="modal-title"></h3>
+            </div>
+            <div class="modal-body" id="modal-body"></div>
+            <div class="modal-status" id="modal-status"></div>
+        </div>
+    </div>
+    
+    <script>
+        // Milestone data
+        const milestoneData = {
+            1: {
+                title: "Birth of LendWise",
+                icon: "🚀",
+                status: "completed",
+                description: `
+                    <p><strong>The Genesis:</strong> After 24 years in mortgage banking, David Young identified critical gaps in the industry's technology stack. The vision was clear - create a complete integration from sales to funding.</p>
+                    <br>
+                    <p><strong>Key Achievements:</strong></p>
+                    <ul style="margin-left: 20px; line-height: 2;">
+                        <li>Formed founding team with industry veterans</li>
+                        <li>Secured initial seed funding</li>
+                        <li>Established core technology architecture</li>
+                        <li>Defined mission: Empower loan officers with AI</li>
+                    </ul>
+                    <br>
+                    <p><strong>Impact:</strong> Set the foundation for revolutionizing how mortgage professionals operate in the digital age.</p>
+                `
+            },
+            2: {
+                title: "Corporate Headquarters",
+                icon: "🏢",
+                status: "in-progress",
+                description: `
+                    <p><strong>Building Our Home:</strong> Establishing a physical headquarters that represents our commitment to growth and innovation.</p>
+                    <br>
+                    <p><strong>Current Progress:</strong></p>
+                    <ul style="margin-left: 20px; line-height: 2;">
+                        <li>Location scouting in progress</li>
+                        <li>Architectural designs being finalized</li>
+                        <li>Technology infrastructure planning</li>
+                        <li>Collaboration spaces designed for innovation</li>
+                    </ul>
+                    <br>
+                    <p><strong>Expected Completion:</strong> Q2 2025</p>
+                    <p><strong>Next Steps:</strong> Final location selection and lease negotiation.</p>
+                `
+            },
+            3: {
+                title: "NMLS, DRE, DFPI Licenses",
+                icon: "📜",
+                status: "upcoming",
+                description: `
+                    <p><strong>Regulatory Compliance:</strong> Securing all necessary licenses to operate nationwide with full regulatory compliance.</p>
+                    <br>
+                    <p><strong>License Applications:</strong></p>
+                    <ul style="margin-left: 20px; line-height: 2;">
+                        <li>NMLS (Nationwide Multistate Licensing System)</li>
+                        <li>California DRE (Department of Real Estate)</li>
+                        <li>DFPI (Department of Financial Protection)</li>
+                        <li>Multi-state licensing strategy</li>
+                    </ul>
+                    <br>
+                    <p><strong>Timeline:</strong> Application process beginning Q2 2025</p>
+                    <p><strong>Impact:</strong> Full operational authority across all target markets.</p>
+                `
+            },
+            4: {
+                title: "LOS Integrations",
+                icon: "🔗",
+                status: "upcoming",
+                description: `
+                    <p><strong>Seamless Integration:</strong> Connecting with leading Loan Origination Systems for unified workflow.</p>
+                    <br>
+                    <p><strong>Integration Partners:</strong></p>
+                    <ul style="margin-left: 20px; line-height: 2;">
+                        <li>Encompass integration API</li>
+                        <li>Calyx Point connectivity</li>
+                        <li>Custom API development</li>
+                        <li>Real-time data synchronization</li>
+                    </ul>
+                    <br>
+                    <p><strong>Benefits:</strong> Eliminate data silos, reduce manual entry, accelerate loan processing.</p>
+                `
+            },
+            5: {
+                title: "Pricing Module & POS Integration",
+                icon: "💰",
+                status: "upcoming",
+                description: `
+                    <p><strong>Dynamic Pricing Engine:</strong> Real-time rate calculations and instant decisioning capabilities.</p>
+                    <br>
+                    <p><strong>Features:</strong></p>
+                    <ul style="margin-left: 20px; line-height: 2;">
+                        <li>Live rate updates from multiple investors</li>
+                        <li>Automated pricing adjustments</li>
+                        <li>Point of Sale system integration</li>
+                        <li>Instant pre-approval generation</li>
+                    </ul>
+                    <br>
+                    <p><strong>Technology:</strong> AI-powered pricing optimization for best execution.</p>
+                `
+            },
+            6: {
+                title: "WISR AI Integration",
+                icon: "🤖",
+                status: "upcoming",
+                description: `
+                    <p><strong>Your AI Assistant:</strong> WISR - the intelligent companion for every loan officer.</p>
+                    <br>
+                    <p><strong>Capabilities:</strong></p>
+                    <ul style="margin-left: 20px; line-height: 2;">
+                        <li>Automated email responses</li>
+                        <li>Smart calendar management</li>
+                        <li>Lead nurturing automation</li>
+                        <li>Document processing AI</li>
+                        <li>Predictive analytics</li>
+                    </ul>
+                    <br>
+                    <p><strong>Vision:</strong> WISR learns from every interaction, becoming smarter and more helpful over time.</p>
+                `
+            },
+            7: {
+                title: "AI Training Programs",
+                icon: "🧠",
+                status: "upcoming",
+                description: `
+                    <p><strong>Comprehensive AI Training:</strong> Building specialized AI models for every stage of the mortgage process.</p>
+                    <br>
+                    <p><strong>Training Modules:</strong></p>
+                    <ul style="margin-left: 20px; line-height: 2;">
+                        <li><strong>Opening AI:</strong> Lead qualification and application assistance</li>
+                        <li><strong>Processing AI:</strong> Document verification and file preparation</li>
+                        <li><strong>Underwriting AI:</strong> Risk assessment and condition clearing</li>
+                        <li><strong>Funding AI:</strong> Wire verification and funding coordination</li>
+                        <li><strong>Post-Closing AI:</strong> Quality control and servicing setup</li>
+                    </ul>
+                    <br>
+                    <p><strong>Approach:</strong> Machine learning models trained on millions of successful loan transactions.</p>
+                `
+            },
+            8: {
+                title: "Market Launch",
+                icon: "🎯",
+                status: "upcoming",
+                description: `
+                    <p><strong>Go-To-Market:</strong> Full platform launch with all systems operational.</p>
+                    <br>
+                    <p><strong>Launch Strategy:</strong></p>
+                    <ul style="margin-left: 20px; line-height: 2;">
+                        <li>Beta testing with select loan officers</li>
+                        <li>National marketing campaign</li>
+                        <li>Partner channel development</li>
+                        <li>24/7 support infrastructure</li>
+                    </ul>
+                    <br>
+                    <p><strong>Goal:</strong> Onboard 100 loan officers in first quarter post-launch.</p>
+                `
+            }
+        };
+        
+        // Initialize progress
+        function initializeProgress() {
+            // Calculate days since founding
+            const foundingDate = new Date('2025-01-01');
+            const today = new Date();
+            const daysActive = Math.floor((today - foundingDate) / (1000 * 60 * 60 * 24));
+            document.getElementById('days-count').textContent = daysActive;
+            
+            // Calculate progress (2 completed out of 8 major milestones + 3 AI modules)
+            const totalMilestones = 11; // 8 main + 3 AI sub-milestones
+            const completed = 2;
+            const progressPercent = Math.round((completed / totalMilestones) * 100);
+            
+            document.getElementById('progress-percent').textContent = progressPercent + '%';
+            document.getElementById('milestone-count').textContent = `${completed}/${totalMilestones}`;
+            
+            // Animate progress bar
+            setTimeout(() => {
+                const progressBar = document.getElementById('main-progress');
+                progressBar.style.width = progressPercent + '%';
+                progressBar.querySelector('.progress-text').textContent = progressPercent + '%';
+            }, 500);
+        }
+        
+        // Modal functions
+        function openModal(milestoneId) {
+            const data = milestoneData[milestoneId];
+            if (!data) return;
+            
+            document.getElementById('modal-icon').textContent = data.icon;
+            document.getElementById('modal-title').textContent = data.title;
+            document.getElementById('modal-body').innerHTML = data.description;
+            
+            const statusElement = document.getElementById('modal-status');
+            statusElement.className = 'modal-status status-' + data.status;
+            statusElement.textContent = data.status.replace('-', ' ').toUpperCase();
+            
+            document.getElementById('modal').classList.add('active');
+        }
+        
+        function closeModal() {
+            document.getElementById('modal').classList.remove('active');
+        }
+        
+        // Add click handlers to milestones
+        document.querySelectorAll('.milestone-marker').forEach(marker => {
+            marker.addEventListener('click', function() {
+                const milestoneId = this.dataset.milestone;
+                openModal(milestoneId);
+            });
+        });
+        
+        // Close modal on overlay click
+        document.getElementById('modal').addEventListener('click', function(e) {
+            if (e.target === this) {
+                closeModal();
+            }
+        });
+        
+        // Initialize animations
+        gsap.registerPlugin(ScrollTrigger);
+        
+        // Animate milestones on scroll
+        gsap.utils.toArray('.milestone-marker').forEach((marker, index) => {
+            gsap.from(marker, {
+                scrollTrigger: {
+                    trigger: marker,
+                    start: 'top 80%',
+                    toggleActions: 'play none none reverse'
+                },
+                y: 100,
+                opacity: 0,
+                duration: 0.8,
+                delay: index * 0.1,
+                ease: 'power3.out'
+            });
+        });
+        
+        // Animate AI modules
+        gsap.utils.toArray('.ai-module-card').forEach((card, index) => {
+            gsap.from(card, {
+                scrollTrigger: {
+                    trigger: card,
+                    start: 'top 85%',
+                    toggleActions: 'play none none reverse'
+                },
+                y: 50,
+                opacity: 0,
+                scale: 0.8,
+                duration: 0.6,
+                delay: index * 0.1,
+                ease: 'back.out(1.7)'
+            });
+        });
+        
+        // Add hovering glow effect to milestones
+        document.querySelectorAll('.milestone-marker').forEach(marker => {
+            marker.addEventListener('mouseenter', function() {
+                gsap.to(this.querySelector('.milestone-icon-wrapper'), {
+                    scale: 1.1,
+                    duration: 0.3,
+                    ease: 'power2.out'
+                });
+            });
+            
+            marker.addEventListener('mouseleave', function() {
+                gsap.to(this.querySelector('.milestone-icon-wrapper'), {
+                    scale: 1,
+                    duration: 0.3,
+                    ease: 'power2.out'
+                });
+            });
+        });
+        
+        // Initialize on load
+        window.addEventListener('load', initializeProgress);
+        
+        // Update time periodically
+        setInterval(() => {
+            const now = new Date();
+            // Could add live time display here if needed
+        }, 60000);
+    </script>
+</body>
+</html>

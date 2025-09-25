@@ -1,0 +1,885 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>LendWise Journey Tracker - Mission Control</title>
+    
+    <!-- GSAP Animation Library -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
+    
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Trebuchet MS', 'Arial', sans-serif;
+            background: #0a0e27;
+            color: #fff;
+            overflow-x: hidden;
+            position: relative;
+            min-height: 100vh;
+        }
+        
+        /* Animated Background */
+        #particles-bg {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            background: radial-gradient(ellipse at center, #0a0e27 0%, #000511 100%);
+        }
+        
+        .grid-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-image: 
+                linear-gradient(rgba(0, 217, 166, 0.1) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(0, 217, 166, 0.1) 1px, transparent 1px);
+            background-size: 50px 50px;
+            z-index: -1;
+            opacity: 0.3;
+            animation: grid-move 10s linear infinite;
+        }
+        
+        @keyframes grid-move {
+            0% { transform: translate(0, 0); }
+            100% { transform: translate(50px, 50px); }
+        }
+        
+        /* Mission Control Header */
+        .mission-control-header {
+            background: linear-gradient(180deg, rgba(13, 79, 60, 0.9) 0%, rgba(13, 79, 60, 0) 100%);
+            padding: 30px;
+            text-align: center;
+            position: relative;
+            border-bottom: 2px solid rgba(255, 215, 0, 0.3);
+        }
+        
+        .mission-title {
+            font-size: 3em;
+            font-weight: bold;
+            background: linear-gradient(135deg, #FFD700, #FFA500);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            text-transform: uppercase;
+            letter-spacing: 3px;
+            margin-bottom: 10px;
+            animation: glow 2s ease-in-out infinite alternate;
+        }
+        
+        @keyframes glow {
+            from { text-shadow: 0 0 20px rgba(255, 215, 0, 0.5); }
+            to { text-shadow: 0 0 30px rgba(255, 215, 0, 0.8), 0 0 40px rgba(255, 165, 0, 0.6); }
+        }
+        
+        .status-bar {
+            display: flex;
+            justify-content: center;
+            gap: 40px;
+            margin-top: 20px;
+            flex-wrap: wrap;
+        }
+        
+        .status-item {
+            background: rgba(0, 217, 166, 0.1);
+            border: 1px solid rgba(0, 217, 166, 0.3);
+            border-radius: 10px;
+            padding: 15px 25px;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .status-item::before {
+            content: '';
+            position: absolute;
+            top: -2px;
+            left: -2px;
+            right: -2px;
+            bottom: -2px;
+            background: linear-gradient(45deg, #00d9a6, #FFD700, #00d9a6);
+            border-radius: 10px;
+            opacity: 0;
+            z-index: -1;
+            animation: status-pulse 3s ease-in-out infinite;
+        }
+        
+        @keyframes status-pulse {
+            0%, 100% { opacity: 0; }
+            50% { opacity: 0.5; }
+        }
+        
+        .status-label {
+            font-size: 0.9em;
+            color: #00d9a6;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+        
+        .status-value {
+            font-size: 2em;
+            font-weight: bold;
+            color: #FFD700;
+            margin-top: 5px;
+        }
+        
+        /* Pipeline Tracker */
+        .pipeline-container {
+            padding: 50px 20px;
+            position: relative;
+            min-height: 500px;
+        }
+        
+        .pipeline-track {
+            width: 90%;
+            max-width: 1400px;
+            margin: 0 auto;
+            position: relative;
+            height: 200px;
+        }
+        
+        .pipeline-line {
+            position: absolute;
+            top: 50%;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: rgba(255, 215, 0, 0.2);
+            transform: translateY(-50%);
+            z-index: 1;
+        }
+        
+        .pipeline-progress {
+            position: absolute;
+            top: 0;
+            left: 0;
+            height: 100%;
+            background: linear-gradient(90deg, #00d9a6, #FFD700);
+            width: 0%;
+            transition: width 2s ease;
+            box-shadow: 0 0 20px rgba(255, 215, 0, 0.5);
+        }
+        
+        .pipeline-stages {
+            position: relative;
+            display: flex;
+            justify-content: space-between;
+            z-index: 2;
+        }
+        
+        .stage-node {
+            position: relative;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            cursor: pointer;
+            transition: transform 0.3s ease;
+        }
+        
+        .stage-node:hover {
+            transform: translateY(-10px);
+        }
+        
+        .stage-circle {
+            width: 80px;
+            height: 80px;
+            border-radius: 50%;
+            background: #0a0e27;
+            border: 3px solid rgba(255, 215, 0, 0.3);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2em;
+            position: relative;
+            z-index: 3;
+            transition: all 0.3s ease;
+        }
+        
+        .stage-node.completed .stage-circle {
+            background: linear-gradient(135deg, #00d9a6, #0D4F3C);
+            border-color: #FFD700;
+            animation: stage-complete 1s ease;
+            box-shadow: 0 0 30px rgba(0, 217, 166, 0.5);
+        }
+        
+        .stage-node.active .stage-circle {
+            border-color: #FFD700;
+            animation: stage-pulse 2s ease-in-out infinite;
+            background: rgba(255, 215, 0, 0.1);
+        }
+        
+        @keyframes stage-pulse {
+            0%, 100% { 
+                box-shadow: 0 0 20px rgba(255, 215, 0, 0.5);
+                transform: scale(1);
+            }
+            50% { 
+                box-shadow: 0 0 40px rgba(255, 215, 0, 0.8);
+                transform: scale(1.1);
+            }
+        }
+        
+        @keyframes stage-complete {
+            0% { transform: scale(0) rotate(0deg); }
+            50% { transform: scale(1.2) rotate(180deg); }
+            100% { transform: scale(1) rotate(360deg); }
+        }
+        
+        .stage-label {
+            margin-top: 15px;
+            font-size: 1.1em;
+            font-weight: bold;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            color: rgba(255, 255, 255, 0.7);
+            text-align: center;
+        }
+        
+        .stage-node.completed .stage-label {
+            color: #00d9a6;
+        }
+        
+        .stage-node.active .stage-label {
+            color: #FFD700;
+        }
+        
+        /* Milestone Cards */
+        .milestones-grid {
+            padding: 50px 20px;
+            max-width: 1400px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 30px;
+        }
+        
+        .milestone-card {
+            background: rgba(13, 79, 60, 0.1);
+            border: 1px solid rgba(0, 217, 166, 0.3);
+            border-radius: 15px;
+            padding: 25px;
+            position: relative;
+            overflow: hidden;
+            transform-style: preserve-3d;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            cursor: pointer;
+        }
+        
+        .milestone-card:hover {
+            transform: translateY(-5px) rotateX(5deg);
+            box-shadow: 0 20px 40px rgba(0, 217, 166, 0.3);
+        }
+        
+        .milestone-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 215, 0, 0.3), transparent);
+            transition: left 0.5s ease;
+        }
+        
+        .milestone-card:hover::before {
+            left: 100%;
+        }
+        
+        .milestone-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 20px;
+        }
+        
+        .milestone-icon {
+            width: 50px;
+            height: 50px;
+            border-radius: 10px;
+            background: linear-gradient(135deg, #00d9a6, #0D4F3C);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5em;
+        }
+        
+        .milestone-status {
+            padding: 5px 15px;
+            border-radius: 20px;
+            font-size: 0.9em;
+            font-weight: bold;
+            text-transform: uppercase;
+        }
+        
+        .status-completed {
+            background: rgba(0, 217, 166, 0.2);
+            color: #00d9a6;
+            border: 1px solid #00d9a6;
+        }
+        
+        .status-in-progress {
+            background: rgba(255, 215, 0, 0.2);
+            color: #FFD700;
+            border: 1px solid #FFD700;
+            animation: blink 2s ease-in-out infinite;
+        }
+        
+        @keyframes blink {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.5; }
+        }
+        
+        .status-upcoming {
+            background: rgba(255, 255, 255, 0.1);
+            color: rgba(255, 255, 255, 0.5);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+        }
+        
+        .milestone-title {
+            font-size: 1.3em;
+            margin-bottom: 10px;
+            color: #fff;
+        }
+        
+        .milestone-description {
+            color: rgba(255, 255, 255, 0.7);
+            line-height: 1.6;
+            margin-bottom: 15px;
+        }
+        
+        .milestone-date {
+            color: #FFD700;
+            font-weight: bold;
+        }
+        
+        /* WISR Floating Assistant */
+        .wisr-tracker {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            width: 100px;
+            height: 100px;
+            z-index: 1000;
+            cursor: pointer;
+            animation: float 3s ease-in-out infinite;
+        }
+        
+        @keyframes float {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-20px); }
+        }
+        
+        .wisr-circle {
+            width: 100%;
+            height: 100%;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #0D4F3C, #00d9a6);
+            border: 3px solid #FFD700;
+            overflow: hidden;
+            position: relative;
+            box-shadow: 0 10px 30px rgba(255, 215, 0, 0.3);
+        }
+        
+        .wisr-circle video {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+        
+        .wisr-tooltip {
+            position: absolute;
+            bottom: 110%;
+            right: 0;
+            background: rgba(13, 79, 60, 0.95);
+            border: 1px solid #FFD700;
+            border-radius: 10px;
+            padding: 10px 15px;
+            white-space: nowrap;
+            font-size: 0.9em;
+            opacity: 0;
+            transform: translateY(10px);
+            transition: all 0.3s ease;
+            pointer-events: none;
+        }
+        
+        .wisr-tracker:hover .wisr-tooltip {
+            opacity: 1;
+            transform: translateY(0);
+        }
+        
+        /* Achievement Notifications */
+        .achievement-popup {
+            position: fixed;
+            top: 20px;
+            right: -400px;
+            width: 350px;
+            background: linear-gradient(135deg, rgba(13, 79, 60, 0.95), rgba(0, 217, 166, 0.95));
+            border: 2px solid #FFD700;
+            border-radius: 15px;
+            padding: 20px;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.5);
+            transition: right 0.5s ease;
+            z-index: 2000;
+        }
+        
+        .achievement-popup.show {
+            right: 20px;
+        }
+        
+        .achievement-header {
+            display: flex;
+            align-items: center;
+            margin-bottom: 10px;
+        }
+        
+        .achievement-badge {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            background: #FFD700;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5em;
+            margin-right: 15px;
+            animation: achievement-spin 1s ease;
+        }
+        
+        @keyframes achievement-spin {
+            0% { transform: scale(0) rotate(0); }
+            100% { transform: scale(1) rotate(360deg); }
+        }
+        
+        .achievement-title {
+            font-size: 1.2em;
+            font-weight: bold;
+            color: #FFD700;
+        }
+        
+        .achievement-description {
+            color: rgba(255, 255, 255, 0.9);
+            line-height: 1.4;
+        }
+        
+        /* Live Terminal Feed */
+        .terminal-feed {
+            max-width: 1400px;
+            margin: 50px auto;
+            padding: 0 20px;
+        }
+        
+        .terminal-window {
+            background: rgba(0, 0, 0, 0.8);
+            border: 1px solid rgba(0, 217, 166, 0.3);
+            border-radius: 10px;
+            overflow: hidden;
+        }
+        
+        .terminal-header {
+            background: linear-gradient(90deg, #0D4F3C, #00d9a6);
+            padding: 10px 15px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .terminal-dot {
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            background: #FFD700;
+        }
+        
+        .terminal-title {
+            margin-left: auto;
+            margin-right: auto;
+            font-weight: bold;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+        }
+        
+        .terminal-content {
+            padding: 20px;
+            font-family: 'Courier New', monospace;
+            max-height: 300px;
+            overflow-y: auto;
+        }
+        
+        .terminal-line {
+            margin-bottom: 10px;
+            display: flex;
+            align-items: center;
+            animation: terminal-fade-in 0.5s ease;
+        }
+        
+        @keyframes terminal-fade-in {
+            from { 
+                opacity: 0;
+                transform: translateX(-20px);
+            }
+            to { 
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+        
+        .terminal-timestamp {
+            color: #00d9a6;
+            margin-right: 15px;
+        }
+        
+        .terminal-message {
+            color: rgba(255, 255, 255, 0.9);
+        }
+        
+        .terminal-cursor {
+            display: inline-block;
+            width: 10px;
+            height: 20px;
+            background: #00d9a6;
+            animation: cursor-blink 1s ease-in-out infinite;
+            margin-left: 5px;
+        }
+        
+        @keyframes cursor-blink {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0; }
+        }
+    </style>
+</head>
+<body>
+    <!-- Animated Background -->
+    <div id="particles-bg"></div>
+    <div class="grid-overlay"></div>
+    
+    <!-- Mission Control Header -->
+    <div class="mission-control-header">
+        <h1 class="mission-title">LendWise Mission Control</h1>
+        <div class="status-bar">
+            <div class="status-item">
+                <div class="status-label">Days Building</div>
+                <div class="status-value" id="days-counter">47</div>
+            </div>
+            <div class="status-item">
+                <div class="status-label">Progress</div>
+                <div class="status-value" id="progress-counter">35%</div>
+            </div>
+            <div class="status-item">
+                <div class="status-label">Milestones</div>
+                <div class="status-value" id="milestone-counter">8/25</div>
+            </div>
+            <div class="status-item">
+                <div class="status-label">Status</div>
+                <div class="status-value" style="color: #00d9a6;">ACTIVE</div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Pipeline Tracker -->
+    <div class="pipeline-container">
+        <div class="pipeline-track">
+            <div class="pipeline-line">
+                <div class="pipeline-progress" id="pipeline-progress"></div>
+            </div>
+            <div class="pipeline-stages">
+                <div class="stage-node completed" data-stage="foundation">
+                    <div class="stage-circle">🏗️</div>
+                    <div class="stage-label">Foundation</div>
+                </div>
+                <div class="stage-node completed" data-stage="build">
+                    <div class="stage-circle">⚙️</div>
+                    <div class="stage-label">Build</div>
+                </div>
+                <div class="stage-node active" data-stage="launch">
+                    <div class="stage-circle">🚀</div>
+                    <div class="stage-label">Launch</div>
+                </div>
+                <div class="stage-node" data-stage="scale">
+                    <div class="stage-circle">📈</div>
+                    <div class="stage-label">Scale</div>
+                </div>
+                <div class="stage-node" data-stage="dominate">
+                    <div class="stage-circle">👑</div>
+                    <div class="stage-label">Dominate</div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Milestone Cards -->
+    <div class="milestones-grid">
+        <div class="milestone-card">
+            <div class="milestone-header">
+                <div class="milestone-icon">🤖</div>
+                <div class="milestone-status status-completed">Completed</div>
+            </div>
+            <h3 class="milestone-title">WISR AI Core Complete</h3>
+            <p class="milestone-description">Successfully deployed the core AI intelligence system for automated loan officer assistance</p>
+            <div class="milestone-date">Completed: Feb 15, 2025</div>
+        </div>
+        
+        <div class="milestone-card">
+            <div class="milestone-header">
+                <div class="milestone-icon">💼</div>
+                <div class="milestone-status status-in-progress">In Progress</div>
+            </div>
+            <h3 class="milestone-title">First 10 Loan Officers</h3>
+            <p class="milestone-description">Recruiting and onboarding our founding team of loan officers</p>
+            <div class="milestone-date">Target: Q2 2025</div>
+        </div>
+        
+        <div class="milestone-card">
+            <div class="milestone-header">
+                <div class="milestone-icon">🏢</div>
+                <div class="milestone-status status-upcoming">Upcoming</div>
+            </div>
+            <h3 class="milestone-title">First Branch Office</h3>
+            <p class="milestone-description">Establishing our flagship physical location for enhanced client services</p>
+            <div class="milestone-date">Target: Q3 2025</div>
+        </div>
+        
+        <div class="milestone-card">
+            <div class="milestone-header">
+                <div class="milestone-icon">🎯</div>
+                <div class="milestone-status status-in-progress">In Progress</div>
+            </div>
+            <h3 class="milestone-title">Mission Control Launch</h3>
+            <p class="milestone-description">Building the revolutionary CRM system for modern loan officers</p>
+            <div class="milestone-date">Target: Q2 2025</div>
+        </div>
+        
+        <div class="milestone-card">
+            <div class="milestone-header">
+                <div class="milestone-icon">💰</div>
+                <div class="milestone-status status-completed">Completed</div>
+            </div>
+            <h3 class="milestone-title">Seed Funding Secured</h3>
+            <p class="milestone-description">Successfully raised initial capital to fuel our growth</p>
+            <div class="milestone-date">Completed: Jan 2025</div>
+        </div>
+        
+        <div class="milestone-card">
+            <div class="milestone-header">
+                <div class="milestone-icon">🌟</div>
+                <div class="milestone-status status-upcoming">Upcoming</div>
+            </div>
+            <h3 class="milestone-title">National Presence</h3>
+            <p class="milestone-description">Expanding operations to serve clients nationwide</p>
+            <div class="milestone-date">Target: 2026</div>
+        </div>
+    </div>
+    
+    <!-- Live Terminal Feed -->
+    <div class="terminal-feed">
+        <div class="terminal-window">
+            <div class="terminal-header">
+                <div class="terminal-dot"></div>
+                <div class="terminal-dot" style="background: #FFA500;"></div>
+                <div class="terminal-dot" style="background: #00d9a6;"></div>
+                <div class="terminal-title">System Activity Feed</div>
+            </div>
+            <div class="terminal-content" id="terminal-content">
+                <div class="terminal-line">
+                    <span class="terminal-timestamp">[14:23:45]</span>
+                    <span class="terminal-message">WISR AI: Processing optimization complete - 15% performance increase</span>
+                </div>
+                <div class="terminal-line">
+                    <span class="terminal-timestamp">[14:22:30]</span>
+                    <span class="terminal-message">SYSTEM: New loan officer inquiry received from California</span>
+                </div>
+                <div class="terminal-line">
+                    <span class="terminal-timestamp">[14:21:15]</span>
+                    <span class="terminal-message">MILESTONE: Email integration module testing initiated</span>
+                </div>
+                <div class="terminal-line">
+                    <span class="terminal-timestamp">[14:20:00]</span>
+                    <span class="terminal-message">BUILD: Mission Control dashboard components compiled successfully</span>
+                </div>
+                <div class="terminal-line">
+                    <span class="terminal-timestamp">[14:18:45]</span>
+                    <span class="terminal-message">ACTIVE: System monitoring all channels</span>
+                    <span class="terminal-cursor"></span>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- WISR Floating Assistant -->
+    <div class="wisr-tracker">
+        <div class="wisr-tooltip">Click me for updates!</div>
+        <div class="wisr-circle">
+            <video autoplay muted loop playsinline>
+                <source src="wisr-owl.mp4" type="video/mp4">
+            </video>
+        </div>
+    </div>
+    
+    <!-- Achievement Popup (Hidden by default) -->
+    <div class="achievement-popup" id="achievement-popup">
+        <div class="achievement-header">
+            <div class="achievement-badge">🏆</div>
+            <div class="achievement-title">New Achievement!</div>
+        </div>
+        <div class="achievement-description">
+            You've reached a new milestone in the LendWise journey!
+        </div>
+    </div>
+    
+    <script>
+        // Initialize GSAP animations
+        gsap.registerPlugin(ScrollTrigger);
+        
+        // Animate pipeline progress on load
+        window.addEventListener('load', () => {
+            gsap.to('#pipeline-progress', {
+                width: '45%',
+                duration: 2,
+                ease: 'power2.out',
+                delay: 0.5
+            });
+        });
+        
+        // Animate milestone cards on scroll
+        gsap.utils.toArray('.milestone-card').forEach((card, index) => {
+            gsap.from(card, {
+                scrollTrigger: {
+                    trigger: card,
+                    start: 'top 80%',
+                    toggleActions: 'play none none reverse'
+                },
+                y: 50,
+                opacity: 0,
+                duration: 0.8,
+                delay: index * 0.1,
+                ease: 'power2.out'
+            });
+        });
+        
+        // Counter animations
+        function animateCounter(id, start, end, duration) {
+            let startTime = null;
+            const element = document.getElementById(id);
+            
+            function animation(currentTime) {
+                if (startTime === null) startTime = currentTime;
+                const progress = Math.min((currentTime - startTime) / duration, 1);
+                const current = Math.floor(progress * (end - start) + start);
+                element.textContent = id.includes('progress') ? current + '%' : current;
+                
+                if (progress < 1) {
+                    requestAnimationFrame(animation);
+                }
+            }
+            
+            requestAnimationFrame(animation);
+        }
+        
+        // Start counters
+        animateCounter('days-counter', 0, 47, 2000);
+        animateCounter('progress-counter', 0, 35, 2000);
+        
+        // Stage node interactions
+        document.querySelectorAll('.stage-node').forEach(node => {
+            node.addEventListener('click', function() {
+                const stage = this.dataset.stage;
+                showStageDetails(stage);
+            });
+        });
+        
+        function showStageDetails(stage) {
+            // Show achievement popup as example
+            const popup = document.getElementById('achievement-popup');
+            popup.classList.add('show');
+            
+            setTimeout(() => {
+                popup.classList.remove('show');
+            }, 3000);
+        }
+        
+        // WISR assistant interaction
+        document.querySelector('.wisr-tracker').addEventListener('click', () => {
+            addTerminalMessage('WISR: Hello! I\'m here to guide you through our journey!');
+        });
+        
+        // Terminal feed simulation
+        function addTerminalMessage(message) {
+            const terminal = document.getElementById('terminal-content');
+            const timestamp = new Date().toLocaleTimeString('en-US', { hour12: false });
+            
+            const newLine = document.createElement('div');
+            newLine.className = 'terminal-line';
+            newLine.innerHTML = `
+                <span class="terminal-timestamp">[${timestamp}]</span>
+                <span class="terminal-message">${message}</span>
+            `;
+            
+            // Remove cursor from previous line
+            const cursor = terminal.querySelector('.terminal-cursor');
+            if (cursor) cursor.remove();
+            
+            // Add cursor to new line
+            newLine.innerHTML += '<span class="terminal-cursor"></span>';
+            
+            terminal.appendChild(newLine);
+            terminal.scrollTop = terminal.scrollHeight;
+        }
+        
+        // Simulate live updates
+        const messages = [
+            'SYSTEM: Investor portal access granted',
+            'BUILD: New feature deployed to staging',
+            'WISR AI: Learning patterns optimized',
+            'MILESTONE: Partnership discussion scheduled',
+            'ACTIVE: Real-time monitoring engaged'
+        ];
+        
+        setInterval(() => {
+            const randomMessage = messages[Math.floor(Math.random() * messages.length)];
+            addTerminalMessage(randomMessage);
+        }, 15000);
+        
+        // Particle effect for background (simplified)
+        function createParticle() {
+            const particle = document.createElement('div');
+            particle.style.cssText = `
+                position: fixed;
+                width: 2px;
+                height: 2px;
+                background: rgba(0, 217, 166, 0.5);
+                border-radius: 50%;
+                pointer-events: none;
+                z-index: -1;
+            `;
+            
+            const startX = Math.random() * window.innerWidth;
+            const startY = window.innerHeight + 10;
+            
+            particle.style.left = startX + 'px';
+            particle.style.top = startY + 'px';
+            
+            document.getElementById('particles-bg').appendChild(particle);
+            
+            gsap.to(particle, {
+                y: -window.innerHeight - 20,
+                x: (Math.random() - 0.5) * 200,
+                opacity: 0,
+                duration: Math.random() * 3 + 2,
+                ease: 'power2.out',
+                onComplete: () => particle.remove()
+            });
+        }
+        
+        // Create particles periodically
+        setInterval(createParticle, 300);
+    </script>
+</body>
+</html>

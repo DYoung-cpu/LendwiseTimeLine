@@ -117,49 +117,55 @@
     font-weight: 600;
 }
 
-/* 3D Circular Gallery Container */
+/* 3D Circular Gallery Container - LOCKED POSITION */
+/* DO NOT MODIFY WITHOUT UPDATING CAROUSEL LOCK */
 .circular-gallery-container {
     position: relative;
     width: 100%;
-    height: 700px;
+    height: 800px;  /* LOCKED */
     display: flex;
     align-items: center;
     justify-content: center;
-    perspective: 1200px;
+    perspective: 1500px;  /* LOCKED */
     overflow: visible;
     margin: 50px 0;
 }
 
-/* Gallery Center - Owl */
+/* Gallery Center - Owl - LOCKED POSITION */
+/* DO NOT MODIFY WITHOUT UPDATING CAROUSEL LOCK */
 .gallery-center {
     position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    z-index: 20;
+    top: 50%;  /* LOCKED - Owl center */
+    left: 50%;  /* LOCKED - Owl center */
+    transform: translate(-50%, -50%);  /* LOCKED */
+    z-index: 100;  /* LOCKED - Must stay above cards */
     pointer-events: none;
 }
 
-/* Gallery Track with 3D */
+/* Gallery Track with 3D - LOCKED POSITION */
+/* DO NOT MODIFY WITHOUT UPDATING CAROUSEL LOCK */
 .gallery-track {
     position: relative;
-    width: 500px;
-    height: 500px;
-    margin: 0 auto;
+    width: 100%;
+    height: 100%;
     transform-style: preserve-3d;
     transition: transform 0.6s cubic-bezier(0.4, 0.0, 0.2, 1);
+    top: 5%;  /* LOCKED - Carousel vertical offset */
 }
 
-/* Gallery Cards - 3D Positioned */
+/* Gallery Cards - 3D Positioned - LOCKED POSITION */
+/* CRITICAL: Card position locked to overlap owl bottom */
 .gallery-card {
     position: absolute;
-    width: 180px;
-    height: 220px;
-    left: 160px;  /* Center in 500px container: (500-180)/2 */
-    top: 140px;   /* Center in 500px container: (500-220)/2 */
+    width: 180px;  /* LOCKED */
+    height: 220px;  /* LOCKED */
+    left: 50%;  /* LOCKED */
+    top: 50%;  /* LOCKED */
+    margin-left: -90px;  /* LOCKED - Half of card width */
+    margin-top: -110px;  /* LOCKED - Critical for owl overlap */
     background: rgba(255, 255, 255, 0.08);
     backdrop-filter: blur(10px);
-    border: 1px solid rgba(255, 255, 255, 0.15);
+    border: 2px solid rgba(255, 255, 255, 0.2);
     border-radius: 12px;
     padding: 15px;
     display: flex;
@@ -169,7 +175,27 @@
     cursor: pointer;
     transition: opacity 0.3s linear;
     backface-visibility: visible;
-    z-index: 10;
+    z-index: 50;  /* Below owl (100) but above background */
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+}
+
+/* Cards with background images */
+.gallery-card.has-image {
+    background-color: transparent;
+    border: 2px solid rgba(255, 215, 0, 0.3);
+}
+
+.gallery-card.has-image .card-content {
+    background: linear-gradient(to top, rgba(10, 25, 47, 0.95) 0%, rgba(10, 25, 47, 0.7) 50%, transparent 100%);
+    padding: 10px;
+    border-radius: 0 0 10px 10px;
+    backdrop-filter: blur(5px);
+    position: absolute;
+    bottom: 0;
+    width: 100%;
+    left: 0;
 }
 
 .card-content {
@@ -200,30 +226,50 @@
     line-height: 1.2;
 }
 
-.gallery-card {
-    opacity: 0.3; /* Default opacity */
+.gallery-card.active {
+    border-color: rgba(255, 215, 0, 0.5);
+    box-shadow: 0 8px 32px rgba(255, 215, 0, 0.3),
+                0 0 20px rgba(255, 215, 0, 0.2),
+                inset 0 0 20px rgba(255, 215, 0, 0.1);
+    animation: border-glow 2s ease-in-out infinite;
+    transform: scale(1.02);
 }
 
-.gallery-card.active {
-    background: rgba(255, 255, 255, 0.12);
-    border-color: rgba(255, 215, 0, 0.3);
-    box-shadow: 0 8px 32px rgba(255, 215, 0, 0.2);
-    opacity: 1 !important;
+@keyframes border-glow {
+    0%, 100% {
+        border-color: rgba(255, 215, 0, 0.5);
+        box-shadow: 0 8px 32px rgba(255, 215, 0, 0.3),
+                    0 0 20px rgba(255, 215, 0, 0.2),
+                    inset 0 0 20px rgba(255, 215, 0, 0.1);
+    }
+    50% {
+        border-color: rgba(255, 215, 0, 0.8);
+        box-shadow: 0 12px 40px rgba(255, 215, 0, 0.4),
+                    0 0 40px rgba(255, 215, 0, 0.3),
+                    inset 0 0 30px rgba(255, 215, 0, 0.15);
+    }
 }
 
 .gallery-card:hover {
-    background: rgba(255, 255, 255, 0.15);
-    border-color: rgba(255, 215, 0, 0.5);
+    border-color: rgba(255, 215, 0, 0.6);
+    transform: translateZ(10px);
+    box-shadow: 0 10px 35px rgba(255, 215, 0, 0.25);
+}
+
+/* Don't change background on hover for image cards */
+.gallery-card.has-image:hover {
+    background-color: rgba(10, 25, 47, 0.7);
 }
 
 /* Gallery Owl - Smaller (100px) */
+/* Owl Glow - LOCKED SIZE */
 .wisr-gallery-glow {
     position: absolute;
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
-    width: 180px;
-    height: 180px;
+    width: 207px;  /* LOCKED - Matches owl size + glow */
+    height: 207px;  /* LOCKED - Matches owl size + glow */
     background: radial-gradient(
         circle,
         rgba(251, 191, 36, 0.4) 0%,
@@ -237,9 +283,10 @@
     filter: blur(8px);
 }
 
+/* Owl Video - LOCKED SIZE */
 .wisr-gallery-video {
-    width: 150px;
-    height: 150px;
+    width: 173px;  /* LOCKED - 15% larger than original 150px */
+    height: 173px;  /* LOCKED - 15% larger than original 150px */
     border-radius: 50%;
     overflow: hidden;
     position: relative;

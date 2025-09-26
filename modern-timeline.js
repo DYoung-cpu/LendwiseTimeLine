@@ -20,11 +20,12 @@ document.addEventListener('DOMContentLoaded', () => {
     }, 3500);
 });
 
-// 3D Carousel Gallery Configuration
+// 3D Carousel Gallery Configuration - LOCKED POSITIONS
+// DO NOT MODIFY WITHOUT UPDATING CSS POSITIONS
 const galleryConfig = {
-    radius: 250,
-    autoRotateSpeed: 0.5,
-    scrollSensitivity: 0.002,
+    radius: 380,  // LOCKED - Critical for card spacing with 12 items
+    autoRotateSpeed: 0.25,  // Rotation speed
+    scrollSensitivity: 0.5,  // Scroll responsiveness
     currentRotation: 0,
     isAutoRotating: true,
     lastScrollTime: 0,
@@ -56,8 +57,8 @@ function initializeCarouselGallery() {
         const angle = index * anglePerCard;
         const transform = `rotateY(${angle}deg) translateZ(${galleryConfig.radius}px)`;
         card.style.transform = transform;
-        card.style.transformOrigin = 'center';
-        card.style.position = 'absolute';
+        // Store the base transform as a data attribute
+        card.dataset.baseTransform = transform;
         console.log(`Card ${index}: ${transform}`);
 
         // Calculate initial opacity based on angle
@@ -82,16 +83,15 @@ function initializeCarouselGallery() {
 
 // Setup scroll-based rotation control
 function setupScrollRotation(galleryTrack, cards) {
-    let lastScrollY = window.scrollY;
-
     window.addEventListener('scroll', () => {
         // Stop auto-rotation when scrolling
         galleryConfig.isAutoRotating = false;
         clearTimeout(galleryConfig.scrollTimeout);
 
-        // Calculate rotation based on scroll delta
-        const scrollDelta = window.scrollY - lastScrollY;
-        galleryConfig.currentRotation += scrollDelta * galleryConfig.scrollSensitivity;
+        // Calculate rotation based on scroll progress (like React component)
+        const scrollableHeight = document.documentElement.scrollHeight - window.innerHeight;
+        const scrollProgress = scrollableHeight > 0 ? window.scrollY / scrollableHeight : 0;
+        galleryConfig.currentRotation = scrollProgress * 360;
 
         // Apply rotation to gallery
         galleryTrack.style.transform = `rotateY(${galleryConfig.currentRotation}deg)`;
@@ -99,13 +99,10 @@ function setupScrollRotation(galleryTrack, cards) {
         // Update card opacities
         updateAllCardOpacities(cards);
 
-        lastScrollY = window.scrollY;
-
         // Resume auto-rotation after scrolling stops
         galleryConfig.scrollTimeout = setTimeout(() => {
             galleryConfig.isAutoRotating = true;
-            startAutoRotation(galleryTrack, cards);
-        }, 1500);
+        }, 150);  // Match React's 150ms timeout
     });
 }
 
@@ -157,6 +154,9 @@ function updateCardOpacity(card, angle) {
 
     card.style.opacity = opacity;
 
+    // Don't override transform here - keep the original transform
+    // The transform should only be set during initialization
+
     // Add/remove active class for front-facing cards
     if (absAngle < 30) {
         card.classList.add('active');
@@ -203,7 +203,7 @@ function setupNavigationButtons() {
 
 // Get milestone ID by card index
 function getMilestoneIdByIndex(index) {
-    const milestoneIds = ['founded', 'nmls', 'dre', 'encompass', 'dscr', 'multistate', 'crm', 'wisr', 'underwriting', 'nationwide'];
+    const milestoneIds = ['founded', 'nmls', 'dre', 'dfpi', 'encompass', 'dscr', 'multistate', 'crm', 'wisr', 'fhava', 'underwriting', 'nationwide'];
     return milestoneIds[index] || null;
 }
 

@@ -389,19 +389,19 @@ html, body {
     height: 100%;
     transform-style: preserve-3d;
     transition: transform 0.6s cubic-bezier(0.4, 0.0, 0.2, 1);
-    top: calc(5% + 30px);  /* LOCKED - Carousel vertical offset + 30px down */
+    top: 200px;  /* Moved down significantly - fixed 200px drop */
 }
 
 /* Gallery Cards - 3D Positioned - LOCKED POSITION */
 /* CRITICAL: Card position locked to overlap owl bottom */
 .gallery-card {
     position: absolute;
-    width: 180px;  /* LOCKED */
-    height: 220px;  /* LOCKED */
+    width: 144px;  /* Reduced by 20% from 180px */
+    height: 176px;  /* Reduced by 20% from 220px */
     left: 50%;  /* LOCKED */
     top: 50%;  /* LOCKED */
-    margin-left: -90px;  /* LOCKED - Half of card width */
-    margin-top: -110px;  /* LOCKED - Critical for owl overlap */
+    margin-left: -72px;  /* Half of new card width (144/2) */
+    margin-top: -88px;  /* Half of new card height (176/2) */
     background: rgba(255, 255, 255, 0.08);
     backdrop-filter: blur(10px);
     border: 2px solid rgba(255, 255, 255, 0.2);

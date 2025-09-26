@@ -60,6 +60,7 @@ body {
     overflow: hidden;
     z-index: 9999;
     opacity: 1;
+    display: block; /* Ensure it's visible */
     transition: opacity 0.5s ease-out;
 }
 
@@ -76,11 +77,10 @@ body {
     height: 100%;
 }
 
-/* Main Content - Initially visible but behind intro */
+/* Main Content - Initially hidden during intro */
 .main-content {
     position: relative;
-    opacity: 0;
-    animation: fadeInContent 0.8s ease-out 2.8s forwards;
+    opacity: 1; /* Changed to 1 for visibility */
 }
 
 @keyframes fadeInContent {
@@ -95,8 +95,92 @@ body {
     display: flex;
     align-items: center;
     justify-content: center;
-    background: linear-gradient(135deg, var(--green-dark), var(--green));
+    background: linear-gradient(135deg,
+        #f8fef9,  /* Almost white with slight green tint */
+        #e8f5e9,  /* Very light green */
+        #dcedc8   /* Light green with more visible tint */
+    );
     position: relative;
+}
+
+/* WISR Owl in Hero - Identical to Intro Position */
+.wisr-hero-center {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    z-index: 10;
+    opacity: 0;
+    animation: fadeInOwl 0.8s ease-in 2.5s forwards;
+}
+
+@keyframes fadeInOwl {
+    to {
+        opacity: 1;
+    }
+}
+
+.wisr-hero-glow {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 250px;
+    height: 250px;
+    background: radial-gradient(
+        circle,
+        rgba(46, 125, 50, 0.3) 0%,  /* Forest green glow */
+        rgba(76, 175, 80, 0.2) 40%,
+        transparent 70%
+    );
+    border-radius: 50%;
+    animation: pulse-hero-glow 4s ease-in-out infinite;
+    z-index: 1;
+    pointer-events: none;
+    filter: blur(15px);
+}
+
+@keyframes pulse-hero-glow {
+    0%, 100% {
+        transform: translate(-50%, -50%) scale(1);
+        opacity: 0.6;
+    }
+    50% {
+        transform: translate(-50%, -50%) scale(1.3);
+        opacity: 0.3;
+    }
+}
+
+.wisr-hero-circle {
+    width: 200px;
+    height: 200px;
+    border-radius: 50%;
+    overflow: hidden;
+    position: relative;
+    box-shadow: 0 20px 60px rgba(46, 125, 50, 0.3);
+    background: #000;
+    border: 3px solid rgba(46, 125, 50, 0.4);
+    transition: all 0.3s ease;
+    margin: 0 auto;
+    z-index: 2;
+}
+
+.wisr-hero-circle video {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+    filter: saturate(1.3) contrast(1.2) brightness(1.1);
+    position: absolute;
+    top: 0;
+    left: 0;
+    border-radius: 50%;
+}
+
+.wisr-hero-center:hover .wisr-hero-circle {
+    transform: scale(1.05);
+    box-shadow: 0 25px 80px rgba(46, 125, 50, 0.4);
+    border-color: rgba(76, 175, 80, 0.6);
 }
 
 .shader-overlay {
@@ -157,8 +241,8 @@ body {
 }
 
 .wisr-video-circle {
-    width: 200px;
-    height: 200px;
+    width: 150px;
+    height: 150px;
     border-radius: 50%;
     overflow: hidden;
     position: relative;
@@ -235,10 +319,14 @@ body {
 
 .hero-section .hero-title {
     text-align: center;
-    color: white;
+    color: #1b5e20;  /* Dark forest green for text contrast */
     animation: fadeInUp 1s ease-out;
-    position: relative;
+    position: absolute;
+    top: 25%;  /* Position above the owl */
+    left: 50%;
+    transform: translateX(-50%);
     z-index: 20;
+    width: max-content;  /* Use max-content for proper sizing */
 }
 
 .company-name {
@@ -246,18 +334,17 @@ body {
     font-size: 4rem;
     font-weight: 800;
     margin-bottom: 1rem;
-    background: linear-gradient(45deg, var(--gold), var(--green));
+    background: linear-gradient(45deg, #2e7d32, #1b5e20);  /* Forest green gradient */
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
     background-clip: text;
-    text-shadow: 0 0 40px rgba(255, 215, 0, 0.5);
 }
 
 .hero-subtitle {
     display: block;
     font-size: 1.5rem;
     font-weight: 300;
-    color: rgba(255, 255, 255, 0.9);
+    color: #2e7d32;  /* Forest green */
     letter-spacing: 2px;
 }
 
@@ -267,7 +354,7 @@ body {
     left: 50%;
     transform: translateX(-50%);
     text-align: center;
-    color: white;
+    color: #2e7d32;  /* Forest green */
     animation: bounce 2s infinite;
 }
 
@@ -275,8 +362,8 @@ body {
     width: 30px;
     height: 30px;
     margin: 10px auto;
-    border-right: 2px solid var(--gold);
-    border-bottom: 2px solid var(--gold);
+    border-right: 2px solid #2e7d32;  /* Forest green */
+    border-bottom: 2px solid #2e7d32;
     transform: rotate(45deg);
     animation: arrow-bounce 2s infinite;
 }

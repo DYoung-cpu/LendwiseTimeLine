@@ -1,0 +1,373 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Building LendWise - Timeline</title>
+
+    <!-- Three.js for shader animation -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+
+    <!-- Include both CSS files -->
+    <link rel="stylesheet" href="timeline-styles.css">
+    <link rel="stylesheet" href="modern-timeline.css">
+</head>
+<body>
+    <!-- Three.js Shader Intro Animation (3 second overlay) -->
+    <div id="shader-container" class="shader-intro">
+        <div class="shader-overlay">
+            <!-- WISR Video Circle in Center -->
+            <div class="wisr-showcase-center">
+                <div class="wisr-glow"></div>
+                <div class="wisr-video-circle">
+                    <video id="center-owl-video" autoplay muted loop playsinline>
+                        <source src="wisr-owl.mp4" type="video/mp4" />
+                    </video>
+                    <div class="video-mask-overlay"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Main Content - Modern Timeline (initially hidden) -->
+    <div class="main-content" style="opacity: 0;">
+
+    <!-- Integrated Hero & Timeline Section -->
+    <section class="hero-timeline-integrated">
+        <div class="aurora-layer aurora-1"></div>
+        <div class="aurora-layer aurora-2"></div>
+        <div class="aurora-layer aurora-3"></div>
+        <div class="aurora-layer aurora-4"></div>
+
+        <div class="integrated-content">
+            <!-- Navigation Buttons -->
+            <div class="timeline-nav">
+                <button class="nav-btn active" data-category="all">All</button>
+                <button class="nav-btn" data-category="licensing">Licensing</button>
+                <button class="nav-btn" data-category="product">Products</button>
+                <button class="nav-btn" data-category="expansion">Expansion</button>
+                <button class="nav-btn" data-category="innovation">Innovation</button>
+            </div>
+
+            <!-- 3D Circular Gallery Container -->
+            <div class="circular-gallery-container">
+                <!-- Centered Owl (smaller) -->
+                <div class="gallery-center">
+                    <div class="wisr-gallery-glow"></div>
+                    <div class="wisr-gallery-video">
+                        <video autoplay muted loop playsinline>
+                            <source src="wisr-owl.mp4" type="video/mp4" />
+                        </video>
+                    </div>
+                </div>
+
+                <!-- 3D Gallery Track -->
+                <div class="gallery-track" id="galleryTrack">
+                    <!-- Gallery Cards -->
+                    <div class="gallery-card" data-category="milestone" data-index="0">
+                        <div class="card-content">
+                            <div class="card-icon">🏢</div>
+                            <h3>Founded</h3>
+                            <p class="card-date">Aug 2024</p>
+                            <p class="card-description">Company established</p>
+                        </div>
+                    </div>
+
+                    <div class="gallery-card" data-category="licensing" data-index="1">
+                        <div class="card-content">
+                            <div class="card-icon">📜</div>
+                            <h3>NMLS</h3>
+                            <p class="card-date">Sep 2024</p>
+                            <p class="card-description">Nationwide licensing</p>
+                        </div>
+                    </div>
+
+                    <div class="gallery-card" data-category="licensing" data-index="2">
+                        <div class="card-content">
+                            <div class="card-icon">🏛️</div>
+                            <h3>DRE License</h3>
+                            <p class="card-date">Oct 2024</p>
+                            <p class="card-description">California approved</p>
+                        </div>
+                    </div>
+
+                    <div class="gallery-card" data-category="product" data-index="3">
+                        <div class="card-content">
+                            <div class="card-icon">💻</div>
+                            <h3>Encompass</h3>
+                            <p class="card-date">Dec 2024</p>
+                            <p class="card-description">LOS integrated</p>
+                        </div>
+                    </div>
+
+                    <div class="gallery-card" data-category="product" data-index="4">
+                        <div class="card-content">
+                            <div class="card-icon">🚀</div>
+                            <h3>DSCR Tool</h3>
+                            <p class="card-date">Jan 2025</p>
+                            <p class="card-description">Auto qualification</p>
+                        </div>
+                    </div>
+
+                    <div class="gallery-card" data-category="expansion" data-index="5">
+                        <div class="card-content">
+                            <div class="card-icon">🗺️</div>
+                            <h3>Multi-State</h3>
+                            <p class="card-date">Feb 2025</p>
+                            <p class="card-description">7 states licensed</p>
+                        </div>
+                    </div>
+
+                    <div class="gallery-card" data-category="product" data-index="6">
+                        <div class="card-content">
+                            <div class="card-icon">📊</div>
+                            <h3>Mission CRM</h3>
+                            <p class="card-date">Mar 2025</p>
+                            <p class="card-description">AI-powered CRM</p>
+                        </div>
+                    </div>
+
+                    <div class="gallery-card" data-category="innovation" data-index="7">
+                        <div class="card-content">
+                            <div class="card-icon">🤖</div>
+                            <h3>WISR AI</h3>
+                            <p class="card-date">Apr 2025</p>
+                            <p class="card-description">AI assistant</p>
+                        </div>
+                    </div>
+
+                    <div class="gallery-card" data-category="innovation" data-index="8">
+                        <div class="card-content">
+                            <div class="card-icon">🧠</div>
+                            <h3>AI Underwriting</h3>
+                            <p class="card-date">Sep 2025</p>
+                            <p class="card-description">Auto decisions</p>
+                        </div>
+                    </div>
+
+                    <div class="gallery-card" data-category="expansion" data-index="9">
+                        <div class="card-content">
+                            <div class="card-icon">🎯</div>
+                            <h3>25 States</h3>
+                            <p class="card-date">Dec 2025</p>
+                            <p class="card-description">Nationwide goal</p>
+                        </div>
+                    </div>
+                </div><!-- gallery-track -->
+            </div><!-- circular-gallery-container -->
+        </div><!-- integrated-content -->
+    </section>
+
+    <!-- Detail Modal -->
+    <div id="timeline-modal" class="modal">
+        <button class="modal-close">&times;</button>
+    </div>
+
+    </div> <!-- End of main-content -->
+
+    <!-- Milestone Data -->
+    <script>
+        const milestoneData = {
+            founded: {
+                title: "Company Founded",
+                date: "August 1, 2024",
+                category: "Foundation",
+                icon: "🏢",
+                description: "LendWise Mortgage Corporation was officially established as a Delaware C-Corporation with a vision to revolutionize the mortgage lending industry through technology and exceptional service.",
+                impact: "Established the foundation for what would become a leading mortgage technology platform",
+                metrics: [
+                    "Initial team of 3 founders",
+                    "Secured seed funding of $500K",
+                    "Delaware C-Corporation structure",
+                    "Business plan and roadmap created"
+                ],
+                team: "David Young (Founder & CEO) with 24 years mortgage banking expertise",
+                challenges: "Building credibility in a highly regulated and competitive market",
+                outcome: "Successfully launched with proper structure and clear vision for disrupting the mortgage industry"
+            },
+            nmls: {
+                title: "NMLS Registration",
+                date: "September 1, 2024",
+                category: "Licensing",
+                icon: "📜",
+                description: "Achieved Nationwide Mortgage Licensing System (NMLS) registration, establishing our foundation for multi-state mortgage operations.",
+                impact: "Enabled legal operation as a mortgage company across multiple states",
+                metrics: [
+                    "NMLS ID: #2581507",
+                    "30-day approval process",
+                    "$50,000 surety bond posted",
+                    "All key personnel vetted and approved"
+                ],
+                team: "Compliance team and legal counsel",
+                challenges: "Complex application process and extensive background checks",
+                outcome: "Approved status allowing nationwide mortgage operations"
+            },
+            dre: {
+                title: "California DRE License",
+                date: "October 15, 2024",
+                category: "Licensing",
+                icon: "🏛️",
+                description: "Secured California Department of Real Estate broker license, enabling full mortgage operations in California.",
+                impact: "Authorized to conduct mortgage business in California, the largest mortgage market in the US",
+                metrics: [
+                    "Broker license secured",
+                    "Responsible broker designated",
+                    "Trust account established",
+                    "Office location approved"
+                ],
+                team: "Legal and compliance teams",
+                outcome: "Full authorization to originate mortgages in California"
+            },
+            dfpi: {
+                title: "DFPI License Secured",
+                date: "November 1, 2024",
+                category: "Licensing",
+                icon: "✅",
+                description: "Obtained California Department of Financial Protection and Innovation license for consumer lending.",
+                impact: "Complete regulatory compliance for California mortgage lending operations",
+                metrics: [
+                    "CFL license approved",
+                    "Compliance program established",
+                    "Annual assessment completed",
+                    "Regulatory examiner assigned"
+                ],
+                outcome: "Full state compliance for all lending activities"
+            },
+            encompass: {
+                title: "Encompass Integration",
+                date: "December 1, 2024",
+                category: "Technology",
+                icon: "💻",
+                description: "Completed full integration with Ellie Mae Encompass loan origination system, establishing our core technology infrastructure.",
+                impact: "Streamlined loan processing with industry-leading LOS platform",
+                metrics: [
+                    "45-day integration timeline",
+                    "API integration complete",
+                    "15 users trained",
+                    "12 custom workflows created"
+                ],
+                team: "Technology team and Encompass specialists",
+                challenges: "Complex API integration and workflow customization",
+                outcome: "Fully operational loan origination platform"
+            },
+            dscr: {
+                title: "DSCR Generator Launch",
+                date: "January 10, 2025",
+                category: "Product",
+                icon: "🚀",
+                description: "Launched proprietary DSCR (Debt Service Coverage Ratio) qualification tool for investment property loans.",
+                impact: "Revolutionary tool providing instant DSCR calculations and pre-approvals",
+                metrics: [
+                    "< 5 second calculation time",
+                    "500+ properties analyzed",
+                    "99.9% accuracy rate",
+                    "PDF report generation"
+                ],
+                team: "Product development team",
+                outcome: "Industry-first instant DSCR qualification tool"
+            },
+            multistate: {
+                title: "Multi-State Licensing",
+                date: "February 1, 2025",
+                category: "Expansion",
+                icon: "🗺️",
+                description: "Achieved licensing in 7 states, marking our first major geographic expansion.",
+                impact: "Expanded market reach to cover 100M+ population",
+                metrics: [
+                    "Licensed in CA, AZ, NV, OR, WA, TX, FL",
+                    "100M+ population coverage",
+                    "$2.5T market opportunity",
+                    "7 state compliance frameworks"
+                ],
+                outcome: "Regional mortgage lender with multi-state presence"
+            },
+            crm: {
+                title: "Mission Control CRM",
+                date: "March 1, 2025",
+                category: "Product",
+                icon: "📊",
+                description: "Launching AI-powered CRM system specifically designed for loan officers.",
+                status: "In Progress",
+                impact: "Complete loan officer workflow automation and intelligence",
+                metrics: [
+                    "AI-powered lead scoring",
+                    "Automated follow-ups",
+                    "Pipeline management",
+                    "Integrated communication tools"
+                ],
+                team: "Product and AI development teams",
+                outcome: "Target: Most advanced LO-focused CRM in the industry"
+            },
+            wisr: {
+                title: "WISR AI Assistant",
+                date: "April 2025",
+                category: "Innovation",
+                icon: "🤖",
+                description: "Full AI integration providing intelligent assistance to loan officers throughout the loan process.",
+                status: "In Progress",
+                impact: "AI-powered loan officer assistant for maximum productivity",
+                metrics: [
+                    "24/7 AI availability",
+                    "Natural language processing",
+                    "Automated document analysis",
+                    "Smart recommendations"
+                ],
+                outcome: "Target: Industry-leading AI assistant for mortgage professionals"
+            },
+            fhava: {
+                title: "FHA/VA Approval",
+                date: "June 2025",
+                category: "Licensing",
+                icon: "🏛️",
+                description: "Pursuing FHA and VA approval to serve first-time homebuyers and veterans.",
+                status: "Planned",
+                impact: "Access to government-backed loan programs",
+                metrics: [
+                    "FHA lender approval",
+                    "VA lender authorization",
+                    "Ginnie Mae issuer status",
+                    "Expanded product offerings"
+                ],
+                outcome: "Target: Full government lending capabilities"
+            },
+            underwriting: {
+                title: "AI Underwriting",
+                date: "September 2025",
+                category: "Innovation",
+                icon: "🧠",
+                description: "Automated underwriting system using artificial intelligence for faster, more accurate loan decisions.",
+                status: "Planned",
+                impact: "Revolutionary AI-powered underwriting reducing decision time to hours",
+                metrics: [
+                    "24-hour decisions",
+                    "95% automation rate",
+                    "Enhanced risk assessment",
+                    "Reduced human error"
+                ],
+                outcome: "Target: Fastest underwriting in the industry"
+            },
+            nationwide: {
+                title: "25-State Goal",
+                date: "December 2025",
+                category: "Milestone",
+                icon: "🎯",
+                description: "Achieving presence in 25 states, establishing LendWise as a true national mortgage lender.",
+                status: "Planned",
+                impact: "National mortgage lender status with coast-to-coast coverage",
+                metrics: [
+                    "25 state licenses",
+                    "200M+ population coverage",
+                    "50+ loan officers",
+                    "$5B annual origination target"
+                ],
+                outcome: "Target: Top 100 mortgage lender nationally"
+            }
+        };
+    </script>
+
+    <!-- Include JavaScript files -->
+    <script src="intro-animation.js"></script>
+    <script src="modern-timeline.js"></script>
+    </div> <!-- End of main-content -->
+</body>
+</html>

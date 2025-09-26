@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>3D Carousel Test</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            background: #020617;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            min-height: 100vh;
+            overflow: hidden;
+        }
+
+        .container {
+            width: 100%;
+            height: 600px;
+            perspective: 1200px;
+        }
+
+        .carousel {
+            width: 400px;
+            height: 400px;
+            position: relative;
+            margin: 0 auto;
+            transform-style: preserve-3d;
+            transition: transform 1s;
+        }
+
+        .card {
+            position: absolute;
+            width: 150px;
+            height: 200px;
+            left: 125px;
+            top: 100px;
+            background: rgba(255, 255, 255, 0.1);
+            border: 1px solid rgba(255, 215, 0, 0.3);
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 24px;
+            backface-visibility: visible;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="carousel" id="carousel">
+            <div class="card">1</div>
+            <div class="card">2</div>
+            <div class="card">3</div>
+            <div class="card">4</div>
+            <div class="card">5</div>
+            <div class="card">6</div>
+        </div>
+    </div>
+
+    <script>
+        const carousel = document.getElementById('carousel');
+        const cards = carousel.querySelectorAll('.card');
+        const numCards = cards.length;
+        const anglePerCard = 360 / numCards;
+        const radius = 200;
+
+        // Position cards in circle
+        cards.forEach((card, index) => {
+            const angle = index * anglePerCard;
+            card.style.transform = `rotateY(${angle}deg) translateZ(${radius}px)`;
+        });
+
+        // Rotate carousel
+        let rotation = 0;
+        setInterval(() => {
+            rotation += 1;
+            carousel.style.transform = `rotateY(${rotation}deg)`;
+        }, 30);
+    </script>
+</body>
+</html>

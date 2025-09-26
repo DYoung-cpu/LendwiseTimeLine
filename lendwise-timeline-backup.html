@@ -88,23 +88,111 @@
             </ul>
         </div>
     </nav>
-    <!-- Building LendWise - Modern Horizontal Timeline -->
-    <section id="timeline" class="timeline-section modern">
+
+    <!-- About Us & Mission Section -->
+    <section id="about" class="about-section">
         <div class="container">
-            <!-- Header -->
-            <div class="timeline-header">
-                <h1 class="timeline-title">Building LendWise</h1>
-                <p class="timeline-subtitle">Our journey of growth and innovation in the mortgage industry</p>
+            <div class="section-header">
+                <h2>Our Story</h2>
+                <div class="gold-divider"></div>
             </div>
 
-            <!-- Modern Horizontal Timeline -->
-            <div class="timeline-container">
-                <!-- Timeline Line -->
-                <div class="timeline-line"></div>
-                <div class="timeline-progress"></div>
+            <div class="about-grid">
+                <div class="about-card mission">
+                    <h3>Our Mission</h3>
+                    <p>To revolutionize the mortgage industry through cutting-edge AI technology, seamless integrations, and an unwavering commitment to loan officer success. We're not just building another mortgage company – we're creating the future of lending.</p>
+                    <div class="mission-stats">
+                        <div class="stat">
+                            <span class="stat-number">24+</span>
+                            <span class="stat-label">Years Industry Experience</span>
+                        </div>
+                        <div class="stat">
+                            <span class="stat-number">AI</span>
+                            <span class="stat-label">First Technology</span>
+                        </div>
+                        <div class="stat">
+                            <span class="stat-number">50</span>
+                            <span class="stat-label">State Goal</span>
+                        </div>
+                    </div>
+                </div>
 
-                <!-- Timeline Items -->
-                <div class="timeline-items">
+                <div class="about-card why">
+                    <h3>Why We Started LendWise</h3>
+                    <p>After 24 years in mortgage banking, we saw the same inefficiencies plague loan officers day after day. Disconnected systems, manual processes, and lost opportunities. We knew there had to be a better way.</p>
+                    <p class="highlight">LendWise was born from a simple belief: Technology should empower loan officers, not complicate their work.</p>
+                    <p>Starting August 1, 2024, we embarked on a mission to build the most integrated, intelligent, and intuitive mortgage platform ever created. Every feature, every integration, every line of code is designed with one goal: making loan officers more successful.</p>
+                </div>
+
+                <div class="about-card founders">
+                    <h3>The Team Behind LendWise</h3>
+                    <div class="founder-profile">
+                        <div class="founder-info">
+                            <h4>David Young</h4>
+                            <span class="founder-title">Founder & CEO</span>
+                            <p>24 years of mortgage banking expertise, specializing in CRM systems, sales optimization, and AI-driven workflows. Building LendWise with a supreme focus on technology and complete integration from application to funding.</p>
+                        </div>
+                    </div>
+                    <div class="team-vision">
+                        <p>"We're not just digitizing old processes – we're reimagining how mortgages should work in the AI era."</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Live Stats Dashboard -->
+    <section class="stats-dashboard">
+        <div class="container">
+            <div class="stats-grid">
+                <div class="stat-card">
+                    <div class="stat-icon">📅</div>
+                    <div class="stat-value" id="days-operating">0</div>
+                    <div class="stat-label">Days Building</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-icon">🏢</div>
+                    <div class="stat-value" id="states-licensed">7</div>
+                    <div class="stat-label">States Licensed</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-icon">🤝</div>
+                    <div class="stat-value" id="lender-partners">12</div>
+                    <div class="stat-label">Lender Partners</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-icon">✅</div>
+                    <div class="stat-value" id="milestones-complete">18</div>
+                    <div class="stat-label">Milestones Complete</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Interactive Timeline Section -->
+    <section id="timeline" class="timeline-section">
+        <div class="container">
+            <div class="section-header">
+                <h2>Building LendWise</h2>
+                <p>Click on any milestone to learn more</p>
+            </div>
+
+            <!-- Timeline Controls -->
+            <div class="timeline-controls">
+                <button class="timeline-nav prev" onclick="scrollTimeline('left')">←</button>
+                <div class="timeline-filters">
+                    <button class="filter-btn active" data-filter="all">All</button>
+                    <button class="filter-btn" data-filter="licensing">Licensing</button>
+                    <button class="filter-btn" data-filter="technology">Technology</button>
+                    <button class="filter-btn" data-filter="partnerships">Partnerships</button>
+                    <button class="filter-btn" data-filter="product">Products</button>
+                </div>
+                <button class="timeline-nav next" onclick="scrollTimeline('right')">→</button>
+            </div>
+
+            <!-- Horizontal Timeline -->
+            <div class="timeline-wrapper">
+                <div class="timeline-track">
                     <!-- Q3 2024 -->
                     <div class="timeline-quarter">
                         <h3>Q3 2024</h3>
@@ -321,58 +409,6 @@
                                 </div>
                             </div>
                         </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- About Us & Mission Section -->
-    <section id="about" class="about-section">
-        <div class="container">
-            <div class="section-header">
-                <h2>Our Story</h2>
-                <div class="gold-divider"></div>
-            </div>
-
-            <div class="about-grid">
-                <div class="about-card mission">
-                    <h3>Our Mission</h3>
-                    <p>To revolutionize the mortgage industry through cutting-edge AI technology, seamless integrations, and an unwavering commitment to loan officer success. We're not just building another mortgage company – we're creating the future of lending.</p>
-                    <div class="mission-stats">
-                        <div class="stat">
-                            <span class="stat-number">24+</span>
-                            <span class="stat-label">Years Industry Experience</span>
-                        </div>
-                        <div class="stat">
-                            <span class="stat-number">AI</span>
-                            <span class="stat-label">First Technology</span>
-                        </div>
-                        <div class="stat">
-                            <span class="stat-number">50</span>
-                            <span class="stat-label">State Goal</span>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="about-card why">
-                    <h3>Why We Started LendWise</h3>
-                    <p>After 24 years in mortgage banking, we saw the same inefficiencies plague loan officers day after day. Disconnected systems, manual processes, and lost opportunities. We knew there had to be a better way.</p>
-                    <p class="highlight">LendWise was born from a simple belief: Technology should empower loan officers, not complicate their work.</p>
-                    <p>Starting August 1, 2024, we embarked on a mission to build the most integrated, intelligent, and intuitive mortgage platform ever created. Every feature, every integration, every line of code is designed with one goal: making loan officers more successful.</p>
-                </div>
-
-                <div class="about-card founders">
-                    <h3>The Team Behind LendWise</h3>
-                    <div class="founder-profile">
-                        <div class="founder-info">
-                            <h4>David Young</h4>
-                            <span class="founder-title">Founder & CEO</span>
-                            <p>24 years of mortgage banking expertise, specializing in CRM systems, sales optimization, and AI-driven workflows. Building LendWise with a supreme focus on technology and complete integration from application to funding.</p>
-                        </div>
-                    </div>
-                    <div class="team-vision">
-                        <p>"We're not just digitizing old processes – we're reimagining how mortgages should work in the AI era."</p>
                     </div>
                 </div>
             </div>

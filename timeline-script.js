@@ -375,27 +375,43 @@ function initStateMap() {
 
 // Initialize everything when DOM is loaded
 document.addEventListener('DOMContentLoaded', () => {
+    console.log('DOM loaded, starting animations...');
+
     // Initialize Three.js shader animation
     initShaderAnimation();
 
-    // 3-Second Intro Animation Timing
-    const shaderContainer = document.getElementById('shader-container');
 
-    // Start fade out at 2.5 seconds
+    // 3-Second Intro Animation Timing with Owl Transition
+    const shaderContainer = document.getElementById('shader-container');
+    const introOwl = document.querySelector('.wisr-showcase-center');
+    const heroOwl = document.querySelector('.wisr-hero-center');
+
+    // Start fade out at 2.5 seconds (only shader, not owl)
     setTimeout(() => {
         if (shaderContainer) {
-            shaderContainer.classList.add('fade-out');
+            // Fade out only the canvas/shader background
+            const canvas = shaderContainer.querySelector('canvas');
+            if (canvas) {
+                canvas.style.transition = 'opacity 0.5s ease-out';
+                canvas.style.opacity = '0';
+            }
+
+            // Keep the owl visible during transition
+            if (introOwl) {
+                introOwl.style.transition = 'opacity 0.5s ease-out';
+                // Owl stays visible
+            }
         }
     }, 2500);
 
-    // Completely remove after fade completes (3 seconds total)
+    // Complete transition at 3 seconds
     setTimeout(() => {
         if (shaderContainer) {
             shaderContainer.style.display = 'none';
         }
 
         // Initialize page interactions after intro
-        initCounters();
+        // initCounters(); // Removed stats dashboard
         initTimelineFilters();
         initTimelineInteractions();
         initSmoothScroll();
@@ -439,4 +455,40 @@ window.addEventListener('load', () => {
         delay: 1.5,
         ease: 'power2.out'
     });
+});
+
+// Position Adjustment Controls
+window.toggleControls = function() {
+    const controls = document.querySelector('.position-controls');
+    const button = document.querySelector('button[onclick="toggleControls()"]');
+    if (controls.style.display === 'none') {
+        controls.style.display = 'block';
+        button.style.display = 'none';
+    } else {
+        controls.style.display = 'none';
+        button.style.display = 'block';
+    }
+};
+
+// Adjust title position in real-time
+document.addEventListener('DOMContentLoaded', () => {
+    const leftSlider = document.getElementById('leftPos');
+    const topSlider = document.getElementById('topPos');
+    const leftVal = document.getElementById('leftVal');
+    const topVal = document.getElementById('topVal');
+    const heroTitle = document.querySelector('.hero-title');
+
+    if (leftSlider && heroTitle) {
+        leftSlider.addEventListener('input', (e) => {
+            const offset = e.target.value;
+            leftVal.textContent = offset;
+            heroTitle.style.transform = `translateX(calc(-50% + ${offset}px))`;
+        });
+
+        topSlider.addEventListener('input', (e) => {
+            const topValue = e.target.value;
+            topVal.textContent = topValue;
+            heroTitle.style.top = `${topValue}%`;
+        });
+    }
 });

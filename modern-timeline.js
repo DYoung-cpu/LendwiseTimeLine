@@ -17,6 +17,7 @@ document.addEventListener('DOMContentLoaded', () => {
         // Initialize 3D carousel gallery
         initializeCarouselGallery();
         setupNavigationButtons();
+        setupTimelineClicks();
     }, 3500);
 });
 
@@ -205,6 +206,65 @@ function setupNavigationButtons() {
 function getMilestoneIdByIndex(index) {
     const milestoneIds = ['founded', 'nmls', 'dre', 'dfpi', 'encompass', 'dscr', 'multistate', 'crm', 'wisr', 'fhava', 'underwriting', 'nationwide'];
     return milestoneIds[index] || null;
+}
+
+// Setup timeline milestone clicks
+function setupTimelineClicks() {
+    const milestones = document.querySelectorAll('.timeline-milestone');
+    const galleryTrack = document.getElementById('galleryTrack');
+    const cards = document.querySelectorAll('.gallery-card');
+
+    if (!galleryTrack || cards.length === 0) return;
+
+    milestones.forEach((milestone) => {
+        milestone.addEventListener('click', () => {
+            const milestoneIndex = parseInt(milestone.dataset.index);
+
+            // Map timeline milestones to carousel cards
+            const cardMapping = {
+                0: 2,  // DRE Approval -> DRE License card
+                1: 0,  // Location found -> RI HQ card
+                2: 0,  // Office Remodel -> RI HQ card
+                3: 0,  // Staff Hires -> RI HQ card
+                4: 3,  // Other licenses -> DFPI License card
+                5: 4,  // LOS -> Encompass card
+                6: 7,  // Optimal Blue -> Mission CRM card
+                7: 11, // Google Analytics -> Nationwide card
+                8: 11, // Website Creation -> Nationwide card
+                9: 5   // AI Tool -> DSCR Tool card
+            };
+
+            const targetCardIndex = cardMapping[milestoneIndex];
+            if (targetCardIndex !== undefined) {
+                // Calculate rotation to bring target card to front
+                const anglePerCard = 360 / cards.length;
+                const targetRotation = -targetCardIndex * anglePerCard;
+
+                // Stop auto-rotation
+                galleryConfig.isAutoRotating = false;
+
+                // Animate rotation to target card
+                galleryConfig.currentRotation = targetRotation;
+                galleryTrack.style.transition = 'transform 0.8s ease-in-out';
+                galleryTrack.style.transform = `rotateY(${targetRotation}deg)`;
+
+                // Update card opacities
+                updateAllCardOpacities(cards);
+
+                // Resume auto-rotation after animation
+                setTimeout(() => {
+                    galleryTrack.style.transition = '';
+                    galleryConfig.isAutoRotating = true;
+                }, 2000);
+
+                // Visual feedback on milestone
+                milestone.classList.add('pulse');
+                setTimeout(() => {
+                    milestone.classList.remove('pulse');
+                }, 800);
+            }
+        });
+    });
 }
 
 // Open modal with milestone details

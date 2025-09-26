@@ -1,5 +1,14 @@
 /* Modern Timeline CSS - Clean, Minimal, Professional */
 
+/* Global Reset - NO SCROLLING */
+html, body {
+    margin: 0;
+    padding: 0;
+    width: 100%;
+    height: 100%;
+    overflow: hidden;  /* NO SCROLLING - Everything on one screen */
+}
+
 /* Aurora Background with Smooth, Imperceptible Transitions */
 .aurora-layer {
     position: absolute;
@@ -58,9 +67,8 @@
 /* Integrated Hero Timeline Section */
 .hero-timeline-integrated {
     position: relative;
-    min-height: 100vh;
-    overflow-x: hidden;
-    overflow-y: auto;
+    height: 100vh;  /* EXACTLY one screen - no scrolling */
+    overflow: hidden;
     background: #020617;
     display: flex;
     flex-direction: column;
@@ -70,65 +78,296 @@
     position: relative;
     z-index: 10;
     width: 100%;
+    height: 100vh;
     display: flex;
     flex-direction: column;
     align-items: center;
-    justify-content: center;
-    min-height: 100vh;
+    justify-content: center;  /* Center everything */
     padding: 2rem;
 }
 
-/* Timeline Navigation Buttons */
-.timeline-nav {
-    display: flex;
-    justify-content: center;
-    gap: 12px;
-    margin-bottom: 2rem;
-    flex-wrap: wrap;
-    padding: 0 20px;
-    z-index: 100;
-    position: relative;
+/* Strategic Roadmap Timeline - Positioned Above Owl */
+.roadmap-container {
+    width: 100%;
+    max-width: 1400px;
+    margin: 0 auto;
+    padding: 1rem 2rem;
+    position: absolute;
+    top: 0;  /* At the very top of viewport */
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 20;  /* Below owl (100) and cards (50), above background */
 }
 
-.nav-btn {
-    padding: 6px 16px;
-    background: rgba(255, 255, 255, 0.1);
-    backdrop-filter: blur(10px);
-    border: 1px solid rgba(255, 255, 255, 0.2);
-    color: rgba(255, 255, 255, 0.9);
-    font-size: 0.8rem;
-    font-weight: 500;
-    border-radius: 20px;
-    cursor: pointer;
-    transition: all 0.3s ease;
-    outline: none;
+.roadmap-header {
+    text-align: center;
+    margin-bottom: 4rem;
 }
 
-.nav-btn:hover {
-    background: rgba(255, 215, 0, 0.2);
-    border-color: rgba(255, 215, 0, 0.5);
-    transform: translateY(-1px);
-}
-
-.nav-btn.active {
-    background: linear-gradient(135deg, rgba(255, 215, 0, 0.3), rgba(0, 200, 81, 0.3));
-    border-color: rgba(255, 215, 0, 0.6);
+.roadmap-title {
+    font-size: 2.5rem;
+    font-weight: 300;
+    letter-spacing: 0.3em;
     color: white;
-    font-weight: 600;
+    margin: 0;
+    text-shadow: 0 0 30px rgba(100, 200, 255, 0.3);
+}
+
+.roadmap-subtitle {
+    font-size: 1rem;
+    letter-spacing: 0.2em;
+    color: rgba(255, 255, 255, 0.5);
+    margin-top: 0.5rem;
+}
+
+/* Timeline Container */
+.roadmap-timeline {
+    position: relative;
+    padding: 100px 0;
+}
+
+.timeline-line-container {
+    position: relative;
+    height: 200px;
+}
+
+/* Main Timeline Line */
+.timeline-main-line {
+    position: absolute;
+    top: 50%;
+    left: 0;
+    right: 0;
+    height: 1px;
+    background: linear-gradient(90deg,
+        transparent 0%,
+        rgba(100, 200, 255, 0.3) 5%,
+        rgba(100, 200, 255, 0.3) 95%,
+        transparent 100%
+    );
+    transform: translateY(-50%);
+}
+
+/* Timeline Milestones Container */
+.timeline-milestones {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 100%;
+}
+
+/* Individual Milestone */
+.timeline-milestone {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    cursor: pointer;
+    z-index: 10;
+}
+
+/* Milestone Dot */
+.milestone-dot {
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+    background: rgba(100, 200, 255, 0.3);
+    border: 1px solid rgba(100, 200, 255, 0.5);
+    margin: 0 auto;
+    transition: all 0.3s ease;
+    position: relative;
+    z-index: 5;
+}
+
+/* Completed Milestone - Green */
+.timeline-milestone.completed .milestone-dot {
+    background: rgba(0, 255, 150, 0.8);
+    border-color: rgba(0, 255, 150, 1);
+    box-shadow: 0 0 20px rgba(0, 255, 150, 0.6),
+                0 0 40px rgba(0, 255, 150, 0.3);
+}
+
+/* Pending Milestone - Gold */
+.timeline-milestone.pending .milestone-dot {
+    background: rgba(255, 215, 0, 0.8);
+    border-color: rgba(255, 215, 0, 1);
+    box-shadow: 0 0 20px rgba(255, 215, 0, 0.6),
+                0 0 40px rgba(255, 215, 0, 0.3);
+}
+
+/* Milestone Connector Line */
+.milestone-connector {
+    position: absolute;
+    left: 50%;
+    width: 1px;
+    height: 40px;
+    background: rgba(100, 200, 255, 0.2);
+    transform: translateX(-50%);
+}
+
+.milestone-connector.top {
+    bottom: 6px;
+}
+
+.milestone-connector.bottom {
+    top: 6px;
+}
+
+.timeline-milestone.completed .milestone-connector {
+    background: rgba(0, 255, 150, 0.3);
+}
+
+.timeline-milestone.pending .milestone-connector {
+    background: rgba(255, 215, 0, 0.3);
+}
+
+/* Milestone Content */
+.milestone-content {
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
+    text-align: center;
+    white-space: nowrap;
+    opacity: 0;
+    transition: all 0.3s ease;
+}
+
+.milestone-content.top {
+    bottom: 60px;
+}
+
+.milestone-content.bottom {
+    top: 60px;
+}
+
+/* Show content on hover */
+.timeline-milestone:hover .milestone-content {
+    opacity: 1;
+}
+
+/* Milestone Icon */
+.milestone-icon {
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 24px;
+    margin: 0 auto 8px;
+    background: rgba(10, 25, 47, 0.9);
+    border: 1px solid rgba(100, 200, 255, 0.3);
+    backdrop-filter: blur(10px);
+}
+
+.timeline-milestone.completed .milestone-icon {
+    background: rgba(0, 255, 150, 0.1);
+    border-color: rgba(0, 255, 150, 0.5);
+    box-shadow: 0 0 30px rgba(0, 255, 150, 0.3);
+}
+
+.timeline-milestone.pending .milestone-icon {
+    background: rgba(255, 215, 0, 0.1);
+    border-color: rgba(255, 215, 0, 0.5);
+    box-shadow: 0 0 30px rgba(255, 215, 0, 0.3);
+}
+
+/* Milestone Label */
+.milestone-label {
+    font-size: 0.85rem;
+    color: white;
+    font-weight: 500;
+    margin-bottom: 4px;
+}
+
+/* Milestone Date */
+.milestone-date {
+    font-size: 0.75rem;
+    color: rgba(255, 255, 255, 0.5);
+}
+
+/* Quarter Labels */
+.milestone-quarter {
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
+    font-size: 0.75rem;
+    color: rgba(100, 200, 255, 0.6);
+    font-weight: 300;
+    letter-spacing: 0.1em;
+}
+
+.milestone-quarter.top {
+    top: -30px;
+}
+
+.milestone-quarter.bottom {
+    bottom: -30px;
+}
+
+/* Hover Effects */
+.timeline-milestone:hover .milestone-dot {
+    transform: scale(1.5);
+}
+
+/* Pulse Animation for Click Feedback */
+.timeline-milestone.pulse .milestone-dot {
+    animation: pulse-animation 0.8s ease-out;
+}
+
+@keyframes pulse-animation {
+    0% {
+        transform: scale(1);
+        box-shadow: 0 0 20px currentColor;
+    }
+    50% {
+        transform: scale(1.5);
+        box-shadow: 0 0 40px currentColor, 0 0 60px currentColor;
+    }
+    100% {
+        transform: scale(1);
+        box-shadow: 0 0 20px currentColor;
+    }
+}
+
+.timeline-milestone.completed:hover .milestone-dot {
+    box-shadow: 0 0 30px rgba(0, 255, 150, 0.8),
+                0 0 60px rgba(0, 255, 150, 0.4);
+}
+
+.timeline-milestone.pending:hover .milestone-dot {
+    box-shadow: 0 0 30px rgba(255, 215, 0, 0.8),
+                0 0 60px rgba(255, 215, 0, 0.4);
+}
+
+/* Active/Selected State */
+.timeline-milestone.active .milestone-dot {
+    transform: scale(2);
+    animation: pulse-glow 2s ease-in-out infinite;
+}
+
+@keyframes pulse-glow {
+    0%, 100% {
+        opacity: 1;
+    }
+    50% {
+        opacity: 0.7;
+    }
 }
 
 /* 3D Circular Gallery Container - LOCKED POSITION */
 /* DO NOT MODIFY WITHOUT UPDATING CAROUSEL LOCK */
 .circular-gallery-container {
-    position: relative;
+    position: absolute;
     width: 100%;
     height: 800px;  /* LOCKED */
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
     display: flex;
     align-items: center;
     justify-content: center;
     perspective: 1500px;  /* LOCKED */
     overflow: visible;
-    margin: 50px 0;
 }
 
 /* Gallery Center - Owl - LOCKED POSITION */
@@ -150,7 +389,7 @@
     height: 100%;
     transform-style: preserve-3d;
     transition: transform 0.6s cubic-bezier(0.4, 0.0, 0.2, 1);
-    top: 5%;  /* LOCKED - Carousel vertical offset */
+    top: calc(5% + 30px);  /* LOCKED - Carousel vertical offset + 30px down */
 }
 
 /* Gallery Cards - 3D Positioned - LOCKED POSITION */

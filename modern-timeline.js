@@ -18,6 +18,7 @@ document.addEventListener('DOMContentLoaded', () => {
         initializeCarouselGallery();
         setupNavigationButtons();
         setupTimelineClicks();
+        setupPositionControls();  // Add position controls
     }, 3500);
 });
 
@@ -382,5 +383,337 @@ function closeModal() {
     const modal = document.getElementById('timeline-modal');
     modal.classList.remove('active');
     document.body.style.overflow = 'auto';
+}
+
+// Setup Position Controls for Moving Assets
+function setupPositionControls() {
+    // Load saved positions from localStorage
+    const savedPositions = JSON.parse(localStorage.getItem('lendwisePositions') || '{}');
+    const defaultPositions = {
+        header: 0,
+        timeline: 0,
+        owl: 0,
+        carousel: 120
+    };
+    const positions = { ...defaultPositions, ...savedPositions };
+
+    // Create control panel with sliders
+    const controlPanel = document.createElement('div');
+    controlPanel.id = 'position-controls';
+    controlPanel.style.cssText = `
+        position: fixed;
+        top: 20px;
+        right: 20px;
+        background: rgba(0, 0, 0, 0.9);
+        color: white;
+        padding: 20px;
+        border-radius: 10px;
+        font-family: -apple-system, BlinkMacSystemFont, sans-serif;
+        font-size: 14px;
+        z-index: 10000;
+        backdrop-filter: blur(10px);
+        border: 1px solid rgba(255, 255, 255, 0.2);
+        width: 280px;
+    `;
+
+    controlPanel.innerHTML = `
+        <div style="margin-bottom: 20px; font-weight: bold; font-size: 16px; border-bottom: 2px solid rgba(255,215,0,0.5); padding-bottom: 10px;">
+            🎯 Vertical Position Controls
+        </div>
+
+        <div style="margin-bottom: 20px;">
+            <label style="display: block; margin-bottom: 8px; color: #ffd700;">
+                📝 Header Text
+                <span id="header-value" style="float: right;">${positions.header}px</span>
+            </label>
+            <input type="range" id="header-slider" min="-200" max="200" value="${positions.header}"
+                style="width: 100%; cursor: pointer;">
+        </div>
+
+        <div style="margin-bottom: 20px;">
+            <label style="display: block; margin-bottom: 8px; color: #00ff88;">
+                ⏺️ Timeline Dots
+                <span id="timeline-value" style="float: right;">${positions.timeline}px</span>
+            </label>
+            <input type="range" id="timeline-slider" min="-200" max="200" value="${positions.timeline}"
+                style="width: 100%; cursor: pointer;">
+        </div>
+
+        <div style="margin-bottom: 20px;">
+            <label style="display: block; margin-bottom: 8px; color: #ffaa00;">
+                🦉 Owl
+                <span id="owl-value" style="float: right;">${positions.owl}px</span>
+            </label>
+            <input type="range" id="owl-slider" min="-300" max="300" value="${positions.owl}"
+                style="width: 100%; cursor: pointer;">
+        </div>
+
+        <div style="margin-bottom: 20px;">
+            <label style="display: block; margin-bottom: 8px; color: #00aaff;">
+                🎠 Carousel
+                <span id="carousel-value" style="float: right;">${positions.carousel}px</span>
+            </label>
+            <input type="range" id="carousel-slider" min="-100" max="400" value="${positions.carousel}"
+                style="width: 100%; cursor: pointer;">
+        </div>
+
+        <button id="reset-positions" style="
+            width: 100%;
+            padding: 10px;
+            background: rgba(255, 0, 0, 0.2);
+            border: 1px solid rgba(255, 0, 0, 0.5);
+            color: white;
+            border-radius: 5px;
+            cursor: pointer;
+            margin-top: 10px;
+        ">↺ Reset All Positions</button>
+
+        <div style="margin-top: 15px; padding-top: 15px; border-top: 1px solid rgba(255,255,255,0.2); font-size: 11px; color: #888;">
+            ✏️ Click any text to edit directly
+        </div>
+    `;
+    document.body.appendChild(controlPanel);
+
+    // Setup slider controls
+    const headerSlider = document.getElementById('header-slider');
+    const timelineSlider = document.getElementById('timeline-slider');
+    const owlSlider = document.getElementById('owl-slider');
+    const carouselSlider = document.getElementById('carousel-slider');
+
+    // Get elements
+    const headerElement = document.querySelector('.roadmap-header');
+    const timelineElement = document.querySelector('.roadmap-timeline');
+    const owlElement = document.querySelector('.gallery-center');
+    const carouselElement = document.querySelector('.gallery-track');
+
+    // Apply saved positions on load
+    if (headerElement) headerElement.style.transform = `translateY(${positions.header}px)`;
+    if (timelineElement) timelineElement.style.transform = `translateY(${positions.timeline}px)`;
+    if (owlElement) owlElement.style.transform = `translate(-50%, calc(-50% + ${positions.owl}px))`;
+    if (carouselElement) carouselElement.style.top = `${positions.carousel}px`;
+
+    // Save positions function
+    function savePositions() {
+        localStorage.setItem('lendwisePositions', JSON.stringify(positions));
+        console.log('Positions saved:', positions);
+    }
+
+    // Header Text Slider
+    headerSlider.addEventListener('input', (e) => {
+        const value = parseInt(e.target.value);
+        positions.header = value;
+        document.getElementById('header-value').textContent = `${value}px`;
+        if (headerElement) {
+            headerElement.style.transform = `translateY(${value}px)`;
+        }
+        savePositions();
+    });
+
+    // Timeline Dots Slider
+    timelineSlider.addEventListener('input', (e) => {
+        const value = parseInt(e.target.value);
+        positions.timeline = value;
+        document.getElementById('timeline-value').textContent = `${value}px`;
+        if (timelineElement) {
+            timelineElement.style.transform = `translateY(${value}px)`;
+        }
+        savePositions();
+    });
+
+    // Owl Slider
+    owlSlider.addEventListener('input', (e) => {
+        const value = parseInt(e.target.value);
+        positions.owl = value;
+        document.getElementById('owl-value').textContent = `${value}px`;
+        if (owlElement) {
+            owlElement.style.transform = `translate(-50%, calc(-50% + ${value}px))`;
+        }
+        savePositions();
+    });
+
+    // Carousel Slider
+    carouselSlider.addEventListener('input', (e) => {
+        const value = parseInt(e.target.value);
+        positions.carousel = value;
+        document.getElementById('carousel-value').textContent = `${value}px`;
+        if (carouselElement) {
+            carouselElement.style.top = `${value}px`;
+        }
+        savePositions();
+    });
+
+    // Reset Button
+    document.getElementById('reset-positions').addEventListener('click', () => {
+        // Reset positions object
+        positions.header = 0;
+        positions.timeline = 0;
+        positions.owl = 0;
+        positions.carousel = 120;
+
+        // Reset all sliders
+        headerSlider.value = 0;
+        timelineSlider.value = 0;
+        owlSlider.value = 0;
+        carouselSlider.value = 120;
+
+        // Update displays
+        document.getElementById('header-value').textContent = '0px';
+        document.getElementById('timeline-value').textContent = '0px';
+        document.getElementById('owl-value').textContent = '0px';
+        document.getElementById('carousel-value').textContent = '120px';
+
+        // Reset element positions
+        if (headerElement) headerElement.style.transform = 'translateY(0px)';
+        if (timelineElement) timelineElement.style.transform = 'translateY(0px)';
+        if (owlElement) owlElement.style.transform = 'translate(-50%, -50%)';
+        if (carouselElement) carouselElement.style.top = '120px';
+
+        // Clear localStorage
+        localStorage.removeItem('lendwisePositions');
+        console.log('All positions reset to defaults and cleared from storage');
+    });
+
+    // Make text editable
+    setupEditableText();
+}
+
+// Setup Editable Text
+function setupEditableText() {
+    // Make all text elements editable on click
+    const editableElements = [
+        '.roadmap-title',
+        '.roadmap-subtitle',
+        '.milestone-label',
+        '.milestone-date',
+        '.milestone-quarter',
+        '.card-content h3',
+        '.card-date',
+        '.card-description'
+    ];
+
+    editableElements.forEach(selector => {
+        document.querySelectorAll(selector).forEach(element => {
+            // Add editable styling on hover
+            element.style.cursor = 'pointer';
+            element.style.transition = 'all 0.2s';
+
+            element.addEventListener('mouseenter', () => {
+                if (!element.contentEditable || element.contentEditable === 'false') {
+                    element.style.outline = '1px dashed rgba(255, 215, 0, 0.5)';
+                    element.style.outlineOffset = '3px';
+                }
+            });
+
+            element.addEventListener('mouseleave', () => {
+                if (!element.contentEditable || element.contentEditable === 'false') {
+                    element.style.outline = 'none';
+                }
+            });
+
+            element.addEventListener('click', (e) => {
+                e.stopPropagation();
+
+                // If already editing, don't restart
+                if (element.contentEditable === 'true') return;
+
+                // Store original text
+                const originalText = element.textContent;
+
+                // Make editable
+                element.contentEditable = true;
+                element.style.outline = '2px solid rgba(255, 215, 0, 0.8)';
+                element.style.outlineOffset = '3px';
+                element.style.background = 'rgba(0, 0, 0, 0.3)';
+                element.style.padding = '2px 5px';
+                element.style.borderRadius = '3px';
+
+                // Select all text
+                const range = document.createRange();
+                range.selectNodeContents(element);
+                const selection = window.getSelection();
+                selection.removeAllRanges();
+                selection.addRange(range);
+
+                // Save on Enter, Cancel on Escape
+                const handleKeydown = (e) => {
+                    if (e.key === 'Enter') {
+                        e.preventDefault();
+                        element.blur();
+                    } else if (e.key === 'Escape') {
+                        e.preventDefault();
+                        element.textContent = originalText;
+                        element.blur();
+                    }
+                };
+
+                // Handle blur (save changes)
+                const handleBlur = () => {
+                    element.contentEditable = false;
+                    element.style.outline = 'none';
+                    element.style.background = 'transparent';
+                    element.style.padding = '0';
+
+                    // Log the change
+                    if (element.textContent !== originalText) {
+                        console.log(`Text changed in ${selector}:`, {
+                            from: originalText,
+                            to: element.textContent
+                        });
+                    }
+
+                    // Remove event listeners
+                    element.removeEventListener('keydown', handleKeydown);
+                    element.removeEventListener('blur', handleBlur);
+                };
+
+                element.addEventListener('keydown', handleKeydown);
+                element.addEventListener('blur', handleBlur);
+            });
+        });
+    });
+
+    // Add save button to control panel
+    const controlPanel = document.getElementById('position-controls');
+    const saveButton = document.createElement('button');
+    saveButton.textContent = '💾 Log All Changes';
+    saveButton.style.cssText = `
+        margin-top: 10px;
+        padding: 5px 10px;
+        background: rgba(255, 215, 0, 0.2);
+        border: 1px solid rgba(255, 215, 0, 0.5);
+        color: white;
+        border-radius: 5px;
+        cursor: pointer;
+        width: 100%;
+    `;
+
+    saveButton.addEventListener('click', () => {
+        const changes = {
+            title: document.querySelector('.roadmap-title')?.textContent,
+            subtitle: document.querySelector('.roadmap-subtitle')?.textContent,
+            milestones: Array.from(document.querySelectorAll('.timeline-milestone')).map(m => ({
+                label: m.querySelector('.milestone-label')?.textContent,
+                date: m.querySelector('.milestone-date')?.textContent,
+                quarter: m.querySelector('.milestone-quarter')?.textContent
+            })),
+            cards: Array.from(document.querySelectorAll('.gallery-card')).map(c => ({
+                title: c.querySelector('h3')?.textContent,
+                date: c.querySelector('.card-date')?.textContent,
+                description: c.querySelector('.card-description')?.textContent
+            }))
+        };
+
+        console.log('=== ALL TEXT CONTENT ===');
+        console.log(JSON.stringify(changes, null, 2));
+        console.log('========================');
+
+        // Visual feedback
+        saveButton.textContent = '✅ Logged to Console';
+        setTimeout(() => {
+            saveButton.textContent = '💾 Log All Changes';
+        }, 2000);
+    });
+
+    controlPanel.appendChild(saveButton);
 }
 

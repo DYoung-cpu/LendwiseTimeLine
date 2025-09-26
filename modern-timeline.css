@@ -93,7 +93,7 @@ html, body {
     margin: 0 auto;
     padding: 1rem 2rem;
     position: absolute;
-    top: 0;  /* At the very top of viewport */
+    top: 5%;  /* Positioned near top of viewport for visibility */
     left: 50%;
     transform: translateX(-50%);
     z-index: 20;  /* Below owl (100) and cards (50), above background */
@@ -377,7 +377,7 @@ html, body {
     top: 50%;  /* LOCKED - Owl center */
     left: 50%;  /* LOCKED - Owl center */
     transform: translate(-50%, -50%);  /* LOCKED */
-    z-index: 100;  /* LOCKED - Must stay above cards */
+    z-index: 10;  /* Behind cards (50) - owl in background */
     pointer-events: none;
 }
 
@@ -389,7 +389,7 @@ html, body {
     height: 100%;
     transform-style: preserve-3d;
     transition: transform 0.6s cubic-bezier(0.4, 0.0, 0.2, 1);
-    top: 200px;  /* Moved down significantly - fixed 200px drop */
+    top: 120px;  /* SAVED POSITION - Carousel vertical position */
 }
 
 /* Gallery Cards - 3D Positioned - LOCKED POSITION */

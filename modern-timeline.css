@@ -253,7 +253,7 @@ html, body {
 
 .timeline-line-container {
     position: relative;
-    height: 200px;
+    height: 180px;  /* Reduced from 200px by 10% */
     transition: transform 0.5s cubic-bezier(0.4, 0, 0.2, 1);
     will-change: transform;
 }
@@ -312,25 +312,25 @@ html, body {
     transition: all 0.3s ease;
 }
 
-/* Lines going down from timeline to dots below (odd milestones) */
+/* Lines connecting timeline to dots below (odd milestones) */
 .timeline-milestone:nth-child(odd) .milestone-connector {
-    height: 40px;
-    top: 0;  /* Start at timeline level */
+    height: 36px;  /* Reduced from 40px by 10% */
+    top: 50%;  /* Start from timeline center */
     background: linear-gradient(to bottom, rgba(100, 200, 255, 0.6), rgba(100, 200, 255, 0.1));
 }
 
-/* Lines going up from timeline to dots above (even milestones) */
+/* Lines connecting timeline to dots above (even milestones) */
 .timeline-milestone:nth-child(even) .milestone-connector {
-    height: 40px;
-    bottom: 0;  /* Start at timeline level */
+    height: 36px;  /* Reduced from 40px by 10% */
+    bottom: 50%;  /* Start from timeline center */
     background: linear-gradient(to top, rgba(100, 200, 255, 0.6), rgba(100, 200, 255, 0.1));
 }
 
 /* Milestone Dot - Text container at end of line */
 .milestone-dot {
-    min-width: 45px;
-    height: 45px;
-    border-radius: 22.5px;
+    min-width: 40px;  /* Reduced from 45px by ~10% */
+    height: 40px;  /* Reduced from 45px by ~10% */
+    border-radius: 20px;  /* Adjusted for new size */
     background: rgba(100, 200, 255, 0.15);
     border: 2px solid rgba(100, 200, 255, 0.6);
     margin: 0 auto;
@@ -349,21 +349,21 @@ html, body {
 /* Position dots at end of lines - AWAY from timeline */
 .timeline-milestone:nth-child(odd) .milestone-dot {
     position: absolute;
-    top: 40px;  /* Below timeline, at end of line */
+    top: 36px;  /* Below timeline, at end of line - reduced from 40px */
     left: 50%;
     transform: translateX(-50%);
 }
 
 .timeline-milestone:nth-child(even) .milestone-dot {
     position: absolute;
-    bottom: 40px;  /* Above timeline, at end of line */
+    bottom: 36px;  /* Above timeline, at end of line - reduced from 40px */
     left: 50%;
     transform: translateX(-50%);
 }
 
 /* Small text label shown by default */
 .milestone-icon-small {
-    font-size: 9px;
+    font-size: 8px;  /* Reduced from 9px */
     font-weight: 700;
     letter-spacing: 0.5px;
     transition: all 0.5s ease;
@@ -424,15 +424,7 @@ html, body {
                 0 0 40px rgba(255, 215, 0, 0.3);
 }
 
-/* Milestone Connector Line */
-.milestone-connector {
-    position: absolute;
-    left: 50%;
-    width: 1px;
-    height: 40px;
-    background: rgba(100, 200, 255, 0.2);
-    transform: translateX(-50%);
-}
+/* Milestone Connector Line - Removed duplicate, see line 307 for main definition */
 
 .milestone-connector.top {
     bottom: 6px;
@@ -514,7 +506,7 @@ html, body {
     position: absolute;
     left: 50%;
     transform: translateX(-50%);
-    font-size: 0.65rem;
+    font-size: 0.58rem;  /* Reduced from 0.65rem by ~10% */
     color: rgba(100, 200, 255, 0.75);
     font-weight: 400;
     letter-spacing: 0.05em;
@@ -535,8 +527,8 @@ html, body {
 
 /* Hover Effects - Expand horizontally */
 .timeline-milestone:hover .milestone-dot {
-    width: 180px;
-    padding: 0 15px;
+    width: 162px;  /* Reduced from 180px by 10% */
+    padding: 0 13px;  /* Reduced from 15px */
     background: linear-gradient(135deg, rgba(100, 200, 255, 0.3), rgba(0, 200, 81, 0.3));
     border-color: rgba(255, 215, 0, 0.6);
     box-shadow: 0 4px 20px rgba(100, 200, 255, 0.4),
@@ -547,7 +539,7 @@ html, body {
 
 /* Expand text on hover */
 .timeline-milestone:hover .milestone-icon-small {
-    font-size: 12px;
+    font-size: 11px;  /* Reduced from 12px */
     font-weight: 800;
     letter-spacing: 1px;
     transform: scale(1.3);
@@ -633,7 +625,7 @@ html, body {
     perspective: 1500px;  /* LOCKED */
     transform-style: preserve-3d;  /* Enable 3D context */
     overflow: visible;
-    z-index: 20;  /* Above owl (15) to allow front cards to pass over */
+    z-index: 5;  /* Below timeline (10) but above background */
 }
 
 /* Landing Page Owl - Centered in container at Z=0 */
@@ -1505,6 +1497,38 @@ body {
     border-color: #f9a825;
 }
 
+/* Special Google Sponsor Modal Styling */
+.modal[data-sponsor="google"] .modal-dialog {
+    background: linear-gradient(135deg,
+        rgba(66, 133, 244, 0.05),
+        rgba(13, 27, 42, 0.98),
+        rgba(27, 38, 59, 0.98));
+    border: 1px solid rgba(66, 133, 244, 0.3);
+}
+
+.modal[data-sponsor="google"] .modal-icon-container {
+    background: linear-gradient(135deg,
+        rgba(66, 133, 244, 0.2),
+        rgba(52, 168, 83, 0.1),
+        rgba(251, 188, 5, 0.1),
+        rgba(234, 67, 53, 0.1));
+    border-color: rgba(66, 133, 244, 0.5);
+}
+
+.modal[data-sponsor="google"] .modal-badges span {
+    background: linear-gradient(135deg, rgba(66, 133, 244, 0.1), rgba(52, 168, 83, 0.05));
+    border-color: rgba(66, 133, 244, 0.4);
+    color: rgba(66, 133, 244, 0.95);
+}
+
+.modal[data-sponsor="google"] .modal-title-section h2 {
+    background: linear-gradient(90deg, #4285F4, #34A853, #FBBC05, #EA4335);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    text-shadow: none;
+}
+
 /* Modal Styles */
 .modal {
     display: none;
@@ -1527,13 +1551,16 @@ body {
 }
 
 .modal-dialog {
-    background: white;
+    background: linear-gradient(135deg, rgba(13, 27, 42, 0.98), rgba(27, 38, 59, 0.98));
+    backdrop-filter: blur(20px);
+    border: 1px solid rgba(100, 200, 255, 0.2);
     border-radius: 20px;
     max-width: 700px;
     width: 100%;
     max-height: 90vh;
     overflow-y: auto;
-    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5),
+                0 0 100px rgba(100, 200, 255, 0.1);
     animation: slideUp 0.3s ease;
 }
 
@@ -1553,7 +1580,8 @@ body {
     align-items: flex-start;
     gap: 10px;
     padding: 15px;
-    border-bottom: 1px solid var(--border-color);
+    border-bottom: 1px solid rgba(100, 200, 255, 0.2);
+    background: linear-gradient(135deg, rgba(100, 200, 255, 0.05), transparent);
     position: relative;
 }
 
@@ -1578,8 +1606,9 @@ body {
 
 .modal-title-section h2 {
     font-size: 1.75rem;
-    color: var(--text-dark);
+    color: rgba(255, 255, 255, 0.95);
     margin-bottom: 10px;
+    text-shadow: 0 2px 10px rgba(100, 200, 255, 0.3);
 }
 
 .modal-badges {
@@ -1592,6 +1621,9 @@ body {
     border-radius: 20px;
     font-size: 0.875rem;
     font-weight: 500;
+    background: rgba(100, 200, 255, 0.1);
+    border: 1px solid rgba(100, 200, 255, 0.3);
+    color: rgba(100, 200, 255, 0.9);
 }
 
 #modal-date-badge {
@@ -1624,6 +1656,7 @@ body {
 
 .modal-body {
     padding: 30px;
+    color: rgba(255, 255, 255, 0.9);
 }
 
 #modal-description {
@@ -2177,10 +2210,220 @@ body {
     line-height: 1.8;
 }
 
+/* ===== WISR AI MODAL STYLES ===== */
+.integration-section {
+    margin: 60px 0;
+}
+
+.integration-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 20px;
+    margin-top: 30px;
+}
+
+.integration-item {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    padding: 20px;
+    background: linear-gradient(135deg, rgba(100, 200, 255, 0.1), rgba(100, 200, 255, 0.05));
+    border: 1px solid rgba(100, 200, 255, 0.3);
+    border-radius: 15px;
+    transition: all 0.3s ease;
+}
+
+.integration-item:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 10px 30px rgba(100, 200, 255, 0.2);
+    border-color: rgba(100, 200, 255, 0.5);
+}
+
+.integration-icon {
+    font-size: 2rem;
+}
+
+.integration-item span:last-child {
+    font-size: 0.95rem;
+    color: rgba(255, 255, 255, 0.9);
+    font-weight: 600;
+}
+
+/* ===== TEAM MODAL STYLES ===== */
+.team-container {
+    padding: 40px 0;
+}
+
+.team-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+    gap: 40px;
+    margin-bottom: 60px;
+}
+
+.team-member {
+    background: linear-gradient(135deg, rgba(13, 27, 42, 0.8), rgba(27, 38, 59, 0.6));
+    border-radius: 20px;
+    padding: 30px;
+    border: 1px solid rgba(100, 200, 255, 0.2);
+    transition: all 0.3s ease;
+    position: relative;
+    overflow: hidden;
+}
+
+.team-member:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 20px 40px rgba(100, 200, 255, 0.2);
+    border-color: rgba(100, 200, 255, 0.4);
+}
+
+.member-image-container {
+    width: 150px;
+    height: 150px;
+    margin: 0 auto 25px;
+    position: relative;
+    border-radius: 50%;
+    overflow: hidden;
+    border: 3px solid rgba(100, 200, 255, 0.3);
+}
+
+.member-image-container img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.member-image-placeholder {
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(135deg, rgba(100, 200, 255, 0.2), rgba(100, 200, 255, 0.1));
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 3rem;
+    font-weight: 700;
+    color: rgba(100, 200, 255, 0.8);
+}
+
+.member-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: linear-gradient(180deg, transparent 60%, rgba(13, 27, 42, 0.8) 100%);
+    pointer-events: none;
+}
+
+.member-details {
+    text-align: center;
+}
+
+.member-details h3 {
+    font-size: 1.5rem;
+    margin-bottom: 10px;
+    color: rgba(255, 255, 255, 0.95);
+    text-shadow: 0 2px 10px rgba(100, 200, 255, 0.3);
+}
+
+.member-role {
+    font-size: 1.1rem;
+    color: rgba(100, 200, 255, 0.9);
+    margin-bottom: 20px;
+    font-weight: 600;
+}
+
+.member-bio {
+    font-size: 0.95rem;
+    line-height: 1.6;
+    color: rgba(255, 255, 255, 0.8);
+    margin-bottom: 20px;
+}
+
+.member-skills {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    justify-content: center;
+}
+
+.member-skills span {
+    padding: 5px 12px;
+    background: rgba(100, 200, 255, 0.1);
+    border: 1px solid rgba(100, 200, 255, 0.3);
+    border-radius: 15px;
+    font-size: 0.85rem;
+    color: rgba(100, 200, 255, 0.9);
+    transition: all 0.3s ease;
+}
+
+.member-skills span:hover {
+    background: rgba(100, 200, 255, 0.2);
+    border-color: rgba(100, 200, 255, 0.5);
+    transform: translateY(-2px);
+}
+
+.team-stats {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 30px;
+    padding: 40px;
+    background: linear-gradient(135deg, rgba(100, 200, 255, 0.05), transparent);
+    border-radius: 20px;
+    border: 1px solid rgba(100, 200, 255, 0.2);
+}
+
 /* ===== LICENSING MODAL STYLES ===== */
 .licensed-states-container {
     padding: 40px 0;
     margin-bottom: 60px;
+}
+
+/* Licensing Map Container */
+.licensing-map-container {
+    margin: 40px 0;
+    padding: 30px;
+    background: linear-gradient(135deg, rgba(13, 27, 42, 0.6), rgba(27, 38, 59, 0.4));
+    border-radius: 20px;
+    border: 1px solid rgba(100, 200, 255, 0.2);
+    position: relative;
+}
+
+.licensing-map-image {
+    width: 100%;
+    height: auto;
+    border-radius: 15px;
+    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.3);
+}
+
+.map-stats {
+    display: flex;
+    gap: 40px;
+    justify-content: center;
+    margin-top: 30px;
+    padding-top: 30px;
+    border-top: 1px solid rgba(100, 200, 255, 0.2);
+}
+
+.map-stat {
+    text-align: center;
+}
+
+.map-stat .stat-number {
+    display: block;
+    font-size: 2.5rem;
+    font-weight: 700;
+    color: rgba(100, 200, 255, 0.9);
+    text-shadow: 0 0 20px rgba(100, 200, 255, 0.5);
+    margin-bottom: 5px;
+}
+
+.map-stat .stat-label {
+    display: block;
+    font-size: 0.9rem;
+    color: rgba(255, 255, 255, 0.7);
+    text-transform: uppercase;
+    letter-spacing: 1px;
 }
 
 .states-grid {
@@ -2660,4 +2903,131 @@ body {
         align-items: center;
         text-align: center;
     }
+}
+
+/* Integration Modal Styles */
+.integration-grid {
+    display: flex;
+    flex-direction: column;
+    gap: 60px;
+    margin-top: 60px;
+    padding: 0 40px;
+}
+
+.integration-category {
+    background: rgba(255, 255, 255, 0.02);
+    border-radius: 20px;
+    padding: 40px;
+    backdrop-filter: blur(10px);
+}
+
+.category-title {
+    font-size: 1.8rem;
+    color: #64c8ff;
+    margin-bottom: 30px;
+    text-align: center;
+    font-weight: 600;
+}
+
+.integration-items {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+    gap: 30px;
+}
+
+.integration-card {
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid rgba(100, 200, 255, 0.2);
+    border-radius: 15px;
+    padding: 30px;
+    transition: all 0.3s ease;
+}
+
+.integration-card:hover {
+    background: rgba(100, 200, 255, 0.1);
+    border-color: rgba(100, 200, 255, 0.4);
+    transform: translateY(-5px);
+}
+
+.integration-logo {
+    font-size: 2rem;
+    margin-bottom: 15px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 60px;
+    height: 60px;
+    background: rgba(100, 200, 255, 0.1);
+    border-radius: 12px;
+}
+
+.integration-logo svg {
+    width: 32px;
+    height: 32px;
+}
+
+.integration-card h4 {
+    font-size: 1.4rem;
+    color: white;
+    margin-bottom: 12px;
+    font-weight: 600;
+}
+
+.integration-card p {
+    color: rgba(255, 255, 255, 0.7);
+    line-height: 1.6;
+    margin-bottom: 20px;
+}
+
+.integration-features {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+}
+
+.integration-features span {
+    background: rgba(100, 200, 255, 0.15);
+    color: #64c8ff;
+    padding: 6px 12px;
+    border-radius: 20px;
+    font-size: 0.85rem;
+    border: 1px solid rgba(100, 200, 255, 0.3);
+}
+
+.benefits-section {
+    margin-top: 80px;
+    padding: 60px 40px;
+    background: linear-gradient(135deg, rgba(100, 200, 255, 0.05), rgba(0, 0, 0, 0.2));
+    border-radius: 30px;
+}
+
+.benefits-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 30px;
+    margin-top: 40px;
+}
+
+.benefit-card {
+    text-align: center;
+    padding: 30px 20px;
+    background: rgba(255, 255, 255, 0.03);
+    border-radius: 15px;
+    border: 1px solid rgba(100, 200, 255, 0.2);
+}
+
+.benefit-icon {
+    font-size: 2.5rem;
+    margin-bottom: 15px;
+}
+
+.benefit-card h4 {
+    color: #64c8ff;
+    font-size: 1.2rem;
+    margin-bottom: 10px;
+}
+
+.benefit-card p {
+    color: rgba(255, 255, 255, 0.7);
+    line-height: 1.5;
 }

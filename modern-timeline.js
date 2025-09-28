@@ -322,16 +322,19 @@ function setupTimelineClicks() {
             // Map timeline milestones to carousel cards (now with inception as first card)
             const cardMapping = {
                 'inception': { cardIndex: 0, dataId: 'inception' },    // Inception/About Us card
-                'location': { cardIndex: 1, dataId: 'location' },      // Headquarters card
+                'headquarters': { cardIndex: 1, dataId: 'location' },  // Headquarters card
+                'location': { cardIndex: 1, dataId: 'location' },      // Headquarters card (alias)
                 'licensing': { cardIndex: 2, dataId: 'licensing' },    // Licensing card (index 2)
                 'dre': { cardIndex: 2, dataId: 'licensing' },          // Maps to Licensing card
-                'staff': { cardIndex: 1, dataId: 'location' },         // Headquarters card
+                'wisr': { cardIndex: 7, dataId: 'wisr' },               // WISR AI card (index 7)
+                'integrations': { cardIndex: 8, dataId: 'integrations' }, // Integrations card (index 8)
+                'staff': { cardIndex: 4, dataId: 'team' },              // The Team card
                 'los': { cardIndex: 3, dataId: 'encompass' },          // Encompass card (index 3)
                 'website': { cardIndex: 6, dataId: 'website' },        // Mission CRM card (index 6)
                 'optimal': { cardIndex: 3, dataId: 'optimalblue' },    // Encompass card
-                'analytics': { cardIndex: 7, dataId: 'wisr' },         // AI Innovation card (index 7)
-                'google-sponsor': { cardIndex: 8, dataId: 'google-sponsor' }, // Google Sponsorship card (index 8)
-                'nationwide': { cardIndex: 10, dataId: 'nationwide' }  // Nationwide Expansion card (index 10)
+                'analytics': { cardIndex: 10, dataId: 'analytics' },     // Analytics card (index 10)
+                'google-sponsor': { cardIndex: 9, dataId: 'google-sponsor' }, // Google Sponsorship card (index 9)
+                'nationwide': { cardIndex: 11, dataId: 'nationwide' }  // Nationwide Expansion card (index 11)
             };
 
             const mapping = cardMapping[milestoneId] || cardMapping[milestoneIndex];
@@ -413,6 +416,16 @@ function openModal(id) {
         return;
     }
 
+    // Get modal element once at the beginning
+    const modal = document.getElementById('timeline-modal');
+
+    // Add special styling for Google sponsor modal
+    if (id === 'google-sponsor') {
+        modal.setAttribute('data-sponsor', 'google');
+    } else {
+        modal.removeAttribute('data-sponsor');
+    }
+
     // Check if this is the licensing milestone
     if (id === 'licensing' || id === 'dre') {
         // Open the fullscreen licensing modal instead
@@ -421,13 +434,33 @@ function openModal(id) {
     }
 
     // Check if this is the headquarters/location milestone
-    if (id === 'location' || id === 'staff') {
+    if (id === 'headquarters' || id === 'location') {
         // Open the fullscreen headquarters modal instead
         openHeadquartersModal();
         return;
     }
 
-    const modal = document.getElementById('timeline-modal');
+    // Check if this is the team/staff milestone
+    if (id === 'staff' || id === 'team') {
+        // Open the fullscreen team modal instead
+        openTeamModal();
+        return;
+    }
+
+    // Check if this is the WISR AI milestone
+    if (id === 'wisr') {
+        // Open the fullscreen WISR modal instead
+        openWisrModal();
+        return;
+    }
+
+    // Check if this is the Integrations milestone
+    if (id === 'integrations') {
+        // Open the fullscreen Integrations modal instead
+        openIntegrationsModal();
+        return;
+    }
+
     const standardContent = document.getElementById('standard-content');
     const locationContent = document.getElementById('location-content');
 
@@ -672,6 +705,84 @@ function closeLicensingModal() {
     });
 }
 
+// Open WISR Modal
+function openWisrModal() {
+    const modal = document.getElementById('wisr-modal');
+    modal.classList.add('active');
+    document.body.style.overflow = 'hidden';
+
+    // Remove glow from cards after modal opens
+    setTimeout(() => {
+        document.querySelectorAll('.selected-glow').forEach(card => {
+            card.classList.remove('selected-glow');
+        });
+    }, 1000);
+}
+
+// Close WISR Modal
+function closeWisrModal() {
+    const modal = document.getElementById('wisr-modal');
+    modal.classList.remove('active');
+    document.body.style.overflow = 'auto';
+
+    // Remove any remaining glow effects
+    document.querySelectorAll('.selected-glow').forEach(card => {
+        card.classList.remove('selected-glow');
+    });
+}
+
+// Open Integrations Modal
+function openIntegrationsModal() {
+    const modal = document.getElementById('integrations-modal');
+    modal.classList.add('active');
+    document.body.style.overflow = 'hidden';
+
+    // Remove glow from cards after modal opens
+    setTimeout(() => {
+        document.querySelectorAll('.selected-glow').forEach(card => {
+            card.classList.remove('selected-glow');
+        });
+    }, 1000);
+}
+
+// Close Integrations Modal
+function closeIntegrationsModal() {
+    const modal = document.getElementById('integrations-modal');
+    modal.classList.remove('active');
+    document.body.style.overflow = 'auto';
+
+    // Remove any remaining glow effects
+    document.querySelectorAll('.selected-glow').forEach(card => {
+        card.classList.remove('selected-glow');
+    });
+}
+
+// Open Team Modal
+function openTeamModal() {
+    const modal = document.getElementById('team-modal');
+    modal.classList.add('active');
+    document.body.style.overflow = 'hidden';
+
+    // Remove glow from cards after modal opens
+    setTimeout(() => {
+        document.querySelectorAll('.selected-glow').forEach(card => {
+            card.classList.remove('selected-glow');
+        });
+    }, 1000);
+}
+
+// Close Team Modal
+function closeTeamModal() {
+    const modal = document.getElementById('team-modal');
+    modal.classList.remove('active');
+    document.body.style.overflow = 'auto';
+
+    // Remove any remaining glow effects
+    document.querySelectorAll('.selected-glow').forEach(card => {
+        card.classList.remove('selected-glow');
+    });
+}
+
 // Open Headquarters Modal
 function openHeadquartersModal() {
     const modal = document.getElementById('headquarters-modal');
@@ -776,6 +887,67 @@ function setupModalHandlers() {
         });
     }
 
+    // Also handle clicks outside team modal
+    const teamModal = document.getElementById('team-modal');
+    if (teamModal) {
+        teamModal.addEventListener('click', (e) => {
+            if (e.target === teamModal) {
+                closeTeamModal();
+            }
+        });
+    }
+
+    // Also handle clicks outside WISR modal
+    const wisrModal = document.getElementById('wisr-modal');
+    if (wisrModal) {
+        wisrModal.addEventListener('click', (e) => {
+            if (e.target === wisrModal) {
+                closeWisrModal();
+            }
+        });
+        // Add close button handler for WISR modal
+        const wisrCloseBtn = document.getElementById('wisr-modal-close');
+        if (wisrCloseBtn) {
+            wisrCloseBtn.addEventListener('click', closeWisrModal);
+        }
+    }
+
+    // Add close button handlers for other fullscreen modals
+    const inceptionCloseBtn = document.getElementById('inception-close');
+    if (inceptionCloseBtn) {
+        inceptionCloseBtn.addEventListener('click', closeInceptionModal);
+    }
+
+    const licensingCloseBtn = document.getElementById('licensing-modal-close');
+    if (licensingCloseBtn) {
+        licensingCloseBtn.addEventListener('click', closeLicensingModal);
+    }
+
+    const headquartersCloseBtn = document.getElementById('headquarters-modal-close');
+    if (headquartersCloseBtn) {
+        headquartersCloseBtn.addEventListener('click', closeHeadquartersModal);
+    }
+
+    const teamCloseBtn = document.getElementById('team-modal-close');
+    if (teamCloseBtn) {
+        teamCloseBtn.addEventListener('click', closeTeamModal);
+    }
+
+    // Add handlers for Integrations modal
+    const integrationsModal = document.getElementById('integrations-modal');
+    if (integrationsModal) {
+        integrationsModal.addEventListener('click', (e) => {
+            if (e.target === integrationsModal) {
+                closeIntegrationsModal();
+            }
+        });
+        // Add close button handler
+        const integrationsCloseBtn = document.getElementById('integrations-modal-close');
+        if (integrationsCloseBtn) {
+            integrationsCloseBtn.addEventListener('click', closeIntegrationsModal);
+        }
+    }
+
     // Escape key to close any active modal
     document.addEventListener('keydown', (e) => {
         if (e.key === 'Escape') {
@@ -790,6 +962,15 @@ function setupModalHandlers() {
             }
             if (headquartersModal && headquartersModal.classList.contains('active')) {
                 closeHeadquartersModal();
+            }
+            if (teamModal && teamModal.classList.contains('active')) {
+                closeTeamModal();
+            }
+            if (wisrModal && wisrModal.classList.contains('active')) {
+                closeWisrModal();
+            }
+            if (integrationsModal && integrationsModal.classList.contains('active')) {
+                closeIntegrationsModal();
             }
         }
     });

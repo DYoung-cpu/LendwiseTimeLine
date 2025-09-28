@@ -43,11 +43,24 @@
             <!-- Strategic Roadmap Timeline -->
             <div class="roadmap-container">
                 <div class="roadmap-header">
-                    <h2 class="roadmap-title">STRATEGIC ROADMAP</h2>
+                    <div class="lendwise-logo-text">
+                        <span class="lendwise-text">
+                            <span class="tall-letter">L</span>END<span class="tall-letter">W</span>ISE
+                        </span>
+                        <span class="mortgage-text">MORTGAGE</span>
+                    </div>
                     <p class="roadmap-subtitle">OUR JOURNEY TO EXCELLENCE</p>
                 </div>
 
                 <div class="roadmap-timeline">
+                    <!-- Timeline Navigation Arrows -->
+                    <button class="timeline-nav timeline-nav-left" id="timeline-left">
+                        <span>‹</span>
+                    </button>
+                    <button class="timeline-nav timeline-nav-right" id="timeline-right">
+                        <span>›</span>
+                    </button>
+
                     <!-- Timeline Line -->
                     <div class="timeline-line-container">
                         <div class="timeline-main-line"></div>
@@ -55,120 +68,94 @@
                         <!-- Timeline Dots and Milestones -->
                         <div class="timeline-milestones">
 
-                            <!-- Q2 2024 -->
-                            <div class="timeline-milestone completed" data-index="0" style="left: 5%;">
-                                <div class="milestone-connector top"></div>
-                                <div class="milestone-dot"></div>
-                                <div class="milestone-content top">
-                                    <div class="milestone-icon">📜</div>
-                                    <div class="milestone-label">DRE Approval</div>
-                                    <div class="milestone-date">May 7, 2024</div>
+                            <!-- Inception - March 2025 -->
+                            <div class="timeline-milestone completed" data-index="0" data-milestone="inception" style="left: 5%;">
+                                <div class="milestone-connector bottom"></div>
+                                <div class="milestone-dot">
+                                    <span class="milestone-icon-small">Inception</span>
                                 </div>
-                                <div class="milestone-quarter bottom">Q2 2024</div>
+                                <div class="milestone-quarter">Mar 2025</div>
+                            </div>
+
+                            <!-- Google Sponsorship - April 2025 -->
+                            <div class="timeline-milestone pending" data-index="1" data-milestone="google-sponsor" style="left: 12%;">
+                                <div class="milestone-connector top"></div>
+                                <div class="milestone-dot">
+                                    <span class="milestone-icon-small">Google</span>
+                                </div>
+                                <div class="milestone-quarter">Apr 2025</div>
+                            </div>
+
+                            <!-- Licensing - May 2025 -->
+                            <div class="timeline-milestone completed" data-index="2" data-milestone="licensing" style="left: 19%;">
+                                <div class="milestone-connector top"></div>
+                                <div class="milestone-dot">
+                                    <span class="milestone-icon-small">Licensing</span>
+                                </div>
+                                <div class="milestone-quarter">May 2025</div>
                             </div>
 
                             <!-- Q3 2024 - Location -->
-                            <div class="timeline-milestone completed" data-index="1" style="left: 20%;">
+                            <div class="timeline-milestone completed" data-index="3" data-milestone="headquarters" style="left: 25%;">
                                 <div class="milestone-connector bottom"></div>
-                                <div class="milestone-dot"></div>
-                                <div class="milestone-content bottom">
-                                    <div class="milestone-icon">🏢</div>
-                                    <div class="milestone-label">Location Found</div>
-                                    <div class="milestone-date">Aug 1, 2024</div>
+                                <div class="milestone-dot">
+                                    <span class="milestone-icon-small">Headquarters</span>
                                 </div>
-                                <div class="milestone-quarter top">Q3 2024</div>
+                                <div class="milestone-quarter">Jun 2025</div>
                             </div>
 
-                            <!-- Q3 2024 - Office Remodel -->
-                            <div class="timeline-milestone completed" data-index="2" style="left: 30%;">
+                            <!-- Staff Hires - July 2024 -->
+                            <div class="timeline-milestone completed" data-index="4" data-milestone="staff" style="left: 35%;">
                                 <div class="milestone-connector top"></div>
-                                <div class="milestone-dot"></div>
-                                <div class="milestone-content top">
-                                    <div class="milestone-icon">🔨</div>
-                                    <div class="milestone-label">Office Remodel</div>
-                                    <div class="milestone-date">Sep 1, 2024</div>
+                                <div class="milestone-dot">
+                                    <span class="milestone-icon-small">Staffing</span>
                                 </div>
+                                <div class="milestone-quarter">Jul 2025</div>
                             </div>
 
-                            <!-- Q4 2024 - Staff Hires -->
-                            <div class="timeline-milestone completed" data-index="3" style="left: 40%;">
+                            <!-- LOS Integration - August 2024 -->
+                            <div class="timeline-milestone completed" data-index="5" data-milestone="los" style="left: 43%;">
                                 <div class="milestone-connector bottom"></div>
-                                <div class="milestone-dot"></div>
-                                <div class="milestone-content bottom">
-                                    <div class="milestone-icon">👥</div>
-                                    <div class="milestone-label">Staff Hires</div>
-                                    <div class="milestone-date">Oct 1, 2024</div>
+                                <div class="milestone-dot">
+                                    <span class="milestone-icon-small">LOS</span>
                                 </div>
-                                <div class="milestone-quarter top">Q4 2024</div>
+                                <div class="milestone-quarter">Aug 2025</div>
                             </div>
 
-                            <!-- Q4 2024 - LOS Integration -->
-                            <div class="timeline-milestone completed" data-index="4" style="left: 48%;">
+                            <!-- Website - September 2024 -->
+                            <div class="timeline-milestone completed" data-index="6" data-milestone="website" style="left: 50%;">
                                 <div class="milestone-connector top"></div>
-                                <div class="milestone-dot"></div>
-                                <div class="milestone-content top">
-                                    <div class="milestone-icon">💻</div>
-                                    <div class="milestone-label">LOS Integration</div>
-                                    <div class="milestone-date">Nov 15, 2024</div>
+                                <div class="milestone-dot">
+                                    <span class="milestone-icon-small">Website</span>
                                 </div>
+                                <div class="milestone-quarter">Sep 2025</div>
                             </div>
 
-                            <!-- Q4 2024 - Website -->
-                            <div class="timeline-milestone completed" data-index="5" style="left: 55%;">
+                            <!-- Optimal Blue - October 2024 -->
+                            <div class="timeline-milestone completed" data-index="7" data-milestone="optimal" style="left: 57%;">
                                 <div class="milestone-connector bottom"></div>
-                                <div class="milestone-dot"></div>
-                                <div class="milestone-content bottom">
-                                    <div class="milestone-icon">🌐</div>
-                                    <div class="milestone-label">Website Creation</div>
-                                    <div class="milestone-date">Dec 1, 2024</div>
+                                <div class="milestone-dot">
+                                    <span class="milestone-icon-small">Optimal Blue</span>
                                 </div>
+                                <div class="milestone-quarter">Oct 2025</div>
                             </div>
 
-                            <!-- Q1 2025 - Other Licenses -->
-                            <div class="timeline-milestone completed" data-index="6" style="left: 65%;">
+                            <!-- Google Analytics - November 2024 -->
+                            <div class="timeline-milestone completed" data-index="8" data-milestone="analytics" style="left: 65%;">
                                 <div class="milestone-connector top"></div>
-                                <div class="milestone-dot"></div>
-                                <div class="milestone-content top">
-                                    <div class="milestone-icon">✅</div>
-                                    <div class="milestone-label">Other Licenses</div>
-                                    <div class="milestone-date">Mar 4, 2025</div>
+                                <div class="milestone-dot">
+                                    <span class="milestone-icon-small">Analytics</span>
                                 </div>
-                                <div class="milestone-quarter bottom">Q1 2025</div>
+                                <div class="milestone-quarter">Nov 2025</div>
                             </div>
 
-                            <!-- Q2 2025 - Optimal Blue (Pending) -->
-                            <div class="timeline-milestone pending" data-index="7" style="left: 75%;">
-                                <div class="milestone-connector bottom"></div>
-                                <div class="milestone-dot"></div>
-                                <div class="milestone-content bottom">
-                                    <div class="milestone-icon">📊</div>
-                                    <div class="milestone-label">Optimal Blue</div>
-                                    <div class="milestone-date">Apr 2025</div>
-                                </div>
-                                <div class="milestone-quarter top">Q2 2025</div>
-                            </div>
-
-                            <!-- Q2 2025 - Google Analytics (Pending) -->
-                            <div class="timeline-milestone pending" data-index="8" style="left: 85%;">
+                            <!-- Nationwide Goal - 2025 Target -->
+                            <div class="timeline-milestone pending" data-index="9" data-milestone="nationwide" style="left: 90%;">
                                 <div class="milestone-connector top"></div>
-                                <div class="milestone-dot"></div>
-                                <div class="milestone-content top">
-                                    <div class="milestone-icon">📈</div>
-                                    <div class="milestone-label">Google Analytics</div>
-                                    <div class="milestone-date">May 2025</div>
+                                <div class="milestone-dot">
+                                    <span class="milestone-icon-small">Nationwide</span>
                                 </div>
-                            </div>
-
-                            <!-- Q3 2025 - Future Goals (Pending) -->
-                            <div class="timeline-milestone pending" data-index="9" style="left: 95%;">
-                                <div class="milestone-connector bottom"></div>
-                                <div class="milestone-dot"></div>
-                                <div class="milestone-content bottom">
-                                    <div class="milestone-icon">🎯</div>
-                                    <div class="milestone-label">Nationwide Goal</div>
-                                    <div class="milestone-date">Q3 2025</div>
-                                </div>
-                                <div class="milestone-quarter top">Q3 2025</div>
+                                <div class="milestone-quarter">Dec 2025</div>
                             </div>
 
                         </div>
@@ -178,20 +165,31 @@
 
             <!-- 3D Circular Gallery Container -->
             <div class="circular-gallery-container">
-                <!-- Centered Owl (smaller) -->
-                <div class="gallery-center">
-                    <div class="wisr-gallery-glow"></div>
-                    <div class="wisr-gallery-video">
+                <!-- Landing Page Owl - Centered in container -->
+                <div class="landing-owl" id="landingOwl">
+                    <div class="wisr-glow"></div>
+                    <div class="wisr-video-circle">
                         <video autoplay muted loop playsinline>
                             <source src="wisr-owl.mp4" type="video/mp4" />
                         </video>
+                        <div class="video-mask-overlay"></div>
                     </div>
                 </div>
 
                 <!-- 3D Gallery Track -->
                 <div class="gallery-track" id="galleryTrack">
                     <!-- Gallery Cards -->
-                    <div class="gallery-card has-image" data-category="milestone" data-index="0" style="background-image: url('RI-HQ_21800Oxnard.webp');">
+                    <!-- Inception Card -->
+                    <div class="gallery-card" data-category="foundation" data-index="0" data-id="inception">
+                        <div class="card-content">
+                            <div class="card-icon">🚀</div>
+                            <h3>Our Story</h3>
+                            <p class="card-date">March 2025</p>
+                            <p class="card-description">Building the Future</p>
+                        </div>
+                    </div>
+
+                    <div class="gallery-card has-image" data-category="milestone" data-index="1" data-id="location" style="background-image: url('RI-HQ_21800Oxnard.webp');">
                         <div class="card-content">
                             <h3>Headquarters</h3>
                             <p class="card-date">Woodland Hills, CA</p>
@@ -199,119 +197,663 @@
                         </div>
                     </div>
 
-                    <div class="gallery-card" data-category="licensing" data-index="1">
+                    <div class="gallery-card" data-category="licensing" data-index="2" data-id="licensing">
                         <div class="card-content">
                             <div class="card-icon">📜</div>
-                            <h3>NMLS</h3>
-                            <p class="card-date">Sep 2024</p>
-                            <p class="card-description">Nationwide licensing</p>
+                            <h3>Licensing</h3>
+                            <p class="card-date">May 2024</p>
+                            <p class="card-description">Regulatory Compliance</p>
                         </div>
                     </div>
 
-                    <div class="gallery-card" data-category="licensing" data-index="2">
+                    <div class="gallery-card" data-category="product" data-index="3">
                         <div class="card-content">
-                            <div class="card-icon">🏛️</div>
-                            <h3>DRE License</h3>
-                            <p class="card-date">Oct 2024</p>
-                            <p class="card-description">California approved</p>
-                        </div>
-                    </div>
-
-                    <div class="gallery-card" data-category="licensing" data-index="3">
-                        <div class="card-content">
-                            <div class="card-icon">✅</div>
-                            <h3>DFPI License</h3>
-                            <p class="card-date">Nov 2024</p>
-                            <p class="card-description">Consumer lending</p>
+                            <div class="card-icon">💻</div>
+                            <h3>Encompass</h3>
+                            <p class="card-date">Aug 2024</p>
+                            <p class="card-description">LOS integrated</p>
                         </div>
                     </div>
 
                     <div class="gallery-card" data-category="product" data-index="4">
                         <div class="card-content">
-                            <div class="card-icon">💻</div>
-                            <h3>Encompass</h3>
-                            <p class="card-date">Dec 2024</p>
-                            <p class="card-description">LOS integrated</p>
-                        </div>
-                    </div>
-
-                    <div class="gallery-card" data-category="product" data-index="5">
-                        <div class="card-content">
                             <div class="card-icon">🚀</div>
                             <h3>DSCR Tool</h3>
-                            <p class="card-date">Jan 2025</p>
+                            <p class="card-date">Sep 2024</p>
                             <p class="card-description">Auto qualification</p>
                         </div>
                     </div>
 
-                    <div class="gallery-card" data-category="expansion" data-index="6">
+                    <div class="gallery-card" data-category="expansion" data-index="5">
                         <div class="card-content">
                             <div class="card-icon">🗺️</div>
                             <h3>Multi-State</h3>
-                            <p class="card-date">Feb 2025</p>
+                            <p class="card-date">Oct 2024</p>
                             <p class="card-description">7 states licensed</p>
                         </div>
                     </div>
 
-                    <div class="gallery-card" data-category="product" data-index="7">
+                    <div class="gallery-card" data-category="product" data-index="6">
                         <div class="card-content">
                             <div class="card-icon">📊</div>
                             <h3>Mission CRM</h3>
-                            <p class="card-date">Mar 2025</p>
+                            <p class="card-date">Oct 2024</p>
                             <p class="card-description">AI-powered CRM</p>
                         </div>
                     </div>
 
-                    <div class="gallery-card" data-category="innovation" data-index="8">
+                    <div class="gallery-card" data-category="innovation" data-index="7">
                         <div class="card-content">
                             <div class="card-icon">🤖</div>
                             <h3>WISR AI</h3>
-                            <p class="card-date">Apr 2025</p>
+                            <p class="card-date">Nov 2024</p>
                             <p class="card-description">AI assistant</p>
                         </div>
                     </div>
 
-                    <div class="gallery-card" data-category="licensing" data-index="9">
+                    <div class="gallery-card google-card" data-category="partnership" data-index="8" data-id="google-sponsor">
                         <div class="card-content">
-                            <div class="card-icon">🏦</div>
-                            <h3>FHA/VA Approval</h3>
-                            <p class="card-date">Jun 2025</p>
-                            <p class="card-description">Gov lending</p>
+                            <div class="card-icon google-logo">
+                                <svg viewBox="0 0 24 24" width="48" height="48">
+                                    <path d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z" fill="#4285F4"/>
+                                    <path d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z" fill="#34A853"/>
+                                    <path d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z" fill="#FBBC05"/>
+                                    <path d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z" fill="#EA4335"/>
+                                </svg>
+                            </div>
+                            <h3>Google Analytics</h3>
+                            <p class="card-date">Apr 2025</p>
+                            <p class="card-description">Official Sponsorship</p>
                         </div>
                     </div>
 
-                    <div class="gallery-card" data-category="innovation" data-index="10">
+                    <div class="gallery-card" data-category="innovation" data-index="9">
                         <div class="card-content">
                             <div class="card-icon">🧠</div>
                             <h3>AI Underwriting</h3>
-                            <p class="card-date">Sep 2025</p>
+                            <p class="card-date">Coming 2025</p>
                             <p class="card-description">Auto decisions</p>
                         </div>
                     </div>
 
-                    <div class="gallery-card" data-category="expansion" data-index="11">
+                    <div class="gallery-card" data-category="expansion" data-index="10">
                         <div class="card-content">
                             <div class="card-icon">🎯</div>
                             <h3>25 States</h3>
-                            <p class="card-date">Dec 2025</p>
+                            <p class="card-date">Target 2025</p>
                             <p class="card-description">Nationwide goal</p>
                         </div>
                     </div>
                 </div><!-- gallery-track -->
             </div><!-- circular-gallery-container -->
+
         </div><!-- integrated-content -->
     </section>
 
     <!-- Detail Modal -->
     <div id="timeline-modal" class="modal">
-        <button class="modal-close">&times;</button>
+        <div class="modal-dialog">
+            <div class="modal-header">
+                <div class="modal-icon-container">
+                    <span class="modal-icon"></span>
+                </div>
+                <div class="modal-title-section">
+                    <h2 id="modal-title"></h2>
+                    <div class="modal-badges">
+                        <span id="modal-date-badge"></span>
+                        <span id="modal-category-badge"></span>
+                    </div>
+                </div>
+                <button class="modal-close">&times;</button>
+            </div>
+            <div class="modal-body">
+                <!-- Standard content for non-location milestones -->
+                <div id="standard-content">
+                    <p id="modal-description"></p>
+                    <div id="modal-details"></div>
+                </div>
+
+                <!-- Enhanced content for location milestone -->
+                <div id="location-content" style="display: none;">
+                    <!-- Image Gallery Section -->
+                    <div class="location-gallery">
+                        <div class="gallery-main">
+                            <img src="" id="main-image" alt="Office view" />
+                            <div class="image-caption">Modern Office Exterior</div>
+                        </div>
+                        <div class="gallery-thumbs">
+                            <!-- Thumbnails will be added dynamically -->
+                        </div>
+                    </div>
+
+                    <!-- Info Cards Grid -->
+                    <div class="location-grid">
+                        <div class="info-card">
+                            <h3>📍 Location & Address</h3>
+                            <p class="address"></p>
+                            <ul class="location-details"></ul>
+                        </div>
+
+                        <div class="info-card">
+                            <h3>🏢 Space Details</h3>
+                            <ul class="space-list"></ul>
+                        </div>
+
+                        <div class="info-card full-width">
+                            <h3>✨ Why We Chose This Location</h3>
+                            <ul class="benefits-list"></ul>
+                        </div>
+
+                        <div class="info-card">
+                            <h3>🎯 Building Amenities</h3>
+                            <ul class="amenities-list"></ul>
+                        </div>
+
+                        <div class="info-card">
+                            <h3>📊 Key Metrics</h3>
+                            <ul class="metrics-list"></ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
 
     </div> <!-- End of main-content -->
 
+    <!-- Fullscreen Headquarters Modal -->
+    <div id="headquarters-modal" class="fullscreen-modal">
+        <!-- Close button -->
+        <button class="modal-close-btn" onclick="closeHeadquartersModal()">×</button>
+
+        <!-- Modal Content Container -->
+        <div class="inception-modal-content">
+            <!-- Hero Section -->
+            <div class="inception-hero">
+                <h1 class="hero-title">Our Headquarters</h1>
+                <p class="hero-tagline">Woodland Hills · California · State-of-the-Art Facility</p>
+            </div>
+
+            <!-- Office Gallery Section -->
+            <div class="headquarters-gallery-container">
+                <h2 class="section-title">Office Gallery</h2>
+                <div class="hq-gallery-grid">
+                    <div class="hq-main-image">
+                        <img id="hq-main-img" src="RI-HQ_21800Oxnard.webp" alt="LendWise Headquarters" />
+                        <div class="image-overlay">
+                            <h3 id="hq-image-title">LendWise Headquarters - Main Building</h3>
+                            <p>21800 Oxnard Street, Woodland Hills, CA 91367</p>
+                        </div>
+                    </div>
+                    <div class="hq-gallery-thumbs">
+                        <div class="thumb-item active" onclick="changeHQImage('RI-HQ_21800Oxnard.webp', 'Main Building', this)">
+                            <img src="RI-HQ_21800Oxnard.webp" alt="Main Building" />
+                            <span>Main Building</span>
+                        </div>
+                        <div class="thumb-item" onclick="changeHQImage('hq-exterior-1.jpg', 'North Entrance', this)">
+                            <img src="hq-exterior-1.jpg" alt="North Entrance" />
+                            <span>North View</span>
+                        </div>
+                        <div class="thumb-item" onclick="changeHQImage('hq-exterior-2.jpg', 'East Wing', this)">
+                            <img src="hq-exterior-2.jpg" alt="East Wing" />
+                            <span>East Wing</span>
+                        </div>
+                        <div class="thumb-item" onclick="changeHQImage('hq-exterior-3.jpg', 'Parking Facility', this)">
+                            <img src="hq-exterior-3.jpg" alt="Parking" />
+                            <span>Parking Area</span>
+                        </div>
+                        <div class="thumb-item">
+                            <div class="placeholder-thumb">
+                                <span class="thumb-icon">🏢</span>
+                                <span>Lobby</span>
+                            </div>
+                        </div>
+                        <div class="thumb-item">
+                            <div class="placeholder-thumb">
+                                <span class="thumb-icon">💼</span>
+                                <span>Workspace</span>
+                            </div>
+                        </div>
+                        <div class="thumb-item">
+                            <div class="placeholder-thumb">
+                                <span class="thumb-icon">🤝</span>
+                                <span>Conference</span>
+                            </div>
+                        </div>
+                        <div class="thumb-item">
+                            <div class="placeholder-thumb">
+                                <span class="thumb-icon">☕</span>
+                                <span>Break Room</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Facility Details Section -->
+            <div class="headquarters-details">
+                <h2 class="section-title">Facility Features</h2>
+                <div class="features-grid">
+                    <div class="feature-card">
+                        <div class="feature-icon">📍</div>
+                        <h3>Prime Location</h3>
+                        <ul>
+                            <li>Heart of Woodland Hills</li>
+                            <li>Easy freeway access (101/405)</li>
+                            <li>Ample parking facilities</li>
+                            <li>Near public transportation</li>
+                        </ul>
+                    </div>
+                    <div class="feature-card">
+                        <div class="feature-icon">🏢</div>
+                        <h3>Modern Workspace</h3>
+                        <ul>
+                            <li>15,000 sq ft office space</li>
+                            <li>Open floor plan design</li>
+                            <li>Natural lighting throughout</li>
+                            <li>Ergonomic workstations</li>
+                        </ul>
+                    </div>
+                    <div class="feature-card">
+                        <div class="feature-icon">💡</div>
+                        <h3>Technology</h3>
+                        <ul>
+                            <li>High-speed fiber internet</li>
+                            <li>Video conference rooms</li>
+                            <li>Smart building systems</li>
+                            <li>Secure server rooms</li>
+                        </ul>
+                    </div>
+                    <div class="feature-card">
+                        <div class="feature-icon">🌿</div>
+                        <h3>Amenities</h3>
+                        <ul>
+                            <li>Full kitchen & cafe</li>
+                            <li>Wellness/quiet rooms</li>
+                            <li>Game & recreation area</li>
+                            <li>Outdoor patio space</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Building Info Section -->
+            <div class="building-info">
+                <h2 class="section-title">Building Information</h2>
+                <div class="info-stats">
+                    <div class="stat-box">
+                        <div class="stat-value">2024</div>
+                        <div class="stat-label">Year Established</div>
+                    </div>
+                    <div class="stat-box">
+                        <div class="stat-value">15,000</div>
+                        <div class="stat-label">Square Feet</div>
+                    </div>
+                    <div class="stat-box">
+                        <div class="stat-value">150+</div>
+                        <div class="stat-label">Employee Capacity</div>
+                    </div>
+                    <div class="stat-box">
+                        <div class="stat-value">24/7</div>
+                        <div class="stat-label">Security Access</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Contact Section -->
+            <div class="headquarters-contact">
+                <h2 class="section-title">Visit Us</h2>
+                <div class="contact-info">
+                    <div class="address-block">
+                        <h3>📍 Address</h3>
+                        <p>21800 Oxnard Street<br>
+                        Suite 200<br>
+                        Woodland Hills, CA 91367</p>
+                    </div>
+                    <div class="hours-block">
+                        <h3>🕐 Office Hours</h3>
+                        <p>Monday - Friday: 9:00 AM - 6:00 PM<br>
+                        Saturday: By Appointment<br>
+                        Sunday: Closed</p>
+                    </div>
+                    <div class="contact-block">
+                        <h3>📞 Contact</h3>
+                        <p>Main: (818) 555-0100<br>
+                        Email: info@lendwisemtg.com<br>
+                        Fax: (818) 555-0101</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Fullscreen Licensing Modal -->
+    <div id="licensing-modal" class="fullscreen-modal">
+        <!-- Close button -->
+        <button class="modal-close-btn" onclick="closeLicensingModal()">×</button>
+
+        <!-- Modal Content Container -->
+        <div class="inception-modal-content">
+            <!-- Hero Section -->
+            <div class="inception-hero">
+                <h1 class="hero-title">Our Licensing & Coverage</h1>
+                <p class="hero-tagline">Expanding Nationwide · State by State</p>
+            </div>
+
+            <!-- Licensed States Section -->
+            <div class="licensed-states-container">
+                <h2 class="section-title">Currently Licensed States</h2>
+                <div class="states-grid">
+                    <div class="state-card licensed-state">
+                        <div class="state-icon-wrapper">
+                            <span class="state-abbreviation">CA</span>
+                        </div>
+                        <h3>California</h3>
+                        <div class="license-details">
+                            <p class="license-number">NMLS #2353453</p>
+                            <p class="license-type">DRE #02201234</p>
+                            <span class="status-badge active">Active</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Interactive Map Section -->
+            <div class="map-container">
+                <h2 class="section-title">Coverage Map</h2>
+                <div class="us-map-wrapper">
+                    <!-- Using an iframe with a clean interactive US map -->
+                    <div class="map-embed-container">
+                        <style>
+                            .us-states-svg {
+                                width: 100%;
+                                height: 500px;
+                                background: transparent;
+                            }
+                            .state {
+                                fill: #2a2a3e;
+                                stroke: #1a1a2e;
+                                stroke-width: 1;
+                                cursor: pointer;
+                                transition: all 0.3s ease;
+                            }
+                            .state:hover {
+                                fill: #3a3a4e;
+                                stroke: #4CAF50;
+                                stroke-width: 2;
+                            }
+                            .state.licensed {
+                                fill: #4CAF50;
+                                stroke: #2E7D32;
+                            }
+                            .state.licensed:hover {
+                                fill: #66BB6A;
+                            }
+                            .state-label {
+                                fill: white;
+                                font-size: 11px;
+                                font-weight: 600;
+                                pointer-events: none;
+                                text-anchor: middle;
+                                opacity: 0.8;
+                            }
+                        </style>
+
+                        <!-- Professional US States Map -->
+                        <svg class="us-states-svg" viewBox="0 0 950 500" xmlns="http://www.w3.org/2000/svg">
+                            <!-- West Coast States -->
+                            <g id="west-coast">
+                                <!-- California -->
+                                <path class="state licensed" d="M 84 175 L 80 195 L 78 215 L 76 235 L 74 255 L 72 275 L 73 295 L 75 315 L 80 335 L 88 345 L 96 350 L 104 345 L 110 335 L 115 320 L 118 300 L 120 280 L 118 260 L 115 240 L 110 220 L 105 200 L 98 185 L 90 175 Z" />
+                                <text x="95" y="265" class="state-label">CA</text>
+
+                                <!-- Oregon -->
+                                <path class="state" d="M 84 130 L 82 145 L 84 160 L 88 175 L 98 175 L 105 165 L 110 155 L 115 145 L 118 135 L 115 125 L 110 120 L 100 120 L 90 125 L 84 130 Z" />
+                                <text x="100" y="150" class="state-label">OR</text>
+
+                                <!-- Washington -->
+                                <path class="state" d="M 84 95 L 82 105 L 84 115 L 88 125 L 100 120 L 110 115 L 118 105 L 120 95 L 115 85 L 105 85 L 95 90 L 84 95 Z" />
+                                <text x="102" y="105" class="state-label">WA</text>
+
+                                <!-- Nevada -->
+                                <path class="state" d="M 115 240 L 118 260 L 120 280 L 118 300 L 115 320 L 145 315 L 155 305 L 160 285 L 158 265 L 155 245 L 150 235 L 140 235 L 125 238 L 115 240 Z" />
+                                <text x="138" y="275" class="state-label">NV</text>
+
+                                <!-- Arizona -->
+                                <path class="state" d="M 115 320 L 110 335 L 115 350 L 125 360 L 140 365 L 155 360 L 165 350 L 170 335 L 168 320 L 165 305 L 155 305 L 145 315 L 115 320 Z" />
+                                <text x="142" y="340" class="state-label">AZ</text>
+                            </g>
+
+                            <!-- Add state count display -->
+                            <g id="state-counter">
+                                <rect x="750" y="20" width="180" height="60" fill="rgba(76, 175, 80, 0.1)" stroke="#4CAF50" stroke-width="2" rx="8"/>
+                                <text x="840" y="45" font-size="24" fill="#4CAF50" text-anchor="middle" font-weight="bold">1 State</text>
+                                <text x="840" y="65" font-size="14" fill="#ffffff" text-anchor="middle">Licensed</text>
+                            </g>
+                        </svg>
+                    </div>
+
+                    <!-- Map Legend -->
+                    <div class="map-legend">
+                        <div class="legend-item">
+                            <span class="legend-box licensed"></span>
+                            <span>Licensed (1)</span>
+                        </div>
+                        <div class="legend-item">
+                            <span class="legend-box pending"></span>
+                            <span>In Progress (7)</span>
+                        </div>
+                        <div class="legend-item">
+                            <span class="legend-box unlicensed"></span>
+                            <span>Future Expansion</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Statistics -->
+                <div class="licensing-stats">
+                    <div class="stat-item">
+                        <div class="stat-number">1</div>
+                        <div class="stat-label">States Licensed</div>
+                    </div>
+                    <div class="stat-item">
+                        <div class="stat-number">7</div>
+                        <div class="stat-label">In Progress</div>
+                    </div>
+                    <div class="stat-item">
+                        <div class="stat-number">2025</div>
+                        <div class="stat-label">50-State Goal</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Fullscreen Inception Modal -->
+    <div id="inception-modal" class="fullscreen-modal">
+        <!-- Close button -->
+        <button class="modal-close-btn" onclick="closeInceptionModal()">×</button>
+
+        <!-- Modal Content Container -->
+        <div class="inception-modal-content">
+            <!-- Hero Section -->
+            <div class="inception-hero">
+                <h1 class="hero-title">Building the Future of Mortgage Lending</h1>
+                <p class="hero-tagline">Our Story · Our Vision · Our Commitment</p>
+            </div>
+
+            <!-- Founders Section -->
+            <div class="founders-container">
+                <h2 class="section-title">Leadership Team</h2>
+
+                <!-- CEO -->
+                <div class="founder-spotlight">
+                    <div class="founder-image-container">
+                        <img src="amini_headshot_grey.png" alt="Anthony Amini" />
+                        <div class="founder-overlay"></div>
+                    </div>
+                    <div class="founder-details">
+                        <h3>Anthony Amini</h3>
+                        <p class="founder-role">President & Chief Executive Officer</p>
+                        <p class="founder-bio">
+                            Leading LendWise with visionary strategic direction, Anthony brings extensive experience
+                            in executive management and a deep commitment to revolutionizing the mortgage industry
+                            through innovation and excellence.
+                        </p>
+                        <div class="expertise-tags">
+                            <span>Executive Leadership</span>
+                            <span>Strategic Vision</span>
+                            <span>Industry Innovation</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- COO & CFO -->
+                <div class="founder-spotlight">
+                    <div class="founder-image-container">
+                        <img src="gady_update_2.png" alt="Gady Gabrielzadeh" />
+                        <div class="founder-overlay"></div>
+                    </div>
+                    <div class="founder-details">
+                        <h3>Gady Gabrielzadeh</h3>
+                        <p class="founder-role">Chief Operating Officer & Chief Financial Officer</p>
+                        <p class="founder-bio">
+                            Overseeing operations and financial management, Gady ensures seamless execution of our vision
+                            while maintaining the highest standards of compliance and fiscal responsibility. His dual role
+                            enables integrated operational and financial excellence.
+                        </p>
+                        <div class="expertise-tags">
+                            <span>Operations Management</span>
+                            <span>Financial Strategy</span>
+                            <span>Compliance</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- CMO -->
+                <div class="founder-spotlight">
+                    <div class="founder-image-container">
+                        <img src="thumbnail_IMG_2168.jpg" alt="David Young" />
+                        <div class="founder-overlay"></div>
+                    </div>
+                    <div class="founder-details">
+                        <h3>David Young</h3>
+                        <p class="founder-role">Chief Marketing Officer</p>
+                        <p class="founder-bio">
+                            With over 24 years of experience in mortgage banking, David leads our marketing initiatives,
+                            brand development, and business development strategy, ensuring LendWise's message of innovation
+                            and service excellence reaches every client.
+                        </p>
+                        <blockquote class="founder-quote">
+                            "At LendWise, we're not just processing loans – we're building dreams and creating opportunities
+                            for families to achieve homeownership through intelligent, compassionate lending."
+                        </blockquote>
+                        <div class="expertise-tags">
+                            <span>Marketing Strategy</span>
+                            <span>Brand Development</span>
+                            <span>Business Development</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- CSO -->
+                <div class="founder-spotlight">
+                    <div class="founder-image-container">
+                        <img src="tony_nasim.jpg" alt="Tony Nasim" />
+                        <div class="founder-overlay"></div>
+                    </div>
+                    <div class="founder-details">
+                        <h3>Tony Nasim</h3>
+                        <p class="founder-role">Chief Sales Officer</p>
+                        <p class="founder-bio">
+                            Leading our sales initiatives with exceptional expertise, Tony drives client acquisition
+                            and revenue strategy, building lasting relationships while ensuring every client receives
+                            personalized attention and optimal lending solutions.
+                        </p>
+                        <div class="expertise-tags">
+                            <span>Sales Leadership</span>
+                            <span>Client Acquisition</span>
+                            <span>Revenue Strategy</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Vision Section -->
+            <div class="vision-section">
+                <h2 class="section-title">The LendWise Vision</h2>
+                <div class="vision-grid">
+                    <div class="vision-card">
+                        <div class="vision-icon">🎯</div>
+                        <h3>Mission</h3>
+                        <p>To revolutionize mortgage lending by combining cutting-edge technology with personalized service,
+                        making homeownership accessible and transparent for everyone.</p>
+                    </div>
+                    <div class="vision-card">
+                        <div class="vision-icon">💡</div>
+                        <h3>Innovation</h3>
+                        <p>Leveraging AI and automation to streamline the lending process while maintaining the human touch
+                        that makes each client feel valued and understood.</p>
+                    </div>
+                    <div class="vision-card">
+                        <div class="vision-icon">🤝</div>
+                        <h3>Partnership</h3>
+                        <p>Building lasting relationships with clients, partners, and communities through trust, transparency,
+                        and unwavering commitment to their success.</p>
+                    </div>
+                    <div class="vision-card">
+                        <div class="vision-icon">🚀</div>
+                        <h3>Growth</h3>
+                        <p>Expanding nationwide while maintaining our core values, setting new standards for excellence
+                        in the mortgage industry.</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Story Section -->
+            <div class="story-section">
+                <h2 class="section-title">Our Story</h2>
+                <div class="story-content">
+                    <p>
+                        LendWise Mortgage Corporation was born from a simple observation: the mortgage industry was ready
+                        for transformation. After decades in traditional lending, we recognized that technology could solve
+                        the pain points that have frustrated borrowers and loan officers alike.
+                    </p>
+                    <p>
+                        In March 2025, we set out to build something different – a mortgage company that puts people first,
+                        powered by technology that works seamlessly in the background. Our platform combines the efficiency
+                        of modern automation with the expertise and care that only experienced professionals can provide.
+                    </p>
+                    <p>
+                        Today, we're not just another mortgage lender. We're pioneers in a new era of lending, where
+                        transparency replaces confusion, speed doesn't sacrifice accuracy, and every client receives
+                        the attention they deserve.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+
     <!-- Milestone Data -->
     <script>
         const milestoneData = {
+            inception: {
+                title: "Company Inception",
+                date: "March 2025",
+                category: "Foundation",
+                icon: "🚀",
+                description: "The inception of LendWise Mortgage Corporation marks the beginning of our journey to transform mortgage lending through innovation, technology, and unwavering commitment to client success.",
+                impact: "Founding vision established with leadership team and initial strategic framework",
+                metrics: [
+                    "Executive leadership team assembled",
+                    "Initial capital commitments secured",
+                    "Core strategic partnerships identified",
+                    "Technology and innovation roadmap defined"
+                ],
+                team: "Founding partners bring combined 50+ years of mortgage and technology expertise",
+                challenges: "Creating differentiation in a traditional industry ready for disruption",
+                outcome: "Launch of a transformative mortgage lending platform with clear vision and strong foundation"
+            },
             founded: {
                 title: "Company Founded",
                 date: "August 1, 2024",
@@ -328,6 +870,59 @@
                 team: "David Young (Founder & CEO) with 24 years mortgage banking expertise",
                 challenges: "Building credibility in a highly regulated and competitive market",
                 outcome: "Successfully launched with proper structure and clear vision for disrupting the mortgage industry"
+            },
+            location: {
+                title: "Premium Office Location",
+                date: "August 1, 2024",
+                category: "Infrastructure",
+                icon: "🏢",
+                address: "1234 Business Park Drive, Suite 500, Newport Beach, CA 92660",
+                images: [
+                    "https://images.unsplash.com/photo-1497366216548-37526070297c?w=1200", // Modern office exterior
+                    "https://images.unsplash.com/photo-1497366811353-6870744d04b2?w=1200", // Open workspace
+                    "https://images.unsplash.com/photo-1497366754035-f200586c5e9b?w=1200", // Conference room
+                    "https://images.unsplash.com/photo-1497366412874-3415097a27e7?w=1200"  // Lounge area
+                ],
+                description: "Secured a state-of-the-art 8,500 sq ft office space in the heart of Newport Beach's prestigious financial district, providing the perfect environment for innovation and growth.",
+                details: {
+                    size: "8,500 square feet",
+                    floors: "5th floor penthouse suite",
+                    capacity: "75+ employees",
+                    parking: "150 dedicated spaces",
+                    lease: "5-year term with expansion options"
+                },
+                whyThisLocation: [
+                    "Prime location in Newport Beach financial district",
+                    "Walking distance to major banks and lending partners",
+                    "Easy freeway access (405/55/73 interchange)",
+                    "Prestigious Class A business address",
+                    "Modern building with latest technology infrastructure",
+                    "Ocean views inspiring creativity and excellence"
+                ],
+                amenities: [
+                    "24/7 secured access with biometric entry",
+                    "Dedicated 10GB fiber internet connection",
+                    "Modern HVAC with HEPA air purification",
+                    "Electric vehicle charging stations (10 spots)",
+                    "On-site fitness center and wellness room",
+                    "Rooftop terrace for events and meetings"
+                ],
+                spaces: [
+                    "Executive offices (8 private)",
+                    "Open collaboration areas (3 zones)",
+                    "Conference rooms (4 with video conferencing)",
+                    "Training room (40 person capacity)",
+                    "Employee lounge with full kitchen",
+                    "Client meeting suites with privacy"
+                ],
+                impact: "Created a professional headquarters that reflects our commitment to excellence and innovation",
+                metrics: [
+                    "25% under market rate secured",
+                    "90% employee satisfaction with location",
+                    "15-minute average commute time",
+                    "LEED Gold certified building"
+                ],
+                outcome: "Established a flagship location that supports our growth and reinforces our professional brand"
             },
             nmls: {
                 title: "NMLS Registration",
@@ -489,6 +1084,37 @@
                     "Reduced human error"
                 ],
                 outcome: "Target: Fastest underwriting in the industry"
+            },
+            'google-sponsor': {
+                title: "Google Analytics Official Sponsorship",
+                date: "April 2025",
+                category: "Strategic Partnership",
+                icon: "🤝",
+                description: "LendWise becomes an official Google Analytics partner, gaining exclusive access to beta features, dedicated support, and co-marketing opportunities.",
+                impact: "Elevated market position as a technology-forward mortgage lender",
+                metrics: [
+                    "Official Google Analytics Partner status",
+                    "Access to beta features and early releases",
+                    "Dedicated Google support team",
+                    "Co-marketing opportunities worth $250K+",
+                    "Annual conference speaking opportunities"
+                ],
+                benefits: [
+                    "Priority access to new GA4 features",
+                    "Quarterly business reviews with Google team",
+                    "Custom training for our analytics team",
+                    "Joint case studies and white papers",
+                    "Google Cloud credits worth $100K annually"
+                ],
+                sponsorshipDetails: {
+                    tier: "Premier Partner",
+                    duration: "3-year agreement",
+                    value: "$500K in total benefits",
+                    certification: "Google Analytics Certified Company"
+                },
+                team: "Dedicated team of 5 certified Google Analytics professionals",
+                challenges: "Meeting Google's stringent partner requirements and maintaining certification standards",
+                outcome: "Industry recognition as a data-driven, technology-first mortgage lender"
             },
             nationwide: {
                 title: "25-State Goal",

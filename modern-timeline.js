@@ -1,24 +1,44 @@
 // Modern Timeline JavaScript
 
 document.addEventListener('DOMContentLoaded', () => {
-    console.log('DOM loaded, waiting for intro...');
+    console.log('🚀 Modern Timeline: DOM loaded, waiting for intro...');
+
+    // IMMEDIATE CLEANUP: Remove any rogue owl elements that shouldn't be there
+    // This handles cases where the owl was left from a previous session
+    // But don't remove the intentional landing-owl
+    const rogueOwls = document.querySelectorAll('body > .wisr-showcase-center');
+    rogueOwls.forEach(owl => {
+        // Only remove if it's not part of the landing-owl
+        if (!owl.closest('.landing-owl')) {
+            console.log('Found and removing rogue owl from body');
+            owl.remove();
+        }
+    });
 
     // Wait for intro animation to complete (3.5 seconds to ensure intro fades out)
     setTimeout(() => {
-        console.log('Intro complete, initializing carousel...');
+        console.log('✨ Modern Timeline: Intro complete, initializing carousel...');
 
-        // Fade in main content
-        const mainContent = document.querySelector('.main-content');
-        if (mainContent) {
-            mainContent.style.transition = 'opacity 0.5s ease-in';
-            mainContent.style.opacity = '1';
+        try {
+            // Fade in main content
+            const mainContent = document.querySelector('.main-content');
+            if (mainContent) {
+                mainContent.style.transition = 'opacity 0.5s ease-in';
+                mainContent.style.opacity = '1';
+            }
+
+            // Initialize 3D carousel gallery
+            initializeCarouselGallery();
+            setupNavigationButtons();
+            setupTimelineClicks();
+            setupTimelineNavigation();  // Add timeline scroll navigation
+            setupPositionControls();  // Add position controls
+            setupModalHandlers();  // Setup modal event handlers
+
+            console.log('✅ Modern Timeline: All systems initialized successfully');
+        } catch (error) {
+            console.error('❌ Modern Timeline: Initialization error:', error);
         }
-
-        // Initialize 3D carousel gallery
-        initializeCarouselGallery();
-        setupNavigationButtons();
-        setupTimelineClicks();
-        setupPositionControls();  // Add position controls
     }, 3500);
 });
 
@@ -39,6 +59,13 @@ const galleryConfig = {
 function initializeCarouselGallery() {
     const galleryTrack = document.getElementById('galleryTrack');
     const cards = document.querySelectorAll('.gallery-card');
+
+    // Initialize carousel container transform since CSS no longer has it
+    const carouselContainer = document.querySelector('.circular-gallery-container');
+    if (carouselContainer && !carouselContainer.style.transform) {
+        carouselContainer.style.transform = 'translate(-50%, -50%)';
+        console.log('Initialized carousel container transform');
+    }
 
     if (!galleryTrack) {
         console.error('Gallery track not found');
@@ -98,6 +125,12 @@ function setupScrollRotation(galleryTrack, cards) {
         // Apply rotation to gallery
         galleryTrack.style.transform = `rotateY(${galleryConfig.currentRotation}deg)`;
 
+        // Counter-rotate the owl to keep it stationary
+        const landingOwl = document.querySelector('.gallery-track .landing-owl');
+        if (landingOwl) {
+            landingOwl.style.transform = `rotateY(${-galleryConfig.currentRotation}deg) translate(-50%, -50%)`;
+        }
+
         // Update card opacities
         updateAllCardOpacities(cards);
 
@@ -118,6 +151,8 @@ function startAutoRotation(galleryTrack, cards) {
         if (galleryConfig.isAutoRotating) {
             galleryConfig.currentRotation += galleryConfig.autoRotateSpeed;
             galleryTrack.style.transform = `rotateY(${galleryConfig.currentRotation}deg)`;
+
+            // Owl is now outside gallery-track, no need to update during rotation
 
             // Update card opacities during rotation
             updateAllCardOpacities(cards);
@@ -156,8 +191,16 @@ function updateCardOpacity(card, angle) {
 
     card.style.opacity = opacity;
 
-    // Don't override transform here - keep the original transform
-    // The transform should only be set during initialization
+    // Dynamic z-index based on position relative to owl
+    // Cards in front (angle -90 to 90) get higher z-index
+    // Cards in back (angle 90 to 180 or -90 to -180) get lower z-index
+    if (absAngle <= 90) {
+        // Front-facing cards - above owl
+        card.style.zIndex = 1000 + (90 - absAngle);
+    } else {
+        // Back-facing cards - below owl
+        card.style.zIndex = 100 + (180 - absAngle);
+    }
 
     // Add/remove active class for front-facing cards
     if (absAngle < 30) {
@@ -209,6 +252,58 @@ function getMilestoneIdByIndex(index) {
     return milestoneIds[index] || null;
 }
 
+// Get milestone-specific details for modal
+function getMilestoneDetails(dataId) {
+    const details = {
+        'inception': `
+            <h4>Company Foundation</h4>
+            <p>March 2025 marks the beginning of our journey</p>
+            <ul>
+                <li>Founded by industry veterans</li>
+                <li>Initial seed funding secured</li>
+                <li>Core team assembled</li>
+            </ul>
+        `,
+        'dre': `
+            <h4>Digital Real Estate Platform</h4>
+            <p>Revolutionary real estate technology</p>
+            <ul>
+                <li>AI-powered property matching</li>
+                <li>Integrated transaction management</li>
+                <li>Smart contract automation</li>
+            </ul>
+        `,
+        'founded': `
+            <h4>Technology Stack</h4>
+            <p>Cutting-edge technology infrastructure</p>
+            <ul>
+                <li>Cloud-native architecture</li>
+                <li>Machine learning integration</li>
+                <li>Blockchain-ready systems</li>
+            </ul>
+        `,
+        'integrations': `
+            <h4>System Integrations</h4>
+            <p>Seamless connectivity across platforms</p>
+            <ul>
+                <li>API-first approach</li>
+                <li>Real-time data synchronization</li>
+                <li>Third-party service integration</li>
+            </ul>
+        `,
+        'nationwide': `
+            <h4>Growth & Expansion</h4>
+            <p>Scaling nationwide operations</p>
+            <ul>
+                <li>Multi-state licensing</li>
+                <li>Regional partnerships</li>
+                <li>24/7 support infrastructure</li>
+            </ul>
+        `
+    };
+    return details[dataId] || '<p>Details coming soon...</p>';
+}
+
 // Setup timeline milestone clicks
 function setupTimelineClicks() {
     const milestones = document.querySelectorAll('.timeline-milestone');
@@ -221,22 +316,28 @@ function setupTimelineClicks() {
         milestone.addEventListener('click', () => {
             const milestoneIndex = parseInt(milestone.dataset.index);
 
-            // Map timeline milestones to carousel cards
+            // Get milestone ID for better mapping
+            const milestoneId = milestone.dataset.milestone;
+
+            // Map timeline milestones to carousel cards (now with inception as first card)
             const cardMapping = {
-                0: 2,  // DRE Approval -> DRE License card
-                1: 0,  // Location found -> RI HQ card
-                2: 0,  // Office Remodel -> RI HQ card
-                3: 0,  // Staff Hires -> RI HQ card
-                4: 3,  // Other licenses -> DFPI License card
-                5: 4,  // LOS -> Encompass card
-                6: 7,  // Optimal Blue -> Mission CRM card
-                7: 11, // Google Analytics -> Nationwide card
-                8: 11, // Website Creation -> Nationwide card
-                9: 5   // AI Tool -> DSCR Tool card
+                'inception': { cardIndex: 0, dataId: 'inception' },    // Inception/About Us card
+                'location': { cardIndex: 1, dataId: 'location' },      // Headquarters card
+                'licensing': { cardIndex: 2, dataId: 'licensing' },    // Licensing card (index 2)
+                'dre': { cardIndex: 2, dataId: 'licensing' },          // Maps to Licensing card
+                'staff': { cardIndex: 1, dataId: 'location' },         // Headquarters card
+                'los': { cardIndex: 3, dataId: 'encompass' },          // Encompass card (index 3)
+                'website': { cardIndex: 6, dataId: 'website' },        // Mission CRM card (index 6)
+                'optimal': { cardIndex: 3, dataId: 'optimalblue' },    // Encompass card
+                'analytics': { cardIndex: 7, dataId: 'wisr' },         // AI Innovation card (index 7)
+                'google-sponsor': { cardIndex: 8, dataId: 'google-sponsor' }, // Google Sponsorship card (index 8)
+                'nationwide': { cardIndex: 10, dataId: 'nationwide' }  // Nationwide Expansion card (index 10)
             };
 
-            const targetCardIndex = cardMapping[milestoneIndex];
-            if (targetCardIndex !== undefined) {
+            const mapping = cardMapping[milestoneId] || cardMapping[milestoneIndex];
+            if (mapping) {
+                const targetCardIndex = mapping.cardIndex;
+                const dataId = mapping.dataId;
                 // Calculate rotation to bring target card to front
                 const anglePerCard = 360 / cards.length;
                 const targetRotation = -targetCardIndex * anglePerCard;
@@ -249,8 +350,40 @@ function setupTimelineClicks() {
                 galleryTrack.style.transition = 'transform 0.8s ease-in-out';
                 galleryTrack.style.transform = `rotateY(${targetRotation}deg)`;
 
+                // Owl is now outside gallery-track, no need to update
+
                 // Update card opacities
                 updateAllCardOpacities(cards);
+
+                // After rotation completes, handle the interaction
+                setTimeout(() => {
+                    // Get milestone data
+                    const milestoneId = milestone.dataset.milestone;
+                    const targetCard = document.querySelector(`.gallery-card[data-id="${dataId}"]`);
+
+                    // Add glow effect to the card with proper transform preservation
+                    if (targetCard) {
+                        // Get the current rotation angle
+                        const currentTransform = targetCard.style.transform || targetCard.dataset.baseTransform;
+                        const rotationMatch = currentTransform.match(/rotateY\(([-\d.]+)deg\)/);
+                        const currentRotation = rotationMatch ? rotationMatch[1] : '0';
+
+                        // Store the original transform
+                        targetCard.dataset.originalTransform = currentTransform;
+                        targetCard.dataset.currentRotation = currentRotation;
+
+                        // Apply the glow with the current rotation maintained
+                        targetCard.style.setProperty('--card-rotation', `${currentRotation}deg`);
+                        targetCard.classList.add('selected-glow');
+                    }
+
+                    // Open modal after glow animation completes
+                    setTimeout(() => {
+                        if (milestoneId && milestoneData[milestoneId]) {
+                            openModal(milestoneId);
+                        }
+                    }, 600);
+                }, 1200);
 
                 // Resume auto-rotation after animation
                 setTimeout(() => {
@@ -273,44 +406,58 @@ function openModal(id) {
     const data = milestoneData[id];
     if (!data) return;
 
-    const modal = document.getElementById('timeline-modal');
-
-    // Create modal content structure if it doesn't exist
-    if (!modal.querySelector('.modal-content')) {
-        modal.innerHTML = `
-            <button class="modal-close">&times;</button>
-            <div class="modal-content">
-                <div class="modal-header">
-                    <span class="modal-icon"></span>
-                    <h2 id="modal-title"></h2>
-                </div>
-                <div class="modal-badges">
-                    <span id="modal-date-badge" class="badge"></span>
-                    <span id="modal-category-badge" class="badge"></span>
-                </div>
-                <p id="modal-description" class="modal-description"></p>
-                <div id="modal-details" class="modal-details"></div>
-            </div>
-        `;
-
-        // Re-setup close button
-        const modalClose = modal.querySelector('.modal-close');
-        modalClose.addEventListener('click', closeModal);
+    // Check if this is the inception milestone
+    if (id === 'inception') {
+        // Open the fullscreen inception modal instead
+        openInceptionModal();
+        return;
     }
 
-    const modalIcon = modal.querySelector('.modal-icon');
-    const modalTitle = modal.querySelector('#modal-title');
-    const modalDateBadge = modal.querySelector('#modal-date-badge');
-    const modalCategoryBadge = modal.querySelector('#modal-category-badge');
-    const modalDescription = modal.querySelector('#modal-description');
-    const modalDetails = modal.querySelector('#modal-details');
+    // Check if this is the licensing milestone
+    if (id === 'licensing' || id === 'dre') {
+        // Open the fullscreen licensing modal instead
+        openLicensingModal();
+        return;
+    }
 
-    // Set modal content
-    modalIcon.textContent = data.icon;
-    modalTitle.textContent = data.title;
-    modalDateBadge.textContent = data.date;
-    modalCategoryBadge.textContent = data.category;
-    modalDescription.textContent = data.description;
+    // Check if this is the headquarters/location milestone
+    if (id === 'location' || id === 'staff') {
+        // Open the fullscreen headquarters modal instead
+        openHeadquartersModal();
+        return;
+    }
+
+    const modal = document.getElementById('timeline-modal');
+    const standardContent = document.getElementById('standard-content');
+    const locationContent = document.getElementById('location-content');
+
+    // Check if this is the location milestone
+    if (id === 'location') {
+        // Hide standard content, show location content
+        standardContent.style.display = 'none';
+        locationContent.style.display = 'block';
+
+        // Setup location-specific content
+        setupLocationModal(data);
+    } else {
+        // Show standard content, hide location content
+        standardContent.style.display = 'block';
+        locationContent.style.display = 'none';
+
+        // Setup standard modal content
+        const modalIcon = modal.querySelector('.modal-icon');
+        const modalTitle = modal.querySelector('#modal-title');
+        const modalDateBadge = modal.querySelector('#modal-date-badge');
+        const modalCategoryBadge = modal.querySelector('#modal-category-badge');
+        const modalDescription = modal.querySelector('#modal-description');
+        const modalDetails = modal.querySelector('#modal-details');
+
+        // Set modal content
+        modalIcon.textContent = data.icon;
+        modalTitle.textContent = data.title;
+        modalDateBadge.textContent = data.date;
+        modalCategoryBadge.textContent = data.category;
+        modalDescription.textContent = data.description;
 
     // Build details HTML
     let detailsHTML = '';
@@ -371,11 +518,99 @@ function openModal(id) {
         `;
     }
 
-    modalDetails.innerHTML = detailsHTML;
+        modalDetails.innerHTML = detailsHTML;
+    }
 
     // Show modal
     modal.classList.add('active');
     document.body.style.overflow = 'hidden';
+}
+
+// Setup enhanced location modal content
+function setupLocationModal(data) {
+    const modal = document.getElementById('timeline-modal');
+
+    // Set header info
+    modal.querySelector('.modal-icon').textContent = data.icon;
+    modal.querySelector('#modal-title').textContent = data.title;
+    modal.querySelector('#modal-date-badge').textContent = data.date;
+    modal.querySelector('#modal-category-badge').textContent = data.category;
+
+    // Setup image gallery
+    if (data.images && data.images.length > 0) {
+        const mainImage = document.getElementById('main-image');
+        const thumbsContainer = document.querySelector('.gallery-thumbs');
+        const caption = document.querySelector('.image-caption');
+
+        // Set first image as main
+        mainImage.src = data.images[0];
+        caption.textContent = 'Modern Office Exterior';
+
+        // Create thumbnails
+        thumbsContainer.innerHTML = '';
+        const captions = [
+            'Modern Office Exterior',
+            'Open Workspace Area',
+            'Executive Conference Room',
+            'Employee Lounge & Kitchen'
+        ];
+
+        data.images.forEach((img, index) => {
+            const thumb = document.createElement('img');
+            thumb.src = img;
+            thumb.alt = captions[index] || `Office view ${index + 1}`;
+            thumb.classList.toggle('active', index === 0);
+
+            thumb.addEventListener('click', () => {
+                mainImage.src = img;
+                caption.textContent = captions[index] || `Office view ${index + 1}`;
+
+                // Update active state
+                thumbsContainer.querySelectorAll('img').forEach(t => t.classList.remove('active'));
+                thumb.classList.add('active');
+            });
+
+            thumbsContainer.appendChild(thumb);
+        });
+    }
+
+    // Set address and location details
+    const addressElement = document.querySelector('.info-card .address');
+    if (addressElement && data.address) {
+        addressElement.textContent = data.address;
+    }
+
+    // Set location details
+    const locationDetailsList = document.querySelector('.location-details');
+    if (locationDetailsList && data.details) {
+        locationDetailsList.innerHTML = Object.entries(data.details)
+            .map(([key, value]) => `<li><strong>${key.charAt(0).toUpperCase() + key.slice(1)}:</strong> ${value}</li>`)
+            .join('');
+    }
+
+    // Set space list
+    const spaceList = document.querySelector('.space-list');
+    if (spaceList && data.spaces) {
+        spaceList.innerHTML = data.spaces.map(space => `<li>${space}</li>`).join('');
+    }
+
+    // Set why we chose this location
+    const benefitsList = document.querySelector('.benefits-list');
+    if (benefitsList && data.whyThisLocation) {
+        benefitsList.innerHTML = data.whyThisLocation.map(benefit => `<li>${benefit}</li>`).join('');
+    }
+
+    // Set amenities
+    const amenitiesList = document.querySelector('.amenities-list');
+    if (amenitiesList && data.amenities) {
+        amenitiesList.innerHTML = data.amenities.map(amenity => `<li>${amenity}</li>`).join('');
+    }
+
+    // Set metrics
+    const metricsList = document.querySelector('.metrics-list');
+    if (metricsList && data.metrics) {
+        metricsList.innerHTML = data.metrics.map(metric => `<li>${metric}</li>`).join('');
+    }
 }
 
 // Close modal
@@ -383,6 +618,239 @@ function closeModal() {
     const modal = document.getElementById('timeline-modal');
     modal.classList.remove('active');
     document.body.style.overflow = 'auto';
+}
+
+// Open Inception Modal
+function openInceptionModal() {
+    const modal = document.getElementById('inception-modal');
+    modal.classList.add('active');
+    document.body.style.overflow = 'hidden';
+
+    // Remove glow from cards after modal opens
+    setTimeout(() => {
+        document.querySelectorAll('.selected-glow').forEach(card => {
+            card.classList.remove('selected-glow');
+        });
+    }, 1000);
+}
+
+// Close Inception Modal
+function closeInceptionModal() {
+    const modal = document.getElementById('inception-modal');
+    modal.classList.remove('active');
+    document.body.style.overflow = 'auto';
+
+    // Remove any remaining glow effects
+    document.querySelectorAll('.selected-glow').forEach(card => {
+        card.classList.remove('selected-glow');
+    });
+}
+
+// Open Licensing Modal
+function openLicensingModal() {
+    const modal = document.getElementById('licensing-modal');
+    modal.classList.add('active');
+    document.body.style.overflow = 'hidden';
+
+    // Remove glow from cards after modal opens
+    setTimeout(() => {
+        document.querySelectorAll('.selected-glow').forEach(card => {
+            card.classList.remove('selected-glow');
+        });
+    }, 1000);
+}
+
+// Close Licensing Modal
+function closeLicensingModal() {
+    const modal = document.getElementById('licensing-modal');
+    modal.classList.remove('active');
+    document.body.style.overflow = 'auto';
+
+    // Remove any remaining glow effects
+    document.querySelectorAll('.selected-glow').forEach(card => {
+        card.classList.remove('selected-glow');
+    });
+}
+
+// Open Headquarters Modal
+function openHeadquartersModal() {
+    const modal = document.getElementById('headquarters-modal');
+    modal.classList.add('active');
+    document.body.style.overflow = 'hidden';
+
+    // Remove glow from cards after modal opens
+    setTimeout(() => {
+        document.querySelectorAll('.selected-glow').forEach(card => {
+            card.classList.remove('selected-glow');
+        });
+    }, 1000);
+}
+
+// Close Headquarters Modal
+function closeHeadquartersModal() {
+    const modal = document.getElementById('headquarters-modal');
+    modal.classList.remove('active');
+    document.body.style.overflow = 'auto';
+
+    // Remove any remaining glow effects
+    document.querySelectorAll('.selected-glow').forEach(card => {
+        card.classList.remove('selected-glow');
+    });
+}
+
+// Change HQ Gallery Image
+function changeHQImage(imageSrc, imageTitle, thumbElement) {
+    // Update main image
+    const mainImg = document.getElementById('hq-main-img');
+    const titleElement = document.getElementById('hq-image-title');
+
+    if (mainImg && titleElement) {
+        // Fade out effect
+        mainImg.style.opacity = '0';
+
+        setTimeout(() => {
+            mainImg.src = imageSrc;
+            titleElement.textContent = `LendWise Headquarters - ${imageTitle}`;
+
+            // Fade in effect
+            mainImg.style.opacity = '1';
+        }, 300);
+    }
+
+    // Update active thumbnail
+    document.querySelectorAll('.hq-gallery-thumbs .thumb-item').forEach(thumb => {
+        thumb.classList.remove('active');
+    });
+    if (thumbElement) {
+        thumbElement.classList.add('active');
+    }
+}
+
+// Setup modal event handlers
+function setupModalHandlers() {
+    const modal = document.getElementById('timeline-modal');
+    const inceptionModal = document.getElementById('inception-modal');
+
+    if (modal) {
+        // Close button handler
+        const closeButton = modal.querySelector('.modal-close');
+        if (closeButton) {
+            closeButton.addEventListener('click', closeModal);
+        }
+
+        // Click outside to close
+        modal.addEventListener('click', (e) => {
+            if (e.target === modal) {
+                closeModal();
+            }
+        });
+    }
+
+    // Setup inception modal handlers
+    if (inceptionModal) {
+        // Click outside to close
+        inceptionModal.addEventListener('click', (e) => {
+            if (e.target === inceptionModal) {
+                closeInceptionModal();
+            }
+        });
+    }
+
+    // Also handle clicks outside licensing modal
+    const licensingModal = document.getElementById('licensing-modal');
+    if (licensingModal) {
+        licensingModal.addEventListener('click', (e) => {
+            if (e.target === licensingModal) {
+                closeLicensingModal();
+            }
+        });
+    }
+
+    // Also handle clicks outside headquarters modal
+    const headquartersModal = document.getElementById('headquarters-modal');
+    if (headquartersModal) {
+        headquartersModal.addEventListener('click', (e) => {
+            if (e.target === headquartersModal) {
+                closeHeadquartersModal();
+            }
+        });
+    }
+
+    // Escape key to close any active modal
+    document.addEventListener('keydown', (e) => {
+        if (e.key === 'Escape') {
+            if (modal && modal.classList.contains('active')) {
+                closeModal();
+            }
+            if (inceptionModal && inceptionModal.classList.contains('active')) {
+                closeInceptionModal();
+            }
+            if (licensingModal && licensingModal.classList.contains('active')) {
+                closeLicensingModal();
+            }
+            if (headquartersModal && headquartersModal.classList.contains('active')) {
+                closeHeadquartersModal();
+            }
+        }
+    });
+}
+
+// Setup Timeline Horizontal Navigation
+function setupTimelineNavigation() {
+    const timelineContainer = document.querySelector('.timeline-line-container');
+    const leftArrow = document.getElementById('timeline-left');
+    const rightArrow = document.getElementById('timeline-right');
+    const milestones = document.querySelectorAll('.timeline-milestone');
+
+    if (!timelineContainer || !leftArrow || !rightArrow || milestones.length === 0) {
+        console.warn('Timeline navigation elements not found');
+        return;
+    }
+
+    let currentPosition = 0;
+    const scrollAmount = 20; // Percentage to scroll each time
+    const maxScroll = 100; // Maximum scroll percentage
+
+    // Function to update timeline position
+    function updateTimelinePosition() {
+        timelineContainer.style.transform = `translateX(${currentPosition}%)`;
+
+        // Update button states
+        leftArrow.disabled = currentPosition >= 0;
+        rightArrow.disabled = currentPosition <= -maxScroll;
+    }
+
+    // Left arrow click handler
+    leftArrow.addEventListener('click', () => {
+        if (currentPosition < 0) {
+            currentPosition = Math.min(currentPosition + scrollAmount, 0);
+            updateTimelinePosition();
+        }
+    });
+
+    // Right arrow click handler
+    rightArrow.addEventListener('click', () => {
+        if (currentPosition > -maxScroll) {
+            currentPosition = Math.max(currentPosition - scrollAmount, -maxScroll);
+            updateTimelinePosition();
+        }
+    });
+
+    // Keyboard navigation
+    document.addEventListener('keydown', (e) => {
+        if (e.target.tagName === 'INPUT' || e.target.tagName === 'TEXTAREA') return;
+
+        if (e.key === 'ArrowLeft') {
+            leftArrow.click();
+        } else if (e.key === 'ArrowRight') {
+            rightArrow.click();
+        }
+    });
+
+    // Initialize button states
+    updateTimelinePosition();
+
+    console.log('✅ Timeline navigation initialized');
 }
 
 // Setup Position Controls for Moving Assets
@@ -414,9 +882,28 @@ function setupPositionControls() {
         backdrop-filter: blur(10px);
         border: 1px solid rgba(255, 255, 255, 0.2);
         width: 280px;
+        transition: all 0.3s ease;
     `;
 
     controlPanel.innerHTML = `
+        <button id="controls-toggle" style="
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            background: rgba(100, 200, 255, 0.2);
+            border: 1px solid rgba(100, 200, 255, 0.5);
+            border-radius: 5px;
+            width: 30px;
+            height: 30px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.3s ease;
+            color: rgba(100, 200, 255, 0.9);
+            font-size: 20px;
+        ">−</button>
+        <div id="controls-content">
         <div style="margin-bottom: 20px; font-weight: bold; font-size: 16px; border-bottom: 2px solid rgba(255,215,0,0.5); padding-bottom: 10px;">
             🎯 Vertical Position Controls
         </div>
@@ -438,6 +925,7 @@ function setupPositionControls() {
             <input type="range" id="timeline-slider" min="-200" max="200" value="${positions.timeline}"
                 style="width: 100%; cursor: pointer;">
         </div>
+
 
         <div style="margin-bottom: 20px;">
             <label style="display: block; margin-bottom: 8px; color: #ffaa00;">
@@ -471,8 +959,33 @@ function setupPositionControls() {
         <div style="margin-top: 15px; padding-top: 15px; border-top: 1px solid rgba(255,255,255,0.2); font-size: 11px; color: #888;">
             ✏️ Click any text to edit directly
         </div>
+        </div>
     `;
     document.body.appendChild(controlPanel);
+
+    // Setup toggle functionality
+    const toggleBtn = document.getElementById('controls-toggle');
+    const controlsContent = document.getElementById('controls-content');
+    let isCollapsed = false;
+
+    toggleBtn.addEventListener('click', () => {
+        isCollapsed = !isCollapsed;
+        if (isCollapsed) {
+            controlsContent.style.display = 'none';
+            controlPanel.style.width = '50px';
+            controlPanel.style.height = '50px';
+            controlPanel.style.padding = '10px';
+            toggleBtn.innerHTML = '☰';
+            toggleBtn.style.fontSize = '16px';
+        } else {
+            controlsContent.style.display = 'block';
+            controlPanel.style.width = '280px';
+            controlPanel.style.height = 'auto';
+            controlPanel.style.padding = '20px';
+            toggleBtn.innerHTML = '−';
+            toggleBtn.style.fontSize = '20px';
+        }
+    });
 
     // Setup slider controls
     const headerSlider = document.getElementById('header-slider');
@@ -483,14 +996,36 @@ function setupPositionControls() {
     // Get elements
     const headerElement = document.querySelector('.roadmap-header');
     const timelineElement = document.querySelector('.roadmap-timeline');
-    const owlElement = document.querySelector('.gallery-center');
-    const carouselElement = document.querySelector('.gallery-track');
+    const owlElement = document.getElementById('landingOwl');
+    // The carousel is the entire container
+    const carouselElement = document.querySelector('.circular-gallery-container');
+
+    // Debug: Check what elements were found
+    console.log('=== POSITION CONTROLS ELEMENT CHECK ===');
+    console.log('Owl element:', owlElement);
+    console.log('Carousel container:', carouselElement);
 
     // Apply saved positions on load
     if (headerElement) headerElement.style.transform = `translateY(${positions.header}px)`;
     if (timelineElement) timelineElement.style.transform = `translateY(${positions.timeline}px)`;
-    if (owlElement) owlElement.style.transform = `translate(-50%, calc(-50% + ${positions.owl}px))`;
-    if (carouselElement) carouselElement.style.top = `${positions.carousel}px`;
+    if (owlElement) {
+        owlElement.style.transform = `translate(-50%, calc(-50% + ${positions.owl}px))`;
+    }
+
+
+    // Apply carousel position - MUST set initial transform since CSS doesn't have it
+    if (carouselElement) {
+        const transformValue = `translate(-50%, calc(-50% + ${positions.carousel}px))`;
+        carouselElement.style.transform = transformValue;
+        console.log('Initial carousel transform set to:', transformValue);
+    } else {
+        // Set default transform if carousel not positioned yet
+        const defaultCarousel = document.querySelector('.circular-gallery-container');
+        if (defaultCarousel) {
+            defaultCarousel.style.transform = `translate(-50%, calc(-50% + 120px))`;
+            console.log('Set default carousel transform');
+        }
+    }
 
     // Save positions function
     function savePositions() {
@@ -520,24 +1055,44 @@ function setupPositionControls() {
         savePositions();
     });
 
-    // Owl Slider
-    owlSlider.addEventListener('input', (e) => {
-        const value = parseInt(e.target.value);
-        positions.owl = value;
-        document.getElementById('owl-value').textContent = `${value}px`;
-        if (owlElement) {
-            owlElement.style.transform = `translate(-50%, calc(-50% + ${value}px))`;
-        }
-        savePositions();
-    });
+    // Owl Slider - moves the center owl element independently
+    // Owl Slider - moves the owl vertically while maintaining counter-rotation
+    if (owlSlider) {
+        owlSlider.addEventListener('input', (e) => {
+            const value = parseInt(e.target.value);
+            positions.owl = value;
+            document.getElementById('owl-value').textContent = `${value}px`;
 
-    // Carousel Slider
+            // Get fresh reference to owl element
+            const owl = document.getElementById('landingOwl');
+            if (owl) {
+                // Apply vertical offset to owl (now outside gallery-track)
+                const transformValue = `translate(-50%, calc(-50% + ${value}px)) translateZ(0)`;
+                owl.style.transform = transformValue;
+                console.log('Moving owl to:', transformValue);
+            } else {
+                console.error('Owl element not found!');
+            }
+            savePositions();
+        });
+    }
+
+    // Carousel Slider - moves the entire gallery container
     carouselSlider.addEventListener('input', (e) => {
         const value = parseInt(e.target.value);
         positions.carousel = value;
         document.getElementById('carousel-value').textContent = `${value}px`;
-        if (carouselElement) {
-            carouselElement.style.top = `${value}px`;
+
+        // Always get fresh reference to carousel element
+        const carousel = document.querySelector('.circular-gallery-container');
+        if (carousel) {
+            // Move the entire circular gallery container
+            const transformValue = `translate(-50%, calc(-50% + ${value}px))`;
+            carousel.style.transform = transformValue;
+            console.log('Setting carousel transform to:', transformValue);
+            console.log('Actual computed transform:', getComputedStyle(carousel).transform);
+        } else {
+            console.error('Carousel container not found!');
         }
         savePositions();
     });
@@ -565,8 +1120,17 @@ function setupPositionControls() {
         // Reset element positions
         if (headerElement) headerElement.style.transform = 'translateY(0px)';
         if (timelineElement) timelineElement.style.transform = 'translateY(0px)';
-        if (owlElement) owlElement.style.transform = 'translate(-50%, -50%)';
-        if (carouselElement) carouselElement.style.top = '120px';
+
+        // Reset owl position (simple 2D centering)
+        const owl = document.querySelector('.landing-owl');
+        if (owl) {
+            owl.style.transform = 'translate(-50%, -50%)';
+        }
+
+        // Reset carousel position
+        if (carouselElement) {
+            carouselElement.style.transform = `translate(-50%, calc(-50% + 120px))`;
+        }
 
         // Clear localStorage
         localStorage.removeItem('lendwisePositions');
@@ -716,4 +1280,5 @@ function setupEditableText() {
 
     controlPanel.appendChild(saveButton);
 }
+
 

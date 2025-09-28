@@ -197,15 +197,60 @@ html, body {
 /* Timeline Container */
 .roadmap-timeline {
     position: relative;
-    padding: 60px 60px 80px;
+    padding: 60px 80px 80px; /* Increased left/right padding for arrow safe zones */
     overflow: hidden;
     margin-top: 10px;
+}
+
+/* Timeline Viewport - Contains scrollable area */
+.timeline-viewport {
+    position: relative;
+    width: 100%;
+    overflow: hidden;
+    margin: 0 -20px; /* Compensate for inner padding */
+}
+
+/* Gradient Masks for Edge Fading */
+.timeline-edge-mask-left,
+.timeline-edge-mask-right {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    width: 80px;
+    pointer-events: none;
+    z-index: 90; /* Below arrows (100) but above timeline content */
+    transition: opacity 0.3s ease;
+}
+
+.timeline-edge-mask-left {
+    left: 0;
+    background: linear-gradient(
+        to right,
+        rgba(2, 6, 23, 0.6) 0%,
+        rgba(2, 6, 23, 0.3) 30%,
+        transparent 100%
+    );
+    display: none; /* Hide for now since timeline fits in viewport */
+}
+
+.timeline-edge-mask-right {
+    right: 0;
+    background: linear-gradient(
+        to left,
+        rgba(2, 6, 23, 0.6) 0%,
+        rgba(2, 6, 23, 0.3) 30%,
+        transparent 100%
+    );
+    display: none; /* Hide for now since timeline fits in viewport */
 }
 
 /* Timeline Navigation Arrows */
 .timeline-nav {
     position: absolute;
-    top: 50%;
+    /* Position at the vertical center of the timeline line
+       Timeline line is at 50% of .timeline-line-container (180px height = 90px from top)
+       Plus any padding from viewport container */
+    top: 90px; /* Half of timeline-line-container height */
     transform: translateY(-50%);
     background: rgba(100, 200, 255, 0.1);
     border: 2px solid rgba(100, 200, 255, 0.5);
@@ -234,11 +279,11 @@ html, body {
 }
 
 .timeline-nav-left {
-    left: 10px;
+    left: 20px; /* Moved further from edge */
 }
 
 .timeline-nav-right {
-    right: 10px;
+    right: 20px; /* Moved further from edge */
 }
 
 .timeline-nav:disabled {
@@ -256,6 +301,39 @@ html, body {
     height: 180px;  /* Reduced from 200px by 10% */
     transition: transform 0.5s cubic-bezier(0.4, 0, 0.2, 1);
     will-change: transform;
+    cursor: grab;
+    user-select: none;
+    padding: 0 60px; /* Add padding to prevent content from reaching edges */
+}
+
+.timeline-line-container.dragging {
+    cursor: grabbing;
+    transition: none; /* Disable transition during drag */
+}
+
+/* Scroll indicators */
+.timeline-scroll-indicator {
+    position: absolute;
+    bottom: 10px;
+    left: 50%;
+    transform: translateX(-50%);
+    display: flex;
+    gap: 5px;
+    z-index: 80;
+}
+
+.scroll-dot {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: rgba(100, 200, 255, 0.3);
+    transition: all 0.3s ease;
+}
+
+.scroll-dot.active {
+    background: rgba(100, 200, 255, 0.8);
+    width: 20px;
+    border-radius: 4px;
 }
 
 /* Main Timeline Line */
@@ -2902,6 +2980,38 @@ body {
         flex-direction: column;
         align-items: center;
         text-align: center;
+    }
+
+    /* Adjust timeline for mobile */
+    .roadmap-timeline {
+        padding: 40px 60px 60px;
+    }
+
+    .timeline-nav {
+        width: 35px;
+        height: 35px;
+        top: 90px; /* Maintain same vertical alignment on mobile */
+    }
+
+    .timeline-nav span {
+        font-size: 20px;
+    }
+
+    .timeline-nav-left {
+        left: 10px;
+    }
+
+    .timeline-nav-right {
+        right: 10px;
+    }
+
+    .timeline-edge-mask-left,
+    .timeline-edge-mask-right {
+        width: 60px;
+    }
+
+    .timeline-line-container {
+        padding: 0 40px;
     }
 }
 

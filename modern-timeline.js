@@ -976,12 +976,13 @@ function setupModalHandlers() {
     });
 }
 
-// Setup Timeline Horizontal Navigation
+// Setup Timeline Horizontal Navigation with Drag Support
 function setupTimelineNavigation() {
     const timelineContainer = document.querySelector('.timeline-line-container');
     const leftArrow = document.getElementById('timeline-left');
     const rightArrow = document.getElementById('timeline-right');
     const milestones = document.querySelectorAll('.timeline-milestone');
+    const viewport = document.querySelector('.timeline-viewport');
 
     if (!timelineContainer || !leftArrow || !rightArrow || milestones.length === 0) {
         console.warn('Timeline navigation elements not found');
@@ -990,18 +991,211 @@ function setupTimelineNavigation() {
 
     let currentPosition = 0;
     const scrollAmount = 20; // Percentage to scroll each time
-    const maxScroll = 100; // Maximum scroll percentage
 
-    // Function to update timeline position
-    function updateTimelinePosition() {
+    // Calculate actual content width to determine max scroll
+    const calculateMaxScroll = () => {
+        const lastMilestone = milestones[milestones.length - 1];
+        const containerWidth = viewport ? viewport.offsetWidth : timelineContainer.parentElement.offsetWidth;
+        const contentWidth = timelineContainer.scrollWidth;
+        const maxScrollPixels = Math.max(0, contentWidth - containerWidth);
+        return (maxScrollPixels / containerWidth) * 100;
+    };
+
+    let maxScroll = calculateMaxScroll();
+
+    // Drag functionality variables
+    let isDragging = false;
+    let startX = 0;
+    let startPosition = 0;
+    let velocity = 0;
+    let lastX = 0;
+    let lastTime = 0;
+    let animationId = null;
+
+    // Function to update timeline position with bounds checking
+    function updateTimelinePosition(smooth = true) {
+        // Clamp position between 0 and -maxScroll
+        currentPosition = Math.max(-maxScroll, Math.min(0, currentPosition));
+
+        if (smooth && !isDragging) {
+            timelineContainer.style.transition = 'transform 0.5s cubic-bezier(0.4, 0, 0.2, 1)';
+        } else {
+            timelineContainer.style.transition = 'none';
+        }
+
         timelineContainer.style.transform = `translateX(${currentPosition}%)`;
 
         // Update button states
         leftArrow.disabled = currentPosition >= 0;
         rightArrow.disabled = currentPosition <= -maxScroll;
+
+        // Update visual indicators
+        updateScrollIndicators();
     }
 
-    // Left arrow click handler
+    // Update scroll position indicators
+    function updateScrollIndicators() {
+        // Show/hide edge masks based on scroll position
+        const leftMask = document.querySelector('.timeline-edge-mask-left');
+        const rightMask = document.querySelector('.timeline-edge-mask-right');
+
+        // Only show masks when timeline is scrollable
+        if (maxScroll > 0) {
+            if (leftMask) {
+                leftMask.style.display = currentPosition < 0 ? 'block' : 'none';
+            }
+            if (rightMask) {
+                rightMask.style.display = currentPosition > -maxScroll ? 'block' : 'none';
+            }
+        } else {
+            // Hide masks when timeline fits in viewport
+            if (leftMask) leftMask.style.display = 'none';
+            if (rightMask) rightMask.style.display = 'none';
+        }
+    }
+
+    // Mouse drag handlers
+    const handleMouseDown = (e) => {
+        if (e.button !== 0) return; // Only left mouse button
+
+        isDragging = true;
+        startX = e.clientX;
+        startPosition = currentPosition;
+        lastX = e.clientX;
+        lastTime = Date.now();
+        velocity = 0;
+
+        timelineContainer.classList.add('dragging');
+        e.preventDefault();
+    };
+
+    const handleMouseMove = (e) => {
+        if (!isDragging) return;
+
+        const currentX = e.clientX;
+        const deltaX = currentX - startX;
+        const containerWidth = viewport ? viewport.offsetWidth : timelineContainer.parentElement.offsetWidth;
+        const percentMove = (deltaX / containerWidth) * 100;
+
+        // Calculate velocity for momentum
+        const currentTime = Date.now();
+        const deltaTime = currentTime - lastTime;
+        if (deltaTime > 0) {
+            velocity = (currentX - lastX) / deltaTime;
+        }
+
+        lastX = currentX;
+        lastTime = currentTime;
+
+        currentPosition = startPosition + percentMove;
+        updateTimelinePosition(false);
+
+        e.preventDefault();
+    };
+
+    const handleMouseUp = (e) => {
+        if (!isDragging) return;
+
+        isDragging = false;
+        timelineContainer.classList.remove('dragging');
+
+        // Apply momentum if velocity is significant
+        if (Math.abs(velocity) > 0.2) {
+            applyMomentum();
+        } else {
+            updateTimelinePosition(true);
+        }
+    };
+
+    // Touch handlers for mobile
+    const handleTouchStart = (e) => {
+        const touch = e.touches[0];
+        isDragging = true;
+        startX = touch.clientX;
+        startPosition = currentPosition;
+        lastX = touch.clientX;
+        lastTime = Date.now();
+        velocity = 0;
+
+        timelineContainer.classList.add('dragging');
+    };
+
+    const handleTouchMove = (e) => {
+        if (!isDragging) return;
+
+        const touch = e.touches[0];
+        const currentX = touch.clientX;
+        const deltaX = currentX - startX;
+        const containerWidth = viewport ? viewport.offsetWidth : timelineContainer.parentElement.offsetWidth;
+        const percentMove = (deltaX / containerWidth) * 100;
+
+        // Calculate velocity
+        const currentTime = Date.now();
+        const deltaTime = currentTime - lastTime;
+        if (deltaTime > 0) {
+            velocity = (currentX - lastX) / deltaTime;
+        }
+
+        lastX = currentX;
+        lastTime = currentTime;
+
+        currentPosition = startPosition + percentMove;
+        updateTimelinePosition(false);
+
+        e.preventDefault();
+    };
+
+    const handleTouchEnd = (e) => {
+        if (!isDragging) return;
+
+        isDragging = false;
+        timelineContainer.classList.remove('dragging');
+
+        // Apply momentum
+        if (Math.abs(velocity) > 0.2) {
+            applyMomentum();
+        } else {
+            updateTimelinePosition(true);
+        }
+    };
+
+    // Apply momentum scrolling
+    function applyMomentum() {
+        const friction = 0.95;
+        const minVelocity = 0.01;
+
+        const animate = () => {
+            velocity *= friction;
+
+            if (Math.abs(velocity) > minVelocity) {
+                const containerWidth = viewport ? viewport.offsetWidth : timelineContainer.parentElement.offsetWidth;
+                currentPosition += (velocity * 50) / containerWidth * 100;
+                updateTimelinePosition(false);
+                animationId = requestAnimationFrame(animate);
+            } else {
+                updateTimelinePosition(true);
+            }
+        };
+
+        if (animationId) {
+            cancelAnimationFrame(animationId);
+        }
+        animationId = requestAnimationFrame(animate);
+    }
+
+    // Add drag event listeners
+    timelineContainer.addEventListener('mousedown', handleMouseDown);
+    document.addEventListener('mousemove', handleMouseMove);
+    document.addEventListener('mouseup', handleMouseUp);
+    document.addEventListener('mouseleave', handleMouseUp);
+
+    // Add touch event listeners for mobile
+    timelineContainer.addEventListener('touchstart', handleTouchStart, { passive: false });
+    timelineContainer.addEventListener('touchmove', handleTouchMove, { passive: false });
+    timelineContainer.addEventListener('touchend', handleTouchEnd);
+    timelineContainer.addEventListener('touchcancel', handleTouchEnd);
+
+    // Arrow click handlers
     leftArrow.addEventListener('click', () => {
         if (currentPosition < 0) {
             currentPosition = Math.min(currentPosition + scrollAmount, 0);
@@ -1009,7 +1203,6 @@ function setupTimelineNavigation() {
         }
     });
 
-    // Right arrow click handler
     rightArrow.addEventListener('click', () => {
         if (currentPosition > -maxScroll) {
             currentPosition = Math.max(currentPosition - scrollAmount, -maxScroll);
@@ -1028,10 +1221,15 @@ function setupTimelineNavigation() {
         }
     });
 
-    // Initialize button states
-    updateTimelinePosition();
+    // Recalculate max scroll on window resize
+    window.addEventListener('resize', () => {
+        maxScroll = calculateMaxScroll();
+        updateTimelinePosition();
+    });
 
-    console.log('✅ Timeline navigation initialized');
+    // Initialize
+    updateTimelinePosition();
+    console.log('✅ Timeline navigation with drag support initialized');
 }
 
 // Setup Position Controls for Moving Assets

@@ -1844,8 +1844,11 @@ function setupDraggable(element) {
     let initialX, initialY;
 
     const dragStart = (e) => {
-        // Only drag if clicking on the container itself, not buttons
-        if (e.target.classList.contains('filter-btn')) return;
+        // Allow dragging from the main Filter button or container
+        if (e.target.classList.contains('filter-btn') && !e.target.classList.contains('filter-main')) {
+            // Don't drag for other filter buttons (technology, etc.)
+            return;
+        }
 
         isDragging = true;
         element.classList.add('dragging');

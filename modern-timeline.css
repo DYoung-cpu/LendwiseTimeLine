@@ -3519,6 +3519,7 @@ body {
     --color-3: #4e1e40;
     --color-4: #70464e;  /* Dark mauve - overrides green */
     --color-5: #88394c;
+    cursor: move;  /* Show draggable cursor */
     /* Apply gradient directly to avoid base class issues */
     background: radial-gradient(
         var(--spread-x) var(--spread-y) at var(--pos-x) var(--pos-y),

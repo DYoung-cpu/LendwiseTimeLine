@@ -3478,58 +3478,13 @@ body {
         transform 0.3s;
 }
 
-/* Main Filter Button - Default timeline colors */
-.filter-main {
-    --pos-x: 11.14%;
-    --pos-y: 140%;
-    --spread-x: 150%;
-    --spread-y: 180.06%;
-    --color-1: #0f1f2f;
-    --color-2: #1a2f4a;
-    --color-3: #2a4a3a;
-    --color-4: #00c851;
-    --color-5: #64c8ff;
-}
+/* ================================================
+   FILTER BUTTONS - HIGH SPECIFICITY IMPLEMENTATION
+   Uses compound selectors to override @property defaults
+   ================================================ */
 
-.filter-main:hover {
-    --pos-x: 0%;
-    --pos-y: 91.51%;
-    --spread-x: 120.24%;
-    --spread-y: 103.18%;
-    --color-1: #2d5a3d;
-    --color-2: #c9a961;
-    --color-3: #4a8ba8;
-    --color-4: #1a2f4a;
-    --color-5: #000000;
-}
-
-/* All Filter - Default timeline colors */
-.filter-all {
-    --pos-x: 11.14%;
-    --pos-y: 140%;
-    --spread-x: 150%;
-    --spread-y: 180.06%;
-    --color-1: #0f1f2f;
-    --color-2: #1a2f4a;
-    --color-3: #2a4a3a;
-    --color-4: #00c851;
-    --color-5: #64c8ff;
-}
-
-.filter-all:hover {
-    --pos-x: 0%;
-    --pos-y: 91.51%;
-    --spread-x: 120.24%;
-    --spread-y: 103.18%;
-    --color-1: #2d5a3d;
-    --color-2: #c9a961;
-    --color-3: #4a8ba8;
-    --color-4: #1a2f4a;
-    --color-5: #000000;
-}
-
-/* Technology Filter - Blue Theme (EXACT from timeline buttons) */
-.filter-technology {
+/* Technology Filter Button - Blue Theme */
+.filter-container .filter-btn.filter-technology {
     --pos-x: 11.14%;
     --pos-y: 140%;
     --spread-x: 150%;
@@ -3537,11 +3492,11 @@ body {
     --color-1: #000;
     --color-2: #08122c;
     --color-3: #1e3a6a;
-    --color-4: #4678b8;
+    --color-4: #4678b8;  /* Light blue - overrides green */
     --color-5: #4488ff;
 }
 
-.filter-technology:hover {
+.filter-container .filter-btn.filter-technology:hover {
     --pos-x: 0%;
     --pos-y: 91.51%;
     --spread-x: 120.24%;
@@ -3549,12 +3504,65 @@ body {
     --color-1: #4488ff;
     --color-2: #64a8ff;
     --color-3: #0066ff;
-    --color-4: #0a1a4d;
+    --color-4: #0a1a4d;  /* Dark navy - no green */
     --color-5: #000;
+    transform: scale(1.05);
 }
 
-/* Operations Filter - Purple Theme (EXACT from timeline buttons) */
-.filter-operations {
+/* Main Filter Button - Dark Theme */
+.filter-container .filter-btn.filter-main {
+    --pos-x: 11.14%;
+    --pos-y: 140%;
+    --spread-x: 150%;
+    --spread-y: 180.06%;
+    --color-1: #000;
+    --color-2: #08012c;
+    --color-3: #4e1e40;
+    --color-4: #70464e;  /* Dark mauve - overrides green */
+    --color-5: #88394c;
+}
+
+.filter-container .filter-btn.filter-main:hover {
+    --pos-x: 0%;
+    --pos-y: 91.51%;
+    --spread-x: 120.24%;
+    --spread-y: 103.18%;
+    --color-1: #c96287;
+    --color-2: #c66c64;
+    --color-3: #cc7d23;
+    --color-4: #37140a;  /* Dark brown - no green */
+    --color-5: #000;
+    transform: scale(1.05);
+}
+
+/* All Filter Button - Multi-color Theme */
+.filter-container .filter-btn.filter-all {
+    --pos-x: 11.14%;
+    --pos-y: 140%;
+    --spread-x: 150%;
+    --spread-y: 180.06%;
+    --color-1: #000;
+    --color-2: #1a1a2e;
+    --color-3: #16213e;
+    --color-4: #0f3460;  /* Dark blue - overrides green */
+    --color-5: #e94560;
+}
+
+.filter-container .filter-btn.filter-all:hover {
+    --pos-x: 0%;
+    --pos-y: 91.51%;
+    --spread-x: 120.24%;
+    --spread-y: 103.18%;
+    --color-1: #e94560;
+    --color-2: #ff6b6b;
+    --color-3: #4ecdc4;
+    --color-4: #1a535c;  /* Dark teal - no green */
+    --color-5: #000;
+    transform: scale(1.05);
+}
+
+/* Operations Filter Button - Purple Theme */
+.filter-container .filter-btn.filter-operations {
     --pos-x: 11.14%;
     --pos-y: 140%;
     --spread-x: 150%;
@@ -3562,11 +3570,11 @@ body {
     --color-1: #000;
     --color-2: #1a082c;
     --color-3: #4a1e6a;
-    --color-4: #8646b8;
+    --color-4: #8646b8;  /* Purple - overrides green */
     --color-5: #9944ff;
 }
 
-.filter-operations:hover {
+.filter-container .filter-btn.filter-operations:hover {
     --pos-x: 0%;
     --pos-y: 91.51%;
     --spread-x: 120.24%;
@@ -3574,37 +3582,13 @@ body {
     --color-1: #9944ff;
     --color-2: #aa64ff;
     --color-3: #7700ff;
-    --color-4: #2a0a4d;
+    --color-4: #2a0a4d;  /* Dark purple - no green */
     --color-5: #000;
+    transform: scale(1.05);
 }
 
-/* Completed Filter - EXACT completed milestone colors */
-.filter-completed {
-    --pos-x: 11.14%;
-    --pos-y: 140%;
-    --spread-x: 150%;
-    --spread-y: 180.06%;
-    --color-1: #0f1f2f;  /* Default */
-    --color-2: #1a2f4a;  /* Default */
-    --color-3: #00ff96;  /* Bright green - from completed */
-    --color-4: #00c851;  /* Green - from completed */
-    --color-5: #64c8ff;  /* Default */
-}
-
-.filter-completed:hover {
-    --pos-x: 0%;
-    --pos-y: 91.51%;
-    --spread-x: 120.24%;
-    --spread-y: 103.18%;
-    --color-1: #2a5f4a;  /* Deep emerald */
-    --color-2: #1e4737;  /* Darker emerald */
-    --color-3: #c4941f;  /* Rich gold */
-    --color-4: #1a2f4a;  /* Default */
-    --color-5: #000000;  /* Default */
-}
-
-/* In Progress Filter - Grey/Silver Theme (EXACT from timeline buttons) */
-.filter-in-progress {
+/* In-Progress Filter Button - Silver/Gray Theme */
+.filter-container .filter-btn.filter-in-progress {
     --pos-x: 11.14%;
     --pos-y: 140%;
     --spread-x: 150%;
@@ -3612,11 +3596,11 @@ body {
     --color-1: #000;
     --color-2: #1a1a1a;
     --color-3: #4a4a4a;
-    --color-4: #a0a0a0;
+    --color-4: #a0a0a0;  /* Silver - overrides green */
     --color-5: #d0d0d0;
 }
 
-.filter-in-progress:hover {
+.filter-container .filter-btn.filter-in-progress:hover {
     --pos-x: 0%;
     --pos-y: 91.51%;
     --spread-x: 120.24%;
@@ -3624,12 +3608,13 @@ body {
     --color-1: #e0e0e0;
     --color-2: #c0c0c0;
     --color-3: #808080;
-    --color-4: #303030;
+    --color-4: #303030;  /* Dark gray - no green */
     --color-5: #000;
+    transform: scale(1.05);
 }
 
-/* Future Filter - Gold Theme (EXACT from timeline buttons) */
-.filter-future {
+/* Future Filter Button - Gold Theme */
+.filter-container .filter-btn.filter-future {
     --pos-x: 11.14%;
     --pos-y: 140%;
     --spread-x: 150%;
@@ -3637,11 +3622,11 @@ body {
     --color-1: #000;
     --color-2: #2c2008;
     --color-3: #6b5a1e;
-    --color-4: #b89c46;
+    --color-4: #b89c46;  /* Gold - overrides green */
     --color-5: #ffdd44;
 }
 
-.filter-future:hover {
+.filter-container .filter-btn.filter-future:hover {
     --pos-x: 0%;
     --pos-y: 91.51%;
     --spread-x: 120.24%;
@@ -3649,8 +3634,35 @@ body {
     --color-1: #ffd700;
     --color-2: #ffc864;
     --color-3: #ffaa23;
-    --color-4: #4d3a0a;
+    --color-4: #4d3a0a;  /* Dark brown - no green */
     --color-5: #000;
+    transform: scale(1.05);
+}
+
+/* Completed Filter Button - Green Theme (intentionally green) */
+.filter-container .filter-btn.filter-completed {
+    --pos-x: 11.14%;
+    --pos-y: 140%;
+    --spread-x: 150%;
+    --spread-y: 180.06%;
+    --color-1: #000;
+    --color-2: #082c08;
+    --color-3: #1e6a1e;
+    --color-4: #00c851;  /* Green - intentionally kept */
+    --color-5: #44ff44;
+}
+
+.filter-container .filter-btn.filter-completed:hover {
+    --pos-x: 0%;
+    --pos-y: 91.51%;
+    --spread-x: 120.24%;
+    --spread-y: 103.18%;
+    --color-1: #2a5f4a;
+    --color-2: #1e4737;
+    --color-3: #c4941f;
+    --color-4: #0a4d0a;  /* Dark green */
+    --color-5: #000;
+    transform: scale(1.05);
 }
 
 /* Active state for filter buttons */

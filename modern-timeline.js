@@ -1711,7 +1711,7 @@ function setupFilterContainer() {
 
     // Apply styles with saved or default position
     filterContainer.style.cssText = `
-        position: fixed !important;
+        position: absolute !important;
         top: ${initialTop}px !important;
         left: ${initialLeft} !important;
         transform: ${transform} !important;
@@ -1874,10 +1874,11 @@ function setupDraggable(element) {
         const deltaX = currentX - startX;
         const deltaY = currentY - startY;
 
+        // Calculate new position accounting for scroll
         const newX = initialX + deltaX;
-        const newY = initialY + deltaY;
+        const newY = initialY + deltaY + window.scrollY;
 
-        // Apply position
+        // Apply position (absolute positioning relative to page)
         element.style.left = newX + 'px';
         element.style.top = newY + 'px';
         element.style.transform = 'none'; // Remove centering transform

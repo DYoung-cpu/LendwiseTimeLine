@@ -3402,7 +3402,7 @@ body {
 
 /* Filter Container - Draggable */
 .filter-container {
-    position: fixed;
+    position: absolute;  /* Changed from fixed to stick to page */
     top: 150px;
     left: 50%;
     transform: translateX(-50%);

@@ -3443,7 +3443,7 @@ body {
     opacity: 1;
 }
 
-/* Base Filter Button Styling - EXACT SAME AS TIMELINE BUTTONS */
+/* Base Filter Button Styling - NO GRADIENT to avoid green override */
 .filter-btn {
     position: relative;
     padding: 10px 20px;
@@ -3455,15 +3455,7 @@ body {
     cursor: pointer;
     white-space: nowrap;
     overflow: hidden;
-    /* Direct gradient background - EXACT SAME as milestone-dot */
-    background: radial-gradient(
-        var(--spread-x) var(--spread-y) at var(--pos-x) var(--pos-y),
-        var(--color-1) 37.35%,
-        var(--color-2) 61.36%,
-        var(--color-3) 78.42%,
-        var(--color-4) 89.52%,
-        var(--color-5) 100%
-    );
+    /* Gradient removed - applied per button to avoid @property initial value issues */
     /* Transitions for animated gradient */
     transition:
         --pos-x 0.5s,
@@ -3494,6 +3486,15 @@ body {
     --color-3: #1e3a6a;
     --color-4: #4678b8;  /* Light blue - overrides green */
     --color-5: #4488ff;
+    /* Apply gradient directly to avoid base class issues */
+    background: radial-gradient(
+        var(--spread-x) var(--spread-y) at var(--pos-x) var(--pos-y),
+        var(--color-1) 37.35%,
+        var(--color-2) 61.36%,
+        var(--color-3) 78.42%,
+        var(--color-4) 89.52%,
+        var(--color-5) 100%
+    );
 }
 
 .filter-container .filter-btn.filter-technology:hover {
@@ -3520,6 +3521,15 @@ body {
     --color-3: #4e1e40;
     --color-4: #70464e;  /* Dark mauve - overrides green */
     --color-5: #88394c;
+    /* Apply gradient directly to avoid base class issues */
+    background: radial-gradient(
+        var(--spread-x) var(--spread-y) at var(--pos-x) var(--pos-y),
+        var(--color-1) 37.35%,
+        var(--color-2) 61.36%,
+        var(--color-3) 78.42%,
+        var(--color-4) 89.52%,
+        var(--color-5) 100%
+    );
 }
 
 .filter-container .filter-btn.filter-main:hover {
@@ -3546,6 +3556,15 @@ body {
     --color-3: #16213e;
     --color-4: #0f3460;  /* Dark blue - overrides green */
     --color-5: #e94560;
+    /* Apply gradient directly to avoid base class issues */
+    background: radial-gradient(
+        var(--spread-x) var(--spread-y) at var(--pos-x) var(--pos-y),
+        var(--color-1) 37.35%,
+        var(--color-2) 61.36%,
+        var(--color-3) 78.42%,
+        var(--color-4) 89.52%,
+        var(--color-5) 100%
+    );
 }
 
 .filter-container .filter-btn.filter-all:hover {
@@ -3572,6 +3591,15 @@ body {
     --color-3: #4a1e6a;
     --color-4: #8646b8;  /* Purple - overrides green */
     --color-5: #9944ff;
+    /* Apply gradient directly to avoid base class issues */
+    background: radial-gradient(
+        var(--spread-x) var(--spread-y) at var(--pos-x) var(--pos-y),
+        var(--color-1) 37.35%,
+        var(--color-2) 61.36%,
+        var(--color-3) 78.42%,
+        var(--color-4) 89.52%,
+        var(--color-5) 100%
+    );
 }
 
 .filter-container .filter-btn.filter-operations:hover {
@@ -3598,6 +3626,15 @@ body {
     --color-3: #4a4a4a;
     --color-4: #a0a0a0;  /* Silver - overrides green */
     --color-5: #d0d0d0;
+    /* Apply gradient directly to avoid base class issues */
+    background: radial-gradient(
+        var(--spread-x) var(--spread-y) at var(--pos-x) var(--pos-y),
+        var(--color-1) 37.35%,
+        var(--color-2) 61.36%,
+        var(--color-3) 78.42%,
+        var(--color-4) 89.52%,
+        var(--color-5) 100%
+    );
 }
 
 .filter-container .filter-btn.filter-in-progress:hover {
@@ -3624,6 +3661,15 @@ body {
     --color-3: #6b5a1e;
     --color-4: #b89c46;  /* Gold - overrides green */
     --color-5: #ffdd44;
+    /* Apply gradient directly to avoid base class issues */
+    background: radial-gradient(
+        var(--spread-x) var(--spread-y) at var(--pos-x) var(--pos-y),
+        var(--color-1) 37.35%,
+        var(--color-2) 61.36%,
+        var(--color-3) 78.42%,
+        var(--color-4) 89.52%,
+        var(--color-5) 100%
+    );
 }
 
 .filter-container .filter-btn.filter-future:hover {
@@ -3650,6 +3696,15 @@ body {
     --color-3: #1e6a1e;
     --color-4: #00c851;  /* Green - intentionally kept */
     --color-5: #44ff44;
+    /* Apply gradient directly to avoid base class issues */
+    background: radial-gradient(
+        var(--spread-x) var(--spread-y) at var(--pos-x) var(--pos-y),
+        var(--color-1) 37.35%,
+        var(--color-2) 61.36%,
+        var(--color-3) 78.42%,
+        var(--color-4) 89.52%,
+        var(--color-5) 100%
+    );
 }
 
 .filter-container .filter-btn.filter-completed:hover {

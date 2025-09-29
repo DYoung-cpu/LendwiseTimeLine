@@ -1721,12 +1721,8 @@ function setupFilterContainer() {
         visibility: visible !important;
         align-items: center !important;
         gap: 10px !important;
-        padding: 10px !important;
-        background: rgba(2, 6, 23, 0.95) !important;
-        border-radius: 30px !important;
+        padding: 0 !important;
         cursor: move !important;
-        box-shadow: 0 0 20px rgba(255, 255, 255, 0.5) !important;
-        border: 2px solid rgba(255, 255, 255, 0.3) !important;
         width: auto !important;
         height: auto !important;
     `;

@@ -1,0 +1,364 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>LendWise Intro Animation with Text</title>
+
+    <!-- Three.js for shader animation -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+
+    <!-- Include timeline styles for WISR elements -->
+    <link rel="stylesheet" href="timeline-styles.css">
+
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            overflow: hidden;
+            background: #000;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Helvetica Neue', sans-serif;
+        }
+
+        /* Keep shader visible indefinitely */
+        .shader-intro {
+            animation: none !important;
+            opacity: 1 !important;
+            display: block !important;
+        }
+
+        /* LENDWISE MORTGAGE Text Styling */
+        .lendwise-intro-text {
+            position: absolute;
+            top: 25%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            z-index: 20;
+            pointer-events: none;
+            user-select: none;
+        }
+
+        .lendwise-word {
+            font-size: 4.5rem;
+            font-weight: 300;
+            letter-spacing: 0.25em;
+            display: block;
+            text-align: center;
+            position: relative;
+            /* Simple visible text */
+            color: #FFD700;
+            text-shadow: 0 0 20px #FFD700,
+                        0 0 40px #FFA500,
+                        0 0 60px rgba(255, 215, 0, 0.5);
+            /* Animation properties */
+            transition: all 0.3s ease;
+        }
+
+        .mortgage-word {
+            font-size: 3.8rem;
+            font-weight: 400;
+            letter-spacing: 0.35em;
+            margin-top: -0.3rem;
+            display: block;
+            text-align: center;
+            color: #00C851;
+            text-shadow: 0 0 20px #00C851,
+                        0 0 40px #00FF00,
+                        0 0 60px rgba(0, 200, 81, 0.5);
+        }
+
+        /* Individual letter spans for wave effect */
+        .letter {
+            display: inline-block;
+            position: relative;
+            transition: all 0.3s ease;
+            animation: subtle-float 8s ease-in-out infinite;
+        }
+
+        .letter.tall {
+            font-size: 1.15em;
+            font-weight: 100;
+        }
+
+        /* Subtle floating animation */
+        @keyframes subtle-float {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-5px); }
+        }
+
+        /* Ripple interaction classes */
+        .ripple-passing {
+            animation: ripple-distort 0.8s ease-out;
+        }
+
+        @keyframes ripple-distort {
+            0% {
+                transform: scaleX(1) scaleY(1);
+                filter: drop-shadow(0 0 20px rgba(255, 215, 0, 0.3))
+                        drop-shadow(0 0 40px rgba(0, 200, 81, 0.2));
+            }
+            50% {
+                transform: scaleX(1.08) scaleY(0.95);
+                filter: drop-shadow(0 0 40px rgba(255, 215, 0, 0.8))
+                        drop-shadow(0 0 60px rgba(0, 200, 81, 0.6))
+                        brightness(1.3);
+                letter-spacing: 0.3em;
+            }
+            100% {
+                transform: scaleX(1) scaleY(1);
+                filter: drop-shadow(0 0 20px rgba(255, 215, 0, 0.3))
+                        drop-shadow(0 0 40px rgba(0, 200, 81, 0.2));
+            }
+        }
+
+        /* Individual letter animation with delay */
+        .letter.ripple-active {
+            animation: letter-wave 0.6s ease-out;
+        }
+
+        @keyframes letter-wave {
+            0% {
+                transform: translateY(0) scaleY(1);
+                opacity: 1;
+            }
+            50% {
+                transform: translateY(-10px) scaleY(1.1);
+                opacity: 0.9;
+                filter: brightness(1.5) blur(0.5px);
+            }
+            100% {
+                transform: translateY(0) scaleY(1);
+                opacity: 1;
+            }
+        }
+
+        /* Glow pulse that syncs with ripples */
+        .text-glow-pulse {
+            animation: glow-pulse 2s ease-out;
+        }
+
+        @keyframes glow-pulse {
+            0% {
+                filter: drop-shadow(0 0 20px rgba(255, 215, 0, 0.3))
+                        drop-shadow(0 0 40px rgba(0, 200, 81, 0.2));
+            }
+            50% {
+                filter: drop-shadow(0 0 50px rgba(255, 215, 0, 1))
+                        drop-shadow(0 0 80px rgba(0, 200, 81, 0.8))
+                        drop-shadow(0 0 100px rgba(255, 215, 0, 0.4));
+            }
+            100% {
+                filter: drop-shadow(0 0 20px rgba(255, 215, 0, 0.3))
+                        drop-shadow(0 0 40px rgba(0, 200, 81, 0.2));
+            }
+        }
+
+        /* Remove filter-based animations for now to ensure visibility */
+    </style>
+</head>
+<body>
+    <!-- Three.js Shader Background Animation (continuous) -->
+    <div id="shader-container" class="shader-intro">
+        <div class="shader-overlay">
+            <!-- LENDWISE MORTGAGE Text -->
+            <div class="lendwise-intro-text" id="lendwise-text">
+                <span class="lendwise-word">
+                    <span class="letter tall">L</span><span class="letter">E</span><span class="letter">N</span><span class="letter">D</span><span class="letter tall">W</span><span class="letter">I</span><span class="letter">S</span><span class="letter">E</span>
+                </span>
+                <span class="mortgage-word">
+                    <span class="letter">M</span><span class="letter">O</span><span class="letter">R</span><span class="letter">T</span><span class="letter">G</span><span class="letter">A</span><span class="letter">G</span><span class="letter">E</span>
+                </span>
+            </div>
+
+            <!-- WISR Video Circle in Center -->
+            <div class="wisr-showcase-center">
+                <div class="wisr-glow"></div>
+                <div class="wisr-video-circle">
+                    <video id="center-owl-video" autoplay muted loop playsinline>
+                        <source src="wisr-owl.mp4" type="video/mp4" />
+                    </video>
+                    <div class="video-mask-overlay"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Three.js Shader Animation - Continuous background
+        let shaderUniforms;
+
+        function initShaderAnimation() {
+            if (typeof THREE === 'undefined') {
+                console.error('Three.js not loaded');
+                return;
+            }
+
+            const container = document.getElementById('shader-container');
+            if (!container) {
+                console.error('Shader container not found');
+                return;
+            }
+
+            // Vertex shader
+            const vertexShader = `
+                void main() {
+                    gl_Position = vec4(position, 1.0);
+                }
+            `;
+
+            // Fragment shader - with optimizations
+            const fragmentShader = `
+                #define TWO_PI 6.2831853072
+                #define PI 3.14159265359
+
+                precision highp float;
+                uniform vec2 resolution;
+                uniform float time;
+
+                void main(void) {
+                    vec2 uv = (gl_FragCoord.xy * 2.0 - resolution.xy) / min(resolution.x, resolution.y);
+                    float t = time * 0.045;  // Optimized cycle speed
+                    float lineWidth = 0.002;
+
+                    vec3 goldColor = vec3(1.0, 0.84, 0.0);
+                    vec3 greenColor = vec3(0.0, 0.8, 0.2);
+
+                    float intensity = 0.0;
+                    float owlRadius = 0.13;
+
+                    for(int i=0; i < 5; i++){
+                        // Optimized to minimize black screen time
+                        float rippleExpansion = fract(t + float(i)*0.015)*2.2;  // Max 2.2 units, tighter spacing
+                        float adjustedLength = length(uv) - owlRadius;
+                        intensity += lineWidth*float(i+1) / abs(rippleExpansion - adjustedLength + mod(uv.x+uv.y, 0.2));
+                    }
+
+                    float fadeFactor = smoothstep(0.0, owlRadius, length(uv));
+                    intensity *= fadeFactor;
+
+                    float mixFactor = sin(uv.x * 3.0 + time * 0.1) * 0.5 + 0.5;
+                    vec3 color = mix(goldColor, greenColor, mixFactor) * intensity;
+
+                    gl_FragColor = vec4(color, 1.0);
+                }
+            `;
+
+            // Initialize Three.js scene
+            const camera = new THREE.Camera();
+            camera.position.z = 1;
+
+            const scene = new THREE.Scene();
+            const geometry = new THREE.PlaneGeometry(2, 2);
+
+            const uniforms = {
+                time: { type: "f", value: 1.0 },
+                resolution: { type: "v2", value: new THREE.Vector2() }
+            };
+
+            shaderUniforms = uniforms; // Store globally for ripple tracking
+
+            const material = new THREE.ShaderMaterial({
+                uniforms: uniforms,
+                vertexShader: vertexShader,
+                fragmentShader: fragmentShader
+            });
+
+            const mesh = new THREE.Mesh(geometry, material);
+            scene.add(mesh);
+
+            const renderer = new THREE.WebGLRenderer({ antialias: true });
+            renderer.setPixelRatio(window.devicePixelRatio);
+
+            container.insertBefore(renderer.domElement, container.firstChild);
+
+            function onWindowResize() {
+                const width = container.clientWidth;
+                const height = container.clientHeight;
+                renderer.setSize(width, height);
+                uniforms.resolution.value.x = renderer.domElement.width;
+                uniforms.resolution.value.y = renderer.domElement.height;
+            }
+
+            onWindowResize();
+            window.addEventListener('resize', onWindowResize, false);
+
+            // Continuous animation loop
+            function animate() {
+                requestAnimationFrame(animate);
+                uniforms.time.value += 0.023;  // Animation speed
+                renderer.render(scene, camera);
+
+                // Track ripple position for text interaction
+                trackRipplePosition(uniforms.time.value);
+            }
+
+            animate();
+        }
+
+        // Track ripple position and animate text
+        let lastRippleTrigger = 0;
+        function trackRipplePosition(time) {
+            // Calculate current ripple expansion
+            const t = time * 0.045;
+            const rippleExpansion = (t % 1.0) * 2.2; // Main ripple position
+
+            // Text is at ~25% from top, owl at center (50%)
+            // In shader coordinates, this is approximately -0.5 to -0.3 for text
+            const textYPosition = 0.6; // Distance from center to text
+
+            // Check if ripple is passing through text area
+            if (rippleExpansion > textYPosition - 0.1 && rippleExpansion < textYPosition + 0.2) {
+                // Trigger text animation
+                if (Date.now() - lastRippleTrigger > 1000) { // Prevent too frequent triggers
+                    animateTextRipple();
+                    lastRippleTrigger = Date.now();
+                }
+            }
+        }
+
+        // Animate text when ripple passes through
+        function animateTextRipple() {
+            const lendwiseLetters = document.querySelectorAll('.lendwise-word .letter');
+            const mortgageLetters = document.querySelectorAll('.mortgage-word .letter');
+
+            // Animate LENDWISE letters with stagger
+            lendwiseLetters.forEach((letter, index) => {
+                setTimeout(() => {
+                    letter.classList.add('ripple-active');
+                    setTimeout(() => {
+                        letter.classList.remove('ripple-active');
+                    }, 600);
+                }, index * 50); // Stagger by 50ms
+            });
+
+            // Animate MORTGAGE letters with stagger (slight delay after LENDWISE)
+            mortgageLetters.forEach((letter, index) => {
+                setTimeout(() => {
+                    letter.classList.add('ripple-active');
+                    setTimeout(() => {
+                        letter.classList.remove('ripple-active');
+                    }, 600);
+                }, 200 + index * 50); // Start 200ms after LENDWISE
+            });
+
+            // Add overall glow pulse to text container
+            const textContainer = document.getElementById('lendwise-text');
+            textContainer.classList.add('text-glow-pulse');
+            setTimeout(() => {
+                textContainer.classList.remove('text-glow-pulse');
+            }, 2000);
+        }
+
+        // Initialize on page load
+        document.addEventListener('DOMContentLoaded', () => {
+            initShaderAnimation();
+
+            // Add subtle floating animation offset to each letter
+            const allLetters = document.querySelectorAll('.letter');
+            allLetters.forEach((letter, index) => {
+                letter.style.animationDelay = `${index * 0.2}s`;
+            });
+        });
+    </script>
+</body>
+</html>

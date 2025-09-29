@@ -990,7 +990,7 @@ html, body {
     box-shadow:
         0 0 30px rgba(251, 191, 36, 0.5),
         inset 0 0 15px rgba(0, 0, 0, 0.5) !important;
-    border: 3px solid rgba(251, 191, 36, 0.8) !important;
+    border: 2px solid rgba(255, 215, 0, 0.8) !important;
     z-index: 1;
     /* Ensure perfect circle */
     aspect-ratio: 1 / 1;
@@ -3394,4 +3394,266 @@ body {
 .benefit-card p {
     color: rgba(255, 255, 255, 0.7);
     line-height: 1.5;
+}
+
+/* ========================================
+   FILTER CONTAINER - Draggable & Collapsible
+   ======================================== */
+
+/* Filter Container - Draggable */
+.filter-container {
+    position: fixed;
+    top: 150px;
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 10000;
+    display: none; /* Hidden initially */
+    align-items: center;
+    gap: 10px;
+    padding: 5px;
+    background: rgba(2, 6, 23, 0.95);
+    border-radius: 30px;
+    backdrop-filter: blur(10px);
+    transition: opacity 0.5s ease;
+    cursor: move;
+}
+
+.filter-container.visible {
+    display: flex !important;
+    opacity: 1 !important;
+}
+
+.filter-container.dragging {
+    opacity: 0.8;
+    cursor: grabbing;
+}
+
+/* Filter Options Container */
+.filter-options {
+    display: flex;
+    gap: 10px;
+    overflow: hidden;
+    max-width: 0;
+    opacity: 0;
+    transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.filter-container.expanded .filter-options {
+    max-width: 800px;
+    opacity: 1;
+}
+
+/* Base Filter Button Styling - EXACT SAME AS TIMELINE BUTTONS */
+.filter-btn {
+    position: relative;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 25px;
+    font-size: 0.9rem;
+    font-weight: 600;
+    color: white;
+    cursor: pointer;
+    white-space: nowrap;
+    overflow: hidden;
+    /* Direct gradient background - EXACT SAME as milestone-dot */
+    background: radial-gradient(
+        var(--spread-x) var(--spread-y) at var(--pos-x) var(--pos-y),
+        var(--color-1) 37.35%,
+        var(--color-2) 61.36%,
+        var(--color-3) 78.42%,
+        var(--color-4) 89.52%,
+        var(--color-5) 100%
+    );
+    /* Transitions for animated gradient */
+    transition:
+        --pos-x 0.5s,
+        --pos-y 0.5s,
+        --spread-x 0.5s,
+        --spread-y 0.5s,
+        --color-1 0.5s,
+        --color-2 0.5s,
+        --color-3 0.5s,
+        --color-4 0.5s,
+        --color-5 0.5s,
+        transform 0.3s;
+}
+
+/* Main Filter Button - Default timeline colors */
+.filter-main {
+    --pos-x: 11.14%;
+    --pos-y: 140%;
+    --spread-x: 150%;
+    --spread-y: 180.06%;
+    --color-1: #0f1f2f;
+    --color-2: #1a2f4a;
+    --color-3: #2a4a3a;
+    --color-4: #00c851;
+    --color-5: #64c8ff;
+}
+
+.filter-main:hover {
+    --pos-x: 0%;
+    --pos-y: 91.51%;
+    --spread-x: 120.24%;
+    --spread-y: 103.18%;
+    --color-1: #2d5a3d;
+    --color-2: #c9a961;
+    --color-3: #4a8ba8;
+    --color-4: #1a2f4a;
+    --color-5: #000000;
+}
+
+/* All Filter - Default timeline colors */
+.filter-all {
+    --pos-x: 11.14%;
+    --pos-y: 140%;
+    --spread-x: 150%;
+    --spread-y: 180.06%;
+    --color-1: #0f1f2f;
+    --color-2: #1a2f4a;
+    --color-3: #2a4a3a;
+    --color-4: #00c851;
+    --color-5: #64c8ff;
+}
+
+.filter-all:hover {
+    --pos-x: 0%;
+    --pos-y: 91.51%;
+    --spread-x: 120.24%;
+    --spread-y: 103.18%;
+    --color-1: #2d5a3d;
+    --color-2: #c9a961;
+    --color-3: #4a8ba8;
+    --color-4: #1a2f4a;
+    --color-5: #000000;
+}
+
+/* Technology Filter - Blue Theme (EXACT from timeline buttons) */
+.filter-technology {
+    --pos-x: 11.14%;
+    --pos-y: 140%;
+    --spread-x: 150%;
+    --spread-y: 180.06%;
+    --color-1: #000;
+    --color-2: #08122c;
+    --color-3: #1e3a6a;
+    --color-4: #4678b8;
+    --color-5: #4488ff;
+}
+
+.filter-technology:hover {
+    --pos-x: 0%;
+    --pos-y: 91.51%;
+    --spread-x: 120.24%;
+    --spread-y: 103.18%;
+    --color-1: #4488ff;
+    --color-2: #64a8ff;
+    --color-3: #0066ff;
+    --color-4: #0a1a4d;
+    --color-5: #000;
+}
+
+/* Operations Filter - Purple Theme (EXACT from timeline buttons) */
+.filter-operations {
+    --pos-x: 11.14%;
+    --pos-y: 140%;
+    --spread-x: 150%;
+    --spread-y: 180.06%;
+    --color-1: #000;
+    --color-2: #1a082c;
+    --color-3: #4a1e6a;
+    --color-4: #8646b8;
+    --color-5: #9944ff;
+}
+
+.filter-operations:hover {
+    --pos-x: 0%;
+    --pos-y: 91.51%;
+    --spread-x: 120.24%;
+    --spread-y: 103.18%;
+    --color-1: #9944ff;
+    --color-2: #aa64ff;
+    --color-3: #7700ff;
+    --color-4: #2a0a4d;
+    --color-5: #000;
+}
+
+/* Completed Filter - EXACT completed milestone colors */
+.filter-completed {
+    --pos-x: 11.14%;
+    --pos-y: 140%;
+    --spread-x: 150%;
+    --spread-y: 180.06%;
+    --color-1: #0f1f2f;  /* Default */
+    --color-2: #1a2f4a;  /* Default */
+    --color-3: #00ff96;  /* Bright green - from completed */
+    --color-4: #00c851;  /* Green - from completed */
+    --color-5: #64c8ff;  /* Default */
+}
+
+.filter-completed:hover {
+    --pos-x: 0%;
+    --pos-y: 91.51%;
+    --spread-x: 120.24%;
+    --spread-y: 103.18%;
+    --color-1: #2a5f4a;  /* Deep emerald */
+    --color-2: #1e4737;  /* Darker emerald */
+    --color-3: #c4941f;  /* Rich gold */
+    --color-4: #1a2f4a;  /* Default */
+    --color-5: #000000;  /* Default */
+}
+
+/* In Progress Filter - Grey/Silver Theme (EXACT from timeline buttons) */
+.filter-in-progress {
+    --pos-x: 11.14%;
+    --pos-y: 140%;
+    --spread-x: 150%;
+    --spread-y: 180.06%;
+    --color-1: #000;
+    --color-2: #1a1a1a;
+    --color-3: #4a4a4a;
+    --color-4: #a0a0a0;
+    --color-5: #d0d0d0;
+}
+
+.filter-in-progress:hover {
+    --pos-x: 0%;
+    --pos-y: 91.51%;
+    --spread-x: 120.24%;
+    --spread-y: 103.18%;
+    --color-1: #e0e0e0;
+    --color-2: #c0c0c0;
+    --color-3: #808080;
+    --color-4: #303030;
+    --color-5: #000;
+}
+
+/* Future Filter - Gold Theme (EXACT from timeline buttons) */
+.filter-future {
+    --pos-x: 11.14%;
+    --pos-y: 140%;
+    --spread-x: 150%;
+    --spread-y: 180.06%;
+    --color-1: #000;
+    --color-2: #2c2008;
+    --color-3: #6b5a1e;
+    --color-4: #b89c46;
+    --color-5: #ffdd44;
+}
+
+.filter-future:hover {
+    --pos-x: 0%;
+    --pos-y: 91.51%;
+    --spread-x: 120.24%;
+    --spread-y: 103.18%;
+    --color-1: #ffd700;
+    --color-2: #ffc864;
+    --color-3: #ffaa23;
+    --color-4: #4d3a0a;
+    --color-5: #000;
+}
+
+/* Active state for filter buttons */
+.filter-btn.active {
+    box-shadow: 0 0 20px rgba(255, 255, 255, 0.3);
 }

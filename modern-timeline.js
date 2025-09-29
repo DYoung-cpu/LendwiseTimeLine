@@ -1653,4 +1653,286 @@ function setupEditableText() {
     controlPanel.appendChild(saveButton);
 }
 
+// ========================================
+// FILTER CONTAINER FUNCTIONALITY
+// ========================================
 
+// Setup filter container functionality
+function setupFilterContainer() {
+    console.log('🔍 Setting up filter container...');
+
+    const filterContainer = document.getElementById('filter-container');
+    if (!filterContainer) {
+        console.error('❌ Filter container not found in DOM');
+        return;
+    }
+
+    const mainFilterBtn = filterContainer.querySelector('.filter-main');
+    const filterButtons = filterContainer.querySelectorAll('.filter-btn:not(.filter-main)');
+
+    if (!mainFilterBtn) {
+        console.error('❌ Main filter button not found');
+        return;
+    }
+
+    console.log('✅ Filter container found, showing it now...');
+
+    // Get the filter options container
+    const filterOptions = filterContainer.querySelector('.filter-options');
+    if (filterOptions) {
+        // Initially hide the options
+        filterOptions.style.cssText = `
+            display: none !important;
+            gap: 10px !important;
+            opacity: 0 !important;
+            max-width: 0 !important;
+            overflow: hidden !important;
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1) !important;
+        `;
+    }
+
+    // Check if there's a saved position
+    const savedPosition = localStorage.getItem('filterPosition');
+    let initialTop = 100;
+    let initialLeft = '50%';
+    let transform = 'translateX(-50%)';
+
+    if (savedPosition) {
+        try {
+            const pos = JSON.parse(savedPosition);
+            initialTop = pos.top || 100;
+            initialLeft = pos.left + 'px';
+            transform = 'none'; // No transform when using absolute positioning
+            console.log('Loading saved filter position:', pos);
+        } catch (e) {
+            console.log('Using default filter position');
+        }
+    }
+
+    // Apply styles with saved or default position
+    filterContainer.style.cssText = `
+        position: fixed !important;
+        top: ${initialTop}px !important;
+        left: ${initialLeft} !important;
+        transform: ${transform} !important;
+        z-index: 99999 !important;
+        display: flex !important;
+        opacity: 1 !important;
+        visibility: visible !important;
+        align-items: center !important;
+        gap: 10px !important;
+        padding: 10px !important;
+        background: rgba(2, 6, 23, 0.95) !important;
+        border-radius: 30px !important;
+        cursor: move !important;
+        box-shadow: 0 0 20px rgba(255, 255, 255, 0.5) !important;
+        border: 2px solid rgba(255, 255, 255, 0.3) !important;
+        width: auto !important;
+        height: auto !important;
+    `;
+
+    filterContainer.classList.add('visible');
+
+    // Log element details for debugging
+    const rect = filterContainer.getBoundingClientRect();
+    console.log('Filter container position:', {
+        top: rect.top,
+        left: rect.left,
+        width: rect.width,
+        height: rect.height,
+        display: window.getComputedStyle(filterContainer).display,
+        visibility: window.getComputedStyle(filterContainer).visibility,
+        parent: filterContainer.parentElement ? filterContainer.parentElement.tagName : 'none',
+        inDOM: document.body.contains(filterContainer)
+    });
+
+    // Also check if filter buttons are visible
+    const mainBtn = filterContainer.querySelector('.filter-main');
+    if (mainBtn) {
+        const btnRect = mainBtn.getBoundingClientRect();
+        console.log('Main filter button size:', {
+            width: btnRect.width,
+            height: btnRect.height,
+            text: mainBtn.textContent
+        });
+    }
+
+    // Toggle expand/collapse
+    mainFilterBtn.addEventListener('click', (e) => {
+        e.stopPropagation();
+        const isExpanded = filterContainer.classList.contains('expanded');
+
+        if (!isExpanded) {
+            // Expanding
+            filterContainer.classList.add('expanded');
+            if (filterOptions) {
+                filterOptions.style.cssText = `
+                    display: flex !important;
+                    gap: 10px !important;
+                    opacity: 1 !important;
+                    max-width: 800px !important;
+                    overflow: visible !important;
+                    transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1) !important;
+                `;
+            }
+            console.log('Filter expanded');
+        } else {
+            // Collapsing
+            filterContainer.classList.remove('expanded');
+            if (filterOptions) {
+                filterOptions.style.cssText = `
+                    display: none !important;
+                    gap: 10px !important;
+                    opacity: 0 !important;
+                    max-width: 0 !important;
+                    overflow: hidden !important;
+                    transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1) !important;
+                `;
+            }
+            console.log('Filter collapsed');
+        }
+    });
+
+    // Setup filter button clicks
+    filterButtons.forEach(btn => {
+        btn.addEventListener('click', (e) => {
+            e.stopPropagation();
+
+            // Update active state
+            filterButtons.forEach(b => b.classList.remove('active'));
+            btn.classList.add('active');
+
+            // Apply filter
+            const filter = btn.dataset.filter;
+            applyFilter(filter);
+        });
+    });
+
+    // Setup draggable functionality
+    setupDraggable(filterContainer);
+
+    console.log('✅ Filter container setup complete');
+}
+
+// Apply filter to timeline and gallery
+function applyFilter(filter) {
+    console.log('Applying filter:', filter);
+
+    const milestones = document.querySelectorAll('.timeline-milestone');
+    const galleryCards = document.querySelectorAll('.gallery-card');
+
+    milestones.forEach(milestone => {
+        const shouldShow = filter === 'all' ||
+                          milestone.classList.contains(filter) ||
+                          milestone.dataset.category === filter ||
+                          milestone.dataset.status === filter;
+
+        milestone.style.display = shouldShow ? 'block' : 'none';
+    });
+
+    galleryCards.forEach(card => {
+        const shouldShow = filter === 'all' ||
+                          card.classList.contains(filter) ||
+                          card.dataset.category === filter ||
+                          card.dataset.status === filter;
+
+        card.style.display = shouldShow ? 'block' : 'none';
+    });
+}
+
+// Setup draggable functionality
+function setupDraggable(element) {
+    let isDragging = false;
+    let startX, startY;
+    let currentX, currentY;
+    let initialX, initialY;
+
+    const dragStart = (e) => {
+        // Only drag if clicking on the container itself, not buttons
+        if (e.target.classList.contains('filter-btn')) return;
+
+        isDragging = true;
+        element.classList.add('dragging');
+
+        startX = e.type.includes('mouse') ? e.clientX : e.touches[0].clientX;
+        startY = e.type.includes('mouse') ? e.clientY : e.touches[0].clientY;
+
+        const rect = element.getBoundingClientRect();
+        initialX = rect.left;
+        initialY = rect.top;
+
+        e.preventDefault();
+    };
+
+    const drag = (e) => {
+        if (!isDragging) return;
+
+        e.preventDefault();
+
+        currentX = e.type.includes('mouse') ? e.clientX : e.touches[0].clientX;
+        currentY = e.type.includes('mouse') ? e.clientY : e.touches[0].clientY;
+
+        const deltaX = currentX - startX;
+        const deltaY = currentY - startY;
+
+        const newX = initialX + deltaX;
+        const newY = initialY + deltaY;
+
+        // Apply position
+        element.style.left = newX + 'px';
+        element.style.top = newY + 'px';
+        element.style.transform = 'none'; // Remove centering transform
+    };
+
+    const dragEnd = () => {
+        if (!isDragging) return;
+
+        isDragging = false;
+        element.classList.remove('dragging');
+
+        // Save position
+        saveFilterPosition();
+    };
+
+    // Mouse events
+    element.addEventListener('mousedown', dragStart);
+    document.addEventListener('mousemove', drag);
+    document.addEventListener('mouseup', dragEnd);
+
+    // Touch events
+    element.addEventListener('touchstart', dragStart);
+    document.addEventListener('touchmove', drag);
+    document.addEventListener('touchend', dragEnd);
+}
+
+// Save filter position to localStorage
+function saveFilterPosition() {
+    const filterContainer = document.getElementById('filter-container');
+    const rect = filterContainer.getBoundingClientRect();
+
+    const position = {
+        left: rect.left,
+        top: rect.top
+    };
+
+    localStorage.setItem('filterPosition', JSON.stringify(position));
+}
+
+// Load saved filter position
+function loadFilterPosition() {
+    const saved = localStorage.getItem('filterPosition');
+    if (!saved) return;
+
+    try {
+        const position = JSON.parse(saved);
+        const filterContainer = document.getElementById('filter-container');
+
+        filterContainer.style.left = position.left + 'px';
+        filterContainer.style.top = position.top + 'px';
+        filterContainer.style.transform = 'none'; // Remove centering transform
+    } catch (e) {
+        console.error('Error loading filter position:', e);
+    }
+}
+
+// Filter container is now initialized from intro-animation.js after the 3-second intro

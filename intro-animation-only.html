@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Intro Animation Loop - LendWise</title>
+
+    <!-- Three.js for shader animation -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+
+    <!-- Include the actual CSS files -->
+    <link rel="stylesheet" href="timeline-styles.css">
+
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            overflow: hidden;
+            background: #000;
+        }
+    </style>
+</head>
+<body>
+    <!-- Three.js Shader Intro Animation (3 second overlay) -->
+    <div id="shader-container" class="shader-intro">
+        <div class="shader-overlay">
+            <!-- WISR Video Circle in Center -->
+            <div class="wisr-showcase-center">
+                <div class="wisr-glow"></div>
+                <div class="wisr-video-circle">
+                    <video id="center-owl-video" autoplay muted loop playsinline>
+                        <source src="wisr-owl.mp4" type="video/mp4" />
+                    </video>
+                    <div class="video-mask-overlay"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Include the actual JavaScript file -->
+    <script src="intro-animation.js"></script>
+
+    <script>
+        // Override the timeout to loop instead of hiding
+        document.addEventListener('DOMContentLoaded', () => {
+            // Remove the original timeout behavior and replace with loop
+            setTimeout(() => {
+                setInterval(() => {
+                    // Reset animation
+                    const shaderContainer = document.getElementById('shader-container');
+                    if (shaderContainer) {
+                        shaderContainer.style.opacity = '0';
+
+                        setTimeout(() => {
+                            // Reset the time uniform to restart shader animation
+                            if (window.uniforms) {
+                                window.uniforms.time.value = 1.0;
+                            }
+                            shaderContainer.style.opacity = '1';
+                        }, 500);
+                    }
+                }, 3500); // Loop every 3.5 seconds (3 second animation + 0.5 second pause)
+            }, 100); // Small delay to override original behavior
+        });
+    </script>
+</body>
+</html>

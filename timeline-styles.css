@@ -249,7 +249,7 @@ body {
     box-shadow: 0 20px 60px rgba(251, 191, 36, 0.6),
                 0 0 100px rgba(0, 200, 81, 0.3);
     background: transparent;  /* Changed from black to transparent */
-    border: 3px solid transparent;
+    border: 0.2px solid transparent;
     background-image: linear-gradient(#000, #000),
                       linear-gradient(45deg, rgba(255, 215, 0, 0.8), rgba(0, 200, 81, 0.8));
     background-origin: border-box;

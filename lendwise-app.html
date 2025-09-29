@@ -3,13 +3,14 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Continuous Intro Animation - LendWise</title>
+    <title>LendWise Mortgage</title>
 
     <!-- Three.js for shader animation -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
 
-    <!-- Include timeline styles for WISR elements -->
+    <!-- Include timeline styles -->
     <link rel="stylesheet" href="timeline-styles.css">
+    <link rel="stylesheet" href="modern-timeline.css">
 
     <style>
         body {
@@ -25,43 +26,50 @@
             animation: none !important;
             opacity: 1 !important;
             display: block !important;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 1000;
+        }
+
+        /* Main content hidden initially */
+        .main-content {
+            display: none;
+            opacity: 0;
         }
 
         /* Increase owl size by 15% from the 80% (so 95% of original) */
-        .wisr-showcase-center {
+        #shader-container .wisr-showcase-center {
             transform: translate(-50%, -50%) scale(0.95) !important;
         }
 
-        .wisr-video-circle {
-            width: 164px !important;  /* 173px * 0.95 */
+        #shader-container .wisr-video-circle {
+            width: 164px !important;
             height: 164px !important;
-            border: 2px solid rgba(255, 215, 0, 0.8) !important;  /* Visible thin border */
-            background-clip: content-box !important;  /* Ensure border shows */
-            background-image: none !important;  /* Remove gradient border */
-            box-sizing: border-box !important;
         }
 
         /* Remove hover zoom effect on owl */
-        .wisr-showcase-center:hover .wisr-video-circle {
+        #shader-container .wisr-showcase-center:hover .wisr-video-circle {
             transform: none !important;
             animation: none !important;
         }
 
-        .wisr-showcase-center:hover .wisr-glow {
-            animation: pulse-glow 3s ease-in-out infinite !important;  /* Keep original speed */
+        #shader-container .wisr-showcase-center:hover .wisr-glow {
+            animation: pulse-glow 3s ease-in-out infinite !important;
         }
 
-        /* LendWise Mortgage Text Overlay - Same as modern-timeline */
-        .lendwise-logo-text {
+        /* LendWise Mortgage Text Overlay */
+        #shader-container .lendwise-logo-text {
             position: absolute;
-            top: 28%;  /* Moved down to reduce gap with owl by 20% */
+            top: 24%;
             left: 50%;
             transform: translate(-50%, -50%);
             text-align: center;
             z-index: 100;
             pointer-events: none;
-            /* Add backdrop for better contrast */
-            padding: 40px 120px;  /* Increased horizontal padding for wider container */
+            padding: 40px 80px;
             background: radial-gradient(
                 ellipse at center,
                 rgba(0, 0, 0, 0.6) 0%,
@@ -70,161 +78,93 @@
                 transparent 70%
             );
             border-radius: 20px;
-            white-space: nowrap;  /* Prevent container wrapping */
         }
 
-        .lendwise-text {
-            font-size: 4.2rem;  /* Reduced from 5rem for regular letters */
+        #shader-container .lendwise-text {
+            font-size: 5rem;
             font-weight: 400;
             letter-spacing: 0.15em;
-            /* Simple solid gold color - no animation */
             color: #FFD700;
-            /* Direct front-facing shadow effect */
             text-shadow:
-                /* Subtle depth shadow directly behind */
                 0 0 1px rgba(0,0,0,0.8),
                 0 0 2px rgba(0,0,0,0.6),
                 0 0 3px rgba(0,0,0,0.4),
-                /* Golden glow effect */
                 0 0 25px rgba(255,215,0,0.6),
                 0 0 45px rgba(255,215,0,0.4),
                 0 0 65px rgba(255,165,0,0.2),
-                /* Slight outline for definition */
                 1px 1px 1px rgba(0,0,0,0.3),
                 -1px -1px 1px rgba(0,0,0,0.3);
             display: block;
             margin: 0;
             padding: 0;
-            white-space: nowrap;  /* Prevent text wrapping */
         }
 
-        .tall-letter {
-            font-size: 5rem;  /* Keep L and W at original size */
+        #shader-container .tall-letter {
+            font-size: 6rem;
             font-weight: 400;
             display: inline-block;
             vertical-align: baseline;
-            line-height: 0.85;
-            margin: 0 -0.02em;  /* Reduced margin for better spacing */
-            color: #FFD700;  /* Same solid gold color */
+            line-height: 0.7;
+            margin: 0 -0.05em;
+            color: #FFD700;
         }
 
-        .mortgage-text {
-            font-size: 2.133rem;  /* Reduced by 5% from 2.245rem */
-            font-weight: 400;  /* Changed to 400 to match LENDWISE font-weight */
-            font-family: inherit;  /* Ensure same font as LENDWISE */
+        #shader-container .mortgage-text {
+            font-size: 2.625rem;
+            font-weight: 500;
             letter-spacing: 0.15em;
-            /* Same gold color as LENDWISE */
-            color: #FFD700;
-            /* Direct front-facing shadow effect */
+            color: #CDAA3D;
             text-shadow:
-                /* Subtle depth shadow directly behind */
                 0 0 1px rgba(0,0,0,0.6),
                 0 0 2px rgba(0,0,0,0.4),
-                /* Golden glow */
                 0 0 20px rgba(255,215,0,0.4),
                 0 0 35px rgba(255,215,0,0.2),
-                /* Slight outline for definition */
                 1px 1px 1px rgba(0,0,0,0.2),
                 -1px -1px 1px rgba(0,0,0,0.2);
             display: block;
-            margin-top: -0.5rem;  /* Significantly increased negative margin to reduce gap */
-            white-space: nowrap;  /* Prevent text wrapping */
+            margin-top: -0.5rem;
         }
 
-        /* Liquid Glass Sign In Button */
+        /* Sign In Button - Glass Morphism */
         .sign-in-button {
             position: absolute;
             top: 63%;
             left: 50%;
             transform: translate(-50%, -50%);
             z-index: 90;
-            padding: 10px 40px;
-            font-size: 0.95rem;
-            font-weight: 600;
+            padding: 7px 36px;
+            font-size: 0.9rem;
+            font-weight: 500;
             letter-spacing: 0.05em;
             line-height: 1.4;
             color: #FFD700;
-            background: linear-gradient(135deg,
-                rgba(255, 215, 0, 0.08) 0%,
-                rgba(255, 215, 0, 0.12) 50%,
-                rgba(255, 215, 0, 0.08) 100%);
-            backdrop-filter: blur(12px) saturate(120%);
-            -webkit-backdrop-filter: blur(12px) saturate(120%);
+            background: rgba(255, 215, 0, 0.1);
+            backdrop-filter: blur(10px);
             border: 1px solid rgba(255, 215, 0, 0.2);
             border-radius: 50px;
             cursor: pointer;
-            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-            text-shadow: 0 2px 8px rgba(0,0,0,0.5);
-            overflow: hidden;
-            isolation: isolate;
-            /* Liquid glass effect shadows */
+            transition: all 0.3s ease;
+            text-shadow: 0 2px 4px rgba(0,0,0,0.5);
             box-shadow:
-                /* Outer glow */
-                0 0 20px rgba(255, 215, 0, 0.15),
+                0 4px 20px rgba(255, 215, 0, 0.2),
                 0 0 40px rgba(255, 215, 0, 0.1),
-                /* Glass effect */
-                inset 3px 3px 0.5px -3px rgba(255, 255, 255, 0.2),
-                inset -3px -3px 0.5px -3px rgba(255, 255, 255, 0.1),
-                inset 1px 1px 1px -0.5px rgba(255, 255, 255, 0.15),
-                inset -1px -1px 1px -0.5px rgba(255, 255, 255, 0.15),
-                inset 0 0 6px 6px rgba(255, 215, 0, 0.03),
-                inset 0 0 2px 2px rgba(255, 215, 0, 0.06);
-        }
-
-        /* Liquid shimmer effect on hover */
-        .sign-in-button::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: -100%;
-            width: 100%;
-            height: 100%;
-            background: linear-gradient(
-                90deg,
-                transparent,
-                rgba(255, 255, 255, 0.2),
-                transparent
-            );
-            transition: left 0.5s ease;
-            z-index: 1;
-        }
-
-        .sign-in-button:hover::before {
-            left: 100%;
+                inset 0 0 20px rgba(255, 215, 0, 0.05);
         }
 
         .sign-in-button:hover {
-            background: linear-gradient(135deg,
-                rgba(255, 215, 0, 0.12) 0%,
-                rgba(255, 215, 0, 0.18) 50%,
-                rgba(255, 215, 0, 0.12) 100%);
+            background: rgba(255, 215, 0, 0.15);
             border-color: rgba(255, 215, 0, 0.3);
-            transform: translate(-50%, -50%) scale(1.05) translateZ(0);
+            transform: translate(-50%, -50%) scale(1.05);
             box-shadow:
-                /* Enhanced outer glow */
-                0 0 30px rgba(255, 215, 0, 0.25),
-                0 0 60px rgba(255, 215, 0, 0.15),
-                /* Enhanced glass effect */
-                inset 3px 3px 0.5px -3px rgba(255, 255, 255, 0.3),
-                inset -3px -3px 0.5px -3px rgba(255, 255, 255, 0.2),
-                inset 1px 1px 1px -0.5px rgba(255, 255, 255, 0.25),
-                inset -1px -1px 1px -0.5px rgba(255, 255, 255, 0.25),
-                inset 0 0 8px 8px rgba(255, 215, 0, 0.05),
-                inset 0 0 3px 3px rgba(255, 215, 0, 0.08);
-        }
-
-        /* Pressed state */
-        .sign-in-button:active {
-            transform: translate(-50%, -50%) scale(0.98) translateZ(0);
-            box-shadow:
-                0 0 15px rgba(255, 215, 0, 0.2),
-                inset 0 0 10px rgba(255, 215, 0, 0.1);
+                0 4px 30px rgba(255, 215, 0, 0.3),
+                0 0 60px rgba(255, 215, 0, 0.2),
+                inset 0 0 25px rgba(255, 215, 0, 0.1);
         }
 
         /* Sign In Dropdown Container */
         .sign-in-dropdown {
             position: absolute;
-            top: 68%;  /* Adjusted to maintain spacing below button */
+            top: 68%;
             left: 50%;
             transform: translateX(-50%);
             width: 400px;
@@ -259,7 +199,6 @@
             overflow-x: hidden;
         }
 
-        /* Custom scrollbar for step container */
         .step-container::-webkit-scrollbar {
             width: 4px;
         }
@@ -272,10 +211,6 @@
         .step-container::-webkit-scrollbar-thumb {
             background: rgba(255, 215, 0, 0.3);
             border-radius: 2px;
-        }
-
-        .step-container::-webkit-scrollbar-thumb:hover {
-            background: rgba(255, 215, 0, 0.5);
         }
 
         .step {
@@ -291,42 +226,6 @@
             transform: translateX(0);
         }
 
-        .step.slide-out-left {
-            transform: translateX(-30px);
-            opacity: 0;
-        }
-
-        .step.slide-in-right {
-            animation: slideInRight 0.4s cubic-bezier(0.4, 0, 0.2, 1) forwards;
-        }
-
-        .step.slide-in-left {
-            animation: slideInLeft 0.4s cubic-bezier(0.4, 0, 0.2, 1) forwards;
-        }
-
-        @keyframes slideInRight {
-            from {
-                opacity: 0;
-                transform: translateX(30px);
-            }
-            to {
-                opacity: 1;
-                transform: translateX(0);
-            }
-        }
-
-        @keyframes slideInLeft {
-            from {
-                opacity: 0;
-                transform: translateX(-30px);
-            }
-            to {
-                opacity: 1;
-                transform: translateX(0);
-            }
-        }
-
-        /* Step Header - Hidden for Step 1 */
         .step-header {
             text-align: center;
             margin-bottom: 8px;
@@ -374,32 +273,6 @@
             border-bottom: 8px solid rgba(255, 215, 0, 0.2);
         }
 
-        /* Modal Logo */
-        .modal-logo {
-            text-align: center;
-            margin-bottom: 30px;
-        }
-
-        .modal-logo .lendwise-modal-text {
-            font-size: 2.5rem;
-            font-weight: 400;
-            letter-spacing: 0.1em;
-            color: #FFD700;
-            text-shadow:
-                0 2px 4px rgba(0,0,0,0.5),
-                0 0 20px rgba(255,215,0,0.3);
-        }
-
-        .modal-logo .mortgage-modal-text {
-            font-size: 1.8rem;
-            font-weight: 300;
-            letter-spacing: 0.1em;
-            color: #CDAA3D;
-            text-shadow:
-                0 2px 4px rgba(0,0,0,0.5),
-                0 0 15px rgba(255,215,0,0.2);
-        }
-
         /* Form Inputs */
         .form-input {
             width: 100%;
@@ -415,7 +288,6 @@
             box-sizing: border-box;
         }
 
-        /* Name fields side by side */
         .name-row {
             display: flex;
             gap: 8px;
@@ -454,16 +326,11 @@
             margin: 6px 0;
         }
 
-        /* Sign In Button in Modal - Liquid Glass Style */
+        /* Sign In Button in Modal */
         .modal-sign-in-btn {
             width: 100%;
             padding: 8px;
-            background: linear-gradient(135deg,
-                rgba(255, 215, 0, 0.08) 0%,
-                rgba(255, 215, 0, 0.12) 50%,
-                rgba(255, 215, 0, 0.08) 100%);
-            backdrop-filter: blur(12px) saturate(120%);
-            -webkit-backdrop-filter: blur(12px) saturate(120%);
+            background: rgba(255, 215, 0, 0.15);
             border: 1px solid rgba(255, 215, 0, 0.2);
             border-radius: 50px;
             color: #FFD700;
@@ -475,103 +342,20 @@
             text-shadow: 0 2px 4px rgba(0,0,0,0.5);
             position: relative;
             overflow: hidden;
-            box-shadow:
-                /* Outer glow */
-                0 0 20px rgba(255, 215, 0, 0.15),
-                /* Glass effect - multiple inset shadows for depth */
-                inset 2px 2px 0.5px -2px rgba(255, 255, 255, 0.25),
-                inset -2px -2px 0.5px -2px rgba(255, 255, 255, 0.15),
-                inset 1px 1px 1px -0.5px rgba(255, 255, 255, 0.2),
-                inset -1px -1px 1px -0.5px rgba(255, 255, 255, 0.2),
-                inset 0 0 5px 5px rgba(255, 215, 0, 0.03),
-                inset 0 0 2px 2px rgba(255, 215, 0, 0.05);
-        }
-
-        /* Shimmer effect for Sign In button */
-        .modal-sign-in-btn::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: -100%;
-            width: 100%;
-            height: 100%;
-            background: linear-gradient(
-                90deg,
-                transparent,
-                rgba(255, 255, 255, 0.2),
-                transparent
-            );
-            transition: left 0.5s ease;
-            z-index: 1;
-        }
-
-        .modal-sign-in-btn:hover::before {
-            left: 100%;
         }
 
         .modal-sign-in-btn:hover {
-            background: linear-gradient(135deg,
-                rgba(255, 215, 0, 0.12) 0%,
-                rgba(255, 215, 0, 0.18) 50%,
-                rgba(255, 215, 0, 0.12) 100%);
-            border-color: rgba(255, 215, 0, 0.3);
+            background: rgba(255, 215, 0, 0.2);
+            box-shadow: 0 0 30px rgba(255, 215, 0, 0.3);
             transform: translateY(-2px);
-            box-shadow:
-                /* Enhanced outer glow */
-                0 0 30px rgba(255, 215, 0, 0.25),
-                0 0 60px rgba(255, 215, 0, 0.15),
-                /* Enhanced glass effect */
-                inset 3px 3px 0.5px -3px rgba(255, 255, 255, 0.3),
-                inset -3px -3px 0.5px -3px rgba(255, 255, 255, 0.2),
-                inset 1px 1px 1px -0.5px rgba(255, 255, 255, 0.25),
-                inset -1px -1px 1px -0.5px rgba(255, 255, 255, 0.25),
-                inset 0 0 8px 8px rgba(255, 215, 0, 0.05),
-                inset 0 0 3px 3px rgba(255, 215, 0, 0.08);
         }
 
-        .modal-sign-in-btn:active {
-            transform: translateY(0);
-            box-shadow:
-                0 0 15px rgba(255, 215, 0, 0.2),
-                inset 0 0 10px rgba(255, 215, 0, 0.1);
-        }
-
-        /* Loading state */
-        .modal-sign-in-btn.loading {
-            color: transparent;
-            pointer-events: none;
-        }
-
-        .modal-sign-in-btn.loading::after {
-            content: '';
-            position: absolute;
-            width: 20px;
-            height: 20px;
-            top: 50%;
-            left: 50%;
-            margin-left: -10px;
-            margin-top: -10px;
-            border: 2px solid rgba(255, 215, 0, 0.3);
-            border-radius: 50%;
-            border-top-color: #FFD700;
-            animation: spin 0.8s linear infinite;
-        }
-
-        @keyframes spin {
-            to { transform: rotate(360deg); }
-        }
-
-        /* Google Sign In Button - Liquid Glass Style */
+        /* Google Sign In Button */
         .google-sign-in-btn {
             width: 100%;
             padding: 8px;
-            background: linear-gradient(135deg,
-                rgba(35, 37, 38, 0.4) 0%,
-                rgba(45, 46, 48, 0.5) 50%,
-                rgba(35, 37, 38, 0.4) 100%);
-            backdrop-filter: blur(12px) saturate(120%);
-            -webkit-backdrop-filter: blur(12px) saturate(120%);
-            border: 1px solid rgba(255, 255, 255, 0.15);
+            background: linear-gradient(135deg, rgba(35, 37, 38, 0.8), rgba(45, 46, 48, 0.8));
+            border: 1px solid rgba(255, 255, 255, 0.1);
             border-radius: 50px;
             color: #ffffff;
             font-size: 0.9rem;
@@ -585,65 +369,12 @@
             margin-bottom: 6px;
             position: relative;
             overflow: hidden;
-            box-shadow:
-                /* Outer glow */
-                0 0 20px rgba(255, 255, 255, 0.08),
-                /* Glass effect - multiple inset shadows for depth */
-                inset 2px 2px 0.5px -2px rgba(255, 255, 255, 0.2),
-                inset -2px -2px 0.5px -2px rgba(255, 255, 255, 0.1),
-                inset 1px 1px 1px -0.5px rgba(255, 255, 255, 0.15),
-                inset -1px -1px 1px -0.5px rgba(255, 255, 255, 0.15),
-                inset 0 0 5px 5px rgba(255, 255, 255, 0.02),
-                inset 0 0 2px 2px rgba(255, 255, 255, 0.03);
-        }
-
-        /* Shimmer effect for Google button */
-        .google-sign-in-btn::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: -100%;
-            width: 100%;
-            height: 100%;
-            background: linear-gradient(
-                90deg,
-                transparent,
-                rgba(255, 255, 255, 0.15),
-                transparent
-            );
-            transition: left 0.5s ease;
-            z-index: 1;
-        }
-
-        .google-sign-in-btn:hover::before {
-            left: 100%;
         }
 
         .google-sign-in-btn:hover {
-            background: linear-gradient(135deg,
-                rgba(45, 47, 48, 0.5) 0%,
-                rgba(55, 56, 58, 0.6) 50%,
-                rgba(45, 47, 48, 0.5) 100%);
-            border-color: rgba(255, 255, 255, 0.2);
+            background: linear-gradient(135deg, rgba(45, 47, 48, 0.9), rgba(55, 56, 58, 0.9));
+            box-shadow: 0 0 20px rgba(255, 255, 255, 0.1);
             transform: translateY(-2px);
-            box-shadow:
-                /* Enhanced outer glow */
-                0 0 30px rgba(255, 255, 255, 0.12),
-                0 0 60px rgba(255, 255, 255, 0.08),
-                /* Enhanced glass effect */
-                inset 3px 3px 0.5px -3px rgba(255, 255, 255, 0.25),
-                inset -3px -3px 0.5px -3px rgba(255, 255, 255, 0.15),
-                inset 1px 1px 1px -0.5px rgba(255, 255, 255, 0.2),
-                inset -1px -1px 1px -0.5px rgba(255, 255, 255, 0.2),
-                inset 0 0 8px 8px rgba(255, 255, 255, 0.03),
-                inset 0 0 3px 3px rgba(255, 255, 255, 0.05);
-        }
-
-        .google-sign-in-btn:active {
-            transform: translateY(0);
-            box-shadow:
-                0 0 15px rgba(255, 255, 255, 0.1),
-                inset 0 0 10px rgba(255, 255, 255, 0.05);
         }
 
         .google-icon {
@@ -651,16 +382,11 @@
             height: 20px;
         }
 
-        /* Sign Up Button - Liquid Glass Style */
+        /* Sign Up Button */
         .modal-sign-up-btn {
             width: 100%;
             padding: 8px;
-            background: linear-gradient(135deg,
-                rgba(255, 215, 0, 0.04) 0%,
-                rgba(255, 215, 0, 0.08) 50%,
-                rgba(255, 215, 0, 0.04) 100%);
-            backdrop-filter: blur(12px) saturate(120%);
-            -webkit-backdrop-filter: blur(12px) saturate(120%);
+            background: transparent;
             border: 1px solid rgba(255, 215, 0, 0.3);
             border-radius: 50px;
             color: #FFD700;
@@ -670,67 +396,12 @@
             transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
             margin-top: 6px;
             text-shadow: 0 2px 4px rgba(0,0,0,0.5);
-            position: relative;
-            overflow: hidden;
-            box-shadow:
-                /* Outer glow */
-                0 0 20px rgba(255, 215, 0, 0.1),
-                /* Glass effect - multiple inset shadows for depth */
-                inset 2px 2px 0.5px -2px rgba(255, 255, 255, 0.2),
-                inset -2px -2px 0.5px -2px rgba(255, 255, 255, 0.1),
-                inset 1px 1px 1px -0.5px rgba(255, 255, 255, 0.15),
-                inset -1px -1px 1px -0.5px rgba(255, 255, 255, 0.15),
-                inset 0 0 5px 5px rgba(255, 215, 0, 0.02),
-                inset 0 0 2px 2px rgba(255, 215, 0, 0.03);
-        }
-
-        /* Shimmer effect for Sign Up button */
-        .modal-sign-up-btn::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: -100%;
-            width: 100%;
-            height: 100%;
-            background: linear-gradient(
-                90deg,
-                transparent,
-                rgba(255, 255, 255, 0.2),
-                transparent
-            );
-            transition: left 0.5s ease;
-            z-index: 1;
-        }
-
-        .modal-sign-up-btn:hover::before {
-            left: 100%;
         }
 
         .modal-sign-up-btn:hover {
-            background: linear-gradient(135deg,
-                rgba(255, 215, 0, 0.08) 0%,
-                rgba(255, 215, 0, 0.15) 50%,
-                rgba(255, 215, 0, 0.08) 100%);
+            background: rgba(255, 215, 0, 0.1);
             border-color: rgba(255, 215, 0, 0.4);
             transform: translateY(-2px);
-            box-shadow:
-                /* Enhanced outer glow */
-                0 0 30px rgba(255, 215, 0, 0.2),
-                0 0 60px rgba(255, 215, 0, 0.1),
-                /* Enhanced glass effect */
-                inset 3px 3px 0.5px -3px rgba(255, 255, 255, 0.25),
-                inset -3px -3px 0.5px -3px rgba(255, 255, 255, 0.15),
-                inset 1px 1px 1px -0.5px rgba(255, 255, 255, 0.2),
-                inset -1px -1px 1px -0.5px rgba(255, 255, 255, 0.2),
-                inset 0 0 8px 8px rgba(255, 215, 0, 0.04),
-                inset 0 0 3px 3px rgba(255, 215, 0, 0.06);
-        }
-
-        .modal-sign-up-btn:active {
-            transform: translateY(0);
-            box-shadow:
-                0 0 15px rgba(255, 215, 0, 0.15),
-                inset 0 0 10px rgba(255, 215, 0, 0.08);
         }
 
         /* Forgot Password Link */
@@ -750,15 +421,38 @@
             color: #FFD700;
             text-decoration: underline;
         }
+
+        /* Loading state */
+        .modal-sign-in-btn.loading::after,
+        .google-sign-in-btn.loading::after {
+            content: '';
+            position: absolute;
+            width: 20px;
+            height: 20px;
+            top: 50%;
+            left: 50%;
+            margin-left: -10px;
+            margin-top: -10px;
+            border: 2px solid rgba(255, 215, 0, 0.3);
+            border-radius: 50%;
+            border-top-color: #FFD700;
+            animation: spin 0.8s linear infinite;
+        }
+
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
     </style>
 </head>
 <body>
-    <!-- Three.js Shader Intro Animation (continuous) -->
+    <!-- Three.js Shader Intro Animation (continuous loop until auth) -->
     <div id="shader-container" class="shader-intro">
         <div class="shader-overlay">
-            <!-- LendWise Mortgage Text - Same as modern-timeline -->
+            <!-- LendWise Mortgage Text Overlay -->
             <div class="lendwise-logo-text">
-                <span class="lendwise-text"><span class="tall-letter">L</span>END<span class="tall-letter">W</span>ISE</span>
+                <span class="lendwise-text">
+                    <span class="tall-letter">L</span>END<span class="tall-letter">W</span>ISE
+                </span>
                 <span class="mortgage-text">MORTGAGE</span>
             </div>
 
@@ -789,7 +483,7 @@
                 <!-- Step Container -->
                 <div class="step-container">
                     <!-- Step 1: Choose Sign In Method -->
-                    <div class="step" id="step1">
+                    <div class="step active" id="step1">
                         <!-- Google Sign In Primary -->
                         <button type="button" class="google-sign-in-btn" id="googleSignIn">
                             <svg class="google-icon" viewBox="0 0 24 24">
@@ -925,6 +619,13 @@
         </div>
     </div>
 
+    <!-- Main Content - Modern Timeline (hidden until auth) -->
+    <div class="main-content" style="opacity: 0; display: none;"></div>
+
+    <!-- Load timeline JavaScript -->
+    <script src="modern-timeline.js"></script>
+
+    <!-- Integrated Animation & Auth JavaScript -->
     <script>
         // Three.js Shader Animation - Modified for continuous loop
         function initShaderAnimation() {
@@ -1043,32 +744,68 @@
             window.shaderUniforms = uniforms;
         }
 
+        // Load timeline content via AJAX
+        async function loadTimelineContent() {
+            try {
+                const response = await fetch('modern-timeline.html');
+                const html = await response.text();
+
+                // Extract just the main content section
+                const parser = new DOMParser();
+                const doc = parser.parseFromString(html, 'text/html');
+                const mainContentHtml = doc.querySelector('.main-content').innerHTML;
+
+                // Insert into our main-content div
+                document.querySelector('.main-content').innerHTML = mainContentHtml;
+
+                console.log('Timeline content loaded successfully');
+            } catch (error) {
+                console.error('Failed to load timeline content:', error);
+            }
+        }
+
+        // Transition from intro to timeline
+        function transitionToTimeline() {
+            const shaderContainer = document.getElementById('shader-container');
+            const mainContent = document.querySelector('.main-content');
+
+            if (shaderContainer && mainContent) {
+                // Fade out intro
+                shaderContainer.style.transition = 'opacity 0.5s ease-out';
+                shaderContainer.style.opacity = '0';
+
+                // Show and fade in main content
+                mainContent.style.display = 'block';
+                setTimeout(() => {
+                    mainContent.style.transition = 'opacity 0.5s ease-in';
+                    mainContent.style.opacity = '1';
+
+                    // Initialize timeline components
+                    if (typeof initializeCarouselGallery !== 'undefined') {
+                        initializeCarouselGallery();
+                        setupNavigationButtons();
+                        setupTimelineClicks();
+                        setupTimelineNavigation();
+                        setupPositionControls();
+                        setupModalHandlers();
+                        console.log('Timeline initialized successfully');
+                    }
+                }, 100);
+
+                // Hide intro completely after fade
+                setTimeout(() => {
+                    shaderContainer.style.display = 'none';
+                }, 600);
+            }
+        }
+
         // Initialize on page load
-        document.addEventListener('DOMContentLoaded', () => {
+        document.addEventListener('DOMContentLoaded', async () => {
+            // Start shader animation
             initShaderAnimation();
 
-            // Ensure the shader container stays visible
-            const shaderContainer = document.getElementById('shader-container');
-            if (shaderContainer) {
-                // Remove any classes that might hide it
-                shaderContainer.classList.remove('fade-out');
-
-                // Force it to stay visible
-                shaderContainer.style.display = 'block';
-                shaderContainer.style.opacity = '1';
-
-                // Prevent any timeout from hiding it
-                const originalSetTimeout = window.setTimeout;
-                window.setTimeout = function(fn, delay) {
-                    // Check if this is trying to hide our shader
-                    const fnString = fn.toString();
-                    if (fnString.includes('shader-container') && fnString.includes('display') && fnString.includes('none')) {
-                        console.log('Prevented shader from being hidden');
-                        return; // Don't execute this timeout
-                    }
-                    return originalSetTimeout.apply(this, arguments);
-                };
-            }
+            // Preload timeline content
+            await loadTimelineContent();
 
             // Sign In Dropdown JavaScript
             const signInBtn = document.getElementById('signInBtn');
@@ -1080,21 +817,18 @@
 
             // Step Management
             let currentStep = 1;
-            let currentFlow = null; // Track which flow we're in: 'google', 'email', 'signup'
+            let currentFlow = null;
 
             function showStep(stepNum, flow = null) {
-                // Hide all steps
                 document.querySelectorAll('.step').forEach(step => {
                     step.classList.remove('active');
                 });
 
-                // Show the target step
                 const targetStep = document.getElementById(`step${stepNum}`);
                 if (targetStep) {
                     targetStep.classList.add('active');
                 }
 
-                // Reset scroll position
                 const stepContainer = document.querySelector('.step-container');
                 if (stepContainer) {
                     stepContainer.scrollTop = 0;
@@ -1103,31 +837,19 @@
                 // Update dots based on flow
                 const dots = document.querySelectorAll('.dot');
                 if (flow === 'email') {
-                    // Show 2 dots for email flow
                     dots[2].style.display = 'none';
                     dots[3].style.display = 'none';
                     dots.forEach((dot, index) => {
-                        if (index < stepNum) {
-                            dot.classList.add('active');
-                        } else {
-                            dot.classList.remove('active');
-                        }
+                        dot.classList.toggle('active', index < stepNum);
                     });
                 } else if (flow === 'signup') {
-                    // Show 3 dots for signup flow (steps 1, 3, 4)
                     dots[2].style.display = 'inline-block';
                     dots[3].style.display = 'none';
-                    // Map step numbers: step 3 -> dot 1, step 4 -> dot 2
                     const dotIndex = stepNum === 3 ? 1 : stepNum === 4 ? 2 : 0;
                     dots.forEach((dot, index) => {
-                        if (index <= dotIndex) {
-                            dot.classList.add('active');
-                        } else {
-                            dot.classList.remove('active');
-                        }
+                        dot.classList.toggle('active', index <= dotIndex);
                     });
                 } else {
-                    // Default - only show first dot
                     dots[1].style.display = 'inline-block';
                     dots[2].style.display = 'none';
                     dots[3].style.display = 'none';
@@ -1145,8 +867,6 @@
                 signInBtn.addEventListener('click', (e) => {
                     e.stopPropagation();
                     signInDropdown.classList.toggle('show');
-
-                    // Reset to step 1 when opening
                     if (signInDropdown.classList.contains('show')) {
                         showStep(1);
                         currentFlow = null;
@@ -1154,7 +874,27 @@
                 });
             }
 
-            // Email Sign In Button - Go to Step 2
+            // Google sign in - Transition to timeline
+            if (googleSignIn) {
+                googleSignIn.addEventListener('click', async () => {
+                    googleSignIn.classList.add('loading');
+                    googleSignIn.disabled = true;
+
+                    // Simulate OAuth flow
+                    await new Promise(resolve => setTimeout(resolve, 1500));
+
+                    googleSignIn.classList.remove('loading');
+                    googleSignIn.disabled = false;
+
+                    // Close dropdown
+                    signInDropdown.classList.remove('show');
+
+                    // Transition to timeline
+                    transitionToTimeline();
+                });
+            }
+
+            // Email Sign In Button
             if (emailSignInBtn) {
                 emailSignInBtn.addEventListener('click', () => {
                     showStep(2, 'email');
@@ -1165,7 +905,7 @@
                 });
             }
 
-            // Sign Up Button - Go to Step 3
+            // Sign Up Button
             if (signUpBtn) {
                 signUpBtn.addEventListener('click', () => {
                     showStep(3, 'signup');
@@ -1176,11 +916,10 @@
                 });
             }
 
-            // Sign Up Next Button - Go to Step 4
+            // Sign Up Next Button
             const signUpNextBtn = document.getElementById('signUpNextBtn');
             if (signUpNextBtn) {
                 signUpNextBtn.addEventListener('click', () => {
-                    // Validate Step 3 fields
                     const firstName = document.getElementById('firstNameInput').value;
                     const lastName = document.getElementById('lastNameInput').value;
                     const email = document.getElementById('emailInput').value;
@@ -1196,7 +935,6 @@
                         return;
                     }
 
-                    // Clear error and proceed to Step 4
                     if (errorMsg) errorMsg.style.display = 'none';
                     showStep(4, 'signup');
                     setTimeout(() => {
@@ -1206,25 +944,24 @@
                 });
             }
 
-            // Sign Up Back Button (Step 4 to Step 3)
+            // Back Buttons
+            document.querySelectorAll('.back-btn').forEach(btn => {
+                btn.addEventListener('click', () => {
+                    showStep(1);
+                    currentFlow = null;
+                    document.querySelectorAll('.error-message').forEach(msg => {
+                        msg.style.display = 'none';
+                    });
+                });
+            });
+
+            // Sign Up Back Button
             const signUpBackBtn = document.getElementById('signUpBackBtn');
             if (signUpBackBtn) {
                 signUpBackBtn.addEventListener('click', () => {
                     showStep(3, 'signup');
                 });
             }
-
-            // Back Buttons - Return to Step 1
-            document.querySelectorAll('.back-btn').forEach(btn => {
-                btn.addEventListener('click', () => {
-                    showStep(1);
-                    currentFlow = null;
-                    // Clear any error messages
-                    document.querySelectorAll('.error-message').forEach(msg => {
-                        msg.style.display = 'none';
-                    });
-                });
-            });
 
             // Close dropdown when clicking outside
             document.addEventListener('click', (e) => {
@@ -1237,12 +974,11 @@
             document.addEventListener('keydown', (e) => {
                 if (e.key === 'Escape' && signInDropdown.classList.contains('show')) {
                     signInDropdown.classList.remove('show');
-                    if (errorMessage) errorMessage.style.display = 'none';
                     if (signInForm) signInForm.reset();
                 }
             });
 
-            // Sign In Form submission (Email login)
+            // Sign In Form submission
             if (signInForm) {
                 signInForm.addEventListener('submit', async (e) => {
                     e.preventDefault();
@@ -1252,7 +988,6 @@
                     const password = document.getElementById('signInPasswordInput').value;
                     const errorMsg = document.getElementById('signInErrorMessage');
 
-                    // Basic validation
                     if (!email || !password) {
                         showError('Please fill in all fields.', errorMsg);
                         return;
@@ -1263,65 +998,32 @@
                         return;
                     }
 
-                    // Show loading state
                     submitBtn.classList.add('loading');
                     submitBtn.disabled = true;
 
-                    // Simulate API call
                     await new Promise(resolve => setTimeout(resolve, 1500));
 
-                    // Success (demo)
                     submitBtn.classList.remove('loading');
                     submitBtn.disabled = false;
 
                     if (errorMsg) errorMsg.style.display = 'none';
-                    alert(`Welcome back! Signed in as ${email}`);
                     signInDropdown.classList.remove('show');
                     signInForm.reset();
 
-                    // Reset to step 1 after delay
-                    setTimeout(() => {
-                        showStep(1);
-                        currentFlow = null;
-                    }, 300);
+                    // Transition to timeline after successful sign-in
+                    transitionToTimeline();
                 });
             }
 
-            // Note: Sign up is handled through the step-by-step process with signUpSubmitBtn
-            // The signUpForm element doesn't exist - sign up is handled via individual buttons
-
-            // Google sign in
-            if (googleSignIn) {
-                googleSignIn.addEventListener('click', async () => {
-                    googleSignIn.classList.add('loading');
-                    googleSignIn.disabled = true;
-
-                    // Simulate OAuth flow
-                    await new Promise(resolve => setTimeout(resolve, 1500));
-
-                    googleSignIn.classList.remove('loading');
-                    googleSignIn.disabled = false;
-
-                    // Google OAuth would go here
-                    alert('Google OAuth integration would happen here!');
-                    signInDropdown.classList.remove('show');
-                });
-            }
-
-            // Sign Up Submit Button (Final submission from Step 4)
+            // Sign Up Submit
             const signUpSubmitBtn = document.getElementById('signUpSubmitBtn');
             if (signUpSubmitBtn) {
                 signUpSubmitBtn.addEventListener('click', async () => {
-                    // Get all form values
-                    const firstName = document.getElementById('firstNameInput').value;
-                    const lastName = document.getElementById('lastNameInput').value;
-                    const email = document.getElementById('emailInput').value;
                     const password = document.getElementById('passwordInput').value;
                     const confirmPassword = document.getElementById('confirmPasswordInput').value;
                     const phone = document.getElementById('phoneInput').value;
                     const errorMsg = document.getElementById('signUpErrorMessage2');
 
-                    // Validate Step 4 fields
                     if (!password || !confirmPassword || !phone) {
                         showError('Please fill in all fields.', errorMsg);
                         return;
@@ -1337,21 +1039,17 @@
                         return;
                     }
 
-                    // Show loading state
                     signUpSubmitBtn.classList.add('loading');
                     signUpSubmitBtn.disabled = true;
 
-                    // Simulate API call
                     await new Promise(resolve => setTimeout(resolve, 1500));
 
-                    // Success (demo)
                     signUpSubmitBtn.classList.remove('loading');
                     signUpSubmitBtn.disabled = false;
 
                     if (errorMsg) errorMsg.style.display = 'none';
-                    alert(`Account created successfully for ${firstName} ${lastName}!`);
 
-                    // Clear all form fields
+                    // Clear form
                     document.getElementById('firstNameInput').value = '';
                     document.getElementById('lastNameInput').value = '';
                     document.getElementById('emailInput').value = '';
@@ -1359,12 +1057,14 @@
                     document.getElementById('confirmPasswordInput').value = '';
                     document.getElementById('phoneInput').value = '';
 
-                    // Close dropdown and reset
                     signInDropdown.classList.remove('show');
                     setTimeout(() => {
                         showStep(1);
                         currentFlow = null;
                     }, 300);
+
+                    // Transition to timeline after successful sign-up
+                    transitionToTimeline();
                 });
             }
 
@@ -1376,7 +1076,6 @@
             // Show error
             function showError(message, errorElement) {
                 if (!errorElement) {
-                    // Find the active error message element
                     const activeStep = document.querySelector('.step.active');
                     if (activeStep) {
                         errorElement = activeStep.querySelector('.error-message');
@@ -1386,30 +1085,6 @@
                     errorElement.textContent = message;
                     errorElement.style.display = 'block';
                 }
-            }
-        });
-
-        // Prevent any external scripts from hiding the animation
-        window.addEventListener('load', () => {
-            const observer = new MutationObserver((mutations) => {
-                mutations.forEach((mutation) => {
-                    if (mutation.type === 'attributes' && mutation.target.id === 'shader-container') {
-                        const container = document.getElementById('shader-container');
-                        if (container && (container.style.display === 'none' || container.style.opacity === '0')) {
-                            container.style.display = 'block';
-                            container.style.opacity = '1';
-                            console.log('Kept shader visible');
-                        }
-                    }
-                });
-            });
-
-            const shaderContainer = document.getElementById('shader-container');
-            if (shaderContainer) {
-                observer.observe(shaderContainer, {
-                    attributes: true,
-                    attributeFilter: ['style', 'class']
-                });
             }
         });
     </script>

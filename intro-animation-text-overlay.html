@@ -1,0 +1,380 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>LendWise Intro - Text Overlay</title>
+
+    <!-- Three.js for shader animation -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            overflow: hidden;
+            background: #000;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Helvetica Neue', sans-serif;
+        }
+
+        .shader-intro {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+        }
+
+        /* Professional Text Overlay */
+        .text-overlay {
+            position: absolute;
+            top: 22%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            z-index: 20;
+            text-align: center;
+            pointer-events: none;
+            user-select: none;
+        }
+
+        /* Main LENDWISE text */
+        .lendwise-text {
+            font-size: 5.5rem;
+            font-weight: 200;
+            letter-spacing: 0.4em;
+            margin: 0;
+            padding: 0;
+            position: relative;
+
+            /* Bright gold gradient */
+            background: linear-gradient(
+                135deg,
+                #FFD700 0%,
+                #FFED4B 25%,
+                #FFA500 50%,
+                #FFD700 75%,
+                #FFED4B 100%
+            );
+            background-size: 200% 200%;
+            -webkit-background-clip: text;
+            background-clip: text;
+            -webkit-text-fill-color: transparent;
+
+            /* Animate gradient */
+            animation: gradient-shift 4s ease infinite;
+
+            /* Multiple shadows for depth and glow */
+            filter:
+                drop-shadow(0 2px 4px rgba(0, 0, 0, 0.8))
+                drop-shadow(0 4px 8px rgba(0, 0, 0, 0.6))
+                drop-shadow(0 8px 16px rgba(0, 0, 0, 0.4))
+                drop-shadow(0 0 20px rgba(255, 215, 0, 0.5))
+                drop-shadow(0 0 40px rgba(255, 165, 0, 0.3))
+                drop-shadow(0 0 60px rgba(255, 215, 0, 0.2));
+        }
+
+        /* MORTGAGE text */
+        .mortgage-text {
+            font-size: 3.8rem;
+            font-weight: 300;
+            letter-spacing: 0.5em;
+            margin-top: -0.5rem;
+            position: relative;
+
+            /* Green gradient */
+            background: linear-gradient(
+                135deg,
+                #00C851 0%,
+                #00FF00 25%,
+                #32CD32 50%,
+                #00C851 75%,
+                #00FF00 100%
+            );
+            background-size: 200% 200%;
+            -webkit-background-clip: text;
+            background-clip: text;
+            -webkit-text-fill-color: transparent;
+
+            /* Animate gradient */
+            animation: gradient-shift 4s ease infinite 0.5s;
+
+            /* Multiple shadows for depth and glow */
+            filter:
+                drop-shadow(0 2px 4px rgba(0, 0, 0, 0.8))
+                drop-shadow(0 4px 8px rgba(0, 0, 0, 0.6))
+                drop-shadow(0 8px 16px rgba(0, 0, 0, 0.4))
+                drop-shadow(0 0 20px rgba(0, 200, 81, 0.5))
+                drop-shadow(0 0 40px rgba(0, 255, 0, 0.3))
+                drop-shadow(0 0 60px rgba(0, 200, 81, 0.2));
+        }
+
+        /* Gradient animation */
+        @keyframes gradient-shift {
+            0% {
+                background-position: 0% 50%;
+            }
+            50% {
+                background-position: 100% 50%;
+            }
+            100% {
+                background-position: 0% 50%;
+            }
+        }
+
+        /* Subtle pulse animation */
+        .text-pulse {
+            animation: pulse-glow 3s ease-in-out infinite;
+        }
+
+        @keyframes pulse-glow {
+            0%, 100% {
+                transform: scale(1);
+                opacity: 1;
+            }
+            50% {
+                transform: scale(1.02);
+                opacity: 0.95;
+            }
+        }
+
+        /* Black outline for extra contrast */
+        .text-stroke {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            font-size: inherit;
+            font-weight: inherit;
+            letter-spacing: inherit;
+            color: transparent;
+            -webkit-text-stroke: 3px rgba(0, 0, 0, 0.8);
+            text-stroke: 3px rgba(0, 0, 0, 0.8);
+            z-index: -1;
+        }
+
+        /* Container with backdrop for better readability */
+        .text-container {
+            position: relative;
+            padding: 40px 60px;
+            background: radial-gradient(
+                ellipse at center,
+                rgba(0, 0, 0, 0.7) 0%,
+                rgba(0, 0, 0, 0.4) 40%,
+                transparent 70%
+            );
+            border-radius: 20px;
+        }
+
+        /* Subtle floating animation */
+        @keyframes float {
+            0%, 100% {
+                transform: translateY(0);
+            }
+            50% {
+                transform: translateY(-5px);
+            }
+        }
+
+        .floating-text {
+            animation: float 6s ease-in-out infinite;
+        }
+
+        /* Owl container */
+        .owl-container {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 180px;
+            height: 180px;
+            z-index: 15;
+            border-radius: 50%;
+            overflow: hidden;
+            background: radial-gradient(circle, rgba(0,0,0,0.9) 0%, rgba(0,0,0,1) 100%);
+            box-shadow:
+                0 0 50px rgba(0,0,0,0.8),
+                inset 0 0 30px rgba(0,0,0,0.5);
+        }
+
+        .owl-video {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        /* Enhanced text for mobile */
+        @media (max-width: 768px) {
+            .lendwise-text {
+                font-size: 3.5rem;
+                letter-spacing: 0.3em;
+            }
+            .mortgage-text {
+                font-size: 2.8rem;
+                letter-spacing: 0.4em;
+            }
+            .text-container {
+                padding: 30px 40px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Three.js Shader Background -->
+    <div id="shader-container" class="shader-intro"></div>
+
+    <!-- Text Overlay with Effects -->
+    <div class="text-overlay">
+        <div class="text-container floating-text">
+            <h1 class="lendwise-text text-pulse">
+                <span class="text-stroke">LENDWISE</span>
+                LENDWISE
+            </h1>
+            <h2 class="mortgage-text text-pulse">
+                <span class="text-stroke">MORTGAGE</span>
+                MORTGAGE
+            </h2>
+        </div>
+    </div>
+
+    <!-- Owl Video -->
+    <div class="owl-container">
+        <video class="owl-video" autoplay muted loop playsinline>
+            <source src="wisr-owl.mp4" type="video/mp4" />
+        </video>
+    </div>
+
+    <script>
+        // Three.js Shader Animation - Continuous ripple background
+        function initShaderAnimation() {
+            if (typeof THREE === 'undefined') {
+                console.error('Three.js not loaded');
+                return;
+            }
+
+            const container = document.getElementById('shader-container');
+
+            // Vertex shader
+            const vertexShader = `
+                void main() {
+                    gl_Position = vec4(position, 1.0);
+                }
+            `;
+
+            // Fragment shader - optimized ripple effect
+            const fragmentShader = `
+                precision highp float;
+                uniform vec2 resolution;
+                uniform float time;
+
+                void main(void) {
+                    vec2 uv = (gl_FragCoord.xy * 2.0 - resolution.xy) / min(resolution.x, resolution.y);
+                    float t = time * 0.045;
+                    float lineWidth = 0.002;
+
+                    vec3 goldColor = vec3(1.0, 0.84, 0.0);
+                    vec3 greenColor = vec3(0.0, 0.8, 0.2);
+
+                    float intensity = 0.0;
+                    float owlRadius = 0.13;
+
+                    for(int i = 0; i < 5; i++){
+                        float rippleExpansion = fract(t + float(i)*0.015)*2.2;
+                        float adjustedLength = length(uv) - owlRadius;
+                        intensity += lineWidth*float(i+1) / abs(rippleExpansion - adjustedLength + mod(uv.x+uv.y, 0.2));
+                    }
+
+                    float fadeFactor = smoothstep(0.0, owlRadius, length(uv));
+                    intensity *= fadeFactor;
+
+                    float mixFactor = sin(uv.x * 3.0 + time * 0.1) * 0.5 + 0.5;
+                    vec3 color = mix(goldColor, greenColor, mixFactor) * intensity;
+
+                    gl_FragColor = vec4(color, 1.0);
+                }
+            `;
+
+            // Initialize Three.js scene
+            const camera = new THREE.Camera();
+            camera.position.z = 1;
+
+            const scene = new THREE.Scene();
+            const geometry = new THREE.PlaneGeometry(2, 2);
+
+            const uniforms = {
+                time: { type: "f", value: 1.0 },
+                resolution: { type: "v2", value: new THREE.Vector2() }
+            };
+
+            const material = new THREE.ShaderMaterial({
+                uniforms: uniforms,
+                vertexShader: vertexShader,
+                fragmentShader: fragmentShader
+            });
+
+            const mesh = new THREE.Mesh(geometry, material);
+            scene.add(mesh);
+
+            const renderer = new THREE.WebGLRenderer({ antialias: true });
+            renderer.setPixelRatio(window.devicePixelRatio);
+
+            container.appendChild(renderer.domElement);
+
+            function onWindowResize() {
+                const width = window.innerWidth;
+                const height = window.innerHeight;
+                renderer.setSize(width, height);
+                uniforms.resolution.value.x = width;
+                uniforms.resolution.value.y = height;
+            }
+
+            onWindowResize();
+            window.addEventListener('resize', onWindowResize, false);
+
+            // Animation loop
+            function animate() {
+                requestAnimationFrame(animate);
+                uniforms.time.value += 0.023;
+                renderer.render(scene, camera);
+            }
+
+            animate();
+        }
+
+        // Initialize on page load
+        document.addEventListener('DOMContentLoaded', () => {
+            initShaderAnimation();
+
+            // Add random sparkle effects periodically
+            setInterval(() => {
+                const lendwise = document.querySelector('.lendwise-text');
+                const mortgage = document.querySelector('.mortgage-text');
+
+                // Add extra glow temporarily
+                lendwise.style.filter = `
+                    drop-shadow(0 2px 4px rgba(0, 0, 0, 0.8))
+                    drop-shadow(0 4px 8px rgba(0, 0, 0, 0.6))
+                    drop-shadow(0 8px 16px rgba(0, 0, 0, 0.4))
+                    drop-shadow(0 0 30px rgba(255, 215, 0, 0.8))
+                    drop-shadow(0 0 60px rgba(255, 165, 0, 0.5))
+                    drop-shadow(0 0 80px rgba(255, 215, 0, 0.3))
+                `;
+
+                mortgage.style.filter = `
+                    drop-shadow(0 2px 4px rgba(0, 0, 0, 0.8))
+                    drop-shadow(0 4px 8px rgba(0, 0, 0, 0.6))
+                    drop-shadow(0 8px 16px rgba(0, 0, 0, 0.4))
+                    drop-shadow(0 0 30px rgba(0, 200, 81, 0.8))
+                    drop-shadow(0 0 60px rgba(0, 255, 0, 0.5))
+                    drop-shadow(0 0 80px rgba(0, 200, 81, 0.3))
+                `;
+
+                // Reset after animation
+                setTimeout(() => {
+                    lendwise.style.filter = '';
+                    mortgage.style.filter = '';
+                }, 1000);
+            }, 3000);
+        });
+    </script>
+</body>
+</html>

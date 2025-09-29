@@ -17,6 +17,7 @@
             padding: 0;
             overflow: hidden;
             background: #000;
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
         }
 
         /* Keep shader visible indefinitely */
@@ -26,19 +27,516 @@
             display: block !important;
         }
 
-        /* Optional: Add login form overlay styles here later */
-        .login-overlay {
-            position: fixed;
-            top: 50%;
+        /* Increase owl size by 15% from the 80% (so 95% of original) */
+        .wisr-showcase-center {
+            transform: translate(-50%, -50%) scale(0.95) !important;
+        }
+
+        .wisr-video-circle {
+            width: 164px !important;  /* 173px * 0.95 */
+            height: 164px !important;
+        }
+
+        /* Remove hover zoom effect on owl */
+        .wisr-showcase-center:hover .wisr-video-circle {
+            transform: none !important;
+            animation: none !important;
+        }
+
+        .wisr-showcase-center:hover .wisr-glow {
+            animation: pulse-glow 3s ease-in-out infinite !important;  /* Keep original speed */
+        }
+
+        /* LendWise Mortgage Text Overlay - Same as modern-timeline */
+        .lendwise-logo-text {
+            position: absolute;
+            top: 24%;  /* Moved down another 10% to be even closer to owl */
             left: 50%;
             transform: translate(-50%, -50%);
-            z-index: 10000;
-            background: rgba(0, 0, 0, 0.8);
-            border: 2px solid rgba(255, 215, 0, 0.3);
-            border-radius: 10px;
-            padding: 30px;
+            text-align: center;
+            z-index: 100;
+            pointer-events: none;
+            /* Add backdrop for better contrast */
+            padding: 40px 80px;
+            background: radial-gradient(
+                ellipse at center,
+                rgba(0, 0, 0, 0.6) 0%,
+                rgba(0, 0, 0, 0.3) 30%,
+                rgba(0, 0, 0, 0.1) 50%,
+                transparent 70%
+            );
+            border-radius: 20px;
+        }
+
+        .lendwise-text {
+            font-size: 5rem;
+            font-weight: 400;
+            letter-spacing: 0.15em;
+            /* Simple solid gold color - no animation */
+            color: #FFD700;
+            /* Direct front-facing shadow effect */
+            text-shadow:
+                /* Subtle depth shadow directly behind */
+                0 0 1px rgba(0,0,0,0.8),
+                0 0 2px rgba(0,0,0,0.6),
+                0 0 3px rgba(0,0,0,0.4),
+                /* Golden glow effect */
+                0 0 25px rgba(255,215,0,0.6),
+                0 0 45px rgba(255,215,0,0.4),
+                0 0 65px rgba(255,165,0,0.2),
+                /* Slight outline for definition */
+                1px 1px 1px rgba(0,0,0,0.3),
+                -1px -1px 1px rgba(0,0,0,0.3);
+            display: block;
+            margin: 0;
+            padding: 0;
+        }
+
+        .tall-letter {
+            font-size: 6rem;
+            font-weight: 400;
+            display: inline-block;
+            vertical-align: baseline;
+            line-height: 0.7;
+            margin: 0 -0.05em;
+            color: #FFD700;  /* Same solid gold color */
+        }
+
+        .mortgage-text {
+            font-size: 2.625rem;
+            font-weight: 500;
+            letter-spacing: 0.15em;
+            /* Solid gold, slightly darker */
+            color: #CDAA3D;
+            /* Direct front-facing shadow effect */
+            text-shadow:
+                /* Subtle depth shadow directly behind */
+                0 0 1px rgba(0,0,0,0.6),
+                0 0 2px rgba(0,0,0,0.4),
+                /* Golden glow */
+                0 0 20px rgba(255,215,0,0.4),
+                0 0 35px rgba(255,215,0,0.2),
+                /* Slight outline for definition */
+                1px 1px 1px rgba(0,0,0,0.2),
+                -1px -1px 1px rgba(0,0,0,0.2);
+            display: block;
+            margin-top: -0.5rem;  /* Reduced gap significantly for tighter spacing */
+        }
+
+        /* Sign In Button - Glass Morphism */
+        .sign-in-button {
+            position: absolute;
+            top: 63%;  /* Moved up 2% from 65% */
+            left: 50%;
+            transform: translate(-50%, -50%);
+            z-index: 90;
+            padding: 7px 36px;  /* Increased vertical padding */
+            font-size: 0.9rem;
+            font-weight: 500;
+            letter-spacing: 0.05em;
+            line-height: 1.4;
+            color: #FFD700;
+            background: rgba(255, 215, 0, 0.1);
             backdrop-filter: blur(10px);
-            display: none; /* Hidden by default */
+            border: 1px solid rgba(255, 215, 0, 0.2);
+            border-radius: 50px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-shadow: 0 2px 4px rgba(0,0,0,0.5);
+            box-shadow:
+                0 4px 20px rgba(255, 215, 0, 0.2),
+                0 0 40px rgba(255, 215, 0, 0.1),
+                inset 0 0 20px rgba(255, 215, 0, 0.05);
+        }
+
+        .sign-in-button:hover {
+            background: rgba(255, 215, 0, 0.15);
+            border-color: rgba(255, 215, 0, 0.3);
+            transform: translate(-50%, -50%) scale(1.05);
+            box-shadow:
+                0 4px 30px rgba(255, 215, 0, 0.3),
+                0 0 60px rgba(255, 215, 0, 0.2),
+                inset 0 0 25px rgba(255, 215, 0, 0.1);
+        }
+
+        /* Sign In Dropdown Container */
+        .sign-in-dropdown {
+            position: absolute;
+            top: 68%;  /* Adjusted to maintain spacing below button */
+            left: 50%;
+            transform: translateX(-50%);
+            width: 400px;
+            min-height: auto;
+            background: rgba(255, 215, 0, 0.05);
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 215, 0, 0.2);
+            border-radius: 15px;
+            padding: 15px;
+            z-index: 95;
+            opacity: 0;
+            visibility: hidden;
+            transform: translateX(-50%) translateY(-10px);
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            box-shadow:
+                0 10px 40px rgba(0, 0, 0, 0.3),
+                0 0 60px rgba(255, 215, 0, 0.1),
+                inset 0 0 30px rgba(255, 215, 0, 0.03);
+        }
+
+        .sign-in-dropdown.show {
+            opacity: 1;
+            visibility: visible;
+            transform: translateX(-50%) translateY(0);
+        }
+
+        /* Step Container */
+        .step-container {
+            position: relative;
+            height: 140px;
+            overflow-y: auto;
+            overflow-x: hidden;
+        }
+
+        /* Custom scrollbar for step container */
+        .step-container::-webkit-scrollbar {
+            width: 4px;
+        }
+
+        .step-container::-webkit-scrollbar-track {
+            background: rgba(255, 215, 0, 0.1);
+            border-radius: 2px;
+        }
+
+        .step-container::-webkit-scrollbar-thumb {
+            background: rgba(255, 215, 0, 0.3);
+            border-radius: 2px;
+        }
+
+        .step-container::-webkit-scrollbar-thumb:hover {
+            background: rgba(255, 215, 0, 0.5);
+        }
+
+        .step {
+            display: none;
+            opacity: 0;
+            transform: translateX(30px);
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .step.active {
+            display: block;
+            opacity: 1;
+            transform: translateX(0);
+        }
+
+        .step.slide-out-left {
+            transform: translateX(-30px);
+            opacity: 0;
+        }
+
+        .step.slide-in-right {
+            animation: slideInRight 0.4s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+        }
+
+        .step.slide-in-left {
+            animation: slideInLeft 0.4s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+        }
+
+        @keyframes slideInRight {
+            from {
+                opacity: 0;
+                transform: translateX(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+
+        @keyframes slideInLeft {
+            from {
+                opacity: 0;
+                transform: translateX(-30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+
+        /* Step Header - Hidden for Step 1 */
+        .step-header {
+            text-align: center;
+            margin-bottom: 8px;
+            color: #FFD700;
+            font-size: 0.9rem;
+            font-weight: 500;
+        }
+
+        #step1 .step-header {
+            display: none;
+        }
+
+        /* Progress Dots */
+        .progress-dots {
+            display: flex;
+            justify-content: center;
+            gap: 5px;
+            margin-bottom: 12px;
+        }
+
+        .dot {
+            width: 6px;
+            height: 6px;
+            border-radius: 50%;
+            background: rgba(255, 215, 0, 0.2);
+            transition: all 0.3s ease;
+        }
+
+        .dot.active {
+            background: #FFD700;
+            box-shadow: 0 0 8px rgba(255, 215, 0, 0.5);
+        }
+
+        /* Dropdown Arrow */
+        .sign-in-dropdown::before {
+            content: '';
+            position: absolute;
+            top: -8px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 0;
+            height: 0;
+            border-left: 8px solid transparent;
+            border-right: 8px solid transparent;
+            border-bottom: 8px solid rgba(255, 215, 0, 0.2);
+        }
+
+        /* Modal Logo */
+        .modal-logo {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        .modal-logo .lendwise-modal-text {
+            font-size: 2.5rem;
+            font-weight: 400;
+            letter-spacing: 0.1em;
+            color: #FFD700;
+            text-shadow:
+                0 2px 4px rgba(0,0,0,0.5),
+                0 0 20px rgba(255,215,0,0.3);
+        }
+
+        .modal-logo .mortgage-modal-text {
+            font-size: 1.8rem;
+            font-weight: 300;
+            letter-spacing: 0.1em;
+            color: #CDAA3D;
+            text-shadow:
+                0 2px 4px rgba(0,0,0,0.5),
+                0 0 15px rgba(255,215,0,0.2);
+        }
+
+        /* Form Inputs */
+        .form-input {
+            width: 100%;
+            padding: 8px 12px;
+            margin-bottom: 8px;
+            background: rgba(0, 0, 0, 0.4);
+            border: 1px solid rgba(255, 215, 0, 0.1);
+            border-radius: 8px;
+            color: #ffffff;
+            font-size: 0.9rem;
+            outline: none;
+            transition: all 0.3s ease;
+            box-sizing: border-box;
+        }
+
+        /* Name fields side by side */
+        .name-row {
+            display: flex;
+            gap: 8px;
+            margin-bottom: 8px;
+        }
+
+        .name-row .form-input {
+            margin-bottom: 0;
+            flex: 1;
+        }
+
+        .form-input::placeholder {
+            color: rgba(255, 255, 255, 0.5);
+        }
+
+        .form-input:focus {
+            border-color: rgba(255, 215, 0, 0.3);
+            box-shadow:
+                0 0 20px rgba(255, 215, 0, 0.2),
+                inset 0 0 10px rgba(255, 215, 0, 0.05);
+        }
+
+        /* Error Message */
+        .error-message {
+            color: #FF6B6B;
+            font-size: 0.9rem;
+            margin-bottom: 15px;
+            text-shadow: 0 1px 2px rgba(0,0,0,0.5);
+            display: none;
+        }
+
+        /* Divider */
+        .modal-divider {
+            height: 1px;
+            background: rgba(255, 215, 0, 0.1);
+            margin: 6px 0;
+        }
+
+        /* Sign In Button in Modal */
+        .modal-sign-in-btn {
+            width: 100%;
+            padding: 8px;
+            background: rgba(255, 215, 0, 0.15);
+            border: 1px solid rgba(255, 215, 0, 0.2);
+            border-radius: 50px;
+            color: #FFD700;
+            font-size: 0.9rem;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            margin-bottom: 0;
+            text-shadow: 0 2px 4px rgba(0,0,0,0.5);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .modal-sign-in-btn:hover {
+            background: rgba(255, 215, 0, 0.2);
+            box-shadow: 0 0 30px rgba(255, 215, 0, 0.3);
+            transform: translateY(-2px);
+        }
+
+        .modal-sign-in-btn:active {
+            transform: translateY(0);
+        }
+
+        /* Loading state */
+        .modal-sign-in-btn.loading {
+            color: transparent;
+            pointer-events: none;
+        }
+
+        .modal-sign-in-btn.loading::after {
+            content: '';
+            position: absolute;
+            width: 20px;
+            height: 20px;
+            top: 50%;
+            left: 50%;
+            margin-left: -10px;
+            margin-top: -10px;
+            border: 2px solid rgba(255, 215, 0, 0.3);
+            border-radius: 50%;
+            border-top-color: #FFD700;
+            animation: spin 0.8s linear infinite;
+        }
+
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+
+        /* Google Sign In Button */
+        .google-sign-in-btn {
+            width: 100%;
+            padding: 8px;
+            background: linear-gradient(135deg, rgba(35, 37, 38, 0.8), rgba(45, 46, 48, 0.8));
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 50px;
+            color: #ffffff;
+            font-size: 0.9rem;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            margin-bottom: 6px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .google-sign-in-btn::before {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 0;
+            height: 0;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.1);
+            transition: width 0.6s ease, height 0.6s ease;
+            transform: translate(-50%, -50%);
+        }
+
+        .google-sign-in-btn:hover {
+            background: linear-gradient(135deg, rgba(45, 47, 48, 0.9), rgba(55, 56, 58, 0.9));
+            box-shadow: 0 0 20px rgba(255, 255, 255, 0.1);
+            transform: translateY(-2px);
+        }
+
+        .google-sign-in-btn:hover::before {
+            width: 300px;
+            height: 300px;
+        }
+
+        .google-sign-in-btn:active {
+            transform: translateY(0);
+        }
+
+        .google-icon {
+            width: 20px;
+            height: 20px;
+        }
+
+        /* Sign Up Button */
+        .modal-sign-up-btn {
+            width: 100%;
+            padding: 8px;
+            background: transparent;
+            border: 1px solid rgba(255, 215, 0, 0.3);
+            border-radius: 50px;
+            color: #FFD700;
+            font-size: 0.9rem;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            margin-top: 6px;
+            text-shadow: 0 2px 4px rgba(0,0,0,0.5);
+        }
+
+        .modal-sign-up-btn:hover {
+            background: rgba(255, 215, 0, 0.1);
+            border-color: rgba(255, 215, 0, 0.4);
+            transform: translateY(-2px);
+        }
+
+        /* Forgot Password Link */
+        .forgot-password {
+            text-align: center;
+            margin-top: 8px;
+        }
+
+        .form-link {
+            color: rgba(255, 215, 0, 0.7);
+            font-size: 0.85rem;
+            text-decoration: none;
+            transition: color 0.3s ease;
+        }
+
+        .form-link:hover {
+            color: #FFD700;
+            text-decoration: underline;
         }
     </style>
 </head>
@@ -46,6 +544,14 @@
     <!-- Three.js Shader Intro Animation (continuous) -->
     <div id="shader-container" class="shader-intro">
         <div class="shader-overlay">
+            <!-- LendWise Mortgage Text - Same as modern-timeline -->
+            <div class="lendwise-logo-text">
+                <span class="lendwise-text">
+                    <span class="tall-letter">L</span>END<span class="tall-letter">W</span>ISE
+                </span>
+                <span class="mortgage-text">MORTGAGE</span>
+            </div>
+
             <!-- WISR Video Circle in Center -->
             <div class="wisr-showcase-center">
                 <div class="wisr-glow"></div>
@@ -54,6 +560,156 @@
                         <source src="wisr-owl.mp4" type="video/mp4" />
                     </video>
                     <div class="video-mask-overlay"></div>
+                </div>
+            </div>
+
+            <!-- Sign In Button Below Owl -->
+            <button class="sign-in-button" id="signInBtn">Sign In</button>
+
+            <!-- Sign In Dropdown -->
+            <div class="sign-in-dropdown" id="signInDropdown">
+                <!-- Progress Dots -->
+                <div class="progress-dots">
+                    <span class="dot active" data-step="1"></span>
+                    <span class="dot" data-step="2"></span>
+                    <span class="dot" data-step="3"></span>
+                    <span class="dot" data-step="4"></span>
+                </div>
+
+                <!-- Step Container -->
+                <div class="step-container">
+                    <!-- Step 1: Choose Sign In Method -->
+                    <div class="step" id="step1">
+                        <!-- Google Sign In Primary -->
+                        <button type="button" class="google-sign-in-btn" id="googleSignIn">
+                            <svg class="google-icon" viewBox="0 0 24 24">
+                                <path d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z" fill="#4285F4"/>
+                                <path d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z" fill="#34A853"/>
+                                <path d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z" fill="#FBBC05"/>
+                                <path d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z" fill="#EA4335"/>
+                            </svg>
+                            Continue with Google
+                        </button>
+
+                        <div class="modal-divider"></div>
+
+                        <!-- Sign in with Email option -->
+                        <button type="button" class="modal-sign-in-btn" id="emailSignInBtn">
+                            Sign in with Email
+                        </button>
+
+                        <!-- Sign Up option -->
+                        <button type="button" class="modal-sign-up-btn" id="signUpBtn">
+                            Sign Up
+                        </button>
+                    </div>
+
+                    <!-- Step 2: Email Sign In -->
+                    <div class="step" id="step2">
+                        <h3 class="step-header">Sign In</h3>
+
+                        <form id="signInForm">
+                            <input
+                                type="email"
+                                class="form-input"
+                                id="signInEmailInput"
+                                placeholder="Email Address"
+                                required
+                            />
+
+                            <input
+                                type="password"
+                                class="form-input"
+                                id="signInPasswordInput"
+                                placeholder="Password"
+                                required
+                            />
+
+                            <div class="error-message" id="signInErrorMessage"></div>
+
+                            <div style="display: flex; gap: 10px; margin-top: 8px;">
+                                <button type="button" class="modal-sign-in-btn back-btn" style="flex: 1; background: rgba(255,255,255,0.1); border: 1px solid rgba(255,255,255,0.2);">Back</button>
+                                <button type="submit" class="modal-sign-in-btn" style="flex: 1;">Sign In</button>
+                            </div>
+
+                            <div class="forgot-password">
+                                <a href="#" class="form-link">Forgot password?</a>
+                            </div>
+                        </form>
+                    </div>
+
+                    <!-- Step 3: Sign Up Form Part 1 (Name & Email) -->
+                    <div class="step" id="step3">
+                        <h3 class="step-header">Create Account</h3>
+
+                        <div class="name-row">
+                            <input
+                                type="text"
+                                class="form-input"
+                                id="firstNameInput"
+                                placeholder="First Name"
+                                required
+                            />
+                            <input
+                                type="text"
+                                class="form-input"
+                                id="lastNameInput"
+                                placeholder="Last Name"
+                                required
+                            />
+                        </div>
+
+                        <input
+                            type="email"
+                            class="form-input"
+                            id="emailInput"
+                            placeholder="Email Address"
+                            required
+                        />
+
+                        <div class="error-message" id="signUpErrorMessage1"></div>
+
+                        <div style="display: flex; gap: 10px; margin-top: 8px;">
+                            <button type="button" class="modal-sign-in-btn back-btn" style="flex: 1; background: rgba(255,255,255,0.1);">Back</button>
+                            <button type="button" class="modal-sign-in-btn" id="signUpNextBtn" style="flex: 1;">Next</button>
+                        </div>
+                    </div>
+
+                    <!-- Step 4: Sign Up Form Part 2 (Password & Phone) -->
+                    <div class="step" id="step4">
+                        <h3 class="step-header">Secure Your Account</h3>
+
+                        <input
+                            type="password"
+                            class="form-input"
+                            id="passwordInput"
+                            placeholder="Password (min 6 characters)"
+                            required
+                        />
+
+                        <input
+                            type="password"
+                            class="form-input"
+                            id="confirmPasswordInput"
+                            placeholder="Confirm Password"
+                            required
+                        />
+
+                        <input
+                            type="tel"
+                            class="form-input"
+                            id="phoneInput"
+                            placeholder="Phone Number"
+                            required
+                        />
+
+                        <div class="error-message" id="signUpErrorMessage2"></div>
+
+                        <div style="display: flex; gap: 10px; margin-top: 8px;">
+                            <button type="button" class="modal-sign-in-btn" id="signUpBackBtn" style="flex: 1; background: rgba(255,255,255,0.1); border: 1px solid rgba(255,255,255,0.2);">Back</button>
+                            <button type="button" class="modal-sign-in-btn" id="signUpSubmitBtn" style="flex: 1;">Create Account</button>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
@@ -166,7 +822,7 @@
             // Animation loop - CONTINUOUS
             function animate() {
                 requestAnimationFrame(animate);
-                uniforms.time.value += 0.023;  // 15% faster (0.02 * 1.15)
+                uniforms.time.value += 0.024;  // 20% faster (0.02 * 1.20)
                 renderer.render(scene, camera);
             }
 
@@ -202,6 +858,324 @@
                     }
                     return originalSetTimeout.apply(this, arguments);
                 };
+            }
+
+            // Sign In Dropdown JavaScript
+            const signInBtn = document.getElementById('signInBtn');
+            const signInDropdown = document.getElementById('signInDropdown');
+            const signInForm = document.getElementById('signInForm');
+            const googleSignIn = document.getElementById('googleSignIn');
+            const emailSignInBtn = document.getElementById('emailSignInBtn');
+            const signUpBtn = document.getElementById('signUpBtn');
+
+            // Step Management
+            let currentStep = 1;
+            let currentFlow = null; // Track which flow we're in: 'google', 'email', 'signup'
+
+            function showStep(stepNum, flow = null) {
+                // Hide all steps
+                document.querySelectorAll('.step').forEach(step => {
+                    step.classList.remove('active');
+                });
+
+                // Show the target step
+                const targetStep = document.getElementById(`step${stepNum}`);
+                if (targetStep) {
+                    targetStep.classList.add('active');
+                }
+
+                // Reset scroll position
+                const stepContainer = document.querySelector('.step-container');
+                if (stepContainer) {
+                    stepContainer.scrollTop = 0;
+                }
+
+                // Update dots based on flow
+                const dots = document.querySelectorAll('.dot');
+                if (flow === 'email') {
+                    // Show 2 dots for email flow
+                    dots[2].style.display = 'none';
+                    dots[3].style.display = 'none';
+                    dots.forEach((dot, index) => {
+                        if (index < stepNum) {
+                            dot.classList.add('active');
+                        } else {
+                            dot.classList.remove('active');
+                        }
+                    });
+                } else if (flow === 'signup') {
+                    // Show 3 dots for signup flow (steps 1, 3, 4)
+                    dots[2].style.display = 'inline-block';
+                    dots[3].style.display = 'none';
+                    // Map step numbers: step 3 -> dot 1, step 4 -> dot 2
+                    const dotIndex = stepNum === 3 ? 1 : stepNum === 4 ? 2 : 0;
+                    dots.forEach((dot, index) => {
+                        if (index <= dotIndex) {
+                            dot.classList.add('active');
+                        } else {
+                            dot.classList.remove('active');
+                        }
+                    });
+                } else {
+                    // Default - only show first dot
+                    dots[1].style.display = 'inline-block';
+                    dots[2].style.display = 'none';
+                    dots[3].style.display = 'none';
+                    dots[0].classList.add('active');
+                    dots[1].classList.remove('active');
+                    dots[2].classList.remove('active');
+                }
+
+                currentStep = stepNum;
+                if (flow) currentFlow = flow;
+            }
+
+            // Toggle dropdown
+            if (signInBtn && signInDropdown) {
+                signInBtn.addEventListener('click', (e) => {
+                    e.stopPropagation();
+                    signInDropdown.classList.toggle('show');
+
+                    // Reset to step 1 when opening
+                    if (signInDropdown.classList.contains('show')) {
+                        showStep(1);
+                        currentFlow = null;
+                    }
+                });
+            }
+
+            // Email Sign In Button - Go to Step 2
+            if (emailSignInBtn) {
+                emailSignInBtn.addEventListener('click', () => {
+                    showStep(2, 'email');
+                    setTimeout(() => {
+                        const emailField = document.getElementById('signInEmailInput');
+                        if (emailField) emailField.focus();
+                    }, 300);
+                });
+            }
+
+            // Sign Up Button - Go to Step 3
+            if (signUpBtn) {
+                signUpBtn.addEventListener('click', () => {
+                    showStep(3, 'signup');
+                    setTimeout(() => {
+                        const firstNameField = document.getElementById('firstNameInput');
+                        if (firstNameField) firstNameField.focus();
+                    }, 300);
+                });
+            }
+
+            // Sign Up Next Button - Go to Step 4
+            const signUpNextBtn = document.getElementById('signUpNextBtn');
+            if (signUpNextBtn) {
+                signUpNextBtn.addEventListener('click', () => {
+                    // Validate Step 3 fields
+                    const firstName = document.getElementById('firstNameInput').value;
+                    const lastName = document.getElementById('lastNameInput').value;
+                    const email = document.getElementById('emailInput').value;
+                    const errorMsg = document.getElementById('signUpErrorMessage1');
+
+                    if (!firstName || !lastName || !email) {
+                        showError('Please fill in all fields.', errorMsg);
+                        return;
+                    }
+
+                    if (!validateEmail(email)) {
+                        showError('Please enter a valid email address.', errorMsg);
+                        return;
+                    }
+
+                    // Clear error and proceed to Step 4
+                    if (errorMsg) errorMsg.style.display = 'none';
+                    showStep(4, 'signup');
+                    setTimeout(() => {
+                        const passwordField = document.getElementById('passwordInput');
+                        if (passwordField) passwordField.focus();
+                    }, 300);
+                });
+            }
+
+            // Sign Up Back Button (Step 4 to Step 3)
+            const signUpBackBtn = document.getElementById('signUpBackBtn');
+            if (signUpBackBtn) {
+                signUpBackBtn.addEventListener('click', () => {
+                    showStep(3, 'signup');
+                });
+            }
+
+            // Back Buttons - Return to Step 1
+            document.querySelectorAll('.back-btn').forEach(btn => {
+                btn.addEventListener('click', () => {
+                    showStep(1);
+                    currentFlow = null;
+                    // Clear any error messages
+                    document.querySelectorAll('.error-message').forEach(msg => {
+                        msg.style.display = 'none';
+                    });
+                });
+            });
+
+            // Close dropdown when clicking outside
+            document.addEventListener('click', (e) => {
+                if (!signInDropdown.contains(e.target) && e.target !== signInBtn) {
+                    signInDropdown.classList.remove('show');
+                }
+            });
+
+            // Close on ESC key
+            document.addEventListener('keydown', (e) => {
+                if (e.key === 'Escape' && signInDropdown.classList.contains('show')) {
+                    signInDropdown.classList.remove('show');
+                    if (errorMessage) errorMessage.style.display = 'none';
+                    if (signInForm) signInForm.reset();
+                }
+            });
+
+            // Sign In Form submission (Email login)
+            if (signInForm) {
+                signInForm.addEventListener('submit', async (e) => {
+                    e.preventDefault();
+
+                    const submitBtn = e.target.querySelector('button[type="submit"]');
+                    const email = document.getElementById('signInEmailInput').value;
+                    const password = document.getElementById('signInPasswordInput').value;
+                    const errorMsg = document.getElementById('signInErrorMessage');
+
+                    // Basic validation
+                    if (!email || !password) {
+                        showError('Please fill in all fields.', errorMsg);
+                        return;
+                    }
+
+                    if (!validateEmail(email)) {
+                        showError('Please enter a valid email address.', errorMsg);
+                        return;
+                    }
+
+                    // Show loading state
+                    submitBtn.classList.add('loading');
+                    submitBtn.disabled = true;
+
+                    // Simulate API call
+                    await new Promise(resolve => setTimeout(resolve, 1500));
+
+                    // Success (demo)
+                    submitBtn.classList.remove('loading');
+                    submitBtn.disabled = false;
+
+                    if (errorMsg) errorMsg.style.display = 'none';
+                    alert(`Welcome back! Signed in as ${email}`);
+                    signInDropdown.classList.remove('show');
+                    signInForm.reset();
+
+                    // Reset to step 1 after delay
+                    setTimeout(() => {
+                        showStep(1);
+                        currentFlow = null;
+                    }, 300);
+                });
+            }
+
+            // Note: Sign up is handled through the step-by-step process with signUpSubmitBtn
+            // The signUpForm element doesn't exist - sign up is handled via individual buttons
+
+            // Google sign in
+            if (googleSignIn) {
+                googleSignIn.addEventListener('click', async () => {
+                    googleSignIn.classList.add('loading');
+                    googleSignIn.disabled = true;
+
+                    // Simulate OAuth flow
+                    await new Promise(resolve => setTimeout(resolve, 1500));
+
+                    googleSignIn.classList.remove('loading');
+                    googleSignIn.disabled = false;
+
+                    // Google OAuth would go here
+                    alert('Google OAuth integration would happen here!');
+                    signInDropdown.classList.remove('show');
+                });
+            }
+
+            // Sign Up Submit Button (Final submission from Step 4)
+            const signUpSubmitBtn = document.getElementById('signUpSubmitBtn');
+            if (signUpSubmitBtn) {
+                signUpSubmitBtn.addEventListener('click', async () => {
+                    // Get all form values
+                    const firstName = document.getElementById('firstNameInput').value;
+                    const lastName = document.getElementById('lastNameInput').value;
+                    const email = document.getElementById('emailInput').value;
+                    const password = document.getElementById('passwordInput').value;
+                    const confirmPassword = document.getElementById('confirmPasswordInput').value;
+                    const phone = document.getElementById('phoneInput').value;
+                    const errorMsg = document.getElementById('signUpErrorMessage2');
+
+                    // Validate Step 4 fields
+                    if (!password || !confirmPassword || !phone) {
+                        showError('Please fill in all fields.', errorMsg);
+                        return;
+                    }
+
+                    if (password.length < 6) {
+                        showError('Password must be at least 6 characters.', errorMsg);
+                        return;
+                    }
+
+                    if (password !== confirmPassword) {
+                        showError('Passwords do not match.', errorMsg);
+                        return;
+                    }
+
+                    // Show loading state
+                    signUpSubmitBtn.classList.add('loading');
+                    signUpSubmitBtn.disabled = true;
+
+                    // Simulate API call
+                    await new Promise(resolve => setTimeout(resolve, 1500));
+
+                    // Success (demo)
+                    signUpSubmitBtn.classList.remove('loading');
+                    signUpSubmitBtn.disabled = false;
+
+                    if (errorMsg) errorMsg.style.display = 'none';
+                    alert(`Account created successfully for ${firstName} ${lastName}!`);
+
+                    // Clear all form fields
+                    document.getElementById('firstNameInput').value = '';
+                    document.getElementById('lastNameInput').value = '';
+                    document.getElementById('emailInput').value = '';
+                    document.getElementById('passwordInput').value = '';
+                    document.getElementById('confirmPasswordInput').value = '';
+                    document.getElementById('phoneInput').value = '';
+
+                    // Close dropdown and reset
+                    signInDropdown.classList.remove('show');
+                    setTimeout(() => {
+                        showStep(1);
+                        currentFlow = null;
+                    }, 300);
+                });
+            }
+
+            // Email validation
+            function validateEmail(email) {
+                return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
+            }
+
+            // Show error
+            function showError(message, errorElement) {
+                if (!errorElement) {
+                    // Find the active error message element
+                    const activeStep = document.querySelector('.step.active');
+                    if (activeStep) {
+                        errorElement = activeStep.querySelector('.error-message');
+                    }
+                }
+                if (errorElement) {
+                    errorElement.textContent = message;
+                    errorElement.style.display = 'block';
+                }
             }
         });
 

@@ -3444,10 +3444,10 @@ body {
 /* Base Filter Button Styling - NO GRADIENT to avoid green override */
 .filter-btn {
     position: relative;
-    padding: 10px 20px;
+    padding: 5px 10px;  /* Reduced from 10px 20px (50%) */
     border: none;
-    border-radius: 25px;
-    font-size: 0.9rem;
+    border-radius: 12.5px;  /* Reduced from 25px (50%) */
+    font-size: 0.45rem;  /* Reduced from 0.9rem (50%) */
     font-weight: 600;
     color: white;
     cursor: pointer;

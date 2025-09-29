@@ -121,6 +121,7 @@ document.addEventListener('DOMContentLoaded', () => {
     // Hide entire shader container and all its contents after 3 seconds
     setTimeout(() => {
         const shaderContainer = document.getElementById('shader-container');
+        const mainContent = document.querySelector('.main-content');
 
         // Hide the shader container completely
         if (shaderContainer) {
@@ -132,13 +133,46 @@ document.addEventListener('DOMContentLoaded', () => {
             }, 500);
         }
 
+        // CRITICAL: Show the main content and initialize timeline
+        if (mainContent) {
+            mainContent.style.transition = 'opacity 0.5s ease-in';
+            mainContent.style.opacity = '1';
+
+            // Initialize timeline components after showing content
+            setTimeout(() => {
+                if (typeof initializeCarouselGallery !== 'undefined') {
+                    initializeCarouselGallery();
+                }
+                if (typeof setupNavigationButtons !== 'undefined') {
+                    setupNavigationButtons();
+                }
+                if (typeof setupTimelineClicks !== 'undefined') {
+                    setupTimelineClicks();
+                }
+                if (typeof setupTimelineNavigation !== 'undefined') {
+                    setupTimelineNavigation();
+                }
+                if (typeof setupPositionControls !== 'undefined') {
+                    setupPositionControls();
+                }
+                if (typeof setupModalHandlers !== 'undefined') {
+                    setupModalHandlers();
+                }
+                console.log('✅ Timeline initialized after 3-second intro');
+            }, 100);
+        }
+
         // CRITICAL: Find and remove ALL wisr-showcase-center elements, especially rogue ones
         // This handles any owl elements that might have been moved to body
         const allOwlElements = document.querySelectorAll('.wisr-showcase-center');
         allOwlElements.forEach(owl => {
-            console.log('Removing owl element:', owl.parentElement.tagName);
-            owl.style.display = 'none';
-            owl.remove(); // Completely remove from DOM
+            // Only remove if it's part of the intro, not the landing page owl
+            const isLandingOwl = owl.closest('.landing-owl') || owl.classList.contains('landing-owl');
+            if (!isLandingOwl) {
+                console.log('Removing owl element:', owl.parentElement.tagName);
+                owl.style.display = 'none';
+                owl.remove(); // Completely remove from DOM
+            }
         });
 
         // Also remove any stray video elements with owl video
@@ -146,7 +180,11 @@ document.addEventListener('DOMContentLoaded', () => {
         owlVideos.forEach(video => {
             const parent = video.closest('.wisr-showcase-center, .wisr-video-circle');
             if (parent) {
-                parent.remove();
+                // Only remove if it's part of the intro, not the landing page owl
+                const isLandingOwl = parent.closest('.landing-owl');
+                if (!isLandingOwl) {
+                    parent.remove();
+                }
             }
         });
 

@@ -1,7 +1,7 @@
 // Modern Timeline JavaScript
 
 document.addEventListener('DOMContentLoaded', () => {
-    console.log('🚀 Modern Timeline: DOM loaded, waiting for intro...');
+    console.log('🚀 Modern Timeline: Ready for initialization');
 
     // IMMEDIATE CLEANUP: Remove any rogue owl elements that shouldn't be there
     // This handles cases where the owl was left from a previous session
@@ -9,37 +9,14 @@ document.addEventListener('DOMContentLoaded', () => {
     const rogueOwls = document.querySelectorAll('body > .wisr-showcase-center');
     rogueOwls.forEach(owl => {
         // Only remove if it's not part of the landing-owl
-        if (!owl.closest('.landing-owl')) {
+        if (!owl.closest('.landing-owl') && !owl.closest('#shader-container')) {
             console.log('Found and removing rogue owl from body');
             owl.remove();
         }
     });
 
-    // Wait for intro animation to complete (3.5 seconds to ensure intro fades out)
-    setTimeout(() => {
-        console.log('✨ Modern Timeline: Intro complete, initializing carousel...');
-
-        try {
-            // Fade in main content
-            const mainContent = document.querySelector('.main-content');
-            if (mainContent) {
-                mainContent.style.transition = 'opacity 0.5s ease-in';
-                mainContent.style.opacity = '1';
-            }
-
-            // Initialize 3D carousel gallery
-            initializeCarouselGallery();
-            setupNavigationButtons();
-            setupTimelineClicks();
-            setupTimelineNavigation();  // Add timeline scroll navigation
-            setupPositionControls();  // Add position controls
-            setupModalHandlers();  // Setup modal event handlers
-
-            console.log('✅ Modern Timeline: All systems initialized successfully');
-        } catch (error) {
-            console.error('❌ Modern Timeline: Initialization error:', error);
-        }
-    }, 3500);
+    // Timeline will be initialized after intro completes
+    // The intro-animation.js will call these functions
 });
 
 // 3D Carousel Gallery Configuration - LOCKED POSITIONS

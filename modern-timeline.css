@@ -611,6 +611,170 @@ html, body {
     --color-3: #ff6600;
 }
 
+/* Future Projects - Gold Theme (EXACT React gradient code with gold colors) */
+.timeline-milestone.future .milestone-dot {
+    /* EXACT initial position - light from top right corner moving down */
+    --pos-x: 11.14%;
+    --pos-y: 140%;
+    --spread-x: 150%;
+    --spread-y: 180.06%;
+
+    /* Gold color scheme (replacing React's default dark colors) */
+    --color-1: #000;       /* Black base (same as React) */
+    --color-2: #2c2008;    /* Dark gold-brown (was #08012c dark blue) */
+    --color-3: #6b5a1e;    /* Medium gold (was #4e1e40 purple) */
+    --color-4: #b89c46;    /* Light gold (was #70464e mauve) */
+    --color-5: #ffdd44;    /* Bright gold (was #88394c burgundy) */
+
+    /* Border gradient */
+    --border-angle: 20deg;
+    --border-color-1: rgba(255, 215, 0, 0.2);   /* Gold 20% opacity */
+    --border-color-2: rgba(255, 200, 0, 0.75);  /* Gold 75% opacity */
+}
+
+.timeline-milestone.future:hover .milestone-dot {
+    /* EXACT hover positions from React code */
+    --pos-x: 0%;
+    --pos-y: 91.51%;
+    --spread-x: 120.24%;
+    --spread-y: 103.18%;
+
+    /* Gold hover colors (replacing React's pink/orange hover) */
+    --color-1: #ffd700;    /* Gold (was #c96287 pink) */
+    --color-2: #ffc864;    /* Light gold (was #c66c64 coral) */
+    --color-3: #ffaa23;    /* Orange-gold (was #cc7d23 orange) */
+    --color-4: #4d3a0a;    /* Dark brown (was #37140a dark brown) */
+    --color-5: #000;       /* Black (same as React) */
+
+    /* Hover border animation */
+    --border-angle: 190deg;
+    --border-color-1: rgba(255, 215, 0, 0.1);   /* Gold 10% opacity */
+    --border-color-2: rgba(255, 215, 0, 0.6);   /* Gold 60% opacity */
+}
+
+/* Technology - Blue Theme (EXACT React gradient code with blue colors) */
+.timeline-milestone.technology .milestone-dot {
+    /* EXACT initial position - light from top right corner moving down */
+    --pos-x: 11.14%;
+    --pos-y: 140%;
+    --spread-x: 150%;
+    --spread-y: 180.06%;
+
+    /* Blue color scheme for Tech */
+    --color-1: #000;       /* Black base (same as React) */
+    --color-2: #08122c;    /* Dark blue (similar to React's #08012c) */
+    --color-3: #1e3a6a;    /* Medium blue (was #4e1e40 purple) */
+    --color-4: #4678b8;    /* Light blue (was #70464e mauve) */
+    --color-5: #4488ff;    /* Bright blue (was #88394c burgundy) */
+
+    /* Border gradient */
+    --border-angle: 20deg;
+    --border-color-1: rgba(68, 136, 255, 0.2);   /* Blue 20% opacity */
+    --border-color-2: rgba(0, 102, 255, 0.75);   /* Deep blue 75% opacity */
+}
+
+.timeline-milestone.technology:hover .milestone-dot {
+    /* EXACT hover positions from React code */
+    --pos-x: 0%;
+    --pos-y: 91.51%;
+    --spread-x: 120.24%;
+    --spread-y: 103.18%;
+
+    /* Blue hover colors */
+    --color-1: #4488ff;    /* Bright blue (was #c96287 pink) */
+    --color-2: #64a8ff;    /* Light blue (was #c66c64 coral) */
+    --color-3: #0066ff;    /* Deep blue (was #cc7d23 orange) */
+    --color-4: #0a1a4d;    /* Dark navy (was #37140a dark brown) */
+    --color-5: #000;       /* Black (same as React) */
+
+    /* Hover border animation */
+    --border-angle: 190deg;
+    --border-color-1: rgba(68, 136, 255, 0.1);   /* Blue 10% opacity */
+    --border-color-2: rgba(68, 136, 255, 0.6);   /* Blue 60% opacity */
+}
+
+/* In-Progress - Gray/Silver Theme (EXACT React gradient code with silver colors) */
+.timeline-milestone.in-progress .milestone-dot {
+    /* EXACT initial position - light from top right corner moving down */
+    --pos-x: 11.14%;
+    --pos-y: 140%;
+    --spread-x: 150%;
+    --spread-y: 180.06%;
+
+    /* Gray/Silver color scheme for In-Progress */
+    --color-1: #000;       /* Black base (same as React) */
+    --color-2: #1a1a1a;    /* Dark gray (was #08012c dark blue) */
+    --color-3: #4a4a4a;    /* Medium gray (was #4e1e40 purple) */
+    --color-4: #a0a0a0;    /* Light silver (was #70464e mauve) */
+    --color-5: #d0d0d0;    /* Bright silver (was #88394c burgundy) */
+
+    /* Border gradient */
+    --border-angle: 20deg;
+    --border-color-1: rgba(208, 208, 208, 0.2);   /* Silver 20% opacity */
+    --border-color-2: rgba(160, 160, 160, 0.75);  /* Gray 75% opacity */
+}
+
+.timeline-milestone.in-progress:hover .milestone-dot {
+    /* EXACT hover positions from React code */
+    --pos-x: 0%;
+    --pos-y: 91.51%;
+    --spread-x: 120.24%;
+    --spread-y: 103.18%;
+
+    /* Silver hover colors */
+    --color-1: #e0e0e0;    /* Bright silver (was #c96287 pink) */
+    --color-2: #c0c0c0;    /* Silver (was #c66c64 coral) */
+    --color-3: #808080;    /* Medium gray (was #cc7d23 orange) */
+    --color-4: #303030;    /* Dark gray (was #37140a dark brown) */
+    --color-5: #000;       /* Black (same as React) */
+
+    /* Hover border animation */
+    --border-angle: 190deg;
+    --border-color-1: rgba(208, 208, 208, 0.1);   /* Silver 10% opacity */
+    --border-color-2: rgba(208, 208, 208, 0.6);   /* Silver 60% opacity */
+}
+
+/* Operations - Purple Theme (EXACT React gradient code with purple colors) */
+.timeline-milestone.operations .milestone-dot {
+    /* EXACT initial position - light from top right corner moving down */
+    --pos-x: 11.14%;
+    --pos-y: 140%;
+    --spread-x: 150%;
+    --spread-y: 180.06%;
+
+    /* Purple color scheme for Operations */
+    --color-1: #000;       /* Black base (same as React) */
+    --color-2: #1a082c;    /* Dark purple (was #08012c dark blue) */
+    --color-3: #4a1e6a;    /* Medium purple (was #4e1e40 purple - keeping similar) */
+    --color-4: #8646b8;    /* Light purple (was #70464e mauve) */
+    --color-5: #9944ff;    /* Bright purple (was #88394c burgundy) */
+
+    /* Border gradient */
+    --border-angle: 20deg;
+    --border-color-1: rgba(153, 68, 255, 0.2);   /* Purple 20% opacity */
+    --border-color-2: rgba(119, 0, 255, 0.75);   /* Deep purple 75% opacity */
+}
+
+.timeline-milestone.operations:hover .milestone-dot {
+    /* EXACT hover positions from React code */
+    --pos-x: 0%;
+    --pos-y: 91.51%;
+    --spread-x: 120.24%;
+    --spread-y: 103.18%;
+
+    /* Purple hover colors */
+    --color-1: #9944ff;    /* Bright purple (was #c96287 pink) */
+    --color-2: #aa64ff;    /* Light purple (was #c66c64 coral) */
+    --color-3: #7700ff;    /* Deep purple (was #cc7d23 orange) */
+    --color-4: #2a0a4d;    /* Dark purple (was #37140a dark brown) */
+    --color-5: #000;       /* Black (same as React) */
+
+    /* Hover border animation */
+    --border-angle: 190deg;
+    --border-color-1: rgba(153, 68, 255, 0.1);   /* Purple 10% opacity */
+    --border-color-2: rgba(153, 68, 255, 0.6);   /* Purple 60% opacity */
+}
+
 /* Milestone Connector Line - Removed duplicate, see line 307 for main definition */
 
 .milestone-connector.top {
@@ -627,6 +791,22 @@ html, body {
 
 .timeline-milestone.pending .milestone-connector {
     background: rgba(255, 215, 0, 0.3);
+}
+
+.timeline-milestone.future .milestone-connector {
+    background: rgba(255, 215, 0, 0.3);  /* Gold connector matching pending */
+}
+
+.timeline-milestone.technology .milestone-connector {
+    background: rgba(68, 136, 255, 0.3);  /* Blue connector for tech */
+}
+
+.timeline-milestone.in-progress .milestone-connector {
+    background: rgba(184, 184, 184, 0.3);  /* Silver/gray connector */
+}
+
+.timeline-milestone.operations .milestone-connector {
+    background: rgba(153, 68, 255, 0.3);  /* Purple connector for operations */
 }
 
 /* Milestone Content - Old structure, now hidden */

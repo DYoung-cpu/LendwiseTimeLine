@@ -1,0 +1,233 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Continuous Intro Animation - LendWise</title>
+
+    <!-- Three.js for shader animation -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+
+    <!-- Include timeline styles for WISR elements -->
+    <link rel="stylesheet" href="timeline-styles.css">
+
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            overflow: hidden;
+            background: #000;
+        }
+
+        /* Keep shader visible indefinitely */
+        .shader-intro {
+            animation: none !important;
+            opacity: 1 !important;
+            display: block !important;
+        }
+
+        /* Optional: Add login form overlay styles here later */
+        .login-overlay {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            z-index: 10000;
+            background: rgba(0, 0, 0, 0.8);
+            border: 2px solid rgba(255, 215, 0, 0.3);
+            border-radius: 10px;
+            padding: 30px;
+            backdrop-filter: blur(10px);
+            display: none; /* Hidden by default */
+        }
+    </style>
+</head>
+<body>
+    <!-- Three.js Shader Intro Animation (continuous) -->
+    <div id="shader-container" class="shader-intro">
+        <div class="shader-overlay">
+            <!-- WISR Video Circle in Center -->
+            <div class="wisr-showcase-center">
+                <div class="wisr-glow"></div>
+                <div class="wisr-video-circle">
+                    <video id="center-owl-video" autoplay muted loop playsinline>
+                        <source src="wisr-owl.mp4" type="video/mp4" />
+                    </video>
+                    <div class="video-mask-overlay"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Three.js Shader Animation - Modified for continuous loop
+        function initShaderAnimation() {
+            // Check if Three.js is loaded
+            if (typeof THREE === 'undefined') {
+                console.error('Three.js not loaded');
+                return;
+            }
+
+            const container = document.getElementById('shader-container');
+            if (!container) {
+                console.error('Shader container not found');
+                return;
+            }
+            console.log('Initializing continuous shader animation...');
+
+            // Vertex shader
+            const vertexShader = `
+                void main() {
+                    gl_Position = vec4(position, 1.0);
+                }
+            `;
+
+            // Fragment shader - Original with reduced black screen time
+            const fragmentShader = `
+                #define TWO_PI 6.2831853072
+                #define PI 3.14159265359
+
+                precision highp float;
+                uniform vec2 resolution;
+                uniform float time;
+
+                void main(void) {
+                    vec2 uv = (gl_FragCoord.xy * 2.0 - resolution.xy) / min(resolution.x, resolution.y);
+                    float t = time * 0.045;  // Optimized cycle speed
+                    float lineWidth = 0.002;
+
+                    vec3 goldColor = vec3(1.0, 0.84, 0.0);  // Gold
+                    vec3 greenColor = vec3(0.0, 0.8, 0.2);  // Green
+
+                    float intensity = 0.0;
+
+                    // Owl radius offset - ripples start from owl edge
+                    float owlRadius = 0.13;
+
+                    for(int i=0; i < 5; i++){
+                        // Optimized to minimize black screen time
+                        float rippleExpansion = fract(t + float(i)*0.015)*2.2;  // Max 2.2 units, tighter spacing
+                        float adjustedLength = length(uv) - owlRadius;
+                        intensity += lineWidth*float(i*i) / abs(rippleExpansion - adjustedLength + mod(uv.x+uv.y, 0.2));
+                    }
+
+                    // Fade out inside owl area
+                    float fadeFactor = smoothstep(0.0, owlRadius, length(uv));
+                    intensity *= fadeFactor;
+
+                    // Mix gold and green based on position and time - ORIGINAL
+                    float mixFactor = sin(uv.x * 3.0 + time * 0.1) * 0.5 + 0.5;
+                    vec3 color = mix(goldColor, greenColor, mixFactor) * intensity;
+
+                    gl_FragColor = vec4(color, 1.0);
+                }
+            `;
+
+            // Initialize Three.js scene
+            const camera = new THREE.Camera();
+            camera.position.z = 1;
+
+            const scene = new THREE.Scene();
+            const geometry = new THREE.PlaneGeometry(2, 2);
+
+            const uniforms = {
+                time: { type: "f", value: 1.0 },
+                resolution: { type: "v2", value: new THREE.Vector2() }
+            };
+
+            const material = new THREE.ShaderMaterial({
+                uniforms: uniforms,
+                vertexShader: vertexShader,
+                fragmentShader: fragmentShader
+            });
+
+            const mesh = new THREE.Mesh(geometry, material);
+            scene.add(mesh);
+
+            const renderer = new THREE.WebGLRenderer({ antialias: true });
+            renderer.setPixelRatio(window.devicePixelRatio);
+
+            // Insert canvas as first child of container
+            container.insertBefore(renderer.domElement, container.firstChild);
+
+            // Handle window resize
+            function onWindowResize() {
+                const width = container.clientWidth;
+                const height = container.clientHeight;
+                renderer.setSize(width, height);
+                uniforms.resolution.value.x = renderer.domElement.width;
+                uniforms.resolution.value.y = renderer.domElement.height;
+            }
+
+            // Initial resize
+            onWindowResize();
+            window.addEventListener('resize', onWindowResize, false);
+
+            // Animation loop - CONTINUOUS
+            function animate() {
+                requestAnimationFrame(animate);
+                uniforms.time.value += 0.023;  // 15% faster (0.02 * 1.15)
+                renderer.render(scene, camera);
+            }
+
+            // Start animation
+            animate();
+
+            // Make uniforms globally accessible for debugging
+            window.shaderUniforms = uniforms;
+        }
+
+        // Initialize on page load
+        document.addEventListener('DOMContentLoaded', () => {
+            initShaderAnimation();
+
+            // Ensure the shader container stays visible
+            const shaderContainer = document.getElementById('shader-container');
+            if (shaderContainer) {
+                // Remove any classes that might hide it
+                shaderContainer.classList.remove('fade-out');
+
+                // Force it to stay visible
+                shaderContainer.style.display = 'block';
+                shaderContainer.style.opacity = '1';
+
+                // Prevent any timeout from hiding it
+                const originalSetTimeout = window.setTimeout;
+                window.setTimeout = function(fn, delay) {
+                    // Check if this is trying to hide our shader
+                    const fnString = fn.toString();
+                    if (fnString.includes('shader-container') && fnString.includes('display') && fnString.includes('none')) {
+                        console.log('Prevented shader from being hidden');
+                        return; // Don't execute this timeout
+                    }
+                    return originalSetTimeout.apply(this, arguments);
+                };
+            }
+        });
+
+        // Prevent any external scripts from hiding the animation
+        window.addEventListener('load', () => {
+            const observer = new MutationObserver((mutations) => {
+                mutations.forEach((mutation) => {
+                    if (mutation.type === 'attributes' && mutation.target.id === 'shader-container') {
+                        const container = document.getElementById('shader-container');
+                        if (container && (container.style.display === 'none' || container.style.opacity === '0')) {
+                            container.style.display = 'block';
+                            container.style.opacity = '1';
+                            console.log('Kept shader visible');
+                        }
+                    }
+                });
+            });
+
+            const shaderContainer = document.getElementById('shader-container');
+            if (shaderContainer) {
+                observer.observe(shaderContainer, {
+                    attributes: true,
+                    attributeFilter: ['style', 'class']
+                });
+            }
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,435 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>LendWise - Login</title>
+
+    <!-- Three.js for shader animation -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+
+    <!-- Include timeline styles for WISR elements -->
+    <link rel="stylesheet" href="timeline-styles.css">
+
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            overflow: hidden;
+            background: #000;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Helvetica Neue', sans-serif;
+        }
+
+        /* Keep shader visible indefinitely */
+        .shader-intro {
+            animation: none !important;
+            opacity: 1 !important;
+            display: block !important;
+        }
+
+        /* Login Form Overlay */
+        .login-container {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            z-index: 10000;
+            width: 400px;
+            max-width: 90%;
+        }
+
+        .login-card {
+            background: rgba(0, 0, 0, 0.85);
+            border: 2px solid transparent;
+            background-image: linear-gradient(rgba(0, 0, 0, 0.85), rgba(0, 0, 0, 0.85)),
+                              linear-gradient(45deg, rgba(255, 215, 0, 0.6), rgba(0, 200, 81, 0.6));
+            background-origin: border-box;
+            background-clip: padding-box, border-box;
+            border-radius: 15px;
+            padding: 40px;
+            backdrop-filter: blur(20px);
+            box-shadow: 0 25px 60px rgba(0, 0, 0, 0.5),
+                        0 0 100px rgba(255, 215, 0, 0.1);
+            animation: float 6s ease-in-out infinite;
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0px); }
+            50% { transform: translateY(-10px); }
+        }
+
+        .login-header {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        .login-logo {
+            width: 80px;
+            height: 80px;
+            margin: 0 auto 20px;
+            border-radius: 50%;
+            background: linear-gradient(45deg, #FFD700, #00C851);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 36px;
+            font-weight: bold;
+            color: #000;
+            box-shadow: 0 10px 30px rgba(255, 215, 0, 0.3);
+        }
+
+        .login-title {
+            color: #FFD700;
+            font-size: 28px;
+            margin-bottom: 10px;
+            font-weight: 300;
+            letter-spacing: 2px;
+        }
+
+        .login-subtitle {
+            color: rgba(255, 255, 255, 0.7);
+            font-size: 14px;
+            letter-spacing: 1px;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-label {
+            color: rgba(255, 255, 255, 0.9);
+            font-size: 12px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 8px;
+            display: block;
+        }
+
+        .form-input {
+            width: 100%;
+            padding: 12px 15px;
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 215, 0, 0.2);
+            border-radius: 8px;
+            color: #fff;
+            font-size: 14px;
+            transition: all 0.3s ease;
+            box-sizing: border-box;
+        }
+
+        .form-input:focus {
+            outline: none;
+            border-color: rgba(255, 215, 0, 0.6);
+            background: rgba(255, 255, 255, 0.08);
+            box-shadow: 0 0 20px rgba(255, 215, 0, 0.1);
+        }
+
+        .form-input::placeholder {
+            color: rgba(255, 255, 255, 0.3);
+        }
+
+        .submit-btn {
+            width: 100%;
+            padding: 14px;
+            background: linear-gradient(45deg, #FFD700, #00C851);
+            border: none;
+            border-radius: 8px;
+            color: #000;
+            font-weight: bold;
+            font-size: 16px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-top: 10px;
+        }
+
+        .submit-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 30px rgba(255, 215, 0, 0.3);
+        }
+
+        .submit-btn:active {
+            transform: translateY(0);
+        }
+
+        .form-footer {
+            margin-top: 25px;
+            text-align: center;
+            padding-top: 20px;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .form-link {
+            color: rgba(0, 200, 81, 0.8);
+            text-decoration: none;
+            font-size: 14px;
+            transition: color 0.3s ease;
+        }
+
+        .form-link:hover {
+            color: #00C851;
+            text-decoration: underline;
+        }
+
+        .remember-me {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin: 20px 0;
+            color: rgba(255, 255, 255, 0.7);
+            font-size: 14px;
+        }
+
+        .checkbox-label {
+            display: flex;
+            align-items: center;
+            cursor: pointer;
+        }
+
+        .checkbox-label input {
+            margin-right: 8px;
+        }
+
+        /* Custom checkbox */
+        input[type="checkbox"] {
+            width: 18px;
+            height: 18px;
+            accent-color: #FFD700;
+        }
+
+        .divider {
+            text-align: center;
+            margin: 25px 0;
+            color: rgba(255, 255, 255, 0.5);
+            font-size: 12px;
+            position: relative;
+        }
+
+        .divider::before,
+        .divider::after {
+            content: '';
+            position: absolute;
+            top: 50%;
+            width: 40%;
+            height: 1px;
+            background: rgba(255, 255, 255, 0.1);
+        }
+
+        .divider::before {
+            left: 0;
+        }
+
+        .divider::after {
+            right: 0;
+        }
+
+        .social-login {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+        }
+
+        .social-btn {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            background: rgba(255, 255, 255, 0.05);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            color: rgba(255, 255, 255, 0.7);
+            font-size: 20px;
+        }
+
+        .social-btn:hover {
+            border-color: rgba(255, 215, 0, 0.5);
+            background: rgba(255, 215, 0, 0.1);
+            transform: translateY(-2px);
+        }
+    </style>
+</head>
+<body>
+    <!-- Three.js Shader Background Animation (continuous) -->
+    <div id="shader-container" class="shader-intro">
+        <div class="shader-overlay">
+            <!-- WISR Video Circle in Center -->
+            <div class="wisr-showcase-center">
+                <div class="wisr-glow"></div>
+                <div class="wisr-video-circle">
+                    <video id="center-owl-video" autoplay muted loop playsinline>
+                        <source src="wisr-owl.mp4" type="video/mp4" />
+                    </video>
+                    <div class="video-mask-overlay"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Login Form Overlay -->
+    <div class="login-container">
+        <div class="login-card">
+            <div class="login-header">
+                <div class="login-logo">LW</div>
+                <h1 class="login-title">LENDWISE</h1>
+                <p class="login-subtitle">MORTGAGE EXCELLENCE</p>
+            </div>
+
+            <form id="loginForm">
+                <div class="form-group">
+                    <label class="form-label">Email Address</label>
+                    <input type="email" class="form-input" placeholder="Enter your email" required>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label">Password</label>
+                    <input type="password" class="form-input" placeholder="Enter your password" required>
+                </div>
+
+                <div class="remember-me">
+                    <label class="checkbox-label">
+                        <input type="checkbox"> Remember me
+                    </label>
+                    <a href="#" class="form-link">Forgot password?</a>
+                </div>
+
+                <button type="submit" class="submit-btn">Sign In</button>
+
+                <div class="divider">OR</div>
+
+                <div class="social-login">
+                    <div class="social-btn" title="Sign in with Google">G</div>
+                    <div class="social-btn" title="Sign in with Microsoft">M</div>
+                    <div class="social-btn" title="Sign in with LinkedIn">in</div>
+                </div>
+
+                <div class="form-footer">
+                    <p style="color: rgba(255, 255, 255, 0.5); margin-bottom: 10px;">Don't have an account?</p>
+                    <a href="#" class="form-link">Create Account</a>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <script>
+        // Three.js Shader Animation - Continuous background
+        function initShaderAnimation() {
+            if (typeof THREE === 'undefined') {
+                console.error('Three.js not loaded');
+                return;
+            }
+
+            const container = document.getElementById('shader-container');
+            if (!container) {
+                console.error('Shader container not found');
+                return;
+            }
+
+            // Vertex shader
+            const vertexShader = `
+                void main() {
+                    gl_Position = vec4(position, 1.0);
+                }
+            `;
+
+            // Fragment shader - Original with reduced black screen time
+            const fragmentShader = `
+                #define TWO_PI 6.2831853072
+                #define PI 3.14159265359
+
+                precision highp float;
+                uniform vec2 resolution;
+                uniform float time;
+
+                void main(void) {
+                    vec2 uv = (gl_FragCoord.xy * 2.0 - resolution.xy) / min(resolution.x, resolution.y);
+                    float t = time * 0.045;  // Optimized cycle speed
+                    float lineWidth = 0.002;
+
+                    vec3 goldColor = vec3(1.0, 0.84, 0.0);
+                    vec3 greenColor = vec3(0.0, 0.8, 0.2);
+
+                    float intensity = 0.0;
+                    float owlRadius = 0.13;
+
+                    for(int i=0; i < 5; i++){
+                        // Optimized to minimize black screen time
+                        float rippleExpansion = fract(t + float(i)*0.015)*2.2;  // Max 2.2 units, tighter spacing
+                        float adjustedLength = length(uv) - owlRadius;
+                        intensity += lineWidth*float(i*i) / abs(rippleExpansion - adjustedLength + mod(uv.x+uv.y, 0.2));
+                    }
+
+                    float fadeFactor = smoothstep(0.0, owlRadius, length(uv));
+                    intensity *= fadeFactor;
+
+                    float mixFactor = sin(uv.x * 3.0 + time * 0.1) * 0.5 + 0.5;
+                    vec3 color = mix(goldColor, greenColor, mixFactor) * intensity;
+
+                    gl_FragColor = vec4(color, 1.0);
+                }
+            `;
+
+            // Initialize Three.js scene
+            const camera = new THREE.Camera();
+            camera.position.z = 1;
+
+            const scene = new THREE.Scene();
+            const geometry = new THREE.PlaneGeometry(2, 2);
+
+            const uniforms = {
+                time: { type: "f", value: 1.0 },
+                resolution: { type: "v2", value: new THREE.Vector2() }
+            };
+
+            const material = new THREE.ShaderMaterial({
+                uniforms: uniforms,
+                vertexShader: vertexShader,
+                fragmentShader: fragmentShader
+            });
+
+            const mesh = new THREE.Mesh(geometry, material);
+            scene.add(mesh);
+
+            const renderer = new THREE.WebGLRenderer({ antialias: true });
+            renderer.setPixelRatio(window.devicePixelRatio);
+
+            container.insertBefore(renderer.domElement, container.firstChild);
+
+            function onWindowResize() {
+                const width = container.clientWidth;
+                const height = container.clientHeight;
+                renderer.setSize(width, height);
+                uniforms.resolution.value.x = renderer.domElement.width;
+                uniforms.resolution.value.y = renderer.domElement.height;
+            }
+
+            onWindowResize();
+            window.addEventListener('resize', onWindowResize, false);
+
+            // Continuous animation loop
+            function animate() {
+                requestAnimationFrame(animate);
+                uniforms.time.value += 0.023;  // 15% faster (0.02 * 1.15)
+                renderer.render(scene, camera);
+            }
+
+            animate();
+        }
+
+        // Initialize on page load
+        document.addEventListener('DOMContentLoaded', () => {
+            initShaderAnimation();
+
+            // Form submission handler
+            document.getElementById('loginForm').addEventListener('submit', (e) => {
+                e.preventDefault();
+                // Add your login logic here
+                console.log('Login form submitted');
+            });
+        });
+    </script>
+</body>
+</html>

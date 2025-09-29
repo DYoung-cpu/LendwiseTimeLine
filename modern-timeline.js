@@ -46,7 +46,7 @@ document.addEventListener('DOMContentLoaded', () => {
 // DO NOT MODIFY WITHOUT UPDATING CSS POSITIONS
 const galleryConfig = {
     radius: 380,  // LOCKED - Critical for card spacing with 12 items
-    autoRotateSpeed: 0.25,  // Rotation speed
+    autoRotateSpeed: 0.125,  // Rotation speed reduced by 50% - half the original speed
     scrollSensitivity: 0.5,  // Scroll responsiveness
     currentRotation: 0,
     isAutoRotating: true,
@@ -100,8 +100,8 @@ function initializeCarouselGallery() {
         });
     });
 
-    // Setup scroll-based rotation
-    setupScrollRotation(galleryTrack, cards);
+    // Removed scroll-based rotation - carousel should not be triggered by page scroll
+    // setupScrollRotation(galleryTrack, cards);
 
     // Start auto-rotation
     startAutoRotation(galleryTrack, cards);
@@ -112,7 +112,11 @@ function initializeCarouselGallery() {
 
 // Setup scroll-based rotation control
 function setupScrollRotation(galleryTrack, cards) {
-    window.addEventListener('scroll', () => {
+    // Throttled scroll handler using requestAnimationFrame
+    let scrollTicking = false;
+    let lastScrollRotation = -1;
+
+    function handleScroll() {
         // Stop auto-rotation when scrolling
         galleryConfig.isAutoRotating = false;
         clearTimeout(galleryConfig.scrollTimeout);
@@ -131,8 +135,21 @@ function setupScrollRotation(galleryTrack, cards) {
             landingOwl.style.transform = `rotateY(${-galleryConfig.currentRotation}deg) translate(-50%, -50%)`;
         }
 
-        // Update card opacities
-        updateAllCardOpacities(cards);
+        // Only update opacities if rotation changed significantly (more than 5 degrees)
+        const currentRotationInt = Math.floor(galleryConfig.currentRotation / 5);
+        if (currentRotationInt !== lastScrollRotation) {
+            lastScrollRotation = currentRotationInt;
+            updateAllCardOpacities(cards);
+        }
+
+        scrollTicking = false;
+    }
+
+    window.addEventListener('scroll', () => {
+        if (!scrollTicking) {
+            requestAnimationFrame(handleScroll);
+            scrollTicking = true;
+        }
 
         // Resume auto-rotation after scrolling stops
         galleryConfig.scrollTimeout = setTimeout(() => {
@@ -147,6 +164,7 @@ function startAutoRotation(galleryTrack, cards) {
         cancelAnimationFrame(galleryConfig.animationFrame);
     }
 
+    let frameCount = 0;
     function rotate() {
         if (galleryConfig.isAutoRotating) {
             galleryConfig.currentRotation += galleryConfig.autoRotateSpeed;
@@ -154,8 +172,11 @@ function startAutoRotation(galleryTrack, cards) {
 
             // Owl is now outside gallery-track, no need to update during rotation
 
-            // Update card opacities during rotation
-            updateAllCardOpacities(cards);
+            // Update opacities every 3 frames for smoother transitions
+            frameCount++;
+            if (frameCount % 3 === 0) {
+                updateAllCardOpacities(cards);
+            }
         }
 
         galleryConfig.animationFrame = requestAnimationFrame(rotate);
@@ -175,7 +196,6 @@ function updateAllCardOpacities(cards) {
     });
 }
 
-// Update individual card opacity based on its angle relative to viewer
 function updateCardOpacity(card, angle) {
     // Normalize angle to -180 to 180
     while (angle > 180) angle -= 360;
@@ -394,11 +414,7 @@ function setupTimelineClicks() {
                     galleryConfig.isAutoRotating = true;
                 }, 2000);
 
-                // Visual feedback on milestone
-                milestone.classList.add('pulse');
-                setTimeout(() => {
-                    milestone.classList.remove('pulse');
-                }, 800);
+                // Visual feedback removed - no animation needed
             }
         });
     });

@@ -200,6 +200,44 @@ html, body {
     margin-top: 0.5rem;
 }
 
+/* Timeline Filter Buttons */
+.timeline-filters {
+    display: flex;
+    gap: 15px;
+    justify-content: center;
+    margin: 30px 0;
+    position: relative;
+    z-index: 1000;
+}
+
+.filter-btn {
+    padding: 10px 25px;
+    background: rgba(100, 200, 255, 0.1);
+    border: 1px solid rgba(100, 200, 255, 0.3);
+    color: #64c8ff;
+    font-size: 0.9rem;
+    font-weight: 500;
+    border-radius: 25px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    backdrop-filter: blur(10px);
+    position: relative;
+    z-index: 1001;
+    pointer-events: auto;
+}
+
+.filter-btn:hover {
+    background: rgba(100, 200, 255, 0.2);
+    border-color: rgba(100, 200, 255, 0.5);
+    transform: translateY(-2px);
+}
+
+.filter-btn.active {
+    background: rgba(100, 200, 255, 0.3);
+    border-color: #64c8ff;
+    color: #ffffff;
+}
+
 /* Timeline Container */
 .roadmap-timeline {
     position: relative;
@@ -219,6 +257,17 @@ html, body {
     /* Hide scrollbar but keep scroll functionality */
     scrollbar-width: none; /* Firefox */
     -ms-overflow-style: none; /* IE and Edge */
+    /* Gradient mask to fade edges */
+    -webkit-mask-image: linear-gradient(to right,
+        transparent 0%,
+        black 5%,
+        black 95%,
+        transparent 100%);
+    mask-image: linear-gradient(to right,
+        transparent 0%,
+        black 5%,
+        black 95%,
+        transparent 100%);
 }
 
 /* Hide scrollbar for Chrome, Safari and Opera */
@@ -341,7 +390,7 @@ html, body {
     position: absolute;
     top: 0;
     left: 0;
-    right: 0;
+    width: 130%;  /* Extended for future milestones beyond 100% */
     height: 100%;
 }
 
@@ -597,7 +646,49 @@ html, body {
     --color-3: #c4941f;  /* Rich gold */
 }
 
-/* Pending Milestone - Gold Theme */
+/* In-Progress Milestone - Gray/Silver Theme */
+.timeline-milestone.in-progress .milestone-dot {
+    --color-3: #d0d0d0;  /* Bright silver primary */
+    --color-4: #a0a0a0;  /* Medium silver-gray */
+    --border-color-1: rgba(208, 208, 208, 0.5);
+    --border-color-2: rgba(160, 160, 160, 0.7);
+}
+
+.timeline-milestone.in-progress:hover .milestone-dot {
+    --color-1: #606060;  /* Gray on hover */
+    --color-2: #505050;  /* Darker gray */
+    --color-3: #e0e0e0;  /* Brighter silver */
+}
+
+/* In-Progress Technology - Gray/Silver Theme */
+.timeline-milestone.in-progress.technology .milestone-dot {
+    --color-3: #d0d0d0;  /* Bright silver primary */
+    --color-4: #a0a0a0;  /* Medium silver-gray */
+    --border-color-1: rgba(208, 208, 208, 0.5);
+    --border-color-2: rgba(160, 160, 160, 0.7);
+}
+
+.timeline-milestone.in-progress.technology:hover .milestone-dot {
+    --color-1: #606060;  /* Gray on hover */
+    --color-2: #505050;  /* Darker gray */
+    --color-3: #e0e0e0;  /* Brighter silver */
+}
+
+/* In-Progress Operations - Gray/Silver Theme */
+.timeline-milestone.in-progress.operations .milestone-dot {
+    --color-3: #d0d0d0;  /* Bright silver primary */
+    --color-4: #a0a0a0;  /* Medium silver-gray */
+    --border-color-1: rgba(208, 208, 208, 0.5);
+    --border-color-2: rgba(160, 160, 160, 0.7);
+}
+
+.timeline-milestone.in-progress.operations:hover .milestone-dot {
+    --color-1: #606060;  /* Gray on hover */
+    --color-2: #505050;  /* Darker gray */
+    --color-3: #e0e0e0;  /* Brighter silver */
+}
+
+/* Pending/Future Milestone - Gold Theme */
 .timeline-milestone.pending .milestone-dot {
     --color-3: #ffdd44;
     --color-4: #ffd700;
@@ -609,6 +700,70 @@ html, body {
     --color-1: #ffd700;
     --color-2: #ffaa00;
     --color-3: #ff6600;
+}
+
+/* Technology Category - Blue Theme (only when not in-progress) */
+.timeline-milestone.technology:not(.in-progress) .milestone-dot {
+    --color-3: #4488ff;
+    --color-4: #0066ff;
+    --border-color-1: rgba(68, 136, 255, 0.5);
+    --border-color-2: rgba(0, 102, 255, 0.7);
+}
+
+.timeline-milestone.technology:not(.in-progress):hover .milestone-dot {
+    --color-1: #0066ff;
+    --color-2: #0044cc;
+    --color-3: #00aaff;
+}
+
+/* Operations Category - Purple Theme (only when not in-progress) */
+.timeline-milestone.operations:not(.in-progress) .milestone-dot {
+    --color-3: #9944ff;
+    --color-4: #7700ff;
+    --border-color-1: rgba(153, 68, 255, 0.5);
+    --border-color-2: rgba(119, 0, 255, 0.7);
+}
+
+.timeline-milestone.operations:not(.in-progress):hover .milestone-dot {
+    --color-1: #7700ff;
+    --color-2: #5500cc;
+    --color-3: #aa00ff;
+}
+
+/* When technology filter is active, override all other colors */
+.timeline-milestone.filtered-technology .milestone-dot {
+    --color-3: #4488ff !important;
+    --color-4: #0066ff !important;
+    --border-color-1: rgba(68, 136, 255, 0.5) !important;
+    --border-color-2: rgba(0, 102, 255, 0.7) !important;
+}
+
+.timeline-milestone.filtered-technology:hover .milestone-dot {
+    --color-1: #0066ff !important;
+    --color-2: #0044cc !important;
+    --color-3: #00aaff !important;
+}
+
+.timeline-milestone.filtered-technology .milestone-connector {
+    background: rgba(68, 136, 255, 0.3) !important;
+}
+
+/* When operations filter is active, override all other colors */
+.timeline-milestone.filtered-operations .milestone-dot {
+    --color-3: #9944ff !important;
+    --color-4: #7700ff !important;
+    --border-color-1: rgba(153, 68, 255, 0.5) !important;
+    --border-color-2: rgba(119, 0, 255, 0.7) !important;
+}
+
+.timeline-milestone.filtered-operations:hover .milestone-dot {
+    --color-1: #7700ff !important;
+    --color-2: #5500cc !important;
+    --color-3: #aa00ff !important;
+}
+
+.timeline-milestone.filtered-operations .milestone-connector {
+    background: rgba(153, 68, 255, 0.3) !important;
 }
 
 /* Milestone Connector Line - Removed duplicate, see line 307 for main definition */
@@ -623,6 +778,18 @@ html, body {
 
 .timeline-milestone.completed .milestone-connector {
     background: rgba(0, 255, 150, 0.3);
+}
+
+.timeline-milestone.in-progress .milestone-connector {
+    background: rgba(184, 184, 184, 0.3);
+}
+
+.timeline-milestone.in-progress.technology .milestone-connector {
+    background: rgba(184, 184, 184, 0.3);
+}
+
+.timeline-milestone.in-progress.operations .milestone-connector {
+    background: rgba(184, 184, 184, 0.3);
 }
 
 .timeline-milestone.pending .milestone-connector {
@@ -666,6 +833,12 @@ html, body {
     background: rgba(0, 255, 150, 0.1);
     border-color: rgba(0, 255, 150, 0.5);
     box-shadow: 0 0 30px rgba(0, 255, 150, 0.3);
+}
+
+.timeline-milestone.in-progress.technology .milestone-icon {
+    background: linear-gradient(135deg, rgba(255, 255, 255, 0.2), rgba(68, 136, 255, 0.2));
+    border-color: rgba(68, 136, 255, 0.5);
+    box-shadow: 0 0 30px rgba(68, 136, 255, 0.3);
 }
 
 .timeline-milestone.pending .milestone-icon {

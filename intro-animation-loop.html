@@ -229,9 +229,9 @@
             transform: translateX(-50%);
             width: 400px;
             min-height: auto;
-            background: rgba(255, 215, 0, 0.05);
+            background: rgba(0, 200, 50, 0.05);
             backdrop-filter: blur(20px);
-            border: 1px solid rgba(255, 215, 0, 0.2);
+            border: 1px solid rgba(0, 200, 50, 0.2);
             border-radius: 15px;
             padding: 15px;
             z-index: 95;
@@ -241,8 +241,8 @@
             transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
             box-shadow:
                 0 10px 40px rgba(0, 0, 0, 0.3),
-                0 0 60px rgba(255, 215, 0, 0.1),
-                inset 0 0 30px rgba(255, 215, 0, 0.03);
+                0 0 60px rgba(0, 200, 50, 0.1),
+                inset 0 0 30px rgba(0, 200, 50, 0.03);
         }
 
         .sign-in-dropdown.show {
@@ -265,17 +265,17 @@
         }
 
         .step-container::-webkit-scrollbar-track {
-            background: rgba(255, 215, 0, 0.1);
+            background: rgba(0, 200, 50, 0.1);
             border-radius: 2px;
         }
 
         .step-container::-webkit-scrollbar-thumb {
-            background: rgba(255, 215, 0, 0.3);
+            background: rgba(0, 200, 50, 0.3);
             border-radius: 2px;
         }
 
         .step-container::-webkit-scrollbar-thumb:hover {
-            background: rgba(255, 215, 0, 0.5);
+            background: rgba(0, 200, 50, 0.5);
         }
 
         .step {
@@ -351,13 +351,13 @@
             width: 6px;
             height: 6px;
             border-radius: 50%;
-            background: rgba(255, 215, 0, 0.2);
+            background: rgba(0, 200, 50, 0.2);
             transition: all 0.3s ease;
         }
 
         .dot.active {
-            background: #FFD700;
-            box-shadow: 0 0 8px rgba(255, 215, 0, 0.5);
+            background: #00C832;
+            box-shadow: 0 0 8px rgba(0, 200, 50, 0.5);
         }
 
         /* Dropdown Arrow */
@@ -371,7 +371,7 @@
             height: 0;
             border-left: 8px solid transparent;
             border-right: 8px solid transparent;
-            border-bottom: 8px solid rgba(255, 215, 0, 0.2);
+            border-bottom: 8px solid rgba(0, 200, 50, 0.2);
         }
 
         /* Modal Logo */
@@ -406,7 +406,7 @@
             padding: 8px 12px;
             margin-bottom: 8px;
             background: rgba(0, 0, 0, 0.4);
-            border: 1px solid rgba(255, 215, 0, 0.1);
+            border: 1px solid rgba(0, 200, 50, 0.1);
             border-radius: 8px;
             color: #ffffff;
             font-size: 0.9rem;
@@ -432,10 +432,10 @@
         }
 
         .form-input:focus {
-            border-color: rgba(255, 215, 0, 0.3);
+            border-color: rgba(0, 200, 50, 0.3);
             box-shadow:
-                0 0 20px rgba(255, 215, 0, 0.2),
-                inset 0 0 10px rgba(255, 215, 0, 0.05);
+                0 0 20px rgba(0, 200, 50, 0.2),
+                inset 0 0 10px rgba(0, 200, 50, 0.05);
         }
 
         /* Error Message */
@@ -450,7 +450,7 @@
         /* Divider */
         .modal-divider {
             height: 1px;
-            background: rgba(255, 215, 0, 0.1);
+            background: rgba(0, 200, 50, 0.1);
             margin: 6px 0;
         }
 
@@ -459,14 +459,14 @@
             width: 100%;
             padding: 8px;
             background: linear-gradient(135deg,
-                rgba(255, 215, 0, 0.08) 0%,
-                rgba(255, 215, 0, 0.12) 50%,
-                rgba(255, 215, 0, 0.08) 100%);
+                rgba(0, 200, 50, 0.08) 0%,
+                rgba(0, 200, 50, 0.12) 50%,
+                rgba(0, 200, 50, 0.08) 100%);
             backdrop-filter: blur(12px) saturate(120%);
             -webkit-backdrop-filter: blur(12px) saturate(120%);
-            border: 1px solid rgba(255, 215, 0, 0.2);
+            border: 1px solid rgba(0, 200, 50, 0.2);
             border-radius: 50px;
-            color: #FFD700;
+            color: #00C832;
             font-size: 0.9rem;
             font-weight: 500;
             cursor: pointer;
@@ -477,14 +477,14 @@
             overflow: hidden;
             box-shadow:
                 /* Outer glow */
-                0 0 20px rgba(255, 215, 0, 0.15),
+                0 0 20px rgba(0, 200, 50, 0.15),
                 /* Glass effect - multiple inset shadows for depth */
                 inset 2px 2px 0.5px -2px rgba(255, 255, 255, 0.25),
                 inset -2px -2px 0.5px -2px rgba(255, 255, 255, 0.15),
                 inset 1px 1px 1px -0.5px rgba(255, 255, 255, 0.2),
                 inset -1px -1px 1px -0.5px rgba(255, 255, 255, 0.2),
-                inset 0 0 5px 5px rgba(255, 215, 0, 0.03),
-                inset 0 0 2px 2px rgba(255, 215, 0, 0.05);
+                inset 0 0 5px 5px rgba(0, 200, 50, 0.03),
+                inset 0 0 2px 2px rgba(0, 200, 50, 0.05);
         }
 
         /* Shimmer effect for Sign In button */
@@ -511,29 +511,29 @@
 
         .modal-sign-in-btn:hover {
             background: linear-gradient(135deg,
-                rgba(255, 215, 0, 0.12) 0%,
-                rgba(255, 215, 0, 0.18) 50%,
-                rgba(255, 215, 0, 0.12) 100%);
-            border-color: rgba(255, 215, 0, 0.3);
+                rgba(0, 200, 50, 0.12) 0%,
+                rgba(0, 200, 50, 0.18) 50%,
+                rgba(0, 200, 50, 0.12) 100%);
+            border-color: rgba(0, 200, 50, 0.3);
             transform: translateY(-2px);
             box-shadow:
                 /* Enhanced outer glow */
-                0 0 30px rgba(255, 215, 0, 0.25),
-                0 0 60px rgba(255, 215, 0, 0.15),
+                0 0 30px rgba(0, 200, 50, 0.25),
+                0 0 60px rgba(0, 200, 50, 0.15),
                 /* Enhanced glass effect */
                 inset 3px 3px 0.5px -3px rgba(255, 255, 255, 0.3),
                 inset -3px -3px 0.5px -3px rgba(255, 255, 255, 0.2),
                 inset 1px 1px 1px -0.5px rgba(255, 255, 255, 0.25),
                 inset -1px -1px 1px -0.5px rgba(255, 255, 255, 0.25),
-                inset 0 0 8px 8px rgba(255, 215, 0, 0.05),
-                inset 0 0 3px 3px rgba(255, 215, 0, 0.08);
+                inset 0 0 8px 8px rgba(0, 200, 50, 0.05),
+                inset 0 0 3px 3px rgba(0, 200, 50, 0.08);
         }
 
         .modal-sign-in-btn:active {
             transform: translateY(0);
             box-shadow:
-                0 0 15px rgba(255, 215, 0, 0.2),
-                inset 0 0 10px rgba(255, 215, 0, 0.1);
+                0 0 15px rgba(0, 200, 50, 0.2),
+                inset 0 0 10px rgba(0, 200, 50, 0.1);
         }
 
         /* Loading state */
@@ -551,9 +551,9 @@
             left: 50%;
             margin-left: -10px;
             margin-top: -10px;
-            border: 2px solid rgba(255, 215, 0, 0.3);
+            border: 2px solid rgba(0, 200, 50, 0.3);
             border-radius: 50%;
-            border-top-color: #FFD700;
+            border-top-color: #00C832;
             animation: spin 0.8s linear infinite;
         }
 
@@ -656,14 +656,14 @@
             width: 100%;
             padding: 8px;
             background: linear-gradient(135deg,
-                rgba(255, 215, 0, 0.04) 0%,
-                rgba(255, 215, 0, 0.08) 50%,
-                rgba(255, 215, 0, 0.04) 100%);
+                rgba(0, 200, 50, 0.04) 0%,
+                rgba(0, 200, 50, 0.08) 50%,
+                rgba(0, 200, 50, 0.04) 100%);
             backdrop-filter: blur(12px) saturate(120%);
             -webkit-backdrop-filter: blur(12px) saturate(120%);
-            border: 1px solid rgba(255, 215, 0, 0.3);
+            border: 1px solid rgba(0, 200, 50, 0.3);
             border-radius: 50px;
-            color: #FFD700;
+            color: #00C832;
             font-size: 0.9rem;
             font-weight: 500;
             cursor: pointer;
@@ -674,14 +674,14 @@
             overflow: hidden;
             box-shadow:
                 /* Outer glow */
-                0 0 20px rgba(255, 215, 0, 0.1),
+                0 0 20px rgba(0, 200, 50, 0.1),
                 /* Glass effect - multiple inset shadows for depth */
                 inset 2px 2px 0.5px -2px rgba(255, 255, 255, 0.2),
                 inset -2px -2px 0.5px -2px rgba(255, 255, 255, 0.1),
                 inset 1px 1px 1px -0.5px rgba(255, 255, 255, 0.15),
                 inset -1px -1px 1px -0.5px rgba(255, 255, 255, 0.15),
-                inset 0 0 5px 5px rgba(255, 215, 0, 0.02),
-                inset 0 0 2px 2px rgba(255, 215, 0, 0.03);
+                inset 0 0 5px 5px rgba(0, 200, 50, 0.02),
+                inset 0 0 2px 2px rgba(0, 200, 50, 0.03);
         }
 
         /* Shimmer effect for Sign Up button */
@@ -708,29 +708,29 @@
 
         .modal-sign-up-btn:hover {
             background: linear-gradient(135deg,
-                rgba(255, 215, 0, 0.08) 0%,
-                rgba(255, 215, 0, 0.15) 50%,
-                rgba(255, 215, 0, 0.08) 100%);
-            border-color: rgba(255, 215, 0, 0.4);
+                rgba(0, 200, 50, 0.08) 0%,
+                rgba(0, 200, 50, 0.15) 50%,
+                rgba(0, 200, 50, 0.08) 100%);
+            border-color: rgba(0, 200, 50, 0.4);
             transform: translateY(-2px);
             box-shadow:
                 /* Enhanced outer glow */
-                0 0 30px rgba(255, 215, 0, 0.2),
-                0 0 60px rgba(255, 215, 0, 0.1),
+                0 0 30px rgba(0, 200, 50, 0.2),
+                0 0 60px rgba(0, 200, 50, 0.1),
                 /* Enhanced glass effect */
                 inset 3px 3px 0.5px -3px rgba(255, 255, 255, 0.25),
                 inset -3px -3px 0.5px -3px rgba(255, 255, 255, 0.15),
                 inset 1px 1px 1px -0.5px rgba(255, 255, 255, 0.2),
                 inset -1px -1px 1px -0.5px rgba(255, 255, 255, 0.2),
-                inset 0 0 8px 8px rgba(255, 215, 0, 0.04),
-                inset 0 0 3px 3px rgba(255, 215, 0, 0.06);
+                inset 0 0 8px 8px rgba(0, 200, 50, 0.04),
+                inset 0 0 3px 3px rgba(0, 200, 50, 0.06);
         }
 
         .modal-sign-up-btn:active {
             transform: translateY(0);
             box-shadow:
-                0 0 15px rgba(255, 215, 0, 0.15),
-                inset 0 0 10px rgba(255, 215, 0, 0.08);
+                0 0 15px rgba(0, 200, 50, 0.15),
+                inset 0 0 10px rgba(0, 200, 50, 0.08);
         }
 
         /* Forgot Password Link */
@@ -740,14 +740,14 @@
         }
 
         .form-link {
-            color: rgba(255, 215, 0, 0.7);
+            color: rgba(0, 200, 50, 0.7);
             font-size: 0.85rem;
             text-decoration: none;
             transition: color 0.3s ease;
         }
 
         .form-link:hover {
-            color: #FFD700;
+            color: #00C832;
             text-decoration: underline;
         }
     </style>

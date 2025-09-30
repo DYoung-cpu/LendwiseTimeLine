@@ -1,0 +1,497 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>LendWise Timeline - Correct Structure</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            background: #0a0e27;
+            color: white;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            padding: 50px 20px;
+            overflow-x: auto;
+            min-height: 100vh;
+        }
+
+        /* Timeline Container */
+        .timeline-container {
+            position: relative;
+            width: 100%;
+            max-width: 1400px;
+            margin: 0 auto;
+            height: 500px;
+        }
+
+        /* Viewport for scrolling */
+        .timeline-viewport {
+            position: relative;
+            width: 100%;
+            height: 100%;
+            overflow-x: auto;
+            overflow-y: hidden;
+        }
+
+        /* Line container for width */
+        .timeline-line-container {
+            position: relative;
+            min-width: 1600px;
+            height: 100%;
+        }
+
+        /* Main horizontal timeline (the spine) */
+        .timeline-main-line {
+            position: absolute;
+            top: 50%;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: linear-gradient(90deg,
+                transparent 0%,
+                #4488ff 5%,
+                #4488ff 95%,
+                transparent 100%
+            );
+            transform: translateY(-50%);
+            box-shadow: 0 0 20px rgba(68, 136, 255, 0.5);
+            z-index: 10;
+        }
+
+        /* Milestones container */
+        .timeline-milestones {
+            position: relative;
+            width: 100%;
+            height: 100%;
+        }
+
+        /* Individual milestone */
+        .timeline-milestone {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            z-index: 5;
+        }
+
+        /* Vertical connector line from timeline to button */
+        .milestone-connector {
+            position: absolute;
+            width: 3px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: linear-gradient(
+                to bottom,
+                rgba(100, 200, 255, 1),
+                rgba(100, 200, 255, 0.2)
+            );
+            z-index: 3;
+        }
+
+        /* Connector going UP from timeline */
+        .milestone-connector.top {
+            bottom: 0;
+            height: 100px;
+            background: linear-gradient(
+                to top,
+                rgba(100, 200, 255, 1),
+                rgba(100, 200, 255, 0.2)
+            );
+        }
+
+        /* Connector going DOWN from timeline */
+        .milestone-connector.bottom {
+            top: 0;
+            height: 100px;
+            background: linear-gradient(
+                to bottom,
+                rgba(100, 200, 255, 1),
+                rgba(100, 200, 255, 0.2)
+            );
+        }
+
+        /* Different heights for tiers */
+        .tier-1 .milestone-connector.top { height: 180px; }
+        .tier-1 .milestone-connector.bottom { height: 180px; }
+
+        .tier-2 .milestone-connector.top { height: 130px; }
+        .tier-2 .milestone-connector.bottom { height: 130px; }
+
+        .tier-3 .milestone-connector.top { height: 80px; }
+        .tier-3 .milestone-connector.bottom { height: 80px; }
+
+        /* Dot at timeline junction */
+        .milestone-connector::after {
+            content: '';
+            position: absolute;
+            width: 8px;
+            height: 8px;
+            background: #4488ff;
+            border: 2px solid white;
+            border-radius: 50%;
+            left: 50%;
+            transform: translateX(-50%);
+            z-index: 11;
+        }
+
+        .milestone-connector.top::after {
+            bottom: -4px;
+        }
+
+        .milestone-connector.bottom::after {
+            top: -4px;
+        }
+
+        /* Milestone button/dot positioned at END of connector */
+        .milestone-dot {
+            position: absolute;
+            padding: 12px 24px;
+            border-radius: 25px;
+            font-weight: 600;
+            font-size: 12px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            white-space: nowrap;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            z-index: 20;
+        }
+
+        /* Position buttons at end of connectors */
+        .timeline-milestone:has(.milestone-connector.top) .milestone-dot {
+            bottom: 100px;
+        }
+
+        .timeline-milestone:has(.milestone-connector.bottom) .milestone-dot {
+            top: 100px;
+        }
+
+        /* Adjust button position based on tier */
+        .tier-1:has(.milestone-connector.top) .milestone-dot { bottom: 180px; }
+        .tier-1:has(.milestone-connector.bottom) .milestone-dot { top: 180px; }
+
+        .tier-2:has(.milestone-connector.top) .milestone-dot { bottom: 130px; }
+        .tier-2:has(.milestone-connector.bottom) .milestone-dot { top: 130px; }
+
+        .tier-3:has(.milestone-connector.top) .milestone-dot { bottom: 80px; }
+        .tier-3:has(.milestone-connector.bottom) .milestone-dot { top: 80px; }
+
+        /* Completed milestones - Green */
+        .completed .milestone-dot {
+            background: radial-gradient(
+                ellipse at center,
+                #00ff96 0%,
+                #00b368 50%,
+                #006837 100%
+            );
+            border: 2px solid #00ff96;
+            color: white;
+            box-shadow: 0 0 20px rgba(0, 255, 150, 0.4);
+        }
+
+        .completed .milestone-connector {
+            background: linear-gradient(
+                to bottom,
+                rgba(0, 255, 150, 1),
+                rgba(0, 255, 150, 0.2)
+            );
+        }
+
+        .completed .milestone-connector.top {
+            background: linear-gradient(
+                to top,
+                rgba(0, 255, 150, 1),
+                rgba(0, 255, 150, 0.2)
+            );
+        }
+
+        .completed .milestone-connector::after {
+            background: #00ff96;
+        }
+
+        /* In Progress - Orange with pulse */
+        .in-progress .milestone-dot {
+            background: radial-gradient(
+                ellipse at center,
+                #ffa500 0%,
+                #ff7700 50%,
+                #cc5500 100%
+            );
+            border: 2px solid #ffa500;
+            color: white;
+            animation: pulse-glow 2s ease-in-out infinite;
+        }
+
+        @keyframes pulse-glow {
+            0%, 100% {
+                box-shadow: 0 0 20px rgba(255, 165, 0, 0.6);
+            }
+            50% {
+                box-shadow: 0 0 40px rgba(255, 165, 0, 0.9),
+                            0 0 60px rgba(255, 165, 0, 0.4);
+            }
+        }
+
+        .in-progress .milestone-connector {
+            background: linear-gradient(
+                to bottom,
+                rgba(255, 165, 0, 1),
+                rgba(255, 165, 0, 0.2)
+            );
+        }
+
+        .in-progress .milestone-connector.top {
+            background: linear-gradient(
+                to top,
+                rgba(255, 165, 0, 1),
+                rgba(255, 165, 0, 0.2)
+            );
+        }
+
+        .in-progress .milestone-connector::after {
+            background: #ffa500;
+        }
+
+        /* Technology - Gold */
+        .technology .milestone-dot {
+            background: radial-gradient(
+                ellipse at center,
+                #ffd700 0%,
+                #ffb300 50%,
+                #cc8800 100%
+            );
+            border: 2px solid #ffd700;
+            color: white;
+            box-shadow: 0 0 20px rgba(255, 215, 0, 0.5);
+        }
+
+        .technology .milestone-connector {
+            background: linear-gradient(
+                to bottom,
+                rgba(255, 215, 0, 1),
+                rgba(255, 215, 0, 0.2)
+            );
+        }
+
+        .technology .milestone-connector.top {
+            background: linear-gradient(
+                to top,
+                rgba(255, 215, 0, 1),
+                rgba(255, 215, 0, 0.2)
+            );
+        }
+
+        .technology .milestone-connector::after {
+            background: #ffd700;
+        }
+
+        /* Operations - Purple */
+        .operations .milestone-dot {
+            background: radial-gradient(
+                ellipse at center,
+                #9944ff 0%,
+                #7722dd 50%,
+                #5500aa 100%
+            );
+            border: 2px solid #9944ff;
+            color: white;
+            box-shadow: 0 0 20px rgba(153, 68, 255, 0.5);
+        }
+
+        .operations .milestone-connector {
+            background: linear-gradient(
+                to bottom,
+                rgba(153, 68, 255, 1),
+                rgba(153, 68, 255, 0.2)
+            );
+        }
+
+        .operations .milestone-connector.top {
+            background: linear-gradient(
+                to top,
+                rgba(153, 68, 255, 1),
+                rgba(153, 68, 255, 0.2)
+            );
+        }
+
+        .operations .milestone-connector::after {
+            background: #9944ff;
+        }
+
+        /* Date labels */
+        .milestone-quarter {
+            position: absolute;
+            font-size: 11px;
+            color: #88aacc;
+            white-space: nowrap;
+            top: -25px;
+        }
+
+        /* Progress percentage */
+        .progress-bubble {
+            position: absolute;
+            top: -25px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: rgba(255, 165, 0, 0.9);
+            padding: 2px 8px;
+            border-radius: 10px;
+            font-size: 10px;
+            font-weight: bold;
+            color: white;
+        }
+
+        /* Icon inside button */
+        .milestone-icon-small {
+            display: block;
+        }
+    </style>
+</head>
+<body>
+    <div class="timeline-container">
+        <div class="timeline-viewport">
+            <div class="timeline-line-container">
+                <!-- Main horizontal timeline line (the spine) -->
+                <div class="timeline-main-line"></div>
+
+                <!-- Milestones -->
+                <div class="timeline-milestones">
+
+                    <!-- Inception - tier-1, top -->
+                    <div class="timeline-milestone completed tier-1" style="left: 5%;">
+                        <div class="milestone-connector top"></div>
+                        <div class="milestone-dot">
+                            <span class="milestone-icon-small">INCEPTION</span>
+                        </div>
+                        <div class="milestone-quarter">Aug 1, 2024</div>
+                    </div>
+
+                    <!-- NMLS - tier-2, bottom -->
+                    <div class="timeline-milestone completed tier-2" style="left: 12%;">
+                        <div class="milestone-connector bottom"></div>
+                        <div class="milestone-dot">
+                            <span class="milestone-icon-small">NMLS</span>
+                        </div>
+                        <div class="milestone-quarter">Sep 2024</div>
+                    </div>
+
+                    <!-- CA DRE - tier-3, top -->
+                    <div class="timeline-milestone completed tier-3" style="left: 19%;">
+                        <div class="milestone-connector top"></div>
+                        <div class="milestone-dot">
+                            <span class="milestone-icon-small">CA DRE</span>
+                        </div>
+                        <div class="milestone-quarter">Sep 2024</div>
+                    </div>
+
+                    <!-- Credit Reporting - tier-3, bottom -->
+                    <div class="timeline-milestone completed tier-3" style="left: 26%;">
+                        <div class="milestone-connector bottom"></div>
+                        <div class="milestone-dot">
+                            <span class="milestone-icon-small">CREDIT</span>
+                        </div>
+                        <div class="milestone-quarter">Oct 2024</div>
+                    </div>
+
+                    <!-- Website - tier-2, top -->
+                    <div class="timeline-milestone completed tier-2" style="left: 33%;">
+                        <div class="milestone-connector top"></div>
+                        <div class="milestone-dot">
+                            <span class="milestone-icon-small">WEBSITE</span>
+                        </div>
+                        <div class="milestone-quarter">Oct 2024</div>
+                    </div>
+
+                    <!-- Encompass - tier-1, bottom, in-progress -->
+                    <div class="timeline-milestone in-progress tier-1" style="left: 40%;">
+                        <div class="milestone-connector bottom"></div>
+                        <div class="milestone-dot">
+                            <span class="milestone-icon-small">ENCOMPASS</span>
+                        </div>
+                        <div class="milestone-quarter">Nov 2024</div>
+                        <div class="progress-bubble">95%</div>
+                    </div>
+
+                    <!-- Optimal Blue - tier-1, top, in-progress -->
+                    <div class="timeline-milestone in-progress tier-1" style="left: 47%;">
+                        <div class="milestone-connector top"></div>
+                        <div class="milestone-dot">
+                            <span class="milestone-icon-small">OPTIMAL BLUE</span>
+                        </div>
+                        <div class="milestone-quarter">Nov 2024</div>
+                        <div class="progress-bubble">75%</div>
+                    </div>
+
+                    <!-- DFPI - tier-2, bottom, operations -->
+                    <div class="timeline-milestone in-progress operations tier-2" style="left: 54%;">
+                        <div class="milestone-connector bottom"></div>
+                        <div class="milestone-dot">
+                            <span class="milestone-icon-small">DFPI</span>
+                        </div>
+                        <div class="milestone-quarter">Dec 2024</div>
+                        <div class="progress-bubble">90%</div>
+                    </div>
+
+                    <!-- Google Analytics - tier-3, top, technology -->
+                    <div class="timeline-milestone in-progress technology tier-3" style="left: 61%;">
+                        <div class="milestone-connector top"></div>
+                        <div class="milestone-dot">
+                            <span class="milestone-icon-small">ANALYTICS</span>
+                        </div>
+                        <div class="milestone-quarter">Dec 2024</div>
+                        <div class="progress-bubble">5%</div>
+                    </div>
+
+                    <!-- WISR AI - tier-2, bottom, technology -->
+                    <div class="timeline-milestone in-progress technology tier-2" style="left: 68%;">
+                        <div class="milestone-connector bottom"></div>
+                        <div class="milestone-dot">
+                            <span class="milestone-icon-small">WISR AI</span>
+                        </div>
+                        <div class="milestone-quarter">Jan 2025</div>
+                        <div class="progress-bubble">45%</div>
+                    </div>
+
+                    <!-- DSCR AI - tier-1, top, technology -->
+                    <div class="timeline-milestone in-progress technology tier-1" style="left: 75%;">
+                        <div class="milestone-connector top"></div>
+                        <div class="milestone-dot">
+                            <span class="milestone-icon-small">DSCR AI</span>
+                        </div>
+                        <div class="milestone-quarter">Jan 2025</div>
+                        <div class="progress-bubble">85%</div>
+                    </div>
+
+                    <!-- Mission Control - tier-1, bottom, technology -->
+                    <div class="timeline-milestone in-progress technology tier-1" style="left: 82%;">
+                        <div class="milestone-connector bottom"></div>
+                        <div class="milestone-dot">
+                            <span class="milestone-icon-small">MISSION CONTROL</span>
+                        </div>
+                        <div class="milestone-quarter">Feb 2025</div>
+                        <div class="progress-bubble">45%</div>
+                    </div>
+
+                    <!-- Team - tier-1, top, operations -->
+                    <div class="timeline-milestone in-progress operations tier-1" style="left: 92%;">
+                        <div class="milestone-connector top"></div>
+                        <div class="milestone-dot">
+                            <span class="milestone-icon-small">TEAM</span>
+                        </div>
+                        <div class="milestone-quarter">Ongoing</div>
+                        <div class="progress-bubble">∞</div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

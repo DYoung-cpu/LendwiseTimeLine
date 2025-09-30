@@ -326,14 +326,18 @@ html, body {
     top: 50%;
     left: 0;
     right: 0;
-    height: 1px;
+    height: 4px; /* Thicker for visibility */
     background: linear-gradient(90deg,
         transparent 0%,
-        rgba(100, 200, 255, 0.3) 5%,
-        rgba(100, 200, 255, 0.3) 95%,
+        rgba(100, 200, 255, 0.6) 5%,
+        rgba(100, 200, 255, 1) 20%, /* Strong visible line */
+        rgba(100, 200, 255, 1) 80%,
+        rgba(100, 200, 255, 0.6) 95%,
         transparent 100%
     );
     transform: translateY(-50%);
+    z-index: 8; /* More prominent */
+    box-shadow: 0 0 10px rgba(100, 200, 255, 0.3); /* Glow effect */
 }
 
 /* Timeline Milestones Container */
@@ -345,7 +349,7 @@ html, body {
     height: 100%;
 }
 
-/* Individual Milestone */
+/* Individual Milestone - Position at TIMELINE */
 .timeline-milestone {
     position: absolute;
     cursor: pointer;
@@ -353,7 +357,8 @@ html, body {
     display: flex;
     flex-direction: column;
     align-items: center;
-    /* Top position will be set by milestone-position classes */
+    top: 50%; /* ALL milestones at timeline */
+    transform: translateY(-50%); /* Center on timeline */
 }
 
 /* Alternate milestones up and down */
@@ -367,27 +372,30 @@ html, body {
 
 /* Vertical connector lines - base style */
 .milestone-connector {
-    width: 2px;
     position: absolute;
     left: 50%;
+    width: 3px;
     transform: translateX(-50%);
+    z-index: 2; /* Above spine but below buttons */
     transition: all 0.3s ease;
-    z-index: 1;
 }
 
-/* Lines connecting timeline to dots below (odd milestones) */
+/* COMMENTED OUT - These nth-child rules were overriding our position-based classes
+/* Lines connecting timeline to dots below (odd milestones)
 .timeline-milestone:nth-child(odd) .milestone-connector {
-    height: 36px;  /* Reduced from 40px by 10% */
-    top: 50%;  /* Start from timeline center */
+    height: 36px;
+    top: 50%;
     background: linear-gradient(to bottom, rgba(100, 200, 255, 0.6), rgba(100, 200, 255, 0.1));
 }
+*/
 
-/* Lines connecting timeline to dots above (even milestones) */
+/* Lines connecting timeline to dots above (even milestones)
 .timeline-milestone:nth-child(even) .milestone-connector {
-    height: 36px;  /* Reduced from 40px by 10% */
-    bottom: 50%;  /* Start from timeline center */
+    height: 36px;
+    bottom: 50%;
     background: linear-gradient(to top, rgba(100, 200, 255, 0.6), rgba(100, 200, 255, 0.1));
 }
+*/
 
 /* CSS Custom Properties for Gradient Animations */
 @property --pos-x {
@@ -469,7 +477,7 @@ html, body {
     padding: 8px 16px;
     border-radius: 20px;
     margin: 0 auto;
-    position: relative;
+    position: absolute;  /* Changed to absolute for positioning */
     z-index: 5;
     display: inline-flex;
     align-items: center;
@@ -522,19 +530,21 @@ html, body {
 }
 
 /* Position dots at end of lines - AWAY from timeline */
+/* COMMENTED OUT - These nth-child rules were overriding our position-based classes
 .timeline-milestone:nth-child(odd) .milestone-dot {
     position: absolute;
-    top: 36px;  /* Below timeline, at end of line - reduced from 40px */
+    top: 36px;
     left: 50%;
     transform: translateX(-50%);
 }
 
 .timeline-milestone:nth-child(even) .milestone-dot {
     position: absolute;
-    bottom: 36px;  /* Above timeline, at end of line - reduced from 40px */
+    bottom: 36px;
     left: 50%;
     transform: translateX(-50%);
 }
+*/
 
 .timeline-milestone:nth-child(odd):hover .milestone-dot {
     transform: translateX(-50%) scale(1.05);
@@ -778,12 +788,34 @@ html, body {
 
 /* Milestone Connector Line - Removed duplicate, see line 307 for main definition */
 
+/* Connector going UP from timeline (for milestones positioned above) */
 .milestone-connector.top {
-    bottom: 6px;
+    position: absolute;
+    width: 3px;
+    bottom: 0;  /* Start from timeline */
+    left: 50%;
+    transform: translateX(-50%);
+    background: linear-gradient(to top,
+        rgba(100, 200, 255, 1),  /* Strong at timeline */
+        rgba(100, 200, 255, 0.2)  /* Fade at button */
+    );
+    z-index: 3;
+    height: 100px; /* Default height */
 }
 
+/* Connector going DOWN from timeline (for milestones positioned below) */
 .milestone-connector.bottom {
-    top: 6px;
+    position: absolute;
+    width: 3px;
+    top: 0;  /* Start from timeline */
+    left: 50%;
+    transform: translateX(-50%);
+    background: linear-gradient(to bottom,
+        rgba(100, 200, 255, 1),  /* Strong at timeline */
+        rgba(100, 200, 255, 0.2)  /* Fade at button */
+    );
+    z-index: 3;
+    height: 100px; /* Default height */
 }
 
 .timeline-milestone.completed .milestone-connector {
@@ -885,6 +917,7 @@ html, body {
 }
 
 /* Position labels on timeline level, alternating */
+/* COMMENTED OUT - These nth-child rules were interfering with position-based classes
 .timeline-milestone:nth-child(odd) .milestone-quarter {
     top: -18px;
 }
@@ -892,6 +925,7 @@ html, body {
 .timeline-milestone:nth-child(even) .milestone-quarter {
     bottom: -18px;
 }
+*/
 
 /* Hover Effects - Gradient Animation */
 .timeline-milestone:hover .milestone-dot {
@@ -3956,37 +3990,58 @@ body {
    HEIGHT POSITIONING - ALL MARKERS OFF THE TIMELINE
    ================================================ */
 
-/* Top branch - markers above timeline */
-.milestone-position-top {
-    top: 30% !important;
+/* Top branch - button ABOVE timeline */
+.milestone-position-top .milestone-dot {
+    position: absolute;
+    bottom: 100px; /* Default position button above timeline */
+    left: 50%;
+    transform: translateX(-50%);
+}
+
+/* Different heights for tiers - TOP */
+.milestone-position-top.tier-1 .milestone-dot {
+    bottom: 200px; /* Tallest - furthest from timeline */
+}
+.milestone-position-top.tier-2 .milestone-dot {
+    bottom: 130px; /* Medium height */
+}
+.milestone-position-top.tier-3 .milestone-dot {
+    bottom: 70px; /* Shortest - closest to timeline */
 }
 
 /* Connector FROM timeline TO top markers */
-.milestone-position-top .milestone-connector {
-    position: absolute;
-    width: 2px;
-    height: 20%; /* Connect from timeline (50%) to button (30%) */
-    top: 50%; /* Start at timeline position */
-    left: 50%;
-    transform: translateX(-50%);
+.milestone-position-top .milestone-connector.top {
+    bottom: 0; /* Start at timeline */
+    height: 100px; /* Default height */
     background: linear-gradient(to top,
-        rgba(100, 200, 255, 0.6),
-        rgba(100, 200, 255, 0.3)
+        rgba(100, 200, 255, 1), /* Strong at timeline */
+        rgba(100, 200, 255, 0.3) /* Fade at button */
     );
-    z-index: -1;
 }
 
-/* Dot where branch meets timeline */
-.milestone-position-top .milestone-connector::before {
+/* Connector heights for tiers - TOP */
+.milestone-position-top.tier-1 .milestone-connector.top {
+    height: 200px; /* Match button distance */
+}
+.milestone-position-top.tier-2 .milestone-connector.top {
+    height: 130px;
+}
+.milestone-position-top.tier-3 .milestone-connector.top {
+    height: 70px;
+}
+
+/* Dot where branch meets timeline - at BOTTOM of connector for top branches */
+.milestone-position-top .milestone-connector.top::before {
     content: '';
     position: absolute;
-    top: 0; /* At timeline position */
+    bottom: -3px; /* At timeline junction */
     left: 50%;
     transform: translateX(-50%);
     width: 6px;
     height: 6px;
     background: rgba(100, 200, 255, 1);
     border-radius: 50%;
+    z-index: 10;
 }
 
 /* NO MIDDLE POSITION - No markers on timeline */
@@ -3994,37 +4049,58 @@ body {
     display: none !important;
 }
 
-/* Bottom branch - markers below timeline */
-.milestone-position-bottom {
-    top: 70% !important;
+/* Bottom branch - button BELOW timeline */
+.milestone-position-bottom .milestone-dot {
+    position: absolute;
+    top: 100px; /* Default position button below timeline */
+    left: 50%;
+    transform: translateX(-50%);
+}
+
+/* Different heights for tiers - BOTTOM */
+.milestone-position-bottom.tier-1 .milestone-dot {
+    top: 200px; /* Tallest - furthest from timeline */
+}
+.milestone-position-bottom.tier-2 .milestone-dot {
+    top: 130px; /* Medium height */
+}
+.milestone-position-bottom.tier-3 .milestone-dot {
+    top: 70px; /* Shortest - closest to timeline */
 }
 
 /* Connector FROM timeline TO bottom markers */
-.milestone-position-bottom .milestone-connector {
-    position: absolute;
-    width: 2px;
-    height: 20%; /* Connect from timeline (50%) to button (70%) */
-    bottom: 50%; /* Start at timeline position */
-    left: 50%;
-    transform: translateX(-50%);
+.milestone-position-bottom .milestone-connector.bottom {
+    top: 0; /* Start at timeline */
+    height: 100px; /* Default height */
     background: linear-gradient(to bottom,
-        rgba(100, 200, 255, 0.6),
-        rgba(100, 200, 255, 0.3)
+        rgba(100, 200, 255, 1), /* Strong at timeline */
+        rgba(100, 200, 255, 0.3) /* Fade at button */
     );
-    z-index: -1;
 }
 
-/* Dot where branch meets timeline */
-.milestone-position-bottom .milestone-connector::before {
+/* Connector heights for tiers - BOTTOM */
+.milestone-position-bottom.tier-1 .milestone-connector.bottom {
+    height: 200px; /* Match button distance */
+}
+.milestone-position-bottom.tier-2 .milestone-connector.bottom {
+    height: 130px;
+}
+.milestone-position-bottom.tier-3 .milestone-connector.bottom {
+    height: 70px;
+}
+
+/* Dot where branch meets timeline - at TOP of connector for bottom branches */
+.milestone-position-bottom .milestone-connector.bottom::before {
     content: '';
     position: absolute;
-    bottom: 0; /* At timeline position */
+    top: -3px; /* At timeline junction */
     left: 50%;
     transform: translateX(-50%);
     width: 6px;
     height: 6px;
     background: rgba(100, 200, 255, 1);
     border-radius: 50%;
+    z-index: 10;
 }
 
 /* Ensure timeline container has enough width for scrolling */
@@ -4032,6 +4108,40 @@ body {
     min-width: 2000px !important;
     width: 200% !important;
 }
+
+/* SIMPLIFIED POSITIONING - Direct targeting without :has() */
+/* For milestones with TOP connectors - position dot ABOVE */
+.timeline-milestone .milestone-connector.top ~ .milestone-dot {
+    bottom: 100px;  /* Default above timeline */
+    left: 50%;
+    transform: translateX(-50%);
+}
+
+/* For milestones with BOTTOM connectors - position dot BELOW */
+.timeline-milestone .milestone-connector.bottom ~ .milestone-dot {
+    top: 100px;  /* Default below timeline */
+    left: 50%;
+    transform: translateX(-50%);
+}
+
+/* Tier-specific heights for TOP connectors */
+.tier-1 .milestone-connector.top ~ .milestone-dot { bottom: 200px; }
+.tier-2 .milestone-connector.top ~ .milestone-dot { bottom: 130px; }
+.tier-3 .milestone-connector.top ~ .milestone-dot { bottom: 70px; }
+
+/* Tier-specific heights for BOTTOM connectors */
+.tier-1 .milestone-connector.bottom ~ .milestone-dot { top: 200px; }
+.tier-2 .milestone-connector.bottom ~ .milestone-dot { top: 130px; }
+.tier-3 .milestone-connector.bottom ~ .milestone-dot { top: 70px; }
+
+/* Update connector heights to match dots */
+.tier-1 .milestone-connector.top { height: 200px !important; }
+.tier-2 .milestone-connector.top { height: 130px !important; }
+.tier-3 .milestone-connector.top { height: 70px !important; }
+
+.tier-1 .milestone-connector.bottom { height: 200px !important; }
+.tier-2 .milestone-connector.bottom { height: 130px !important; }
+.tier-3 .milestone-connector.bottom { height: 70px !important; }
 
 /* Date label positioning based on height */
 .milestone-position-top .milestone-quarter {

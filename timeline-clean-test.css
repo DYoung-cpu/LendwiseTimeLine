@@ -94,8 +94,8 @@ html, body {
 
 /* Strategic Roadmap Timeline - Positioned Above Owl */
 .roadmap-container {
-    width: 100%;
-    max-width: 1400px;
+    width: 90%;  /* Use percentage to fit within viewport */
+    max-width: 1400px;  /* Restore max width for container */
     margin: 0 auto;
     padding: 0.5rem 2rem;
     position: absolute;
@@ -103,6 +103,7 @@ html, body {
     left: 50%;
     transform: translateX(-50%);
     z-index: 20;  /* Below owl (100) and cards (50), above background */
+    overflow: visible;  /* Allow content to be visible */
 }
 
 .roadmap-header {
@@ -212,21 +213,45 @@ html, body {
 .timeline-viewport {
     position: relative;
     width: 100%;
-    overflow-x: auto;
+    overflow-x: auto;  /* Enable horizontal scroll */
     overflow-y: visible; /* Allow glow effects to show vertically */
     margin: 0; /* Removed negative margins to prevent container boundary */
     padding: 40px 20px; /* Added horizontal padding to compensate */
     /* Hide scrollbar but keep scroll functionality */
-    scrollbar-width: none; /* Firefox */
-    -ms-overflow-style: none; /* IE and Edge */
+    scrollbar-width: none; /* Firefox - hide scrollbar */
+    -ms-overflow-style: none; /* IE and Edge - hide scrollbar */
+
+    /* Fade content at edges using mask */
+    -webkit-mask-image: linear-gradient(90deg,
+        transparent 0%,
+        rgba(0, 0, 0, 0.1) 2%,
+        rgba(0, 0, 0, 0.5) 4%,
+        rgba(0, 0, 0, 0.9) 6%,
+        black 8%,
+        black 92%,
+        rgba(0, 0, 0, 0.9) 94%,
+        rgba(0, 0, 0, 0.5) 96%,
+        rgba(0, 0, 0, 0.1) 98%,
+        transparent 100%
+    );
+    mask-image: linear-gradient(90deg,
+        transparent 0%,
+        rgba(0, 0, 0, 0.1) 2%,
+        rgba(0, 0, 0, 0.5) 4%,
+        rgba(0, 0, 0, 0.9) 6%,
+        black 8%,
+        black 92%,
+        rgba(0, 0, 0, 0.9) 94%,
+        rgba(0, 0, 0, 0.5) 96%,
+        rgba(0, 0, 0, 0.1) 98%,
+        transparent 100%
+    );
 }
 
 /* Hide scrollbar for Chrome, Safari and Opera */
 .timeline-viewport::-webkit-scrollbar {
-    display: none;
+    display: none;  /* Hide scrollbar */
 }
-
-/* Edge masks removed - not needed and were creating container boundaries */
 
 /* Timeline Navigation Arrows */
 .timeline-nav {
@@ -282,6 +307,7 @@ html, body {
 
 .timeline-line-container {
     position: relative;
+    width: 2000px;  /* Fixed width for scrolling */
     height: 180px;  /* Reduced from 200px by 10% */
     transition: transform 0.5s cubic-bezier(0.4, 0, 0.2, 1);
     will-change: transform;
@@ -325,7 +351,7 @@ html, body {
     position: absolute;
     top: 50%;
     left: 0;
-    right: 0;
+    width: 2000px;  /* Fixed width to match container */
     height: 1px;
     background: linear-gradient(90deg,
         transparent 0%,
@@ -341,7 +367,7 @@ html, body {
     position: absolute;
     top: 0;
     left: 0;
-    right: 0;
+    width: 2000px;  /* Match timeline-line-container width */
     height: 100%;
 }
 
@@ -388,31 +414,106 @@ html, body {
     background: linear-gradient(to top, rgba(100, 200, 255, 0.6), rgba(100, 200, 255, 0.1));
 }
 
-/* Inception-specific extended branch (70% longer total) */
-.timeline-milestone:first-child .milestone-connector {
-    height: 67px !important;  /* 61px + 10% more = 67px */
+/* MILESTONE IMPORTANCE LEVELS */
+
+/* HIGH IMPORTANCE (67px) - Tallest branches */
+/* 1. Inception */
+.timeline-milestone:nth-child(1) .milestone-connector {
+    height: 67px !important;
+}
+.timeline-milestone:nth-child(1) .milestone-dot {
+    top: 67px !important;
 }
 
-.timeline-milestone:first-child .milestone-dot {
-    top: 67px !important;  /* Position at end of extended connector */
-}
-
-/* Google - positioned at middle ground (34px) */
-.timeline-milestone:nth-child(2) .milestone-connector {
-    height: 34px !important;  /* Half of Inception's 67px */
-}
-
-.timeline-milestone:nth-child(2) .milestone-dot {
-    bottom: 34px !important;  /* Position at end of connector */
-}
-
-/* Licensing - shortest branch (50% of Google's height = 17px) */
+/* LOW IMPORTANCE - NMLS (3) and DRE (4) */
+/* 3. NMLS - Purple, Low importance */
 .timeline-milestone:nth-child(3) .milestone-connector {
-    height: 17px !important;  /* 34px * 0.5 = 17px - shortest */
+    height: 17px !important;  /* Low importance */
+}
+.timeline-milestone:nth-child(3) .milestone-dot {
+    top: 17px !important;  /* Goes down - changed from bottom */
 }
 
-.timeline-milestone:nth-child(3) .milestone-dot {
-    top: 17px !important;  /* Position at end of shortest connector */
+/* 4. CA DRE - Purple, Low importance */
+.timeline-milestone:nth-child(4) .milestone-connector {
+    height: 17px !important;  /* Low importance */
+}
+.timeline-milestone:nth-child(4) .milestone-dot {
+    bottom: 17px !important;  /* Goes up - changed from top */
+}
+
+/* 5. Headquarters */
+.timeline-milestone:nth-child(5) .milestone-connector {
+    height: 67px !important;
+}
+.timeline-milestone:nth-child(5) .milestone-dot {
+    top: 67px !important;  /* Goes down - changed to alternate */
+}
+
+/* 6. WISR AI */
+.timeline-milestone:nth-child(6) .milestone-connector {
+    height: 67px !important;
+}
+.timeline-milestone:nth-child(6) .milestone-dot {
+    bottom: 67px !important;  /* Goes up - changed to alternate */
+}
+
+/* 7. The Team */
+.timeline-milestone:nth-child(7) .milestone-connector {
+    height: 67px !important;
+}
+.timeline-milestone:nth-child(7) .milestone-dot {
+    top: 67px !important;  /* Goes down - changed to alternate */
+}
+
+/* MEDIUM IMPORTANCE (34px) - Middle height */
+/* 8. LOS */
+.timeline-milestone:nth-child(8) .milestone-connector {
+    height: 34px !important;
+}
+.timeline-milestone:nth-child(8) .milestone-dot {
+    bottom: 34px !important;  /* Goes up - changed to alternate */
+}
+
+/* 9. Website */
+.timeline-milestone:nth-child(9) .milestone-connector {
+    height: 34px !important;
+}
+.timeline-milestone:nth-child(9) .milestone-dot {
+    top: 34px !important;  /* Goes down - changed to alternate */
+}
+
+/* 11. Optimal Blue */
+.timeline-milestone:nth-child(11) .milestone-connector {
+    height: 34px !important;
+}
+.timeline-milestone:nth-child(11) .milestone-dot {
+    top: 34px !important;  /* Goes down - changed to alternate */
+}
+
+/* LOW IMPORTANCE (17px) - Shortest branches */
+/* 2. Google Sponsorship */
+.timeline-milestone:nth-child(2) .milestone-connector {
+    height: 17px !important;
+}
+.timeline-milestone:nth-child(2) .milestone-dot {
+    bottom: 17px !important;  /* Goes up */
+}
+
+/* 10. Integrations */
+.timeline-milestone:nth-child(10) .milestone-connector {
+    height: 17px !important;
+}
+.timeline-milestone:nth-child(10) .milestone-dot {
+    bottom: 17px !important;  /* Goes up - changed to alternate */
+}
+
+/* 12. Analytics */
+.timeline-milestone:nth-child(12) .milestone-connector {
+    height: 17px !important;
+}
+.timeline-milestone:nth-child(12) .milestone-dot {
+    bottom: 17px !important;  /* Goes up - changed to alternate */
 }
 
 /* CSS Custom Properties for Gradient Animations */
@@ -490,9 +591,9 @@ html, body {
 
 /* Milestone Dot - Gradient Button Design */
 .milestone-dot {
-    min-width: 100px;
+    min-width: 120px; /* Increased minimum width for edge-to-edge spacing */
     height: 36px;
-    padding: 8px 16px;
+    padding: 8px 20px; /* More padding for wider buttons */
     border-radius: 20px;
     margin: 0 auto;
     position: relative;

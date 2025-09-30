@@ -1,0 +1,396 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>LendWise Timeline</title>
+<style>
+  :root{
+    --bg:#070c17;
+    --axis-y: 250px;          /* vertical position of the main spine */
+    --axis-thickness: 4px;
+    --dot: 8px;
+    --glow: 0 0 20px rgba(111,199,255,.6);
+    --spine: linear-gradient(90deg, transparent 0%, #4488ff 10%, #4488ff 90%, transparent 100%);
+
+    /* Tier heights */
+    --tier1-height: 180px;
+    --tier2-height: 120px;
+    --tier3-height: 80px;
+  }
+
+  body {
+    margin:0;
+    background:var(--bg);
+    font:14px/1.4 -apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Arial;
+    color:#cfe6ff;
+    overflow-x: auto;
+    min-height: 100vh;
+  }
+
+  .timeline {
+    position: relative;
+    height: 520px;
+    min-width: 1400px;
+    padding-inline: 40px;
+    overflow: visible;
+    isolation: isolate;
+  }
+
+  /* The horizontal spine */
+  .timeline::before {
+    content:"";
+    position: absolute;
+    left: 20px; right: 20px;
+    top: var(--axis-y);
+    height: var(--axis-thickness);
+    background: var(--spine);
+    border-radius: 2px;
+    box-shadow: var(--glow);
+    z-index: 10;
+  }
+
+  /* Date labels */
+  .date-label {
+    position: absolute;
+    top: calc(var(--axis-y) - 30px);
+    transform: translateX(-50%);
+    font-size: 11px;
+    color: #88aacc;
+    white-space: nowrap;
+    text-transform: uppercase;
+  }
+
+  /* Milestone container */
+  .milestone {
+    --pos: 50;
+    --connect: var(--tier2-height);
+    position: absolute;
+    left: calc((var(--pos) / 100) * (100% - 80px) + 40px);
+    transform: translateX(-50%);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0;
+  }
+
+  /* Tier heights */
+  .milestone.tier-1 { --connect: var(--tier1-height); }
+  .milestone.tier-2 { --connect: var(--tier2-height); }
+  .milestone.tier-3 { --connect: var(--tier3-height); }
+
+  /* Connector line */
+  .milestone::before {
+    content:"";
+    position: absolute;
+    width: 3px;
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 5;
+  }
+
+  /* Top placement */
+  .milestone[data-side="up"] {
+    bottom: calc(100% - var(--axis-y) + 2px);
+    padding-bottom: var(--connect);
+  }
+  .milestone[data-side="up"]::before {
+    bottom: 0;
+    height: var(--connect);
+    background: linear-gradient(to top,
+      rgba(111,199,255,1),
+      rgba(111,199,255,0.2)
+    );
+  }
+
+  /* Bottom placement */
+  .milestone[data-side="down"] {
+    top: calc(var(--axis-y) + 2px);
+    padding-top: var(--connect);
+  }
+  .milestone[data-side="down"]::before {
+    top: 0;
+    height: var(--connect);
+    background: linear-gradient(to bottom,
+      rgba(111,199,255,1),
+      rgba(111,199,255,0.2)
+    );
+  }
+
+  /* Junction dot on spine */
+  .dot {
+    position: absolute;
+    width: var(--dot);
+    height: var(--dot);
+    border-radius: 50%;
+    background: #4488ff;
+    border: 2px solid white;
+    box-shadow: 0 0 10px rgba(111,199,255,0.8);
+    z-index: 11;
+  }
+  .milestone[data-side="up"] .dot {
+    bottom: -6px;
+  }
+  .milestone[data-side="down"] .dot {
+    top: -6px;
+  }
+
+  /* Pill button base */
+  .pill {
+    min-width: 120px;
+    padding: 12px 24px;
+    border-radius: 25px;
+    color: #fff;
+    font-weight: 600;
+    font-size: 12px;
+    letter-spacing: 1px;
+    text-align: center;
+    text-transform: uppercase;
+    white-space: nowrap;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    position: relative;
+    z-index: 20;
+  }
+
+  /* Completed - Green */
+  .milestone.completed .pill {
+    background: radial-gradient(
+      ellipse at center,
+      #00ff96 0%,
+      #00b368 50%,
+      #006837 100%
+    );
+    border: 2px solid #00ff96;
+    box-shadow: 0 0 20px rgba(0, 255, 150, 0.4);
+  }
+  .milestone.completed::before {
+    background: linear-gradient(to bottom,
+      rgba(0, 255, 150, 1),
+      rgba(0, 255, 150, 0.2)
+    );
+  }
+  .milestone[data-side="up"].completed::before {
+    background: linear-gradient(to top,
+      rgba(0, 255, 150, 1),
+      rgba(0, 255, 150, 0.2)
+    );
+  }
+  .milestone.completed .dot {
+    background: #00ff96;
+  }
+
+  /* In Progress - Orange with pulse */
+  .milestone.in-progress .pill {
+    background: radial-gradient(
+      ellipse at center,
+      #ffa500 0%,
+      #ff7700 50%,
+      #cc5500 100%
+    );
+    border: 2px solid #ffa500;
+    animation: pulse-glow 2s ease-in-out infinite;
+  }
+  @keyframes pulse-glow {
+    0%, 100% {
+      box-shadow: 0 0 20px rgba(255, 165, 0, 0.6);
+    }
+    50% {
+      box-shadow: 0 0 40px rgba(255, 165, 0, 0.9),
+                  0 0 60px rgba(255, 165, 0, 0.4);
+    }
+  }
+  .milestone.in-progress::before {
+    background: linear-gradient(to bottom,
+      rgba(255, 165, 0, 1),
+      rgba(255, 165, 0, 0.2)
+    );
+  }
+  .milestone[data-side="up"].in-progress::before {
+    background: linear-gradient(to top,
+      rgba(255, 165, 0, 1),
+      rgba(255, 165, 0, 0.2)
+    );
+  }
+  .milestone.in-progress .dot {
+    background: #ffa500;
+  }
+
+  /* Technology - Gold */
+  .milestone.technology .pill {
+    background: radial-gradient(
+      ellipse at center,
+      #ffd700 0%,
+      #ffb300 50%,
+      #cc8800 100%
+    );
+    border: 2px solid #ffd700;
+    box-shadow: 0 0 20px rgba(255, 215, 0, 0.5);
+  }
+  .milestone.technology::before {
+    background: linear-gradient(to bottom,
+      rgba(255, 215, 0, 1),
+      rgba(255, 215, 0, 0.2)
+    );
+  }
+  .milestone[data-side="up"].technology::before {
+    background: linear-gradient(to top,
+      rgba(255, 215, 0, 1),
+      rgba(255, 215, 0, 0.2)
+    );
+  }
+  .milestone.technology .dot {
+    background: #ffd700;
+  }
+
+  /* Operations - Purple */
+  .milestone.operations .pill {
+    background: radial-gradient(
+      ellipse at center,
+      #9944ff 0%,
+      #7722dd 50%,
+      #5500aa 100%
+    );
+    border: 2px solid #9944ff;
+    box-shadow: 0 0 20px rgba(153, 68, 255, 0.5);
+  }
+  .milestone.operations::before {
+    background: linear-gradient(to bottom,
+      rgba(153, 68, 255, 1),
+      rgba(153, 68, 255, 0.2)
+    );
+  }
+  .milestone[data-side="up"].operations::before {
+    background: linear-gradient(to top,
+      rgba(153, 68, 255, 1),
+      rgba(153, 68, 255, 0.2)
+    );
+  }
+  .milestone.operations .dot {
+    background: #9944ff;
+  }
+
+  /* Progress percentage */
+  .progress {
+    position: absolute;
+    top: -25px;
+    left: 50%;
+    transform: translateX(-50%);
+    background: rgba(255, 165, 0, 0.9);
+    padding: 2px 8px;
+    border-radius: 10px;
+    font-size: 10px;
+    font-weight: bold;
+    color: white;
+    z-index: 21;
+  }
+
+  /* Hover effect */
+  .pill:hover {
+    transform: scale(1.1);
+    filter: brightness(1.2);
+  }
+</style>
+</head>
+<body>
+
+<div class="timeline">
+  <!-- Date labels -->
+  <div class="date-label" style="left: 7%;">AUG 1, 2024</div>
+  <div class="date-label" style="left: 15%;">SEP 2024</div>
+  <div class="date-label" style="left: 23%;">OCT 2024</div>
+  <div class="date-label" style="left: 31%;">NOV 2024</div>
+  <div class="date-label" style="left: 39%;">DEC 2024</div>
+  <div class="date-label" style="left: 47%;">JAN 2025</div>
+  <div class="date-label" style="left: 55%;">FEB 2025</div>
+  <div class="date-label" style="left: 92%;">ALWAYS GROWING</div>
+
+  <!-- Inception - Aug 1, 2024 -->
+  <div class="milestone completed tier-1" style="--pos:7;" data-side="up">
+    <span class="dot"></span>
+    <div class="pill">INCEPTION</div>
+  </div>
+
+  <!-- NMLS - Sep 2024 -->
+  <div class="milestone completed tier-2" style="--pos:13;" data-side="down">
+    <span class="dot"></span>
+    <div class="pill">NMLS</div>
+  </div>
+
+  <!-- CA DRE - Sep 2024 -->
+  <div class="milestone completed tier-3" style="--pos:17;" data-side="up">
+    <span class="dot"></span>
+    <div class="pill">CA DRE</div>
+  </div>
+
+  <!-- Credit Reporting - Oct 2024 -->
+  <div class="milestone completed tier-3" style="--pos:21;" data-side="down">
+    <span class="dot"></span>
+    <div class="pill">CREDIT</div>
+  </div>
+
+  <!-- Website - Oct 2024 -->
+  <div class="milestone completed tier-2" style="--pos:25;" data-side="up">
+    <span class="dot"></span>
+    <div class="pill">WEBSITE</div>
+  </div>
+
+  <!-- Encompass - Nov 2024 (95%) -->
+  <div class="milestone in-progress tier-1" style="--pos:29;" data-side="down">
+    <span class="dot"></span>
+    <div class="pill">ENCOMPASS</div>
+    <div class="progress">95%</div>
+  </div>
+
+  <!-- Optimal Blue - Nov 2024 (75%) -->
+  <div class="milestone in-progress tier-1" style="--pos:33;" data-side="up">
+    <span class="dot"></span>
+    <div class="pill">OPTIMAL BLUE</div>
+    <div class="progress">75%</div>
+  </div>
+
+  <!-- DFPI - Dec 2024 (90%) -->
+  <div class="milestone in-progress operations tier-2" style="--pos:37;" data-side="down">
+    <span class="dot"></span>
+    <div class="pill">DFPI</div>
+    <div class="progress">90%</div>
+  </div>
+
+  <!-- Google Analytics - Dec 2024 (5%) -->
+  <div class="milestone in-progress technology tier-3" style="--pos:41;" data-side="up">
+    <span class="dot"></span>
+    <div class="pill">ANALYTICS</div>
+    <div class="progress">5%</div>
+  </div>
+
+  <!-- WISR AI - Jan 2025 (45%) -->
+  <div class="milestone in-progress technology tier-2" style="--pos:45;" data-side="down">
+    <span class="dot"></span>
+    <div class="pill">WISR AI</div>
+    <div class="progress">45%</div>
+  </div>
+
+  <!-- DSCR AI - Jan 2025 (85%) -->
+  <div class="milestone in-progress technology tier-1" style="--pos:49;" data-side="up">
+    <span class="dot"></span>
+    <div class="pill">DSCR AI</div>
+    <div class="progress">85%</div>
+  </div>
+
+  <!-- Mission Control - Feb 2025 (45%) -->
+  <div class="milestone in-progress technology tier-1" style="--pos:53;" data-side="down">
+    <span class="dot"></span>
+    <div class="pill">MISSION CONTROL</div>
+    <div class="progress">45%</div>
+  </div>
+
+  <!-- Team - Ongoing -->
+  <div class="milestone in-progress operations tier-1" style="--pos:92;" data-side="up">
+    <span class="dot"></span>
+    <div class="pill">TEAM</div>
+    <div class="progress">∞</div>
+  </div>
+</div>
+
+</body>
+</html>

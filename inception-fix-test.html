@@ -1,0 +1,259 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Fix Inception Branch Structure</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            background: #0a0e27;
+            color: white;
+            font-family: Arial, sans-serif;
+            height: 100vh;
+            position: relative;
+            overflow: hidden;
+        }
+
+        /* Main timeline line */
+        .main-timeline {
+            position: absolute;
+            top: 50%;
+            left: 0;
+            right: 0;
+            height: 3px;
+            background: #4488ff;
+            z-index: 10;
+        }
+
+        /* Inception branch container - positioned at timeline */
+        .inception-branch-container {
+            position: absolute;
+            left: 30%; /* Horizontal position along timeline */
+            top: 50%; /* AT the timeline */
+            transform: translateY(-50%); /* Center on timeline */
+            z-index: 5;
+        }
+
+        /* Branch line extending UP from timeline */
+        .branch-line {
+            position: absolute;
+            width: 4px;
+            height: 150px; /* Height of branch */
+            left: 50%;
+            bottom: 0; /* Start at timeline */
+            transform: translateX(-50%);
+            background: linear-gradient(to top,
+                rgba(0, 255, 150, 1), /* Strong at timeline */
+                rgba(0, 255, 150, 0.3) /* Fade toward button */
+            );
+        }
+
+        /* Dot where branch meets timeline */
+        .branch-dot {
+            position: absolute;
+            width: 8px;
+            height: 8px;
+            background: #00ff96;
+            border: 2px solid white;
+            border-radius: 50%;
+            left: 50%;
+            bottom: -5px;
+            transform: translateX(-50%);
+            z-index: 11;
+        }
+
+        /* Inception button at END of branch */
+        .inception-button {
+            position: absolute;
+            bottom: 150px; /* At end of branch (same as branch height) */
+            left: 50%;
+            transform: translateX(-50%);
+            background: radial-gradient(
+                ellipse at 11.14% 140%,
+                #000 0%,
+                #082c08 15%,
+                #1e6a1e 30%,
+                #46b846 60%,
+                #44ff44 100%
+            );
+            border: 2px solid rgba(0, 255, 150, 0.8);
+            border-radius: 25px;
+            padding: 12px 30px;
+            color: white;
+            font-weight: bold;
+            font-size: 14px;
+            text-transform: uppercase;
+            box-shadow: 0 0 20px rgba(0, 255, 150, 0.5);
+            white-space: nowrap;
+        }
+
+        /* Labels */
+        .timeline-label {
+            position: absolute;
+            top: 50%;
+            left: 10px;
+            transform: translateY(-50%);
+            background: rgba(0, 0, 0, 0.9);
+            padding: 5px 10px;
+            border-radius: 5px;
+            color: #4488ff;
+            font-weight: bold;
+        }
+
+        /* Visual guide */
+        .structure-info {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            background: rgba(0, 0, 0, 0.95);
+            padding: 20px;
+            border-radius: 10px;
+            border: 1px solid #00ff96;
+            max-width: 300px;
+        }
+
+        .structure-info h3 {
+            color: #00ff96;
+            margin-top: 0;
+        }
+
+        .structure-info ol {
+            margin: 10px 0;
+            padding-left: 20px;
+        }
+
+        .structure-info li {
+            margin: 5px 0;
+            font-size: 14px;
+        }
+
+        .correct {
+            color: #00ff96;
+        }
+
+        .wrong {
+            color: #ff4444;
+            text-decoration: line-through;
+        }
+
+        /* Alternative: Branch going DOWN from timeline */
+        .inception-branch-down {
+            position: absolute;
+            left: 60%; /* Different horizontal position */
+            top: 50%; /* AT the timeline */
+            transform: translateY(-50%);
+            z-index: 5;
+        }
+
+        .inception-branch-down .branch-line {
+            position: absolute;
+            width: 4px;
+            height: 150px;
+            left: 50%;
+            top: 0; /* Start at timeline */
+            transform: translateX(-50%);
+            background: linear-gradient(to bottom,
+                rgba(0, 255, 150, 1), /* Strong at timeline */
+                rgba(0, 255, 150, 0.3) /* Fade toward button */
+            );
+        }
+
+        .inception-branch-down .branch-dot {
+            position: absolute;
+            width: 8px;
+            height: 8px;
+            background: #00ff96;
+            border: 2px solid white;
+            border-radius: 50%;
+            left: 50%;
+            top: -5px;
+            transform: translateX(-50%);
+            z-index: 11;
+        }
+
+        .inception-branch-down .inception-button {
+            position: absolute;
+            top: 150px; /* At end of branch */
+            left: 50%;
+            transform: translateX(-50%);
+            background: radial-gradient(
+                ellipse at 11.14% 140%,
+                #000 0%,
+                #082c08 15%,
+                #1e6a1e 30%,
+                #46b846 60%,
+                #44ff44 100%
+            );
+            border: 2px solid rgba(0, 255, 150, 0.8);
+            border-radius: 25px;
+            padding: 12px 30px;
+            color: white;
+            font-weight: bold;
+            font-size: 14px;
+            text-transform: uppercase;
+            box-shadow: 0 0 20px rgba(0, 255, 150, 0.5);
+            white-space: nowrap;
+        }
+
+        .label-up {
+            position: absolute;
+            bottom: 180px;
+            left: 50%;
+            transform: translateX(-50%);
+            color: #ffaa00;
+            font-size: 12px;
+            white-space: nowrap;
+        }
+
+        .label-down {
+            position: absolute;
+            top: 180px;
+            left: 50%;
+            transform: translateX(-50%);
+            color: #ffaa00;
+            font-size: 12px;
+            white-space: nowrap;
+        }
+    </style>
+</head>
+<body>
+    <!-- Main timeline -->
+    <div class="main-timeline"></div>
+    <div class="timeline-label">MAIN TIMELINE (50%)</div>
+
+    <!-- Inception with branch going UP -->
+    <div class="inception-branch-container">
+        <div class="branch-line"></div>
+        <div class="branch-dot"></div>
+        <div class="inception-button">INCEPTION</div>
+        <div class="label-up">Branch UP from timeline</div>
+    </div>
+
+    <!-- Inception with branch going DOWN -->
+    <div class="inception-branch-down">
+        <div class="branch-line"></div>
+        <div class="branch-dot"></div>
+        <div class="inception-button">INCEPTION</div>
+        <div class="label-down">Branch DOWN from timeline</div>
+    </div>
+
+    <!-- Structure explanation -->
+    <div class="structure-info">
+        <h3>CORRECT STRUCTURE:</h3>
+        <ol>
+            <li class="correct">Main timeline at 50% (blue line)</li>
+            <li class="correct">Branch starts FROM timeline</li>
+            <li class="correct">Branch extends vertically (up or down)</li>
+            <li class="correct">Button at END of branch</li>
+        </ol>
+        <h3>WRONG:</h3>
+        <ul>
+            <li class="wrong">Button on timeline</li>
+            <li class="wrong">Branch from button</li>
+            <li class="wrong">No connection to timeline</li>
+        </ul>
+    </div>
+</body>
+</html>

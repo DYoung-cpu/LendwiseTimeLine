@@ -3530,14 +3530,14 @@ body {
 
 /* Filter Container - Draggable */
 .filter-container {
-    position: absolute;  /* Changed from fixed to stick to page */
+    position: fixed;  /* Fixed positioning for dragging */
     top: 150px;
     left: 50%;
     transform: translateX(-50%);
     z-index: 10000;
     display: none; /* Hidden initially */
-    flex-direction: column;  /* Stack vertically */
-    align-items: stretch;  /* Full width children */
+    flex-direction: row;  /* Arrange horizontally */
+    align-items: center;  /* Center vertically */
     gap: 0;  /* No gap for connected look */
     padding: 0;
     transition: opacity 0.5s ease;
@@ -3553,14 +3553,27 @@ body {
     cursor: grabbing;
 }
 
-/* Filter Dropdown Container */
-.filter-dropdown {
+/* Filter Dropdown Containers - Left and Right */
+.filter-dropdown,
+.filter-dropdown-right {
     display: flex;
-    flex-direction: column;  /* Stack vertically */
-    gap: 2px;  /* Small gap between buttons */
+    flex-direction: row;  /* Arrange horizontally */
+    gap: 8px;  /* Gap between buttons */
     overflow: hidden;
     transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-    margin-top: 2px;  /* Small gap from main button */
+    width: 0;  /* Start collapsed */
+    opacity: 0;
+    pointer-events: none;
+}
+
+.filter-dropdown {
+    justify-content: flex-end;  /* Align buttons to right edge */
+    padding-right: 8px;
+}
+
+.filter-dropdown-right {
+    justify-content: flex-start;  /* Align buttons to left edge */
+    padding-left: 8px;
 }
 
 /* Collapsed state - hidden */
@@ -3577,27 +3590,62 @@ body {
     display: flex;
 }
 
-/* Legacy support for container-based expansion */
-.filter-container.expanded .filter-dropdown {
-    max-height: 400px;
+/* Expanded state - show both left and right dropdowns */
+.filter-container.expanded .filter-dropdown,
+.filter-container.expanded .filter-dropdown-right {
+    width: auto;  /* Allow content to define width */
     opacity: 1;
-    display: flex;
+    pointer-events: auto;
 }
 
-/* Base Filter Button Styling - CIRCULAR */
+.filter-container.expanded .filter-dropdown {
+    animation: slideLeft 0.4s ease forwards;
+}
+
+.filter-container.expanded .filter-dropdown-right {
+    animation: slideRight 0.4s ease forwards;
+}
+
+@keyframes slideLeft {
+    from {
+        width: 0;
+        opacity: 0;
+        transform: translateX(20px);
+    }
+    to {
+        width: auto;
+        opacity: 1;
+        transform: translateX(0);
+    }
+}
+
+@keyframes slideRight {
+    from {
+        width: 0;
+        opacity: 0;
+        transform: translateX(-20px);
+    }
+    to {
+        width: auto;
+        opacity: 1;
+        transform: translateX(0);
+    }
+}
+
+/* Base Filter Button Styling - RECTANGULAR */
 .filter-btn {
     position: relative;
-    padding: 0;
+    padding: 8px 20px;  /* Same padding as timeline buttons */
     border: none;
-    border-radius: 50%;  /* Perfect circle */
+    border-radius: 20px;  /* Soft rounded corners like timeline buttons */
     font-size: 0.7rem;
     font-weight: 600;
     color: white;
     cursor: pointer;
     white-space: nowrap;
     overflow: hidden;
-    width: 60px;  /* Fixed dimensions for circle */
-    height: 60px;  /* Equal width and height */
+    min-width: 100px;  /* Minimum width for rectangles */
+    height: 36px;  /* Same height as timeline buttons */
     display: flex;
     align-items: center;
     justify-content: center;

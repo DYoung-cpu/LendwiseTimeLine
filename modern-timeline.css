@@ -3408,12 +3408,11 @@ body {
     transform: translateX(-50%);
     z-index: 10000;
     display: none; /* Hidden initially */
-    align-items: center;
-    gap: 10px;
-    padding: 0; /* Removed padding */
-    /* Removed background and border-radius to eliminate pill frame */
+    flex-direction: column;  /* Stack vertically */
+    align-items: stretch;  /* Full width children */
+    gap: 0;  /* No gap for connected look */
+    padding: 0;
     transition: opacity 0.5s ease;
-    cursor: move;
 }
 
 .filter-container.visible {
@@ -3426,33 +3425,37 @@ body {
     cursor: grabbing;
 }
 
-/* Filter Options Container */
-.filter-options {
+/* Filter Dropdown Container */
+.filter-dropdown {
     display: flex;
-    gap: 10px;
+    flex-direction: column;  /* Stack vertically */
+    gap: 2px;  /* Small gap between buttons */
     overflow: hidden;
-    max-width: 0;
+    max-height: 0;  /* Changed from max-width to max-height */
     opacity: 0;
     transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    margin-top: 2px;  /* Small gap from main button */
 }
 
-.filter-container.expanded .filter-options {
-    max-width: 800px;
+.filter-container.expanded .filter-dropdown {
+    max-height: 400px;  /* Allow vertical expansion */
     opacity: 1;
 }
 
-/* Base Filter Button Styling - NO GRADIENT to avoid green override */
+/* Base Filter Button Styling - RECTANGULAR */
 .filter-btn {
     position: relative;
-    padding: 7px 14px;  /* Increased by 10% from 6px 12px */
+    padding: 8px 20px;
     border: none;
-    border-radius: 17px;  /* Increased by 10% from 15px */
-    font-size: 0.65rem;  /* Increased by 10% from 0.54rem (more visible) */
+    border-radius: 0;  /* No rounding for rectangles */
+    font-size: 0.7rem;
     font-weight: 600;
     color: white;
     cursor: pointer;
     white-space: nowrap;
     overflow: hidden;
+    width: 120px;  /* Fixed width for consistency */
+    text-align: left;  /* Align text to left */
     /* Gradient removed - applied per button to avoid @property initial value issues */
     /* Transitions for animated gradient */
     transition:
@@ -3473,250 +3476,103 @@ body {
    Uses compound selectors to override @property defaults
    ================================================ */
 
-/* Technology Filter Button - Blue Theme */
+/* Technology Filter Button - Blue Rectangle */
 .filter-container .filter-btn.filter-technology {
-    --pos-x: 11.14%;
-    --pos-y: 140%;
-    --spread-x: 150%;
-    --spread-y: 180.06%;
-    --color-1: #000;
-    --color-2: #08122c;
-    --color-3: #1e3a6a;
-    --color-4: #4678b8;  /* Light blue - overrides green */
-    --color-5: #4488ff;
-    /* Apply gradient directly to avoid base class issues */
-    background: radial-gradient(
-        var(--spread-x) var(--spread-y) at var(--pos-x) var(--pos-y),
-        var(--color-1) 37.35%,
-        var(--color-2) 61.36%,
-        var(--color-3) 78.42%,
-        var(--color-4) 89.52%,
-        var(--color-5) 100%
-    );
+    background: linear-gradient(90deg, #0066cc 0%, #004499 100%);
+    border-left: 3px solid #0099ff;
 }
 
 .filter-container .filter-btn.filter-technology:hover {
-    --pos-x: 0%;
-    --pos-y: 91.51%;
-    --spread-x: 120.24%;
-    --spread-y: 103.18%;
-    --color-1: #4488ff;
-    --color-2: #64a8ff;
-    --color-3: #0066ff;
-    --color-4: #0a1a4d;  /* Dark navy - no green */
-    --color-5: #000;
-    transform: scale(1.05);
+    background: linear-gradient(90deg, #0099ff 0%, #0066cc 100%);
+    transform: translateX(3px);
 }
 
-/* Main Filter Button - Dark Theme */
+/* Main Filter Button - Dark Theme RECTANGLE */
 .filter-container .filter-btn.filter-main {
-    --pos-x: 11.14%;
-    --pos-y: 140%;
-    --spread-x: 150%;
-    --spread-y: 180.06%;
-    --color-1: #000;
-    --color-2: #08012c;
-    --color-3: #4e1e40;
-    --color-4: #70464e;  /* Dark mauve - overrides green */
-    --color-5: #88394c;
     cursor: move;  /* Show draggable cursor */
-    /* Apply gradient directly to avoid base class issues */
-    background: radial-gradient(
-        var(--spread-x) var(--spread-y) at var(--pos-x) var(--pos-y),
-        var(--color-1) 37.35%,
-        var(--color-2) 61.36%,
-        var(--color-3) 78.42%,
-        var(--color-4) 89.52%,
-        var(--color-5) 100%
-    );
+    background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+    font-size: 0.75rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    transition: all 0.3s ease;
 }
 
 .filter-container .filter-btn.filter-main:hover {
-    --pos-x: 0%;
-    --pos-y: 91.51%;
-    --spread-x: 120.24%;
-    --spread-y: 103.18%;
-    --color-1: #c96287;
-    --color-2: #c66c64;
-    --color-3: #cc7d23;
-    --color-4: #37140a;  /* Dark brown - no green */
-    --color-5: #000;
-    transform: scale(1.05);
+    background: linear-gradient(135deg, #16213e 0%, #0f3460 100%);
+    border-color: rgba(255, 255, 255, 0.4);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.4);
+    transform: translateY(-1px);
 }
 
-/* All Filter Button - Multi-color Theme */
+/* Filter icon animation */
+.filter-icon {
+    font-size: 1rem;
+    transition: transform 0.3s ease;
+}
+
+.filter-container.expanded .filter-icon {
+    transform: rotate(90deg);
+}
+
+/* All Filter Button - Multi-color Rectangle */
 .filter-container .filter-btn.filter-all {
-    --pos-x: 11.14%;
-    --pos-y: 140%;
-    --spread-x: 150%;
-    --spread-y: 180.06%;
-    --color-1: #000;
-    --color-2: #1a1a2e;
-    --color-3: #16213e;
-    --color-4: #0f3460;  /* Dark blue - overrides green */
-    --color-5: #e94560;
-    /* Apply gradient directly to avoid base class issues */
-    background: radial-gradient(
-        var(--spread-x) var(--spread-y) at var(--pos-x) var(--pos-y),
-        var(--color-1) 37.35%,
-        var(--color-2) 61.36%,
-        var(--color-3) 78.42%,
-        var(--color-4) 89.52%,
-        var(--color-5) 100%
-    );
+    background: linear-gradient(90deg, #667eea 0%, #764ba2 100%);
+    border-left: 3px solid #a855f7;
 }
 
 .filter-container .filter-btn.filter-all:hover {
-    --pos-x: 0%;
-    --pos-y: 91.51%;
-    --spread-x: 120.24%;
-    --spread-y: 103.18%;
-    --color-1: #e94560;
-    --color-2: #ff6b6b;
-    --color-3: #4ecdc4;
-    --color-4: #1a535c;  /* Dark teal - no green */
-    --color-5: #000;
-    transform: scale(1.05);
+    background: linear-gradient(90deg, #764ba2 0%, #f093fb 100%);
+    transform: translateX(3px);
 }
 
-/* Operations Filter Button - Purple Theme */
+/* Operations Filter Button - Purple Rectangle */
 .filter-container .filter-btn.filter-operations {
-    --pos-x: 11.14%;
-    --pos-y: 140%;
-    --spread-x: 150%;
-    --spread-y: 180.06%;
-    --color-1: #000;
-    --color-2: #1a082c;
-    --color-3: #4a1e6a;
-    --color-4: #8646b8;  /* Purple - overrides green */
-    --color-5: #9944ff;
-    /* Apply gradient directly to avoid base class issues */
-    background: radial-gradient(
-        var(--spread-x) var(--spread-y) at var(--pos-x) var(--pos-y),
-        var(--color-1) 37.35%,
-        var(--color-2) 61.36%,
-        var(--color-3) 78.42%,
-        var(--color-4) 89.52%,
-        var(--color-5) 100%
-    );
+    background: linear-gradient(90deg, #7c3aed 0%, #a855f7 100%);
+    border-left: 3px solid #c084fc;
 }
 
 .filter-container .filter-btn.filter-operations:hover {
-    --pos-x: 0%;
-    --pos-y: 91.51%;
-    --spread-x: 120.24%;
-    --spread-y: 103.18%;
-    --color-1: #9944ff;
-    --color-2: #aa64ff;
-    --color-3: #7700ff;
-    --color-4: #2a0a4d;  /* Dark purple - no green */
-    --color-5: #000;
-    transform: scale(1.05);
+    background: linear-gradient(90deg, #a855f7 0%, #c084fc 100%);
+    transform: translateX(3px);
 }
 
-/* In-Progress Filter Button - Silver/Gray Theme */
+/* In-Progress Filter Button - Silver Rectangle */
 .filter-container .filter-btn.filter-in-progress {
-    --pos-x: 11.14%;
-    --pos-y: 140%;
-    --spread-x: 150%;
-    --spread-y: 180.06%;
-    --color-1: #000;
-    --color-2: #1a1a1a;
-    --color-3: #4a4a4a;
-    --color-4: #a0a0a0;  /* Silver - overrides green */
-    --color-5: #d0d0d0;
-    /* Apply gradient directly to avoid base class issues */
-    background: radial-gradient(
-        var(--spread-x) var(--spread-y) at var(--pos-x) var(--pos-y),
-        var(--color-1) 37.35%,
-        var(--color-2) 61.36%,
-        var(--color-3) 78.42%,
-        var(--color-4) 89.52%,
-        var(--color-5) 100%
-    );
+    background: linear-gradient(90deg, #6b7280 0%, #9ca3af 100%);
+    border-left: 3px solid #cbd5e1;
 }
 
 .filter-container .filter-btn.filter-in-progress:hover {
-    --pos-x: 0%;
-    --pos-y: 91.51%;
-    --spread-x: 120.24%;
-    --spread-y: 103.18%;
-    --color-1: #e0e0e0;
-    --color-2: #c0c0c0;
-    --color-3: #808080;
-    --color-4: #303030;  /* Dark gray - no green */
-    --color-5: #000;
-    transform: scale(1.05);
+    background: linear-gradient(90deg, #9ca3af 0%, #cbd5e1 100%);
+    transform: translateX(3px);
 }
 
-/* Future Filter Button - Gold Theme */
+/* Future Filter Button - Gold Rectangle */
 .filter-container .filter-btn.filter-future {
-    --pos-x: 11.14%;
-    --pos-y: 140%;
-    --spread-x: 150%;
-    --spread-y: 180.06%;
-    --color-1: #000;
-    --color-2: #2c2008;
-    --color-3: #6b5a1e;
-    --color-4: #b89c46;  /* Gold - overrides green */
-    --color-5: #ffdd44;
-    /* Apply gradient directly to avoid base class issues */
-    background: radial-gradient(
-        var(--spread-x) var(--spread-y) at var(--pos-x) var(--pos-y),
-        var(--color-1) 37.35%,
-        var(--color-2) 61.36%,
-        var(--color-3) 78.42%,
-        var(--color-4) 89.52%,
-        var(--color-5) 100%
-    );
+    background: linear-gradient(90deg, #f59e0b 0%, #fbbf24 100%);
+    border-left: 3px solid #fde047;
 }
 
 .filter-container .filter-btn.filter-future:hover {
-    --pos-x: 0%;
-    --pos-y: 91.51%;
-    --spread-x: 120.24%;
-    --spread-y: 103.18%;
-    --color-1: #ffd700;
-    --color-2: #ffc864;
-    --color-3: #ffaa23;
-    --color-4: #4d3a0a;  /* Dark brown - no green */
-    --color-5: #000;
-    transform: scale(1.05);
+    background: linear-gradient(90deg, #fbbf24 0%, #fde047 100%);
+    transform: translateX(3px);
 }
 
-/* Completed Filter Button - Green Theme (intentionally green) */
+/* Completed Filter Button - Green Rectangle */
 .filter-container .filter-btn.filter-completed {
-    --pos-x: 11.14%;
-    --pos-y: 140%;
-    --spread-x: 150%;
-    --spread-y: 180.06%;
-    --color-1: #000;
-    --color-2: #082c08;
-    --color-3: #1e6a1e;
-    --color-4: #00c851;  /* Green - intentionally kept */
-    --color-5: #44ff44;
-    /* Apply gradient directly to avoid base class issues */
-    background: radial-gradient(
-        var(--spread-x) var(--spread-y) at var(--pos-x) var(--pos-y),
-        var(--color-1) 37.35%,
-        var(--color-2) 61.36%,
-        var(--color-3) 78.42%,
-        var(--color-4) 89.52%,
-        var(--color-5) 100%
-    );
+    background: linear-gradient(90deg, #10b981 0%, #34d399 100%);
+    border-left: 3px solid #6ee7b7;
 }
 
 .filter-container .filter-btn.filter-completed:hover {
-    --pos-x: 0%;
-    --pos-y: 91.51%;
-    --spread-x: 120.24%;
-    --spread-y: 103.18%;
-    --color-1: #2a5f4a;
-    --color-2: #1e4737;
-    --color-3: #c4941f;
-    --color-4: #0a4d0a;  /* Dark green */
-    --color-5: #000;
-    transform: scale(1.05);
+    background: linear-gradient(90deg, #34d399 0%, #6ee7b7 100%);
+    transform: translateX(3px);
 }
 
 /* Active state for filter buttons */

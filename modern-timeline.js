@@ -1677,15 +1677,16 @@ function setupFilterContainer() {
 
     console.log('✅ Filter container found, showing it now...');
 
-    // Get the filter options container
-    const filterOptions = filterContainer.querySelector('.filter-options');
-    if (filterOptions) {
-        // Initially hide the options
-        filterOptions.style.cssText = `
+    // Get the filter dropdown container
+    const filterDropdown = filterContainer.querySelector('.filter-dropdown');
+    if (filterDropdown) {
+        // Initially hide the dropdown
+        filterDropdown.style.cssText = `
             display: none !important;
-            gap: 10px !important;
+            flex-direction: column !important;
+            gap: 2px !important;
             opacity: 0 !important;
-            max-width: 0 !important;
+            max-height: 0 !important;
             overflow: hidden !important;
             transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1) !important;
         `;
@@ -1761,12 +1762,13 @@ function setupFilterContainer() {
         if (!isExpanded) {
             // Expanding
             filterContainer.classList.add('expanded');
-            if (filterOptions) {
-                filterOptions.style.cssText = `
+            if (filterDropdown) {
+                filterDropdown.style.cssText = `
                     display: flex !important;
-                    gap: 10px !important;
+                    flex-direction: column !important;
+                    gap: 2px !important;
                     opacity: 1 !important;
-                    max-width: 800px !important;
+                    max-height: 400px !important;
                     overflow: visible !important;
                     transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1) !important;
                 `;
@@ -1775,12 +1777,13 @@ function setupFilterContainer() {
         } else {
             // Collapsing
             filterContainer.classList.remove('expanded');
-            if (filterOptions) {
-                filterOptions.style.cssText = `
+            if (filterDropdown) {
+                filterDropdown.style.cssText = `
                     display: none !important;
-                    gap: 10px !important;
+                    flex-direction: column !important;
+                    gap: 2px !important;
                     opacity: 0 !important;
-                    max-width: 0 !important;
+                    max-height: 0 !important;
                     overflow: hidden !important;
                     transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1) !important;
                 `;

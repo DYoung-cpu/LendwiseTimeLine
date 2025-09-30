@@ -1,0 +1,678 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>LendWise Font Preview - Typography Comparison</title>
+
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;500;600;700&family=Cormorant+SC:wght@400;500;600;700&family=EB+Garamond:wght@400;500;600;700&family=IM+Fell+DW+Pica:ital@0;1&family=PT+Serif:wght@400;700&family=Playfair+Display:wght@400;500;600;700;800;900&family=Libre+Baskerville:wght@400;700&family=Inter:wght@300;400;500;600;700&family=Crimson+Text:wght@400;600;700&family=Bodoni+Moda:wght@400;500;600;700;800;900&family=Lora:wght@400;500;600;700&family=Spectral:wght@400;500;600;700;800&family=DM+Serif+Display:wght@400&family=Abril+Fatface&family=Yeseva+One&family=Unna:wght@400;700&family=Montserrat:wght@400;500;600;700;800;900&family=Oswald:wght@400;500;600;700&family=Bebas+Neue&display=swap" rel="stylesheet">
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background: linear-gradient(135deg, #0a0a0a 0%, #1a1a1a 50%, #0a0a0a 100%);
+            color: #fff;
+            padding: 40px 20px;
+            min-height: 100vh;
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 60px;
+        }
+
+        .header h1 {
+            font-size: 3rem;
+            color: #FFD700;
+            margin-bottom: 10px;
+            text-shadow: 0 0 20px rgba(255, 215, 0, 0.4);
+        }
+
+        .header p {
+            font-size: 1.2rem;
+            color: #999;
+        }
+
+        .instructions {
+            background: rgba(255, 215, 0, 0.05);
+            border: 1px solid rgba(255, 215, 0, 0.2);
+            border-radius: 10px;
+            padding: 20px;
+            margin-bottom: 40px;
+            max-width: 1200px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .instructions h3 {
+            color: #FFD700;
+            margin-bottom: 10px;
+        }
+
+        .instructions ul {
+            list-style: none;
+            padding-left: 20px;
+        }
+
+        .instructions li:before {
+            content: "→ ";
+            color: #FFD700;
+        }
+
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(500px, 1fr));
+            gap: 40px;
+            max-width: 1600px;
+            margin: 0 auto;
+        }
+
+        .font-sample {
+            background: rgba(0, 0, 0, 0.4);
+            border: 1px solid rgba(255, 215, 0, 0.2);
+            border-radius: 15px;
+            padding: 40px 30px;
+            text-align: center;
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+
+        .font-sample:hover {
+            border-color: rgba(255, 215, 0, 0.5);
+            transform: translateY(-5px);
+            box-shadow: 0 10px 30px rgba(255, 215, 0, 0.2);
+        }
+
+        .font-name {
+            font-size: 1rem;
+            color: #00C832;
+            margin-bottom: 5px;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+        }
+
+        .effect-name {
+            font-size: 0.85rem;
+            color: #666;
+            margin-bottom: 30px;
+            font-style: italic;
+        }
+
+        .logo-preview {
+            pointer-events: none;
+        }
+
+        .lendwise-text {
+            font-size: 3.5rem;
+            letter-spacing: 0.15em;
+            color: #FFD700;
+            display: block;
+            margin: 0;
+            padding: 0;
+            line-height: 1.1;
+        }
+
+        .tall-letter {
+            font-size: 4.2rem;
+            display: inline-block;
+            vertical-align: baseline;
+            line-height: 0.85;
+        }
+
+        .mortgage-text {
+            font-size: 1.8rem;
+            font-weight: 400;
+            letter-spacing: 0.15em;
+            color: #FFD700;
+            display: block;
+            margin-top: -0.3rem;
+        }
+
+        /* Font Families */
+        .font-cinzel { font-family: 'Cinzel', serif; }
+        .font-cormorant { font-family: 'Cormorant SC', serif; }
+        .font-eb-garamond { font-family: 'EB Garamond', serif; }
+        .font-im-fell { font-family: 'IM Fell DW Pica', serif; }
+        .font-pt-serif { font-family: 'PT Serif', serif; }
+        .font-playfair { font-family: 'Playfair Display', serif; }
+        .font-baskerville { font-family: 'Libre Baskerville', serif; }
+        .font-inter { font-family: 'Inter', sans-serif; }
+        .font-crimson { font-family: 'Crimson Text', serif; }
+        .font-bodoni { font-family: 'Bodoni Moda', serif; }
+        .font-lora { font-family: 'Lora', serif; }
+        .font-spectral { font-family: 'Spectral', serif; }
+        .font-dm-serif { font-family: 'DM Serif Display', serif; }
+        .font-abril { font-family: 'Abril Fatface', serif; }
+        .font-yeseva { font-family: 'Yeseva One', serif; }
+        .font-unna { font-family: 'Unna', serif; }
+        .font-montserrat { font-family: 'Montserrat', sans-serif; }
+        .font-oswald { font-family: 'Oswald', sans-serif; }
+        .font-bebas { font-family: 'Bebas Neue', sans-serif; }
+
+        /* Effect 1: Classic Glow (Current Style) */
+        .effect-glow .lendwise-text {
+            text-shadow:
+                0 0 1px rgba(0,0,0,0.8),
+                0 0 2px rgba(0,0,0,0.6),
+                0 0 3px rgba(0,0,0,0.4),
+                0 0 25px rgba(255,215,0,0.6),
+                0 0 45px rgba(255,215,0,0.4),
+                0 0 65px rgba(255,165,0,0.2),
+                1px 1px 1px rgba(0,0,0,0.3),
+                -1px -1px 1px rgba(0,0,0,0.3);
+        }
+
+        .effect-glow .mortgage-text {
+            text-shadow:
+                0 0 1px rgba(0,0,0,0.6),
+                0 0 2px rgba(0,0,0,0.4),
+                0 0 20px rgba(255,215,0,0.4),
+                0 0 35px rgba(255,215,0,0.2),
+                1px 1px 1px rgba(0,0,0,0.2),
+                -1px -1px 1px rgba(0,0,0,0.2);
+        }
+
+        /* Effect 2: Metallic Gradient */
+        .effect-metallic .lendwise-text,
+        .effect-metallic .mortgage-text {
+            background: linear-gradient(180deg,
+                #FFE87C 0%,
+                #FFD700 30%,
+                #FFA500 50%,
+                #FFD700 70%,
+                #FFE87C 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            text-shadow: none;
+            filter: drop-shadow(0 0 20px rgba(255, 215, 0, 0.5))
+                    drop-shadow(0 2px 4px rgba(0, 0, 0, 0.8));
+        }
+
+        /* Effect 3: 3D Beveled */
+        .effect-beveled .lendwise-text {
+            color: #FFD700;
+            text-shadow:
+                /* Light from top-left */
+                -1px -1px 0 #FFF9E5,
+                -2px -2px 0 #FFE87C,
+                /* Dark shadows bottom-right */
+                1px 1px 0 #B8860B,
+                2px 2px 0 #8B6914,
+                3px 3px 0 #654321,
+                /* Depth shadow */
+                4px 4px 8px rgba(0,0,0,0.5),
+                /* Glow */
+                0 0 30px rgba(255,215,0,0.4);
+        }
+
+        .effect-beveled .mortgage-text {
+            color: #FFD700;
+            text-shadow:
+                -1px -1px 0 #FFE87C,
+                1px 1px 0 #B8860B,
+                2px 2px 4px rgba(0,0,0,0.5),
+                0 0 20px rgba(255,215,0,0.3);
+        }
+
+        /* Effect 4: Engraved/Letterpress */
+        .effect-engraved .lendwise-text,
+        .effect-engraved .mortgage-text {
+            color: #C9A000;
+            text-shadow:
+                /* Inset shadow effect */
+                0 1px 0 rgba(0,0,0,0.9),
+                0 2px 2px rgba(0,0,0,0.8),
+                0 -1px 0 rgba(255,215,0,0.3),
+                /* Subtle outer glow */
+                0 0 20px rgba(255,215,0,0.2);
+        }
+
+        /* Effect 5: Frosted Glass Background */
+        .effect-frosted {
+            position: relative;
+        }
+
+        .effect-frosted::before {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 90%;
+            height: 90%;
+            background: rgba(255, 215, 0, 0.05);
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 215, 0, 0.2);
+            border-radius: 10px;
+            z-index: -1;
+            box-shadow:
+                inset 0 0 30px rgba(255, 215, 0, 0.05),
+                0 0 40px rgba(255, 215, 0, 0.1);
+        }
+
+        .effect-frosted .lendwise-text {
+            text-shadow:
+                0 0 2px rgba(0,0,0,0.8),
+                0 0 30px rgba(255,215,0,0.5),
+                0 0 50px rgba(255,215,0,0.3);
+        }
+
+        .effect-frosted .mortgage-text {
+            text-shadow:
+                0 0 2px rgba(0,0,0,0.8),
+                0 0 20px rgba(255,215,0,0.4),
+                0 0 35px rgba(255,215,0,0.2);
+        }
+
+        /* Effect 6: Outlined Gold */
+        .effect-outlined .lendwise-text,
+        .effect-outlined .mortgage-text {
+            color: transparent;
+            -webkit-text-stroke: 2px #FFD700;
+            text-stroke: 2px #FFD700;
+            text-shadow:
+                0 0 20px rgba(255,215,0,0.6),
+                0 0 40px rgba(255,215,0,0.4),
+                0 0 60px rgba(255,215,0,0.2);
+        }
+
+        @media (max-width: 768px) {
+            .grid {
+                grid-template-columns: 1fr;
+            }
+
+            .lendwise-text {
+                font-size: 2.5rem;
+            }
+
+            .tall-letter {
+                font-size: 3rem;
+            }
+
+            .mortgage-text {
+                font-size: 1.3rem;
+            }
+        }
+
+        .current-badge {
+            display: inline-block;
+            background: rgba(0, 200, 50, 0.2);
+            color: #00C832;
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: 0.75rem;
+            margin-left: 10px;
+            border: 1px solid rgba(0, 200, 50, 0.4);
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <h1>LendWise Typography Preview</h1>
+        <p>Compare professional serif fonts with various effects</p>
+    </div>
+
+    <div class="instructions">
+        <h3>How to Choose:</h3>
+        <ul>
+            <li>Look for readability against the animated background</li>
+            <li>Consider which feels most "official" and trustworthy</li>
+            <li>Think about which stands out without feeling forced</li>
+            <li>Hover over each sample to see it highlighted</li>
+        </ul>
+    </div>
+
+    <div class="grid">
+        <!-- Current Font for Reference -->
+        <div class="font-sample">
+            <div class="font-name">Inter (Current) <span class="current-badge">CURRENT</span></div>
+            <div class="effect-name">Classic Glow Effect</div>
+            <div class="logo-preview font-inter effect-glow">
+                <span class="lendwise-text"><span class="tall-letter">L</span>END<span class="tall-letter">W</span>ISE</span>
+                <span class="mortgage-text">MORTGAGE</span>
+            </div>
+        </div>
+
+        <!-- Cinzel (Closest to Trajan) -->
+        <div class="font-sample">
+            <div class="font-name">Cinzel</div>
+            <div class="effect-name">Classic Glow - Trajan Alternative</div>
+            <div class="logo-preview font-cinzel effect-glow">
+                <span class="lendwise-text"><span class="tall-letter">L</span>END<span class="tall-letter">W</span>ISE</span>
+                <span class="mortgage-text">MORTGAGE</span>
+            </div>
+        </div>
+
+        <div class="font-sample">
+            <div class="font-name">Cinzel</div>
+            <div class="effect-name">Metallic Gradient</div>
+            <div class="logo-preview font-cinzel effect-metallic">
+                <span class="lendwise-text"><span class="tall-letter">L</span>END<span class="tall-letter">W</span>ISE</span>
+                <span class="mortgage-text">MORTGAGE</span>
+            </div>
+        </div>
+
+        <div class="font-sample">
+            <div class="font-name">Cinzel</div>
+            <div class="effect-name">3D Beveled</div>
+            <div class="logo-preview font-cinzel effect-beveled">
+                <span class="lendwise-text"><span class="tall-letter">L</span>END<span class="tall-letter">W</span>ISE</span>
+                <span class="mortgage-text">MORTGAGE</span>
+            </div>
+        </div>
+
+        <!-- Playfair Display -->
+        <div class="font-sample">
+            <div class="font-name">Playfair Display</div>
+            <div class="effect-name">Classic Glow</div>
+            <div class="logo-preview font-playfair effect-glow">
+                <span class="lendwise-text"><span class="tall-letter">L</span>END<span class="tall-letter">W</span>ISE</span>
+                <span class="mortgage-text">MORTGAGE</span>
+            </div>
+        </div>
+
+        <div class="font-sample">
+            <div class="font-name">Playfair Display</div>
+            <div class="effect-name">Engraved/Letterpress</div>
+            <div class="logo-preview font-playfair effect-engraved">
+                <span class="lendwise-text"><span class="tall-letter">L</span>END<span class="tall-letter">W</span>ISE</span>
+                <span class="mortgage-text">MORTGAGE</span>
+            </div>
+        </div>
+
+        <!-- Cormorant SC -->
+        <div class="font-sample">
+            <div class="font-name">Cormorant SC</div>
+            <div class="effect-name">Classic Glow</div>
+            <div class="logo-preview font-cormorant effect-glow">
+                <span class="lendwise-text"><span class="tall-letter">L</span>END<span class="tall-letter">W</span>ISE</span>
+                <span class="mortgage-text">MORTGAGE</span>
+            </div>
+        </div>
+
+        <div class="font-sample">
+            <div class="font-name">Cormorant SC</div>
+            <div class="effect-name">Frosted Glass Background</div>
+            <div class="logo-preview font-cormorant effect-frosted">
+                <span class="lendwise-text"><span class="tall-letter">L</span>END<span class="tall-letter">W</span>ISE</span>
+                <span class="mortgage-text">MORTGAGE</span>
+            </div>
+        </div>
+
+        <!-- EB Garamond -->
+        <div class="font-sample">
+            <div class="font-name">EB Garamond</div>
+            <div class="effect-name">Classic Glow</div>
+            <div class="logo-preview font-eb-garamond effect-glow">
+                <span class="lendwise-text"><span class="tall-letter">L</span>END<span class="tall-letter">W</span>ISE</span>
+                <span class="mortgage-text">MORTGAGE</span>
+            </div>
+        </div>
+
+        <div class="font-sample">
+            <div class="font-name">EB Garamond</div>
+            <div class="effect-name">3D Beveled</div>
+            <div class="logo-preview font-eb-garamond effect-beveled">
+                <span class="lendwise-text"><span class="tall-letter">L</span>END<span class="tall-letter">W</span>ISE</span>
+                <span class="mortgage-text">MORTGAGE</span>
+            </div>
+        </div>
+
+        <!-- IM Fell -->
+        <div class="font-sample">
+            <div class="font-name">IM Fell DW Pica</div>
+            <div class="effect-name">Classic Glow</div>
+            <div class="logo-preview font-im-fell effect-glow">
+                <span class="lendwise-text"><span class="tall-letter">L</span>END<span class="tall-letter">W</span>ISE</span>
+                <span class="mortgage-text">MORTGAGE</span>
+            </div>
+        </div>
+
+        <!-- PT Serif -->
+        <div class="font-sample">
+            <div class="font-name">PT Serif</div>
+            <div class="effect-name">Classic Glow</div>
+            <div class="logo-preview font-pt-serif effect-glow">
+                <span class="lendwise-text"><span class="tall-letter">L</span>END<span class="tall-letter">W</span>ISE</span>
+                <span class="mortgage-text">MORTGAGE</span>
+            </div>
+        </div>
+
+        <!-- Libre Baskerville -->
+        <div class="font-sample">
+            <div class="font-name">Libre Baskerville</div>
+            <div class="effect-name">Classic Glow</div>
+            <div class="logo-preview font-baskerville effect-glow">
+                <span class="lendwise-text"><span class="tall-letter">L</span>END<span class="tall-letter">W</span>ISE</span>
+                <span class="mortgage-text">MORTGAGE</span>
+            </div>
+        </div>
+
+        <div class="font-sample">
+            <div class="font-name">Libre Baskerville</div>
+            <div class="effect-name">Metallic Gradient</div>
+            <div class="logo-preview font-baskerville effect-metallic">
+                <span class="lendwise-text"><span class="tall-letter">L</span>END<span class="tall-letter">W</span>ISE</span>
+                <span class="mortgage-text">MORTGAGE</span>
+            </div>
+        </div>
+
+        <!-- Crimson Text -->
+        <div class="font-sample">
+            <div class="font-name">Crimson Text</div>
+            <div class="effect-name">Classic Glow</div>
+            <div class="logo-preview font-crimson effect-glow">
+                <span class="lendwise-text"><span class="tall-letter">L</span>END<span class="tall-letter">W</span>ISE</span>
+                <span class="mortgage-text">MORTGAGE</span>
+            </div>
+        </div>
+
+        <!-- Cinzel with Outlined effect -->
+        <div class="font-sample">
+            <div class="font-name">Cinzel</div>
+            <div class="effect-name">Outlined Gold</div>
+            <div class="logo-preview font-cinzel effect-outlined">
+                <span class="lendwise-text"><span class="tall-letter">L</span>END<span class="tall-letter">W</span>ISE</span>
+                <span class="mortgage-text">MORTGAGE</span>
+            </div>
+        </div>
+
+        <!-- Playfair with Frosted -->
+        <div class="font-sample">
+            <div class="font-name">Playfair Display</div>
+            <div class="effect-name">Frosted Glass Background</div>
+            <div class="logo-preview font-playfair effect-frosted">
+                <span class="lendwise-text"><span class="tall-letter">L</span>END<span class="tall-letter">W</span>ISE</span>
+                <span class="mortgage-text">MORTGAGE</span>
+            </div>
+        </div>
+
+        <!-- NEW METALLIC POLISHED FONTS -->
+
+        <!-- Bodoni Moda - Ultra Luxury -->
+        <div class="font-sample">
+            <div class="font-name">Bodoni Moda</div>
+            <div class="effect-name">Metallic Gradient - High Contrast</div>
+            <div class="logo-preview font-bodoni effect-metallic">
+                <span class="lendwise-text"><span class="tall-letter">L</span>END<span class="tall-letter">W</span>ISE</span>
+                <span class="mortgage-text">MORTGAGE</span>
+            </div>
+        </div>
+
+        <div class="font-sample">
+            <div class="font-name">Bodoni Moda</div>
+            <div class="effect-name">3D Beveled</div>
+            <div class="logo-preview font-bodoni effect-beveled">
+                <span class="lendwise-text"><span class="tall-letter">L</span>END<span class="tall-letter">W</span>ISE</span>
+                <span class="mortgage-text">MORTGAGE</span>
+            </div>
+        </div>
+
+        <!-- Lora - Refined Elegance -->
+        <div class="font-sample">
+            <div class="font-name">Lora</div>
+            <div class="effect-name">Metallic Gradient</div>
+            <div class="logo-preview font-lora effect-metallic">
+                <span class="lendwise-text"><span class="tall-letter">L</span>END<span class="tall-letter">W</span>ISE</span>
+                <span class="mortgage-text">MORTGAGE</span>
+            </div>
+        </div>
+
+        <div class="font-sample">
+            <div class="font-name">Lora</div>
+            <div class="effect-name">Frosted Glass Background</div>
+            <div class="logo-preview font-lora effect-frosted">
+                <span class="lendwise-text"><span class="tall-letter">L</span>END<span class="tall-letter">W</span>ISE</span>
+                <span class="mortgage-text">MORTGAGE</span>
+            </div>
+        </div>
+
+        <!-- Spectral - Editorial Sharp -->
+        <div class="font-sample">
+            <div class="font-name">Spectral</div>
+            <div class="effect-name">Metallic Gradient</div>
+            <div class="logo-preview font-spectral effect-metallic">
+                <span class="lendwise-text"><span class="tall-letter">L</span>END<span class="tall-letter">W</span>ISE</span>
+                <span class="mortgage-text">MORTGAGE</span>
+            </div>
+        </div>
+
+        <div class="font-sample">
+            <div class="font-name">Spectral</div>
+            <div class="effect-name">3D Beveled</div>
+            <div class="logo-preview font-spectral effect-beveled">
+                <span class="lendwise-text"><span class="tall-letter">L</span>END<span class="tall-letter">W</span>ISE</span>
+                <span class="mortgage-text">MORTGAGE</span>
+            </div>
+        </div>
+
+        <!-- DM Serif Display - Modern Clean -->
+        <div class="font-sample">
+            <div class="font-name">DM Serif Display</div>
+            <div class="effect-name">Metallic Gradient</div>
+            <div class="logo-preview font-dm-serif effect-metallic">
+                <span class="lendwise-text"><span class="tall-letter">L</span>END<span class="tall-letter">W</span>ISE</span>
+                <span class="mortgage-text">MORTGAGE</span>
+            </div>
+        </div>
+
+        <!-- Abril Fatface - Bold Statement -->
+        <div class="font-sample">
+            <div class="font-name">Abril Fatface</div>
+            <div class="effect-name">Metallic Gradient - High Impact</div>
+            <div class="logo-preview font-abril effect-metallic">
+                <span class="lendwise-text"><span class="tall-letter">L</span>END<span class="tall-letter">W</span>ISE</span>
+                <span class="mortgage-text">MORTGAGE</span>
+            </div>
+        </div>
+
+        <div class="font-sample">
+            <div class="font-name">Abril Fatface</div>
+            <div class="effect-name">3D Beveled</div>
+            <div class="logo-preview font-abril effect-beveled">
+                <span class="lendwise-text"><span class="tall-letter">L</span>END<span class="tall-letter">W</span>ISE</span>
+                <span class="mortgage-text">MORTGAGE</span>
+            </div>
+        </div>
+
+        <!-- Yeseva One - Bold Luxury -->
+        <div class="font-sample">
+            <div class="font-name">Yeseva One</div>
+            <div class="effect-name">Metallic Gradient</div>
+            <div class="logo-preview font-yeseva effect-metallic">
+                <span class="lendwise-text"><span class="tall-letter">L</span>END<span class="tall-letter">W</span>ISE</span>
+                <span class="mortgage-text">MORTGAGE</span>
+            </div>
+        </div>
+
+        <!-- Unna - Sophisticated -->
+        <div class="font-sample">
+            <div class="font-name">Unna</div>
+            <div class="effect-name">Metallic Gradient</div>
+            <div class="logo-preview font-unna effect-metallic">
+                <span class="lendwise-text"><span class="tall-letter">L</span>END<span class="tall-letter">W</span>ISE</span>
+                <span class="mortgage-text">MORTGAGE</span>
+            </div>
+        </div>
+
+        <!-- Montserrat - Modern Sans with Metallic -->
+        <div class="font-sample">
+            <div class="font-name">Montserrat</div>
+            <div class="effect-name">Metallic Gradient - Sans Serif</div>
+            <div class="logo-preview font-montserrat effect-metallic">
+                <span class="lendwise-text"><span class="tall-letter">L</span>END<span class="tall-letter">W</span>ISE</span>
+                <span class="mortgage-text">MORTGAGE</span>
+            </div>
+        </div>
+
+        <div class="font-sample">
+            <div class="font-name">Montserrat</div>
+            <div class="effect-name">3D Beveled</div>
+            <div class="logo-preview font-montserrat effect-beveled">
+                <span class="lendwise-text"><span class="tall-letter">L</span>END<span class="tall-letter">W</span>ISE</span>
+                <span class="mortgage-text">MORTGAGE</span>
+            </div>
+        </div>
+
+        <!-- Oswald - Strong & Condensed -->
+        <div class="font-sample">
+            <div class="font-name">Oswald</div>
+            <div class="effect-name">Metallic Gradient - Bold Sans</div>
+            <div class="logo-preview font-oswald effect-metallic">
+                <span class="lendwise-text"><span class="tall-letter">L</span>END<span class="tall-letter">W</span>ISE</span>
+                <span class="mortgage-text">MORTGAGE</span>
+            </div>
+        </div>
+
+        <!-- Bebas Neue - Ultra Bold -->
+        <div class="font-sample">
+            <div class="font-name">Bebas Neue</div>
+            <div class="effect-name">Metallic Gradient - Maximum Impact</div>
+            <div class="logo-preview font-bebas effect-metallic">
+                <span class="lendwise-text"><span class="tall-letter">L</span>END<span class="tall-letter">W</span>ISE</span>
+                <span class="mortgage-text">MORTGAGE</span>
+            </div>
+        </div>
+
+        <div class="font-sample">
+            <div class="font-name">Bebas Neue</div>
+            <div class="effect-name">3D Beveled</div>
+            <div class="logo-preview font-bebas effect-beveled">
+                <span class="lendwise-text"><span class="tall-letter">L</span>END<span class="tall-letter">W</span>ISE</span>
+                <span class="mortgage-text">MORTGAGE</span>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Add click to copy font name
+        document.querySelectorAll('.font-sample').forEach(sample => {
+            sample.addEventListener('click', () => {
+                const fontName = sample.querySelector('.font-name').textContent.trim();
+                const effectName = sample.querySelector('.effect-name').textContent.trim();
+                console.log(`Selected: ${fontName} - ${effectName}`);
+
+                // Visual feedback
+                sample.style.borderColor = 'rgba(0, 200, 50, 0.8)';
+                setTimeout(() => {
+                    sample.style.borderColor = 'rgba(255, 215, 0, 0.5)';
+                    setTimeout(() => {
+                        sample.style.borderColor = 'rgba(255, 215, 0, 0.2)';
+                    }, 300);
+                }, 300);
+            });
+        });
+    </script>
+</body>
+</html>

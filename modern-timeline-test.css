@@ -356,13 +356,9 @@ html, body {
     align-items: center;
 }
 
-/* Alternate milestones up and down */
-.timeline-milestone:nth-child(odd) {
-    transform: translateY(0) translateX(-50%);
-}
-
-.timeline-milestone:nth-child(even) {
-    transform: translateY(-100%) translateX(-50%);
+/* Center milestones horizontally */
+.timeline-milestone {
+    transform: translateX(-50%);
 }
 
 /* Vertical connector lines */
@@ -374,18 +370,9 @@ html, body {
     transition: all 0.3s ease;
 }
 
-/* Lines connecting timeline to dots below (odd milestones) */
-.timeline-milestone:nth-child(odd) .milestone-connector {
-    height: 36px;  /* Reduced from 40px by 10% */
-    top: 50%;  /* Start from timeline center */
+/* Default connector style - will be overridden by hierarchy classes */
+.milestone-connector {
     background: linear-gradient(to bottom, rgba(100, 200, 255, 0.6), rgba(100, 200, 255, 0.1));
-}
-
-/* Lines connecting timeline to dots above (even milestones) */
-.timeline-milestone:nth-child(even) .milestone-connector {
-    height: 36px;  /* Reduced from 40px by 10% */
-    bottom: 50%;  /* Start from timeline center */
-    background: linear-gradient(to top, rgba(100, 200, 255, 0.6), rgba(100, 200, 255, 0.1));
 }
 
 /* CSS Custom Properties for Gradient Animations */
@@ -883,13 +870,17 @@ html, body {
     opacity: 0.9;
 }
 
-/* Position labels on timeline level, alternating */
-.timeline-milestone:nth-child(odd) .milestone-quarter {
-    top: -18px;
+/* Position labels based on milestone position */
+.timeline-milestone.milestone-top .milestone-quarter {
+    bottom: -40px;  /* Labels below for top milestones */
 }
 
-.timeline-milestone:nth-child(even) .milestone-quarter {
-    bottom: -18px;
+.timeline-milestone.milestone-middle .milestone-quarter {
+    bottom: -30px;  /* Labels below for middle milestones */
+}
+
+.timeline-milestone.milestone-bottom .milestone-quarter {
+    top: -40px;  /* Labels above for bottom milestones */
 }
 
 /* Hover Effects - Gradient Animation */
@@ -3761,4 +3752,167 @@ body {
 /* Active state for filter buttons */
 .filter-btn.active {
     box-shadow: 0 0 20px rgba(255, 255, 255, 0.3);
+}
+
+/* ===============================================
+   PROGRESS INDICATOR SYSTEM - NEW IMPLEMENTATION
+   =============================================== */
+
+/* IN-PROGRESS ORANGE GLOW */
+.timeline-milestone.in-progress {
+    position: relative;
+}
+
+.timeline-milestone.in-progress .milestone-dot::before {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 70px;
+    height: 70px;
+    background: radial-gradient(circle,
+        rgba(255, 107, 53, 0.5) 0%,
+        rgba(255, 140, 0, 0.4) 30%,
+        rgba(255, 165, 0, 0.2) 60%,
+        transparent 100%
+    );
+    border-radius: 50%;
+    z-index: -2;
+    animation: pulse-orange-glow 3s ease-in-out infinite;
+    filter: blur(8px);
+    pointer-events: none;
+}
+
+@keyframes pulse-orange-glow {
+    0%, 100% {
+        transform: translate(-50%, -50%) scale(0.9);
+        opacity: 0.5;
+    }
+    50% {
+        transform: translate(-50%, -50%) scale(1.1);
+        opacity: 0.8;
+    }
+}
+
+/* PROGRESS BUBBLE ON HOVER */
+.milestone-dot .progress-bubble {
+    position: absolute;
+    bottom: calc(100% + 10px);
+    left: 50%;
+    transform: translateX(-50%);
+    background: linear-gradient(135deg, #ff6b35, #ffa500);
+    color: white;
+    padding: 5px 12px;
+    border-radius: 14px;
+    font-size: 0.7rem;
+    font-weight: 600;
+    white-space: nowrap;
+    opacity: 0;
+    visibility: hidden;
+    transition: all 0.3s ease;
+    z-index: 10000;
+    box-shadow: 0 3px 10px rgba(255, 107, 53, 0.5);
+    pointer-events: none;
+}
+
+/* Arrow pointing down */
+.progress-bubble::after {
+    content: '';
+    position: absolute;
+    top: 100%;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 0;
+    height: 0;
+    border-left: 6px solid transparent;
+    border-right: 6px solid transparent;
+    border-top: 6px solid #ffa500;
+}
+
+/* Show bubble on hover */
+.timeline-milestone.in-progress:hover .progress-bubble {
+    opacity: 1;
+    visibility: visible;
+    transform: translateX(-50%) translateY(-10px);
+}
+
+/* COMPLETED CHECKMARK */
+.timeline-milestone.status-complete .milestone-dot::after {
+    content: '✓';
+    position: absolute;
+    top: -5px;
+    right: -5px;
+    background: #00ff00;
+    color: #000;
+    width: 18px;
+    height: 18px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 11px;
+    font-weight: bold;
+    box-shadow: 0 2px 6px rgba(0, 255, 0, 0.6);
+    z-index: 1000;
+}
+
+/* FUTURE/PLANNED STATE */
+.timeline-milestone.status-future {
+    opacity: 0.6;
+}
+
+.timeline-milestone.status-future .milestone-dot {
+    opacity: 0.7;
+}
+
+/* Special case for Team infinity symbol */
+.progress-bubble.infinity {
+    font-size: 1rem;
+}
+
+/* ===============================================
+   HEIGHT HIERARCHY FOR MILESTONES
+   =============================================== */
+
+/* Top Position - Major Milestones */
+.timeline-milestone.milestone-top {
+    top: calc(50% - 40px);
+}
+
+.timeline-milestone.milestone-top .milestone-connector.bottom {
+    top: 100%;
+    height: 40px;
+    background: linear-gradient(to bottom, rgba(100, 200, 255, 0.6), rgba(100, 200, 255, 0.1));
+}
+
+/* Middle Position - Standard Milestones */
+.timeline-milestone.milestone-middle {
+    top: 50%;
+}
+
+.timeline-milestone.milestone-middle .milestone-connector {
+    display: none; /* No connector needed for middle items on the line */
+}
+
+/* Bottom Position - Minor/Supporting Milestones */
+.timeline-milestone.milestone-bottom {
+    top: calc(50% + 40px);
+}
+
+.timeline-milestone.milestone-bottom .milestone-connector.top {
+    bottom: 100%;
+    height: 40px;
+    background: linear-gradient(to top, rgba(100, 200, 255, 0.6), rgba(100, 200, 255, 0.1));
+}
+
+/* Prevent label overlaps with consistent spacing */
+.timeline-milestone {
+    min-width: 80px;
+}
+
+/* Ensure labels don't overlap */
+.timeline-milestone .milestone-quarter {
+    font-size: 0.65rem;
+    min-width: 100px;
 }

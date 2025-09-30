@@ -1,0 +1,673 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Percentage Indicator Design Options - LendWise</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            background: linear-gradient(135deg, #0a0e27 0%, #1a1f3a 100%);
+            color: white;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            min-height: 100vh;
+            padding: 40px 20px;
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        h1 {
+            text-align: center;
+            margin-bottom: 20px;
+            background: linear-gradient(90deg, #d0d0d0, #808080);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            font-size: 2.5rem;
+        }
+
+        .subtitle {
+            text-align: center;
+            color: #a0a0a0;
+            margin-bottom: 50px;
+        }
+
+        .examples-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+            gap: 40px;
+            margin-bottom: 40px;
+        }
+
+        .example-card {
+            background: rgba(26, 31, 58, 0.6);
+            border: 1px solid rgba(208, 208, 208, 0.1);
+            border-radius: 12px;
+            padding: 30px;
+            backdrop-filter: blur(10px);
+        }
+
+        .example-title {
+            color: #d0d0d0;
+            margin-bottom: 10px;
+            font-size: 1.3rem;
+        }
+
+        .example-description {
+            color: #808080;
+            margin-bottom: 30px;
+            font-size: 0.9rem;
+        }
+
+        .demo-area {
+            height: 150px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: rgba(0, 0, 0, 0.3);
+            border-radius: 8px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        /* Option 1: Circular Progress Ring */
+        .progress-ring-demo {
+            position: relative;
+            width: 80px;
+            height: 80px;
+        }
+
+        .milestone-dot-1 {
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background: radial-gradient(
+                150% 180.06% at 11.14% 140%,
+                #000 37.35%,
+                #1a1a1a 61.36%,
+                #4a4a4a 78.42%,
+                #a0a0a0 89.52%,
+                #d0d0d0 100%
+            );
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            font-size: 14px;
+            z-index: 2;
+        }
+
+        .progress-ring {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 80px;
+            height: 80px;
+        }
+
+        .progress-ring-circle {
+            fill: none;
+            stroke: rgba(208, 208, 208, 0.1);
+            stroke-width: 3;
+        }
+
+        .progress-ring-progress {
+            fill: none;
+            stroke: url(#silver-gradient);
+            stroke-width: 3;
+            stroke-linecap: round;
+            transform: rotate(-90deg);
+            transform-origin: 50% 50%;
+            transition: stroke-dashoffset 0.5s ease;
+        }
+
+        /* Option 2: Gradient Fill Progress */
+        .gradient-fill-demo {
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .gradient-fill-bg {
+            width: 100%;
+            height: 100%;
+            background: radial-gradient(
+                150% 180.06% at 11.14% 140%,
+                #000 37.35%,
+                #1a1a1a 61.36%,
+                #4a4a4a 78.42%,
+                #808080 89.52%,
+                #a0a0a0 100%
+            );
+        }
+
+        .gradient-fill-progress {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: radial-gradient(
+                150% 180.06% at 11.14% 140%,
+                #808080 37.35%,
+                #a0a0a0 61.36%,
+                #c0c0c0 78.42%,
+                #d0d0d0 89.52%,
+                #e0e0e0 100%
+            );
+            transition: height 0.5s ease;
+        }
+
+        .gradient-fill-text {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            font-weight: bold;
+            font-size: 14px;
+            z-index: 2;
+            text-shadow: 0 0 4px rgba(0,0,0,0.8);
+        }
+
+        /* Option 3: Liquid Mercury Effect */
+        .liquid-demo {
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            position: relative;
+            overflow: hidden;
+            background: radial-gradient(
+                150% 180.06% at 11.14% 140%,
+                #000 37.35%,
+                #1a1a1a 61.36%,
+                #2a2a2a 78.42%
+            );
+        }
+
+        .liquid-fill {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: linear-gradient(180deg, #e0e0e0, #c0c0c0, #a0a0a0);
+            transition: height 0.5s ease;
+        }
+
+        .liquid-wave {
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 200%;
+            height: 10px;
+            background: linear-gradient(90deg,
+                transparent,
+                rgba(255,255,255,0.3),
+                transparent
+            );
+            animation: wave 2s linear infinite;
+        }
+
+        @keyframes wave {
+            0% { left: -100%; }
+            100% { left: 100%; }
+        }
+
+        .liquid-text {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            font-weight: bold;
+            font-size: 14px;
+            z-index: 2;
+            text-shadow: 0 0 4px rgba(0,0,0,0.8);
+        }
+
+        /* Option 4: Orbital Progress */
+        .orbital-demo {
+            width: 100px;
+            height: 100px;
+            position: relative;
+        }
+
+        .orbital-center {
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background: radial-gradient(
+                150% 180.06% at 11.14% 140%,
+                #000 37.35%,
+                #1a1a1a 61.36%,
+                #4a4a4a 78.42%,
+                #a0a0a0 89.52%,
+                #d0d0d0 100%
+            );
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            font-size: 14px;
+        }
+
+        .orbital-path {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 90px;
+            height: 90px;
+            border: 1px dashed rgba(208, 208, 208, 0.2);
+            border-radius: 50%;
+        }
+
+        .orbital-dot {
+            position: absolute;
+            width: 10px;
+            height: 10px;
+            background: radial-gradient(circle, #e0e0e0, #808080);
+            border-radius: 50%;
+            top: -5px;
+            left: 50%;
+            transform: translateX(-50%);
+            box-shadow: 0 0 10px rgba(208, 208, 208, 0.5);
+        }
+
+        .orbital-container {
+            position: absolute;
+            width: 90px;
+            height: 90px;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            animation: orbit 4s linear infinite;
+        }
+
+        @keyframes orbit {
+            from { transform: translate(-50%, -50%) rotate(0deg); }
+            to { transform: translate(-50%, -50%) rotate(360deg); }
+        }
+
+        /* Option 5: Segmented Arc */
+        .arc-demo {
+            width: 100px;
+            height: 100px;
+            position: relative;
+        }
+
+        .arc-center {
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            position: absolute;
+            top: 30%;
+            left: 50%;
+            transform: translateX(-50%);
+            background: radial-gradient(
+                150% 180.06% at 11.14% 140%,
+                #000 37.35%,
+                #1a1a1a 61.36%,
+                #4a4a4a 78.42%,
+                #a0a0a0 89.52%,
+                #d0d0d0 100%
+            );
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            font-size: 14px;
+        }
+
+        .arc-segments {
+            position: absolute;
+            bottom: 10px;
+            left: 50%;
+            transform: translateX(-50%);
+            display: flex;
+            gap: 3px;
+        }
+
+        .arc-segment {
+            width: 8px;
+            height: 20px;
+            background: rgba(208, 208, 208, 0.2);
+            border-radius: 4px;
+            transition: all 0.3s ease;
+        }
+
+        .arc-segment.active {
+            background: linear-gradient(180deg, #d0d0d0, #808080);
+            box-shadow: 0 0 5px rgba(208, 208, 208, 0.5);
+        }
+
+        /* Option 6: DNA Helix */
+        .helix-demo {
+            width: 300px;
+            height: 60px;
+            position: relative;
+        }
+
+        .helix-line {
+            position: absolute;
+            top: 50%;
+            left: 0;
+            right: 0;
+            height: 2px;
+            background: rgba(208, 208, 208, 0.2);
+        }
+
+        .helix-center {
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background: radial-gradient(
+                150% 180.06% at 11.14% 140%,
+                #000 37.35%,
+                #1a1a1a 61.36%,
+                #4a4a4a 78.42%,
+                #a0a0a0 89.52%,
+                #d0d0d0 100%
+            );
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            font-size: 14px;
+            z-index: 3;
+        }
+
+        .helix-strand {
+            position: absolute;
+            top: 50%;
+            left: 0;
+            height: 30px;
+            transform: translateY(-50%);
+            overflow: hidden;
+        }
+
+        .helix-wave {
+            width: 100%;
+            height: 100%;
+            background: repeating-linear-gradient(
+                90deg,
+                transparent,
+                transparent 10px,
+                #d0d0d0 10px,
+                #d0d0d0 12px,
+                transparent 12px,
+                transparent 20px,
+                #808080 20px,
+                #808080 22px
+            );
+            animation: helix-move 2s linear infinite;
+        }
+
+        @keyframes helix-move {
+            from { transform: translateX(0); }
+            to { transform: translateX(40px); }
+        }
+
+        /* Controls */
+        .controls {
+            margin-top: 20px;
+            display: flex;
+            gap: 10px;
+            justify-content: center;
+        }
+
+        button {
+            padding: 8px 16px;
+            background: linear-gradient(135deg, #4a4a4a, #2a2a2a);
+            border: 1px solid rgba(208, 208, 208, 0.3);
+            color: #d0d0d0;
+            border-radius: 6px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        button:hover {
+            background: linear-gradient(135deg, #5a5a5a, #3a3a3a);
+            transform: translateY(-1px);
+        }
+
+        .percentage-display {
+            padding: 8px 16px;
+            background: rgba(0, 0, 0, 0.5);
+            border: 1px solid rgba(208, 208, 208, 0.2);
+            border-radius: 6px;
+            color: #d0d0d0;
+            min-width: 60px;
+            text-align: center;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Progress Indicator Design Options</h1>
+        <p class="subtitle">Interactive examples matching LendWise theme - Silver/Gray for In-Progress initiatives</p>
+
+        <div class="examples-grid">
+            <!-- Option 1: Circular Progress Ring -->
+            <div class="example-card">
+                <h2 class="example-title">Option 1: Circular Progress Ring</h2>
+                <p class="example-description">Thin circular progress ring around milestone dot with gradient stroke</p>
+                <div class="demo-area">
+                    <div class="progress-ring-demo">
+                        <svg class="progress-ring" width="80" height="80">
+                            <defs>
+                                <linearGradient id="silver-gradient" x1="0%" y1="0%" x2="100%" y2="100%">
+                                    <stop offset="0%" style="stop-color:#d0d0d0;stop-opacity:1" />
+                                    <stop offset="100%" style="stop-color:#808080;stop-opacity:1" />
+                                </linearGradient>
+                            </defs>
+                            <circle class="progress-ring-circle" cx="40" cy="40" r="38"/>
+                            <circle class="progress-ring-progress" id="ring1" cx="40" cy="40" r="38"
+                                stroke-dasharray="238.76 238.76" stroke-dashoffset="119.38"/>
+                        </svg>
+                        <div class="milestone-dot-1">
+                            <span id="percent1">50%</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Option 2: Gradient Fill Progress -->
+            <div class="example-card">
+                <h2 class="example-title">Option 2: Gradient Fill Progress</h2>
+                <p class="example-description">Radial gradient intensity changes based on completion percentage</p>
+                <div class="demo-area">
+                    <div class="gradient-fill-demo">
+                        <div class="gradient-fill-bg"></div>
+                        <div class="gradient-fill-progress" id="fill2" style="height: 50%"></div>
+                        <div class="gradient-fill-text" id="percent2">50%</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Option 3: Liquid Mercury Effect -->
+            <div class="example-card">
+                <h2 class="example-title">Option 3: Liquid Mercury Effect</h2>
+                <p class="example-description">Silver liquid fills from bottom with wave animation at surface</p>
+                <div class="demo-area">
+                    <div class="liquid-demo">
+                        <div class="liquid-fill" id="liquid3" style="height: 50%">
+                            <div class="liquid-wave"></div>
+                        </div>
+                        <div class="liquid-text" id="percent3">50%</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Option 4: Orbital Progress -->
+            <div class="example-card">
+                <h2 class="example-title">Option 4: Orbital Progress Indicator</h2>
+                <p class="example-description">Small dot orbits around milestone, position indicates percentage</p>
+                <div class="demo-area">
+                    <div class="orbital-demo">
+                        <div class="orbital-path"></div>
+                        <div class="orbital-container" id="orbit4" style="transform: translate(-50%, -50%) rotate(180deg);">
+                            <div class="orbital-dot"></div>
+                        </div>
+                        <div class="orbital-center">
+                            <span id="percent4">50%</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Option 5: Segmented Arc -->
+            <div class="example-card">
+                <h2 class="example-title">Option 5: Segmented Arc Display</h2>
+                <p class="example-description">Arc segments light up based on completion percentage</p>
+                <div class="demo-area">
+                    <div class="arc-demo">
+                        <div class="arc-center">
+                            <span id="percent5">50%</span>
+                        </div>
+                        <div class="arc-segments" id="segments5">
+                            <div class="arc-segment active"></div>
+                            <div class="arc-segment active"></div>
+                            <div class="arc-segment active"></div>
+                            <div class="arc-segment active"></div>
+                            <div class="arc-segment active"></div>
+                            <div class="arc-segment"></div>
+                            <div class="arc-segment"></div>
+                            <div class="arc-segment"></div>
+                            <div class="arc-segment"></div>
+                            <div class="arc-segment"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Option 6: DNA Helix -->
+            <div class="example-card">
+                <h2 class="example-title">Option 6: DNA Helix Progress</h2>
+                <p class="example-description">Animated helix pattern fills along timeline connector</p>
+                <div class="demo-area">
+                    <div class="helix-demo">
+                        <div class="helix-line"></div>
+                        <div class="helix-strand" id="helix6" style="width: 50%">
+                            <div class="helix-wave"></div>
+                        </div>
+                        <div class="helix-center">
+                            <span id="percent6">50%</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Global Controls -->
+        <div class="controls">
+            <button onclick="setProgress(0)">0%</button>
+            <button onclick="setProgress(25)">25%</button>
+            <button onclick="setProgress(50)">50%</button>
+            <button onclick="setProgress(75)">75%</button>
+            <button onclick="setProgress(100)">100%</button>
+            <button onclick="animateProgress()">Animate</button>
+            <div class="percentage-display" id="currentPercent">50%</div>
+        </div>
+    </div>
+
+    <script>
+        let currentProgress = 50;
+
+        function setProgress(percent) {
+            currentProgress = percent;
+
+            // Update all displays
+            document.getElementById('currentPercent').textContent = percent + '%';
+
+            // Option 1: Circular Ring
+            const ring = document.getElementById('ring1');
+            const circumference = 238.76;
+            const offset = circumference - (percent / 100) * circumference;
+            ring.style.strokeDashoffset = offset;
+            document.getElementById('percent1').textContent = percent + '%';
+
+            // Option 2: Gradient Fill
+            document.getElementById('fill2').style.height = percent + '%';
+            document.getElementById('percent2').textContent = percent + '%';
+
+            // Option 3: Liquid Mercury
+            document.getElementById('liquid3').style.height = percent + '%';
+            document.getElementById('percent3').textContent = percent + '%';
+
+            // Option 4: Orbital
+            const rotation = (percent / 100) * 360;
+            document.getElementById('orbit4').style.transform = `translate(-50%, -50%) rotate(${rotation}deg)`;
+            document.getElementById('percent4').textContent = percent + '%';
+
+            // Option 5: Segmented Arc
+            const segments = document.querySelectorAll('#segments5 .arc-segment');
+            const activeSegments = Math.floor((percent / 100) * segments.length);
+            segments.forEach((seg, index) => {
+                if (index < activeSegments) {
+                    seg.classList.add('active');
+                } else {
+                    seg.classList.remove('active');
+                }
+            });
+            document.getElementById('percent5').textContent = percent + '%';
+
+            // Option 6: DNA Helix
+            document.getElementById('helix6').style.width = percent + '%';
+            document.getElementById('percent6').textContent = percent + '%';
+        }
+
+        function animateProgress() {
+            let progress = 0;
+            const interval = setInterval(() => {
+                progress += 1;
+                setProgress(progress);
+                if (progress >= 100) {
+                    setTimeout(() => {
+                        progress = 0;
+                        const reverseInterval = setInterval(() => {
+                            progress += 1;
+                            setProgress(progress);
+                            if (progress >= 50) {
+                                clearInterval(reverseInterval);
+                            }
+                        }, 20);
+                    }, 500);
+                    clearInterval(interval);
+                }
+            }, 20);
+        }
+
+        // Initialize hover effects
+        document.querySelectorAll('.example-card').forEach(card => {
+            card.addEventListener('mouseenter', function() {
+                this.style.transform = 'translateY(-5px)';
+                this.style.borderColor = 'rgba(208, 208, 208, 0.3)';
+            });
+            card.addEventListener('mouseleave', function() {
+                this.style.transform = 'translateY(0)';
+                this.style.borderColor = 'rgba(208, 208, 208, 0.1)';
+            });
+        });
+    </script>
+</body>
+</html>

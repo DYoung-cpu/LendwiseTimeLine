@@ -1,0 +1,533 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Button Progress with Glow - LendWise</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            background: linear-gradient(135deg, #0a0e27 0%, #1a1f3a 100%);
+            color: white;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            min-height: 100vh;
+            padding: 40px 20px;
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        h1 {
+            text-align: center;
+            background: linear-gradient(90deg, #4488ff, #9944ff);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            font-size: 2.5rem;
+            margin-bottom: 20px;
+        }
+
+        .subtitle {
+            text-align: center;
+            color: #a0a0a0;
+            margin-bottom: 50px;
+            font-size: 1.1rem;
+        }
+
+        /* Timeline container for examples */
+        .timeline-examples {
+            display: flex;
+            flex-direction: column;
+            gap: 60px;
+            margin: 50px 0;
+        }
+
+        .example-section {
+            background: rgba(26, 31, 58, 0.3);
+            border-radius: 20px;
+            padding: 40px;
+            border: 1px solid rgba(255, 255, 255, 0.05);
+        }
+
+        .section-title {
+            color: #ffa500;
+            margin-bottom: 30px;
+            font-size: 1.3rem;
+            text-align: center;
+        }
+
+        .button-row {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 60px;
+            flex-wrap: wrap;
+            min-height: 120px;
+        }
+
+        /* Base button matching your exact design */
+        .timeline-btn {
+            position: relative;
+            padding: 12px 30px;
+            border: none;
+            border-radius: 25px;
+            font-weight: 600;
+            color: white;
+            cursor: pointer;
+            transition: all 0.5s ease;
+            font-size: 1rem;
+            min-width: 180px;
+
+            /* CSS Variables for gradient animation */
+            --pos-x: 11.14%;
+            --pos-y: 140%;
+            --spread-x: 150%;
+            --spread-y: 180.06%;
+        }
+
+        .timeline-btn:hover {
+            --pos-x: 0%;
+            --pos-y: 91.51%;
+            --spread-x: 120.24%;
+            --spread-y: 103.18%;
+            transform: scale(1.05);
+        }
+
+        /* Blue Tech Button (your exact design) */
+        .btn-tech {
+            --color-1: #000;
+            --color-2: #08122c;
+            --color-3: #1e3a6a;
+            --color-4: #4678b8;
+            --color-5: #4488ff;
+
+            background: radial-gradient(
+                var(--spread-x) var(--spread-y) at var(--pos-x) var(--pos-y),
+                var(--color-1) 37.35%,
+                var(--color-2) 61.36%,
+                var(--color-3) 78.42%,
+                var(--color-4) 89.52%,
+                var(--color-5) 100%
+            );
+        }
+
+        .btn-tech:hover {
+            --color-1: #4488ff;
+            --color-2: #64a8ff;
+            --color-3: #0066ff;
+            --color-4: #0a1a4d;
+            --color-5: #000;
+        }
+
+        /* Purple Operations Button */
+        .btn-ops {
+            --color-1: #000;
+            --color-2: #1a082c;
+            --color-3: #4a1e6a;
+            --color-4: #8646b8;
+            --color-5: #9944ff;
+
+            background: radial-gradient(
+                var(--spread-x) var(--spread-y) at var(--pos-x) var(--pos-y),
+                var(--color-1) 37.35%,
+                var(--color-2) 61.36%,
+                var(--color-3) 78.42%,
+                var(--color-4) 89.52%,
+                var(--color-5) 100%
+            );
+        }
+
+        .btn-ops:hover {
+            --color-1: #9944ff;
+            --color-2: #aa64ff;
+            --color-3: #7700ff;
+            --color-4: #2a0a4d;
+            --color-5: #000;
+        }
+
+        /* IN-PROGRESS GLOW EFFECT */
+        .in-progress {
+            position: relative;
+        }
+
+        /* Subtle animated glow behind button */
+        .in-progress::before {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: calc(100% + 20px);
+            height: calc(100% + 20px);
+            background: radial-gradient(circle,
+                rgba(255, 107, 53, 0.4) 0%,
+                rgba(255, 165, 0, 0.3) 40%,
+                rgba(255, 165, 0, 0.1) 70%,
+                transparent 100%
+            );
+            border-radius: 30px;
+            z-index: -1;
+            animation: pulse-glow 2s ease-in-out infinite;
+            filter: blur(8px);
+        }
+
+        @keyframes pulse-glow {
+            0%, 100% {
+                transform: translate(-50%, -50%) scale(1);
+                opacity: 0.6;
+            }
+            50% {
+                transform: translate(-50%, -50%) scale(1.1);
+                opacity: 1;
+            }
+        }
+
+        /* Alternative glow styles */
+        .glow-style-2::before {
+            background: radial-gradient(circle,
+                rgba(255, 140, 0, 0.5) 0%,
+                rgba(255, 107, 53, 0.3) 50%,
+                transparent 100%
+            );
+            animation: rotate-glow 3s linear infinite;
+        }
+
+        @keyframes rotate-glow {
+            from {
+                transform: translate(-50%, -50%) rotate(0deg);
+            }
+            to {
+                transform: translate(-50%, -50%) rotate(360deg);
+            }
+        }
+
+        .glow-style-3::before {
+            background: conic-gradient(
+                from 0deg,
+                transparent 0deg,
+                rgba(255, 165, 0, 0.4) 90deg,
+                rgba(255, 107, 53, 0.3) 180deg,
+                transparent 270deg,
+                transparent 360deg
+            );
+            animation: rotate-glow 2s linear infinite;
+        }
+
+        /* PERCENTAGE BUBBLE ON HOVER */
+        .progress-bubble {
+            position: absolute;
+            bottom: 100%;
+            left: 50%;
+            transform: translateX(-50%) translateY(-10px);
+            background: linear-gradient(135deg, #ff6b35, #ffa500);
+            color: white;
+            padding: 8px 16px;
+            border-radius: 20px;
+            font-size: 0.85rem;
+            font-weight: bold;
+            white-space: nowrap;
+            opacity: 0;
+            visibility: hidden;
+            transition: all 0.3s ease;
+            z-index: 1000;
+            box-shadow: 0 5px 15px rgba(255, 107, 53, 0.4);
+        }
+
+        /* Arrow pointing down */
+        .progress-bubble::after {
+            content: '';
+            position: absolute;
+            top: 100%;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 0;
+            height: 0;
+            border-left: 8px solid transparent;
+            border-right: 8px solid transparent;
+            border-top: 8px solid #ffa500;
+        }
+
+        /* Show bubble on hover */
+        .in-progress:hover .progress-bubble {
+            opacity: 1;
+            visibility: visible;
+            transform: translateX(-50%) translateY(-15px);
+        }
+
+        /* Different bubble styles */
+        .bubble-style-2 {
+            background: rgba(26, 31, 58, 0.95);
+            border: 2px solid #ff6b35;
+            color: #ffa500;
+        }
+
+        .bubble-style-2::after {
+            border-top-color: #ff6b35;
+        }
+
+        .bubble-style-3 {
+            background: linear-gradient(135deg,
+                rgba(255, 107, 53, 0.95),
+                rgba(255, 165, 0, 0.95)
+            );
+            backdrop-filter: blur(10px);
+        }
+
+        /* Completed indicator */
+        .completed::after {
+            content: '✓';
+            position: absolute;
+            top: -8px;
+            right: -8px;
+            background: #00ff00;
+            color: #000;
+            width: 24px;
+            height: 24px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 14px;
+            font-weight: bold;
+            box-shadow: 0 2px 8px rgba(0, 255, 0, 0.5);
+        }
+
+        /* Controls */
+        .controls {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            margin-top: 30px;
+        }
+
+        .control-btn {
+            padding: 10px 20px;
+            background: rgba(255, 107, 53, 0.1);
+            border: 1px solid rgba(255, 107, 53, 0.3);
+            color: #ffa500;
+            border-radius: 20px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .control-btn:hover {
+            background: rgba(255, 107, 53, 0.2);
+            transform: translateY(-2px);
+        }
+
+        .control-btn.active {
+            background: rgba(255, 107, 53, 0.3);
+            border-color: #ffa500;
+        }
+
+        /* Description text */
+        .description {
+            text-align: center;
+            color: #808080;
+            margin-top: 20px;
+            font-size: 0.9rem;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Progress Indicator System</h1>
+        <p class="subtitle">Category colors preserved • Orange glow for active work • Percentage on hover</p>
+
+        <div class="timeline-examples">
+            <!-- Main Example -->
+            <div class="example-section">
+                <h2 class="section-title">Recommended Design</h2>
+                <div class="button-row">
+                    <!-- Completed Tech -->
+                    <div style="text-align: center;">
+                        <button class="timeline-btn btn-tech completed">
+                            Encompass
+                        </button>
+                        <p class="description">Tech - Completed</p>
+                    </div>
+
+                    <!-- In Progress Tech -->
+                    <div style="text-align: center;">
+                        <button class="timeline-btn btn-tech in-progress">
+                            Optimal Blue
+                            <div class="progress-bubble">90% Complete</div>
+                        </button>
+                        <p class="description">Tech - In Progress</p>
+                    </div>
+
+                    <!-- In Progress Ops -->
+                    <div style="text-align: center;">
+                        <button class="timeline-btn btn-ops in-progress">
+                            Multi-State
+                            <div class="progress-bubble">65% Complete</div>
+                        </button>
+                        <p class="description">Ops - In Progress</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Glow Variations -->
+            <div class="example-section">
+                <h2 class="section-title">Glow Style Options</h2>
+                <div class="button-row">
+                    <!-- Style 1: Pulse -->
+                    <div style="text-align: center;">
+                        <button class="timeline-btn btn-tech in-progress">
+                            Integration API
+                            <div class="progress-bubble">75% Complete</div>
+                        </button>
+                        <p class="description">Soft Pulse</p>
+                    </div>
+
+                    <!-- Style 2: Rotating -->
+                    <div style="text-align: center;">
+                        <button class="timeline-btn btn-tech in-progress glow-style-2">
+                            WISR Platform
+                            <div class="progress-bubble">45% Complete</div>
+                        </button>
+                        <p class="description">Rotating Glow</p>
+                    </div>
+
+                    <!-- Style 3: Conic -->
+                    <div style="text-align: center;">
+                        <button class="timeline-btn btn-tech in-progress glow-style-3">
+                            CRM System
+                            <div class="progress-bubble">30% Complete</div>
+                        </button>
+                        <p class="description">Directional Glow</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Bubble Variations -->
+            <div class="example-section">
+                <h2 class="section-title">Progress Bubble Styles</h2>
+                <div class="button-row">
+                    <!-- Gradient Bubble -->
+                    <div style="text-align: center;">
+                        <button class="timeline-btn btn-tech in-progress">
+                            Analytics
+                            <div class="progress-bubble">82% Complete</div>
+                        </button>
+                        <p class="description">Gradient Bubble</p>
+                    </div>
+
+                    <!-- Dark Bubble -->
+                    <div style="text-align: center;">
+                        <button class="timeline-btn btn-ops in-progress">
+                            Licensing
+                            <div class="progress-bubble bubble-style-2">60% Complete</div>
+                        </button>
+                        <p class="description">Dark Bordered</p>
+                    </div>
+
+                    <!-- Glass Bubble -->
+                    <div style="text-align: center;">
+                        <button class="timeline-btn btn-tech in-progress">
+                            Infrastructure
+                            <div class="progress-bubble bubble-style-3">95% Complete</div>
+                        </button>
+                        <p class="description">Glass Effect</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Full Timeline Example -->
+            <div class="example-section">
+                <h2 class="section-title">Timeline Implementation</h2>
+                <div class="button-row" style="justify-content: space-around;">
+                    <!-- Completed -->
+                    <button class="timeline-btn btn-tech completed">
+                        Encompass
+                    </button>
+
+                    <!-- High Progress -->
+                    <button class="timeline-btn btn-tech in-progress">
+                        Optimal Blue
+                        <div class="progress-bubble">90% Complete</div>
+                    </button>
+
+                    <!-- Mid Progress -->
+                    <button class="timeline-btn btn-ops in-progress">
+                        Multi-State
+                        <div class="progress-bubble">65% Complete</div>
+                    </button>
+
+                    <!-- Low Progress -->
+                    <button class="timeline-btn btn-tech in-progress">
+                        WISR AI
+                        <div class="progress-bubble">25% Complete</div>
+                    </button>
+
+                    <!-- Future (no glow) -->
+                    <button class="timeline-btn btn-tech" style="opacity: 0.6;">
+                        Future Tech
+                    </button>
+                </div>
+                <p class="description" style="margin-top: 30px;">
+                    ✓ = Completed • Orange Glow = In Progress • Faded = Future/Planned
+                </p>
+            </div>
+        </div>
+
+        <!-- Controls -->
+        <div class="controls">
+            <button class="control-btn" onclick="toggleGlow()">Toggle Glow</button>
+            <button class="control-btn" onclick="changeGlowIntensity()">Change Intensity</button>
+            <button class="control-btn" onclick="updateProgress()">Random Progress</button>
+        </div>
+    </div>
+
+    <script>
+        // Toggle glow on/off
+        function toggleGlow() {
+            const glowElements = document.querySelectorAll('.in-progress::before');
+            const buttons = document.querySelectorAll('.in-progress');
+            buttons.forEach(btn => {
+                if (btn.style.opacity === '0') {
+                    btn.style.opacity = '1';
+                } else {
+                    btn.style.opacity = '0';
+                }
+            });
+        }
+
+        // Change glow intensity
+        function changeGlowIntensity() {
+            const buttons = document.querySelectorAll('.in-progress');
+            buttons.forEach(btn => {
+                const currentFilter = btn.style.filter;
+                if (currentFilter === 'brightness(1.2)') {
+                    btn.style.filter = 'brightness(1)';
+                } else {
+                    btn.style.filter = 'brightness(1.2)';
+                }
+            });
+        }
+
+        // Update progress randomly
+        function updateProgress() {
+            const bubbles = document.querySelectorAll('.progress-bubble');
+            bubbles.forEach(bubble => {
+                const newProgress = Math.floor(Math.random() * 100);
+                bubble.textContent = `${newProgress}% Complete`;
+            });
+        }
+
+        // Hover sound effect (optional)
+        document.querySelectorAll('.in-progress').forEach(btn => {
+            btn.addEventListener('mouseenter', function() {
+                // Could add a subtle sound here
+                console.log('Showing progress:', this.querySelector('.progress-bubble').textContent);
+            });
+        });
+    </script>
+</body>
+</html>

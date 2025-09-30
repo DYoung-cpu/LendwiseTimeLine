@@ -1,0 +1,721 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sophisticated Progress Indicators - LendWise</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            background: linear-gradient(135deg, #0a0e27 0%, #1a1f3a 100%);
+            color: white;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            min-height: 100vh;
+            padding: 40px 20px;
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        h1 {
+            text-align: center;
+            background: linear-gradient(90deg, #ff6b35, #ffa500);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            font-size: 2.5rem;
+            margin-bottom: 20px;
+        }
+
+        .subtitle {
+            text-align: center;
+            color: #a0a0a0;
+            margin-bottom: 50px;
+        }
+
+        .examples-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 40px;
+            margin-bottom: 40px;
+        }
+
+        .example-card {
+            background: rgba(26, 31, 58, 0.6);
+            border: 1px solid rgba(208, 208, 208, 0.1);
+            border-radius: 12px;
+            padding: 30px;
+            backdrop-filter: blur(10px);
+        }
+
+        .example-title {
+            color: #d0d0d0;
+            margin-bottom: 10px;
+            font-size: 1.3rem;
+        }
+
+        .example-description {
+            color: #808080;
+            margin-bottom: 30px;
+            font-size: 0.9rem;
+        }
+
+        .demo-area {
+            min-height: 120px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: rgba(0, 0, 0, 0.3);
+            border-radius: 8px;
+            padding: 30px;
+        }
+
+        /* Base button style with radial gradient */
+        .progress-btn {
+            padding: 15px 35px;
+            border: none;
+            border-radius: 25px;
+            font-weight: 600;
+            color: white;
+            position: relative;
+            overflow: hidden;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-size: 1rem;
+            min-width: 200px;
+            background: radial-gradient(
+                150% 180% at 11% 140%,
+                #000 37%,
+                #08122c 61%,
+                #1e3a6a 78%,
+                #4678b8 89%,
+                #4488ff 100%
+            );
+        }
+
+        .progress-btn:hover {
+            transform: scale(1.05);
+            box-shadow: 0 10px 30px rgba(255, 107, 53, 0.4);
+        }
+
+        /* Option 1: Liquid Fill Inside Button */
+        .liquid-fill-btn {
+            position: relative;
+            z-index: 1;
+        }
+
+        .liquid-fill {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: linear-gradient(90deg,
+                rgba(255, 107, 53, 0.7),
+                rgba(255, 140, 90, 0.8),
+                rgba(255, 107, 53, 0.7)
+            );
+            z-index: -1;
+            transition: height 0.5s ease;
+            border-radius: 25px;
+        }
+
+        .liquid-wave {
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 200%;
+            height: 3px;
+            background: linear-gradient(90deg,
+                transparent,
+                rgba(255, 200, 150, 0.8),
+                transparent
+            );
+            animation: liquid-wave-move 3s linear infinite;
+        }
+
+        @keyframes liquid-wave-move {
+            to { left: 100%; }
+        }
+
+        .liquid-fill-text {
+            position: relative;
+            z-index: 2;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .progress-dot {
+            width: 4px;
+            height: 4px;
+            background: rgba(255, 255, 255, 0.6);
+            border-radius: 50%;
+        }
+
+        /* Option 2: Integrated Thin Bar */
+        .integrated-bar-btn {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding-bottom: 20px;
+        }
+
+        .integrated-progress-bar {
+            position: absolute;
+            bottom: 8px;
+            left: 20px;
+            right: 20px;
+            height: 4px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 2px;
+            overflow: hidden;
+        }
+
+        .integrated-progress-fill {
+            height: 100%;
+            background: linear-gradient(90deg,
+                #ff6b35,
+                #ff9060,
+                #ff6b35
+            );
+            border-radius: 2px;
+            box-shadow: 0 0 10px rgba(255, 107, 53, 0.8);
+            position: relative;
+            transition: width 0.5s ease;
+        }
+
+        .integrated-progress-fill::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            right: 0;
+            width: 6px;
+            height: 100%;
+            background: #ffa500;
+            border-radius: 50%;
+            box-shadow: 0 0 15px rgba(255, 165, 0, 1);
+            animation: pulse-white 1.5s infinite;
+        }
+
+        @keyframes pulse-white {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.5; }
+        }
+
+        .integrated-text {
+            font-size: 0.75rem;
+            opacity: 0.8;
+            margin-top: 2px;
+        }
+
+        /* Option 3: Segmented Border */
+        .segmented-btn {
+            position: relative;
+            padding: 17px 37px;
+        }
+
+        .segmented-border {
+            position: absolute;
+            top: -2px;
+            left: -2px;
+            right: -2px;
+            bottom: -2px;
+            border-radius: 27px;
+            background: conic-gradient(
+                from 0deg,
+                transparent 0deg,
+                #ff6b35 var(--progress, 50%),
+                transparent var(--progress, 50%)
+            );
+            z-index: -1;
+            animation: rotate-border 10s linear infinite;
+        }
+
+        @keyframes rotate-border {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
+        }
+
+        .segmented-btn::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            border-radius: 25px;
+            background: radial-gradient(
+                150% 180% at 11% 140%,
+                #000 37%,
+                #08122c 61%,
+                #1e3a6a 78%,
+                #4678b8 89%,
+                #4488ff 100%
+            );
+            z-index: -1;
+        }
+
+        /* Option 4: Glass Morphism Progress */
+        .glass-btn {
+            position: relative;
+        }
+
+        .glass-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            bottom: 0;
+            background: linear-gradient(90deg,
+                rgba(255, 255, 255, 0.1),
+                rgba(255, 255, 255, 0.2),
+                rgba(255, 255, 255, 0.1)
+            );
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            border-radius: 25px;
+            transition: width 0.5s ease;
+        }
+
+        .glass-shimmer {
+            position: absolute;
+            top: 0;
+            right: 0;
+            width: 30px;
+            height: 100%;
+            background: linear-gradient(90deg,
+                transparent,
+                rgba(255, 255, 255, 0.4),
+                transparent
+            );
+            animation: shimmer 2s infinite;
+        }
+
+        @keyframes shimmer {
+            0% { right: 100%; }
+            100% { right: -30px; }
+        }
+
+        .glass-text {
+            position: relative;
+            z-index: 2;
+        }
+
+        /* Option 5: Aurora Effect */
+        .aurora-btn {
+            position: relative;
+            overflow: hidden;
+        }
+
+        .aurora-effect {
+            position: absolute;
+            top: -50%;
+            left: var(--aurora-pos, 50%);
+            width: 100px;
+            height: 200%;
+            background: linear-gradient(90deg,
+                transparent,
+                rgba(255, 107, 53, 0.5),
+                rgba(255, 165, 0, 0.6),
+                rgba(255, 140, 0, 0.5),
+                transparent
+            );
+            filter: blur(20px);
+            animation: aurora-move 3s ease-in-out infinite;
+            transform: translateX(-50%) rotate(15deg);
+        }
+
+        @keyframes aurora-move {
+            0%, 100% { opacity: 0.5; transform: translateX(-50%) rotate(15deg) scale(1); }
+            50% { opacity: 1; transform: translateX(-50%) rotate(15deg) scale(1.2); }
+        }
+
+        /* Option 6: DNA Helix Border */
+        .dna-btn {
+            position: relative;
+        }
+
+        .dna-helix {
+            position: absolute;
+            top: -3px;
+            left: -3px;
+            right: -3px;
+            bottom: -3px;
+            border-radius: 28px;
+            overflow: hidden;
+            z-index: -1;
+        }
+
+        .dna-strand {
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 200%;
+            height: 100%;
+            background: repeating-linear-gradient(
+                45deg,
+                transparent,
+                transparent 10px,
+                rgba(255, 107, 53, 0.6) 10px,
+                rgba(255, 107, 53, 0.6) 12px,
+                transparent 12px,
+                transparent 20px,
+                rgba(255, 165, 0, 0.6) 20px,
+                rgba(255, 165, 0, 0.6) 22px
+            );
+            animation: dna-move 10s linear infinite;
+        }
+
+        @keyframes dna-move {
+            to { left: 0%; }
+        }
+
+        /* Option 7: Particle System */
+        .particle-btn {
+            position: relative;
+        }
+
+        .particle {
+            position: absolute;
+            width: 2px;
+            height: 2px;
+            background: #ff6b35;
+            border-radius: 50%;
+            opacity: 0;
+            animation: particle-rise 2s infinite;
+        }
+
+        .particle:nth-child(2) { left: 20%; animation-delay: 0.2s; }
+        .particle:nth-child(3) { left: 40%; animation-delay: 0.4s; }
+        .particle:nth-child(4) { left: 60%; animation-delay: 0.6s; }
+        .particle:nth-child(5) { left: 80%; animation-delay: 0.8s; }
+
+        @keyframes particle-rise {
+            0% {
+                bottom: 0;
+                opacity: 0;
+                transform: translateX(0);
+            }
+            10% {
+                opacity: 1;
+            }
+            90% {
+                opacity: 1;
+            }
+            100% {
+                bottom: 100%;
+                opacity: 0;
+                transform: translateX(10px);
+            }
+        }
+
+        /* Option 8: Circuit Board Progress */
+        .circuit-btn {
+            position: relative;
+        }
+
+        .circuit-lines {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            opacity: 0.3;
+            z-index: -1;
+        }
+
+        .circuit-path {
+            stroke: #ff6b35;
+            stroke-width: 1;
+            fill: none;
+            stroke-dasharray: 100;
+            stroke-dashoffset: 100;
+            animation: circuit-flow 3s linear infinite;
+        }
+
+        @keyframes circuit-flow {
+            to { stroke-dashoffset: 0; }
+        }
+
+        /* Controls */
+        .controls {
+            margin-top: 30px;
+            display: flex;
+            gap: 10px;
+            justify-content: center;
+        }
+
+        button {
+            padding: 10px 20px;
+            background: linear-gradient(135deg, #4a4a4a, #2a2a2a);
+            border: 1px solid rgba(208, 208, 208, 0.3);
+            color: #d0d0d0;
+            border-radius: 6px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        button:hover {
+            background: linear-gradient(135deg, #5a5a5a, #3a3a3a);
+            transform: translateY(-1px);
+        }
+
+        .percentage-display {
+            padding: 10px 20px;
+            background: rgba(0, 0, 0, 0.5);
+            border: 1px solid rgba(208, 208, 208, 0.2);
+            border-radius: 6px;
+            color: #ff6b35;
+            min-width: 80px;
+            text-align: center;
+            font-weight: bold;
+        }
+
+        /* Percentage text styles */
+        .percent-elegant {
+            font-size: 0.65rem;
+            opacity: 0.7;
+            font-weight: 400;
+            letter-spacing: 1px;
+        }
+
+        .percent-inline {
+            font-size: 0.85rem;
+            opacity: 0.9;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Sophisticated Progress Indicators</h1>
+        <p class="subtitle">Integrated progress designs for timeline buttons</p>
+
+        <div class="examples-grid">
+            <!-- Option 1: Liquid Fill -->
+            <div class="example-card">
+                <h2 class="example-title">Liquid Fill Inside</h2>
+                <p class="example-description">Semi-transparent overlay fills from bottom with wave animation</p>
+                <div class="demo-area">
+                    <button class="progress-btn liquid-fill-btn">
+                        <div class="liquid-fill" id="liquid1" style="height: 50%">
+                            <div class="liquid-wave"></div>
+                        </div>
+                        <div class="liquid-fill-text">
+                            Optimal Blue
+                            <span class="progress-dot"></span>
+                            <span class="percent-inline" id="percent1">50%</span>
+                        </div>
+                    </button>
+                </div>
+            </div>
+
+            <!-- Option 2: Integrated Thin Bar -->
+            <div class="example-card">
+                <h2 class="example-title">Integrated Progress Bar</h2>
+                <p class="example-description">Elegant thin bar inside button with glowing endpoint</p>
+                <div class="demo-area">
+                    <button class="progress-btn integrated-bar-btn">
+                        <span>Encompass Integration</span>
+                        <div class="integrated-progress-bar">
+                            <div class="integrated-progress-fill" id="bar2" style="width: 50%"></div>
+                        </div>
+                        <span class="integrated-text percent-elegant" id="percent2">50% COMPLETE</span>
+                    </button>
+                </div>
+            </div>
+
+            <!-- Option 3: Segmented Border -->
+            <div class="example-card">
+                <h2 class="example-title">Rotating Conic Border</h2>
+                <p class="example-description">Animated conic gradient border showing progress</p>
+                <div class="demo-area">
+                    <button class="progress-btn segmented-btn" style="--progress: 50%;" id="segmented3">
+                        <div class="segmented-border"></div>
+                        <span>Multi-State Licensing</span>
+                        <span class="percent-elegant" id="percent3"> • 50%</span>
+                    </button>
+                </div>
+            </div>
+
+            <!-- Option 4: Glass Morphism -->
+            <div class="example-card">
+                <h2 class="example-title">Glass Morphism Overlay</h2>
+                <p class="example-description">Frosted glass effect with shimmer animation</p>
+                <div class="demo-area">
+                    <button class="progress-btn glass-btn">
+                        <div class="glass-overlay" id="glass4" style="width: 50%">
+                            <div class="glass-shimmer"></div>
+                        </div>
+                        <span class="glass-text">
+                            WISR AI Platform
+                            <span class="percent-elegant" id="percent4"> — 50%</span>
+                        </span>
+                    </button>
+                </div>
+            </div>
+
+            <!-- Option 5: Aurora Effect -->
+            <div class="example-card">
+                <h2 class="example-title">Aurora Progress Wave</h2>
+                <p class="example-description">Ethereal aurora effect positioned by progress</p>
+                <div class="demo-area">
+                    <button class="progress-btn aurora-btn" id="aurora5" style="--aurora-pos: 50%;">
+                        <div class="aurora-effect"></div>
+                        <span>Tech Stack Integration</span>
+                        <span class="percent-elegant" id="percent5"> 50%</span>
+                    </button>
+                </div>
+            </div>
+
+            <!-- Option 6: DNA Helix -->
+            <div class="example-card">
+                <h2 class="example-title">DNA Helix Border</h2>
+                <p class="example-description">Animated double helix pattern around button</p>
+                <div class="demo-area">
+                    <button class="progress-btn dna-btn">
+                        <div class="dna-helix">
+                            <div class="dna-strand" id="dna6"></div>
+                        </div>
+                        <span>Mission Control CRM</span>
+                        <span class="percent-inline" id="percent6"> 50%</span>
+                    </button>
+                </div>
+            </div>
+
+            <!-- Option 7: Particle System -->
+            <div class="example-card">
+                <h2 class="example-title">Particle Progress</h2>
+                <p class="example-description">Rising particles indicate active progress</p>
+                <div class="demo-area">
+                    <button class="progress-btn particle-btn">
+                        <div class="particle"></div>
+                        <div class="particle"></div>
+                        <div class="particle"></div>
+                        <div class="particle"></div>
+                        <div class="particle"></div>
+                        <span>Analytics Platform</span>
+                        <span class="percent-elegant" id="percent7"> · 50%</span>
+                    </button>
+                </div>
+            </div>
+
+            <!-- Option 8: Circuit Board -->
+            <div class="example-card">
+                <h2 class="example-title">Circuit Flow</h2>
+                <p class="example-description">Tech circuit pattern with data flow animation</p>
+                <div class="demo-area">
+                    <button class="progress-btn circuit-btn">
+                        <svg class="circuit-lines" viewBox="0 0 200 50">
+                            <path class="circuit-path" d="M10,25 L40,25 L45,20 L80,20 L85,25 L120,25 L125,30 L160,30 L165,25 L190,25" />
+                            <path class="circuit-path" d="M10,25 L40,25 L45,30 L80,30 L85,25 L120,25 L125,20 L160,20 L165,25 L190,25" />
+                        </svg>
+                        <span>Infrastructure Build</span>
+                        <span class="percent-inline" id="percent8"> 50%</span>
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Global Controls -->
+        <div class="controls">
+            <button onclick="setAllProgress(0)">0%</button>
+            <button onclick="setAllProgress(25)">25%</button>
+            <button onclick="setAllProgress(50)">50%</button>
+            <button onclick="setAllProgress(75)">75%</button>
+            <button onclick="setAllProgress(90)">90%</button>
+            <button onclick="setAllProgress(100)">100%</button>
+            <button onclick="animateAllProgress()">Animate All</button>
+            <div class="percentage-display" id="currentPercent">50%</div>
+        </div>
+    </div>
+
+    <script>
+        let currentProgress = 50;
+
+        function setAllProgress(percent) {
+            currentProgress = percent;
+            document.getElementById('currentPercent').textContent = percent + '%';
+
+            // Update all percentage displays
+            for (let i = 1; i <= 8; i++) {
+                const percentEl = document.getElementById('percent' + i);
+                if (percentEl) {
+                    // Keep the formatting of each
+                    const text = percentEl.textContent;
+                    const prefix = text.match(/^[^0-9]*/)[0];
+                    const suffix = text.match(/[^0-9]*$/)[0];
+                    percentEl.textContent = prefix + percent + suffix;
+                }
+            }
+
+            // Option 1: Liquid Fill
+            document.getElementById('liquid1').style.height = percent + '%';
+
+            // Option 2: Integrated Bar
+            document.getElementById('bar2').style.width = percent + '%';
+
+            // Option 3: Segmented Border
+            document.getElementById('segmented3').style.setProperty('--progress', percent + '%');
+
+            // Option 4: Glass Overlay
+            document.getElementById('glass4').style.width = percent + '%';
+
+            // Option 5: Aurora Position
+            document.getElementById('aurora5').style.setProperty('--aurora-pos', percent + '%');
+
+            // Option 6: DNA (animation continues)
+            // Option 7: Particles (animation continues)
+            // Option 8: Circuit (animation continues)
+        }
+
+        function animateAllProgress() {
+            let progress = 0;
+            const interval = setInterval(() => {
+                progress += 1;
+                setAllProgress(progress);
+                if (progress >= 100) {
+                    setTimeout(() => {
+                        let reverseProgress = 100;
+                        const reverseInterval = setInterval(() => {
+                            reverseProgress -= 1;
+                            setAllProgress(reverseProgress);
+                            if (reverseProgress <= 0) {
+                                clearInterval(reverseInterval);
+                                setTimeout(() => setAllProgress(50), 500);
+                            }
+                        }, 20);
+                    }, 1000);
+                    clearInterval(interval);
+                }
+            }, 20);
+        }
+
+        // Add hover effects
+        document.querySelectorAll('.progress-btn').forEach(btn => {
+            btn.addEventListener('mouseenter', function() {
+                this.style.transform = 'scale(1.05)';
+            });
+            btn.addEventListener('mouseleave', function() {
+                this.style.transform = 'scale(1)';
+            });
+        });
+
+        // Special handling for particle generation
+        const particleBtn = document.querySelector('.particle-btn');
+        if (particleBtn) {
+            setInterval(() => {
+                const particles = particleBtn.querySelectorAll('.particle');
+                particles.forEach((particle, index) => {
+                    const leftPos = (currentProgress / 100) * 80 + (Math.random() * 20 - 10);
+                    particle.style.left = leftPos + '%';
+                });
+            }, 2000);
+        }
+    </script>
+</body>
+</html>

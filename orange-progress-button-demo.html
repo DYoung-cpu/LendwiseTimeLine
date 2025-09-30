@@ -1,0 +1,548 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Orange In-Progress Button Design - LendWise</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            background: linear-gradient(135deg, #0a0e27 0%, #1a1f3a 100%);
+            color: white;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            min-height: 100vh;
+            padding: 40px 20px;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        h1 {
+            text-align: center;
+            background: linear-gradient(90deg, #ff6b35, #ffa500);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            font-size: 2.5rem;
+            margin-bottom: 20px;
+        }
+
+        .subtitle {
+            text-align: center;
+            color: #a0a0a0;
+            margin-bottom: 50px;
+        }
+
+        .comparison-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 40px;
+            margin-bottom: 40px;
+        }
+
+        .card {
+            background: rgba(26, 31, 58, 0.6);
+            border: 1px solid rgba(208, 208, 208, 0.1);
+            border-radius: 12px;
+            padding: 30px;
+            backdrop-filter: blur(10px);
+        }
+
+        .card-title {
+            color: #d0d0d0;
+            margin-bottom: 20px;
+            font-size: 1.2rem;
+        }
+
+        .button-container {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+            align-items: center;
+        }
+
+        /* Base button style matching your existing design */
+        .timeline-btn {
+            position: relative;
+            padding: 12px 30px;
+            border: none;
+            border-radius: 25px;
+            font-weight: 600;
+            color: white;
+            cursor: pointer;
+            transition: all 0.5s ease;
+            font-size: 1rem;
+            min-width: 180px;
+            overflow: hidden;
+
+            /* CSS Variables for gradient animation */
+            --pos-x: 11.14%;
+            --pos-y: 140%;
+            --spread-x: 150%;
+            --spread-y: 180.06%;
+        }
+
+        /* Original Silver/Gray In-Progress (for comparison) */
+        .btn-silver {
+            --color-1: #000;
+            --color-2: #1a1a1a;
+            --color-3: #4a4a4a;
+            --color-4: #a0a0a0;
+            --color-5: #d0d0d0;
+
+            background: radial-gradient(
+                var(--spread-x) var(--spread-y) at var(--pos-x) var(--pos-y),
+                var(--color-1) 37.35%,
+                var(--color-2) 61.36%,
+                var(--color-3) 78.42%,
+                var(--color-4) 89.52%,
+                var(--color-5) 100%
+            );
+        }
+
+        .btn-silver:hover {
+            --pos-x: 0%;
+            --pos-y: 91.51%;
+            --spread-x: 120.24%;
+            --spread-y: 103.18%;
+            --color-1: #e0e0e0;
+            --color-2: #c0c0c0;
+            --color-3: #808080;
+            --color-4: #303030;
+            --color-5: #000;
+        }
+
+        /* NEW Orange In-Progress Design */
+        .btn-orange {
+            --color-1: #000;
+            --color-2: #2c0a00;    /* Dark orange-brown */
+            --color-3: #6b2a00;    /* Medium burnt orange */
+            --color-4: #ff6b35;    /* Vibrant orange */
+            --color-5: #ffa500;    /* Bright orange */
+
+            background: radial-gradient(
+                var(--spread-x) var(--spread-y) at var(--pos-x) var(--pos-y),
+                var(--color-1) 37.35%,
+                var(--color-2) 61.36%,
+                var(--color-3) 78.42%,
+                var(--color-4) 89.52%,
+                var(--color-5) 100%
+            );
+        }
+
+        .btn-orange:hover {
+            --pos-x: 0%;
+            --pos-y: 91.51%;
+            --spread-x: 120.24%;
+            --spread-y: 103.18%;
+            --color-1: #ffa500;    /* Bright orange */
+            --color-2: #ff8c00;    /* Dark orange */
+            --color-3: #ff6b35;    /* Vibrant orange */
+            --color-4: #4d1a00;    /* Dark burnt orange */
+            --color-5: #000;
+        }
+
+        /* Animation Options for Active State */
+
+        /* Option 1: Pulse Animation */
+        .pulse-animation {
+            animation: pulse-glow 2s infinite;
+        }
+
+        @keyframes pulse-glow {
+            0%, 100% {
+                box-shadow: 0 0 20px rgba(255, 107, 53, 0.5);
+            }
+            50% {
+                box-shadow: 0 0 40px rgba(255, 165, 0, 0.8);
+            }
+        }
+
+        /* Option 2: Gradient Shift Animation */
+        .gradient-shift {
+            animation: gradient-move 3s ease-in-out infinite;
+        }
+
+        @keyframes gradient-move {
+            0%, 100% {
+                --pos-x: 11.14%;
+                --pos-y: 140%;
+            }
+            50% {
+                --pos-x: 50%;
+                --pos-y: 100%;
+            }
+        }
+
+        /* Option 3: Border Glow Animation */
+        .border-glow::before {
+            content: '';
+            position: absolute;
+            top: -2px;
+            left: -2px;
+            right: -2px;
+            bottom: -2px;
+            background: linear-gradient(45deg, #ff6b35, #ffa500, #ff6b35);
+            border-radius: 27px;
+            z-index: -1;
+            animation: rotate-border 3s linear infinite;
+            opacity: 0.8;
+        }
+
+        @keyframes rotate-border {
+            0% {
+                filter: hue-rotate(0deg);
+            }
+            100% {
+                filter: hue-rotate(360deg);
+            }
+        }
+
+        /* Option 4: Progress Fill Inside */
+        .with-progress {
+            position: relative;
+        }
+
+        .progress-fill {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            height: var(--progress, 50%);
+            background: linear-gradient(180deg,
+                rgba(255, 165, 0, 0.4),
+                rgba(255, 107, 53, 0.3)
+            );
+            border-radius: 25px;
+            transition: height 0.5s ease;
+        }
+
+        .progress-fill::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 3px;
+            background: linear-gradient(90deg,
+                transparent,
+                rgba(255, 255, 255, 0.8),
+                transparent
+            );
+            animation: shimmer 2s infinite;
+        }
+
+        @keyframes shimmer {
+            0% {
+                transform: translateX(-100%);
+            }
+            100% {
+                transform: translateX(100%);
+            }
+        }
+
+        /* Option 5: Particle Effect */
+        .with-particles {
+            position: relative;
+        }
+
+        .particle {
+            position: absolute;
+            width: 4px;
+            height: 4px;
+            background: radial-gradient(circle, #ffa500, #ff6b35);
+            border-radius: 50%;
+            animation: rise 3s infinite;
+        }
+
+        .particle:nth-child(2) { left: 20%; animation-delay: 0.5s; }
+        .particle:nth-child(3) { left: 40%; animation-delay: 1s; }
+        .particle:nth-child(4) { left: 60%; animation-delay: 1.5s; }
+        .particle:nth-child(5) { left: 80%; animation-delay: 2s; }
+
+        @keyframes rise {
+            0% {
+                bottom: 0;
+                opacity: 0;
+                transform: scale(0);
+            }
+            10% {
+                opacity: 1;
+                transform: scale(1);
+            }
+            90% {
+                opacity: 1;
+            }
+            100% {
+                bottom: 100%;
+                opacity: 0;
+                transform: scale(0.5) translateX(20px);
+            }
+        }
+
+        /* Progress Text Integration */
+        .progress-text {
+            font-size: 0.75rem;
+            opacity: 0.9;
+            font-weight: 400;
+            letter-spacing: 1px;
+            margin-left: 10px;
+        }
+
+        /* Controls */
+        .controls {
+            margin-top: 30px;
+            display: flex;
+            gap: 10px;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+
+        .control-btn {
+            padding: 10px 20px;
+            background: rgba(255, 107, 53, 0.2);
+            border: 1px solid rgba(255, 107, 53, 0.5);
+            color: #ffa500;
+            border-radius: 20px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .control-btn:hover {
+            background: rgba(255, 107, 53, 0.3);
+            transform: translateY(-2px);
+        }
+
+        .control-btn.active {
+            background: rgba(255, 107, 53, 0.4);
+            border-color: #ffa500;
+        }
+
+        /* Demo section */
+        .demo-section {
+            margin-top: 40px;
+            padding: 30px;
+            background: rgba(0, 0, 0, 0.3);
+            border-radius: 12px;
+        }
+
+        .timeline-container {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 30px;
+            flex-wrap: wrap;
+            margin-top: 20px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Orange In-Progress Button Design</h1>
+        <p class="subtitle">Reinterpreting your radial gradient buttons with orange for active progress</p>
+
+        <div class="comparison-grid">
+            <!-- Original Silver Version -->
+            <div class="card">
+                <h2 class="card-title">Original Silver In-Progress</h2>
+                <div class="button-container">
+                    <button class="timeline-btn btn-silver">
+                        Optimal Blue
+                    </button>
+                    <p style="color: #808080; text-align: center;">Current gray/silver design</p>
+                </div>
+            </div>
+
+            <!-- New Orange Version -->
+            <div class="card">
+                <h2 class="card-title">New Orange In-Progress</h2>
+                <div class="button-container">
+                    <button class="timeline-btn btn-orange">
+                        Optimal Blue
+                    </button>
+                    <p style="color: #ff6b35; text-align: center;">Energetic orange design</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Animation Options -->
+        <div class="demo-section">
+            <h2 style="margin-bottom: 20px; color: #ffa500;">Animation Options for Active State</h2>
+
+            <div class="timeline-container">
+                <!-- Pulse Animation -->
+                <div style="text-align: center;">
+                    <button class="timeline-btn btn-orange pulse-animation">
+                        Optimal Blue
+                    </button>
+                    <p style="margin-top: 10px; color: #a0a0a0; font-size: 0.9rem;">Pulse Glow</p>
+                </div>
+
+                <!-- Gradient Shift -->
+                <div style="text-align: center;">
+                    <button class="timeline-btn btn-orange gradient-shift">
+                        Multi-State
+                    </button>
+                    <p style="margin-top: 10px; color: #a0a0a0; font-size: 0.9rem;">Gradient Movement</p>
+                </div>
+
+                <!-- Border Glow -->
+                <div style="text-align: center;">
+                    <button class="timeline-btn btn-orange border-glow">
+                        Integrations
+                    </button>
+                    <p style="margin-top: 10px; color: #a0a0a0; font-size: 0.9rem;">Animated Border</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- With Progress Indicators -->
+        <div class="demo-section">
+            <h2 style="margin-bottom: 20px; color: #ffa500;">With Integrated Progress</h2>
+
+            <div class="timeline-container">
+                <!-- With Progress Fill -->
+                <div style="text-align: center;">
+                    <button class="timeline-btn btn-orange pulse-animation with-progress" style="--progress: 75%;">
+                        <div class="progress-fill"></div>
+                        <span style="position: relative; z-index: 1;">
+                            Optimal Blue
+                            <span class="progress-text">75%</span>
+                        </span>
+                    </button>
+                    <p style="margin-top: 10px; color: #a0a0a0; font-size: 0.9rem;">Fill + Pulse</p>
+                </div>
+
+                <!-- With Particles -->
+                <div style="text-align: center;">
+                    <button class="timeline-btn btn-orange border-glow with-particles">
+                        <div class="particle"></div>
+                        <div class="particle"></div>
+                        <div class="particle"></div>
+                        <div class="particle"></div>
+                        <div class="particle"></div>
+                        <span style="position: relative; z-index: 1;">
+                            WISR AI
+                            <span class="progress-text">45%</span>
+                        </span>
+                    </button>
+                    <p style="margin-top: 10px; color: #a0a0a0; font-size: 0.9rem;">Particles + Border</p>
+                </div>
+
+                <!-- Combined Effects -->
+                <div style="text-align: center;">
+                    <button class="timeline-btn btn-orange gradient-shift with-progress" style="--progress: 90%;">
+                        <div class="progress-fill"></div>
+                        <span style="position: relative; z-index: 1;">
+                            Encompass
+                            <span class="progress-text">90%</span>
+                        </span>
+                    </button>
+                    <p style="margin-top: 10px; color: #a0a0a0; font-size: 0.9rem;">Fill + Gradient Shift</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Controls -->
+        <div class="controls">
+            <button class="control-btn" onclick="changeProgress(25)">25%</button>
+            <button class="control-btn" onclick="changeProgress(50)">50%</button>
+            <button class="control-btn" onclick="changeProgress(75)">75%</button>
+            <button class="control-btn" onclick="changeProgress(90)">90%</button>
+            <button class="control-btn" onclick="changeProgress(100)">100%</button>
+            <button class="control-btn" onclick="toggleAnimation()">Toggle Animations</button>
+        </div>
+
+        <!-- Side by side comparison -->
+        <div class="demo-section">
+            <h2 style="margin-bottom: 20px; color: #ffa500;">Timeline Color System</h2>
+
+            <div class="timeline-container">
+                <!-- Tech (Blue) -->
+                <button class="timeline-btn" style="
+                    --color-1: #000;
+                    --color-2: #08122c;
+                    --color-3: #1e3a6a;
+                    --color-4: #4678b8;
+                    --color-5: #4488ff;
+                    background: radial-gradient(
+                        var(--spread-x) var(--spread-y) at var(--pos-x) var(--pos-y),
+                        var(--color-1) 37.35%,
+                        var(--color-2) 61.36%,
+                        var(--color-3) 78.42%,
+                        var(--color-4) 89.52%,
+                        var(--color-5) 100%
+                    );
+                ">
+                    Technology ✓
+                </button>
+
+                <!-- In Progress (Orange) -->
+                <button class="timeline-btn btn-orange pulse-animation">
+                    In Progress ⚡
+                </button>
+
+                <!-- Future (Gold) -->
+                <button class="timeline-btn" style="
+                    --color-1: #000;
+                    --color-2: #2c2008;
+                    --color-3: #6b5a1e;
+                    --color-4: #b89c46;
+                    --color-5: #ffdd44;
+                    background: radial-gradient(
+                        var(--spread-x) var(--spread-y) at var(--pos-x) var(--pos-y),
+                        var(--color-1) 37.35%,
+                        var(--color-2) 61.36%,
+                        var(--color-3) 78.42%,
+                        var(--color-4) 89.52%,
+                        var(--color-5) 100%
+                    );
+                    opacity: 0.8;
+                ">
+                    Future 🔮
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function changeProgress(percent) {
+            const progressButtons = document.querySelectorAll('.with-progress');
+            progressButtons.forEach(btn => {
+                btn.style.setProperty('--progress', percent + '%');
+                const progressText = btn.querySelector('.progress-text');
+                if (progressText) {
+                    progressText.textContent = percent + '%';
+                }
+            });
+        }
+
+        function toggleAnimation() {
+            const buttons = document.querySelectorAll('.timeline-btn');
+            buttons.forEach(btn => {
+                if (btn.style.animationPlayState === 'paused') {
+                    btn.style.animationPlayState = 'running';
+                } else {
+                    btn.style.animationPlayState = 'paused';
+                }
+            });
+        }
+
+        // Add hover effect for all buttons
+        document.querySelectorAll('.timeline-btn').forEach(btn => {
+            btn.addEventListener('mouseenter', function() {
+                this.style.transform = 'scale(1.05)';
+            });
+            btn.addEventListener('mouseleave', function() {
+                this.style.transform = 'scale(1)';
+            });
+        });
+    </script>
+</body>
+</html>

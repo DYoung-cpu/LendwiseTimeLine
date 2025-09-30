@@ -1,0 +1,466 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>LendWise Timeline - Clean Test</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            background: linear-gradient(135deg, #0a0f1c 0%, #1a2332 50%, #0a0f1c 100%);
+            color: #fff;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 40px 20px;
+        }
+
+        .container {
+            width: 100%;
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        h1 {
+            text-align: center;
+            font-size: 2.5rem;
+            margin-bottom: 20px;
+            background: linear-gradient(135deg, #4488ff, #66aaff);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .subtitle {
+            text-align: center;
+            color: rgba(255, 255, 255, 0.7);
+            margin-bottom: 60px;
+            font-size: 1.1rem;
+        }
+
+        /* Timeline Container */
+        .timeline-container {
+            position: relative;
+            width: 100%;
+            height: 400px;
+            margin: 60px 0;
+            padding: 0 50px;
+        }
+
+        /* Main Timeline Bar */
+        .timeline-bar {
+            position: absolute;
+            top: 50%;
+            left: 50px;
+            right: 50px;
+            height: 4px;
+            background: linear-gradient(90deg,
+                rgba(100, 200, 255, 0.3) 0%,
+                rgba(100, 200, 255, 0.5) 50%,
+                rgba(100, 200, 255, 0.3) 100%
+            );
+            transform: translateY(-50%);
+            box-shadow: 0 0 20px rgba(100, 200, 255, 0.2);
+        }
+
+        /* Milestone Base Styles */
+        .milestone {
+            position: absolute;
+            top: 50%;
+            transform: translate(-50%, -50%);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            z-index: 10;
+        }
+
+        /* Milestone Dot */
+        .milestone-dot {
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.65rem;
+            font-weight: 600;
+            text-align: center;
+            padding: 5px;
+            position: relative;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+        }
+
+        /* Category Colors */
+        .technology .milestone-dot {
+            background: radial-gradient(circle at 30% 30%, #5599ff, #3366cc);
+            border: 2px solid #66aaff;
+        }
+
+        .operations .milestone-dot {
+            background: radial-gradient(circle at 30% 30%, #9966ff, #6633cc);
+            border: 2px solid #aa88ff;
+        }
+
+        .licensing .milestone-dot {
+            background: radial-gradient(circle at 30% 30%, #ff6699, #cc3366);
+            border: 2px solid #ff88aa;
+        }
+
+        .infrastructure .milestone-dot {
+            background: radial-gradient(circle at 30% 30%, #66ff99, #33cc66);
+            border: 2px solid #88ffaa;
+        }
+
+        /* Status Styles */
+
+        /* Completed - Green Checkmark */
+        .status-complete .milestone-dot::after {
+            content: '✓';
+            position: absolute;
+            top: -8px;
+            right: -8px;
+            width: 20px;
+            height: 20px;
+            background: #00ff88;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 12px;
+            color: #000;
+            font-weight: bold;
+            box-shadow: 0 2px 8px rgba(0, 255, 136, 0.5);
+        }
+
+        /* In Progress - Orange Glow */
+        .in-progress .milestone-dot::before {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 80px;
+            height: 80px;
+            background: radial-gradient(circle,
+                rgba(255, 140, 0, 0.5) 0%,
+                rgba(255, 165, 0, 0.3) 40%,
+                rgba(255, 200, 0, 0.1) 70%,
+                transparent 100%
+            );
+            border-radius: 50%;
+            z-index: -1;
+            animation: pulse-orange 2s ease-in-out infinite;
+        }
+
+        @keyframes pulse-orange {
+            0%, 100% {
+                transform: translate(-50%, -50%) scale(1);
+                opacity: 0.8;
+            }
+            50% {
+                transform: translate(-50%, -50%) scale(1.1);
+                opacity: 1;
+            }
+        }
+
+        /* Progress Bubble */
+        .progress-bubble {
+            position: absolute;
+            top: -35px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: rgba(255, 140, 0, 0.95);
+            color: white;
+            padding: 4px 8px;
+            border-radius: 12px;
+            font-size: 0.7rem;
+            font-weight: bold;
+            white-space: nowrap;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+            pointer-events: none;
+        }
+
+        .in-progress:hover .progress-bubble {
+            opacity: 1;
+        }
+
+        /* Future Status */
+        .status-future .milestone-dot {
+            opacity: 0.5;
+            border-style: dashed;
+        }
+
+        /* Milestone Label */
+        .milestone-label {
+            position: absolute;
+            white-space: nowrap;
+            font-size: 0.75rem;
+            color: rgba(255, 255, 255, 0.8);
+            font-weight: 500;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+
+        /* Height Positions */
+        .pos-top {
+            top: 30%;
+        }
+
+        .pos-top .milestone-label {
+            top: -50px;
+        }
+
+        .pos-middle {
+            top: 50%;
+        }
+
+        .pos-middle .milestone-label {
+            bottom: -35px;
+        }
+
+        .pos-bottom {
+            top: 70%;
+        }
+
+        .pos-bottom .milestone-label {
+            bottom: -50px;
+        }
+
+        /* Connector Lines */
+        .connector {
+            position: absolute;
+            width: 2px;
+            background: linear-gradient(to bottom,
+                transparent,
+                rgba(100, 200, 255, 0.3),
+                rgba(100, 200, 255, 0.5),
+                rgba(100, 200, 255, 0.3),
+                transparent
+            );
+            left: 50%;
+            transform: translateX(-50%);
+        }
+
+        .pos-top .connector {
+            height: 40px;
+            top: 60px;
+        }
+
+        .pos-bottom .connector {
+            height: 40px;
+            bottom: 60px;
+        }
+
+        /* Hover Effects */
+        .milestone:hover .milestone-dot {
+            transform: scale(1.2);
+            box-shadow: 0 6px 25px rgba(0, 0, 0, 0.4);
+        }
+
+        /* Legend */
+        .legend {
+            display: flex;
+            justify-content: center;
+            gap: 30px;
+            margin-top: 40px;
+            flex-wrap: wrap;
+        }
+
+        .legend-item {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            color: rgba(255, 255, 255, 0.7);
+            font-size: 0.9rem;
+        }
+
+        .legend-dot {
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            border: 2px solid;
+        }
+
+        .legend-dot.technology {
+            background: #3366cc;
+            border-color: #66aaff;
+        }
+
+        .legend-dot.operations {
+            background: #6633cc;
+            border-color: #aa88ff;
+        }
+
+        .legend-dot.licensing {
+            background: #cc3366;
+            border-color: #ff88aa;
+        }
+
+        .legend-dot.infrastructure {
+            background: #33cc66;
+            border-color: #88ffaa;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>LendWise Launch Timeline</h1>
+        <p class="subtitle">Building the Future of Mortgage Technology</p>
+
+        <div class="timeline-container">
+            <!-- Timeline Bar -->
+            <div class="timeline-bar"></div>
+
+            <!-- Milestones -->
+
+            <!-- 5% - Inception/HQ (Complete, Infrastructure, Top) -->
+            <div class="milestone infrastructure status-complete pos-top" style="left: 5%;">
+                <div class="milestone-dot">HQ</div>
+                <div class="milestone-label">Aug 1, 2025</div>
+                <div class="connector"></div>
+            </div>
+
+            <!-- 12% - NMLS (Complete, Licensing, Bottom) -->
+            <div class="milestone licensing status-complete pos-bottom" style="left: 12%;">
+                <div class="milestone-dot">NMLS</div>
+                <div class="milestone-label">Complete</div>
+                <div class="connector"></div>
+            </div>
+
+            <!-- 19% - CA DRE (Complete, Licensing, Top) -->
+            <div class="milestone licensing status-complete pos-top" style="left: 19%;">
+                <div class="milestone-dot">DRE</div>
+                <div class="milestone-label">Complete</div>
+                <div class="connector"></div>
+            </div>
+
+            <!-- 26% - Credit Reporting (Complete, Operations, Bottom) -->
+            <div class="milestone operations status-complete pos-bottom" style="left: 26%;">
+                <div class="milestone-dot">Credit</div>
+                <div class="milestone-label">Sep 2025</div>
+                <div class="connector"></div>
+            </div>
+
+            <!-- 33% - Website (Complete, Technology, Top) -->
+            <div class="milestone technology status-complete pos-top" style="left: 33%;">
+                <div class="milestone-dot">Website</div>
+                <div class="milestone-label">Complete</div>
+                <div class="connector"></div>
+            </div>
+
+            <!-- 40% - Encompass (95%, Technology, Bottom) -->
+            <div class="milestone technology in-progress pos-bottom" style="left: 40%;">
+                <div class="milestone-dot">Encompass</div>
+                <div class="progress-bubble">95% Complete</div>
+                <div class="milestone-label">In Progress</div>
+                <div class="connector"></div>
+            </div>
+
+            <!-- 47% - DFPI (90%, Licensing, Top) -->
+            <div class="milestone licensing in-progress pos-top" style="left: 47%;">
+                <div class="milestone-dot">DFPI</div>
+                <div class="progress-bubble">90% Complete</div>
+                <div class="milestone-label">In Progress</div>
+                <div class="connector"></div>
+            </div>
+
+            <!-- 54% - DSCR AI (85%, Technology, Bottom) -->
+            <div class="milestone technology in-progress pos-bottom" style="left: 54%;">
+                <div class="milestone-dot">DSCR AI</div>
+                <div class="progress-bubble">85% Complete</div>
+                <div class="milestone-label">In Progress</div>
+                <div class="connector"></div>
+            </div>
+
+            <!-- 61% - Optimal Blue (75%, Technology, Top) -->
+            <div class="milestone technology in-progress pos-top" style="left: 61%;">
+                <div class="milestone-dot">Optimal</div>
+                <div class="progress-bubble">75% Complete</div>
+                <div class="milestone-label">This Friday!</div>
+                <div class="connector"></div>
+            </div>
+
+            <!-- 65% - Team (∞, Operations, Middle) -->
+            <div class="milestone operations in-progress pos-middle" style="left: 65%;">
+                <div class="milestone-dot">Team</div>
+                <div class="progress-bubble">∞</div>
+                <div class="milestone-label">Always Growing</div>
+            </div>
+
+            <!-- 70% - Mission Control (45%, Technology, Bottom) -->
+            <div class="milestone technology in-progress pos-bottom" style="left: 70%;">
+                <div class="milestone-dot">Mission</div>
+                <div class="progress-bubble">45% Complete</div>
+                <div class="milestone-label">In Progress</div>
+                <div class="connector"></div>
+            </div>
+
+            <!-- 77% - WISR AI (45%, Technology, Top) -->
+            <div class="milestone technology in-progress pos-top" style="left: 77%;">
+                <div class="milestone-dot">WISR AI</div>
+                <div class="progress-bubble">45% Complete</div>
+                <div class="milestone-label">In Progress</div>
+                <div class="connector"></div>
+            </div>
+
+            <!-- 82% - Integrations (Operations, Middle) -->
+            <div class="milestone operations pos-middle" style="left: 82%;">
+                <div class="milestone-dot">Integrate</div>
+                <div class="milestone-label">Ongoing</div>
+            </div>
+
+            <!-- 87% - Google Analytics (5%, Technology, Bottom) -->
+            <div class="milestone technology in-progress pos-bottom" style="left: 87%;">
+                <div class="milestone-dot">Analytics</div>
+                <div class="progress-bubble">5% Complete</div>
+                <div class="milestone-label">Just Started</div>
+                <div class="connector"></div>
+            </div>
+
+            <!-- 92% - FHA/VA (Future, Licensing, Top) -->
+            <div class="milestone licensing status-future pos-top" style="left: 92%;">
+                <div class="milestone-dot">FHA/VA</div>
+                <div class="milestone-label">Q1 2026</div>
+                <div class="connector"></div>
+            </div>
+
+            <!-- 97% - Rate Tracker (Future, Technology, Bottom) -->
+            <div class="milestone technology status-future pos-bottom" style="left: 97%;">
+                <div class="milestone-dot">Rates</div>
+                <div class="milestone-label">Nov 2025</div>
+                <div class="connector"></div>
+            </div>
+        </div>
+
+        <!-- Legend -->
+        <div class="legend">
+            <div class="legend-item">
+                <div class="legend-dot technology"></div>
+                <span>Technology</span>
+            </div>
+            <div class="legend-item">
+                <div class="legend-dot operations"></div>
+                <span>Operations</span>
+            </div>
+            <div class="legend-item">
+                <div class="legend-dot licensing"></div>
+                <span>Licensing</span>
+            </div>
+            <div class="legend-item">
+                <div class="legend-dot infrastructure"></div>
+                <span>Infrastructure</span>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

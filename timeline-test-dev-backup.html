@@ -10,7 +10,7 @@
 
     <!-- Include both CSS files -->
     <link rel="stylesheet" href="timeline-styles.css">
-    <link rel="stylesheet" href="modern-timeline.css">
+    <link rel="stylesheet" href="timeline-test-dev.css">
 </head>
 <body>
     <!-- Three.js Shader Intro Animation (3 second overlay) -->
@@ -72,6 +72,7 @@
                         <div class="timeline-main-line"></div>
 
                         <!-- Timeline Dots and Milestones -->
+                        <!-- New organized timeline structure with proper spacing and sizes -->
                         <div class="timeline-milestones">
 
                             <!-- Inception - March 2025 -->
@@ -111,28 +112,31 @@
                             </div>
 
                             <!-- WISR AI - June 10, 2025 -->
-                            <div class="timeline-milestone future" data-index="4" data-milestone="wisr" style="left: 42.5%;">
+                            <div class="timeline-milestone future in-progress" data-index="4" data-milestone="wisr" style="left: 42.5%;">
                                 <div class="milestone-connector bottom"></div>
                                 <div class="milestone-dot">
                                     <span class="milestone-icon-small">WISR AI</span>
+                                    <div class="progress-bubble">45% Complete</div>
                                 </div>
                                 <div class="milestone-quarter">Jun 10 2025</div>
                             </div>
 
                             <!-- The Team - July 2024 -->
-                            <div class="timeline-milestone completed" data-index="5" data-milestone="staff" style="left: 51%;">
+                            <div class="timeline-milestone operations in-progress" data-index="5" data-milestone="staff" style="left: 51%;">
                                 <div class="milestone-connector top"></div>
                                 <div class="milestone-dot">
                                     <span class="milestone-icon-small">The Team</span>
+                                    <div class="progress-bubble">∞</div>
                                 </div>
-                                <div class="milestone-quarter">Jul 2025</div>
+                                <div class="milestone-quarter">Always Growing</div>
                             </div>
 
-                            <!-- LOS Integration - August 2024 -->
-                            <div class="timeline-milestone completed" data-index="6" data-milestone="los" style="left: 59.5%;">
+                            <!-- Encompass LOS - August 2024 -->
+                            <div class="timeline-milestone technology in-progress" data-index="6" data-milestone="encompass" style="left: 59.5%;">
                                 <div class="milestone-connector bottom"></div>
                                 <div class="milestone-dot">
-                                    <span class="milestone-icon-small">LOS</span>
+                                    <span class="milestone-icon-small">Encompass</span>
+                                    <div class="progress-bubble">95% Complete</div>
                                 </div>
                                 <div class="milestone-quarter">Aug 2025</div>
                             </div>
@@ -156,21 +160,53 @@
                             </div>
 
                             <!-- Optimal Blue - October 2024 -->
-                            <div class="timeline-milestone in-progress" data-index="9" data-milestone="optimal" style="left: 85%;">
+                            <div class="timeline-milestone technology in-progress" data-index="9" data-milestone="optimal" style="left: 85%;">
                                 <div class="milestone-connector top"></div>
                                 <div class="milestone-dot">
                                     <span class="milestone-icon-small">Optimal Blue</span>
+                                    <div class="progress-bubble">75% Complete</div>
                                 </div>
                                 <div class="milestone-quarter">Oct 2025</div>
                             </div>
 
                             <!-- Google Analytics - November 2024 -->
-                            <div class="timeline-milestone completed" data-index="10" data-milestone="analytics" style="left: 93.5%;">
+                            <div class="timeline-milestone future in-progress" data-index="10" data-milestone="analytics" style="left: 93.5%;">
                                 <div class="milestone-connector bottom"></div>
                                 <div class="milestone-dot">
                                     <span class="milestone-icon-small">Analytics</span>
+                                    <div class="progress-bubble">5% Complete</div>
                                 </div>
                                 <div class="milestone-quarter">Nov 2025</div>
+                            </div>
+
+                            <!-- DSCR AI Tool -->
+                            <div class="timeline-milestone future in-progress" data-index="11" data-milestone="dscr" style="left: 70%;">
+                                <div class="milestone-connector top"></div>
+                                <div class="milestone-dot">
+                                    <span class="milestone-icon-small">DSCR AI</span>
+                                    <div class="progress-bubble">85% Complete</div>
+                                </div>
+                                <div class="milestone-quarter">In Progress</div>
+                            </div>
+
+                            <!-- Mission Control CRM -->
+                            <div class="timeline-milestone future in-progress" data-index="12" data-milestone="mission" style="left: 80%;">
+                                <div class="milestone-connector bottom"></div>
+                                <div class="milestone-dot">
+                                    <span class="milestone-icon-small">Mission Ctrl</span>
+                                    <div class="progress-bubble">45% Complete</div>
+                                </div>
+                                <div class="milestone-quarter">In Progress</div>
+                            </div>
+
+                            <!-- DFPI License -->
+                            <div class="timeline-milestone operations in-progress" data-index="13" data-milestone="dfpi" style="left: 35%;">
+                                <div class="milestone-connector top"></div>
+                                <div class="milestone-dot">
+                                    <span class="milestone-icon-small">DFPI</span>
+                                    <div class="progress-bubble">90% Complete</div>
+                                </div>
+                                <div class="milestone-quarter">In Progress</div>
                             </div>
 
 
@@ -1582,7 +1618,7 @@
 
     <!-- Include JavaScript files -->
     <script src="intro-animation.js"></script>
-    <script src="modern-timeline.js"></script>
+    <script src="timeline-test-dev.js"></script>
     </div> <!-- End of main-content -->
 
     <!-- Draggable Filter Container - Outside all animations -->

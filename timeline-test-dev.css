@@ -348,12 +348,12 @@ html, body {
 /* Individual Milestone */
 .timeline-milestone {
     position: absolute;
-    top: 50%;
     cursor: pointer;
     z-index: 10;
     display: flex;
     flex-direction: column;
     align-items: center;
+    /* Top position will be set by milestone-position classes */
 }
 
 /* Alternate milestones up and down */
@@ -365,13 +365,14 @@ html, body {
     transform: translateY(-100%) translateX(-50%);
 }
 
-/* Vertical connector lines */
+/* Vertical connector lines - base style */
 .milestone-connector {
     width: 2px;
     position: absolute;
     left: 50%;
     transform: translateX(-50%);
     transition: all 0.3s ease;
+    z-index: 1;
 }
 
 /* Lines connecting timeline to dots below (odd milestones) */
@@ -3807,6 +3808,109 @@ body {
     --border-color-2: rgba(68, 136, 255, 0.6);
 }
 
+/* Keep future gold gradient when in-progress */
+.timeline-milestone.future.in-progress .milestone-dot {
+    /* Keep all the future gold gradient values */
+    --pos-x: 11.14%;
+    --pos-y: 140%;
+    --spread-x: 150%;
+    --spread-y: 180.06%;
+    --color-1: #000;
+    --color-2: #2c2008;
+    --color-3: #6b5a1e;
+    --color-4: #b89c46;
+    --color-5: #ffdd44;
+    --border-angle: 20deg;
+    --border-color-1: rgba(255, 215, 0, 0.2);
+    --border-color-2: rgba(255, 200, 0, 0.75);
+    position: relative;
+    z-index: 5;
+}
+
+.timeline-milestone.future.in-progress:hover .milestone-dot {
+    /* Keep future gold hover colors */
+    --pos-x: 0%;
+    --pos-y: 91.51%;
+    --spread-x: 120.24%;
+    --spread-y: 103.18%;
+    --color-1: #ffd700;
+    --color-2: #ffc864;
+    --color-3: #ffaa23;
+    --color-4: #4d3a0a;
+    --color-5: #000;
+    --border-angle: 190deg;
+    --border-color-1: rgba(255, 215, 0, 0.1);
+    --border-color-2: rgba(255, 215, 0, 0.6);
+}
+
+/* Infrastructure - Green Theme for foundational items */
+.timeline-milestone.infrastructure .milestone-dot {
+    /* Green gradient for infrastructure/foundation */
+    --pos-x: 11.14%;
+    --pos-y: 140%;
+    --spread-x: 150%;
+    --spread-y: 180.06%;
+    --color-1: #000;
+    --color-2: #082c08;
+    --color-3: #1e6a1e;
+    --color-4: #46b846;
+    --color-5: #44ff44;
+    --border-angle: 20deg;
+    --border-color-1: rgba(68, 255, 68, 0.2);
+    --border-color-2: rgba(0, 200, 0, 0.75);
+}
+
+.timeline-milestone.infrastructure:hover .milestone-dot {
+    /* Green hover colors */
+    --pos-x: 0%;
+    --pos-y: 91.51%;
+    --spread-x: 120.24%;
+    --spread-y: 103.18%;
+    --color-1: #44ff44;
+    --color-2: #64ff64;
+    --color-3: #00aa00;
+    --color-4: #0a2d0a;
+    --color-5: #000;
+    --border-angle: 190deg;
+    --border-color-1: rgba(68, 255, 68, 0.1);
+    --border-color-2: rgba(68, 255, 68, 0.6);
+}
+
+/* Keep operations purple gradient when in-progress */
+.timeline-milestone.operations.in-progress .milestone-dot {
+    /* Keep all the operations purple gradient values */
+    --pos-x: 11.14%;
+    --pos-y: 140%;
+    --spread-x: 150%;
+    --spread-y: 180.06%;
+    --color-1: #000;
+    --color-2: #1a082c;
+    --color-3: #4a1e6a;
+    --color-4: #8646b8;
+    --color-5: #9944ff;
+    --border-angle: 20deg;
+    --border-color-1: rgba(153, 68, 255, 0.2);
+    --border-color-2: rgba(119, 0, 255, 0.75);
+    position: relative;
+    z-index: 5;
+}
+
+.timeline-milestone.operations.in-progress:hover .milestone-dot {
+    /* Keep operations purple hover colors */
+    --pos-x: 0%;
+    --pos-y: 91.51%;
+    --spread-x: 120.24%;
+    --spread-y: 103.18%;
+    --color-1: #9944ff;
+    --color-2: #aa64ff;
+    --color-3: #7700ff;
+    --color-4: #2a0a4d;
+    --color-5: #000;
+    --border-angle: 190deg;
+    --border-color-1: rgba(153, 68, 255, 0.1);
+    --border-color-2: rgba(153, 68, 255, 0.6);
+}
+
 @keyframes pulse-orange-glow {
     0%, 100% {
         box-shadow:
@@ -3818,6 +3922,137 @@ body {
             0 0 10px rgba(255, 140, 0, 0.8),
             0 0 20px rgba(255, 165, 0, 0.5);
     }
+}
+
+/* ================================================
+   BUTTON SIZE VARIATIONS BASED ON IMPORTANCE
+   ================================================ */
+
+/* Large - Major integrations and milestones */
+.milestone-dot.size-large {
+    min-width: 120px !important;
+    height: 44px !important;
+    font-size: 10px !important;
+    padding: 10px 20px !important;
+}
+
+/* Medium - Standard milestones */
+.milestone-dot.size-medium {
+    min-width: 100px !important;
+    height: 36px !important;
+    font-size: 8px !important;
+    padding: 8px 16px !important;
+}
+
+/* Small - Minor milestones */
+.milestone-dot.size-small {
+    min-width: 80px !important;
+    height: 30px !important;
+    font-size: 7px !important;
+    padding: 6px 12px !important;
+}
+
+/* ================================================
+   HEIGHT POSITIONING - ALL MARKERS OFF THE TIMELINE
+   ================================================ */
+
+/* Top branch - markers above timeline */
+.milestone-position-top {
+    top: 30% !important;
+}
+
+/* Connector FROM timeline TO top markers */
+.milestone-position-top .milestone-connector {
+    position: absolute;
+    width: 2px;
+    height: 20%; /* Connect from timeline (50%) to button (30%) */
+    top: 50%; /* Start at timeline position */
+    left: 50%;
+    transform: translateX(-50%);
+    background: linear-gradient(to top,
+        rgba(100, 200, 255, 0.6),
+        rgba(100, 200, 255, 0.3)
+    );
+    z-index: -1;
+}
+
+/* Dot where branch meets timeline */
+.milestone-position-top .milestone-connector::before {
+    content: '';
+    position: absolute;
+    top: 0; /* At timeline position */
+    left: 50%;
+    transform: translateX(-50%);
+    width: 6px;
+    height: 6px;
+    background: rgba(100, 200, 255, 1);
+    border-radius: 50%;
+}
+
+/* NO MIDDLE POSITION - No markers on timeline */
+.milestone-position-middle {
+    display: none !important;
+}
+
+/* Bottom branch - markers below timeline */
+.milestone-position-bottom {
+    top: 70% !important;
+}
+
+/* Connector FROM timeline TO bottom markers */
+.milestone-position-bottom .milestone-connector {
+    position: absolute;
+    width: 2px;
+    height: 20%; /* Connect from timeline (50%) to button (70%) */
+    bottom: 50%; /* Start at timeline position */
+    left: 50%;
+    transform: translateX(-50%);
+    background: linear-gradient(to bottom,
+        rgba(100, 200, 255, 0.6),
+        rgba(100, 200, 255, 0.3)
+    );
+    z-index: -1;
+}
+
+/* Dot where branch meets timeline */
+.milestone-position-bottom .milestone-connector::before {
+    content: '';
+    position: absolute;
+    bottom: 0; /* At timeline position */
+    left: 50%;
+    transform: translateX(-50%);
+    width: 6px;
+    height: 6px;
+    background: rgba(100, 200, 255, 1);
+    border-radius: 50%;
+}
+
+/* Ensure timeline container has enough width for scrolling */
+.timeline-line-container {
+    min-width: 2000px !important;
+    width: 200% !important;
+}
+
+/* Date label positioning based on height */
+.milestone-position-top .milestone-quarter {
+    top: -35px;
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
+}
+
+.milestone-position-middle .milestone-quarter {
+    bottom: -35px;
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
+}
+
+.milestone-position-bottom .milestone-quarter {
+    bottom: -35px;
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
 }
 
 /* Progress percentage bubble */

@@ -451,45 +451,89 @@ html, body {
     top: 67px !important;  /* Goes down - changed to alternate */
 }
 
-/* 6. WISR AI */
+/* 6. The Team */
 .timeline-milestone:nth-child(6) .milestone-connector {
     height: 67px !important;
+    bottom: 0px !important;  /* Start from timeline going up */
 }
 .timeline-milestone:nth-child(6) .milestone-dot {
-    bottom: 67px !important;  /* Goes up - changed to alternate */
+    bottom: 67px !important;  /* Position above timeline */
 }
 
-/* 7. The Team */
+/* 7. Website */
 .timeline-milestone:nth-child(7) .milestone-connector {
-    height: 67px !important;
-}
-.timeline-milestone:nth-child(7) .milestone-dot {
-    top: 67px !important;  /* Goes down - changed to alternate */
-}
-
-/* MEDIUM IMPORTANCE (34px) - Middle height */
-/* 8. LOS */
-.timeline-milestone:nth-child(8) .milestone-connector {
     height: 34px !important;
 }
-.timeline-milestone:nth-child(8) .milestone-dot {
-    bottom: 34px !important;  /* Goes up - changed to alternate */
+.timeline-milestone:nth-child(7) .milestone-dot {
+    top: 34px !important;  /* Goes down */
 }
 
-/* 9. Website */
+/* 8. Integrations - HIGH IMPORTANCE */
+.timeline-milestone:nth-child(8) .milestone-connector {
+    height: 67px !important;
+    bottom: 0px !important;  /* Start from timeline going up */
+}
+.timeline-milestone:nth-child(8) .milestone-dot {
+    bottom: 67px !important;  /* Position above timeline - high importance */
+}
+
+/* 9. DFPI AI */
 .timeline-milestone:nth-child(9) .milestone-connector {
     height: 34px !important;
 }
 .timeline-milestone:nth-child(9) .milestone-dot {
-    top: 34px !important;  /* Goes down - changed to alternate */
+    top: 34px !important;  /* Goes down */
 }
 
-/* 11. Optimal Blue */
+/* 10. LOS */
+.timeline-milestone:nth-child(10) .milestone-connector {
+    height: 34px !important;
+    bottom: 0px !important;  /* Start from timeline going up */
+}
+.timeline-milestone:nth-child(10) .milestone-dot {
+    bottom: 34px !important;  /* Position above timeline */
+}
+
+/* 11. POS */
 .timeline-milestone:nth-child(11) .milestone-connector {
     height: 34px !important;
 }
 .timeline-milestone:nth-child(11) .milestone-dot {
-    top: 34px !important;  /* Goes down - changed to alternate */
+    top: 34px !important;  /* Goes down */
+}
+
+/* 12. Optimal Blue */
+.timeline-milestone:nth-child(12) .milestone-connector {
+    height: 34px !important;
+    bottom: 0px !important;  /* Start from timeline going up */
+}
+.timeline-milestone:nth-child(12) .milestone-dot {
+    bottom: 34px !important;  /* Position above timeline */
+}
+
+/* 13. Mission Control CRM */
+.timeline-milestone:nth-child(13) .milestone-connector {
+    height: 34px !important;
+}
+.timeline-milestone:nth-child(13) .milestone-dot {
+    top: 34px !important;  /* Goes down */
+}
+
+/* 14. Analytics - HIGH IMPORTANCE */
+.timeline-milestone:nth-child(14) .milestone-connector {
+    height: 67px !important;
+    bottom: 0px !important;  /* Start from timeline going up */
+}
+.timeline-milestone:nth-child(14) .milestone-dot {
+    bottom: 67px !important;  /* Position above timeline - high importance */
+}
+
+/* 15. WISR AI */
+.timeline-milestone:nth-child(15) .milestone-connector {
+    height: 67px !important;
+}
+.timeline-milestone:nth-child(15) .milestone-dot {
+    top: 67px !important;  /* Goes down */
 }
 
 /* LOW IMPORTANCE (17px) - Shortest branches */
@@ -499,22 +543,6 @@ html, body {
 }
 .timeline-milestone:nth-child(2) .milestone-dot {
     bottom: 17px !important;  /* Goes up */
-}
-
-/* 10. Integrations */
-.timeline-milestone:nth-child(10) .milestone-connector {
-    height: 17px !important;
-}
-.timeline-milestone:nth-child(10) .milestone-dot {
-    bottom: 17px !important;  /* Goes up - changed to alternate */
-}
-
-/* 12. Analytics */
-.timeline-milestone:nth-child(12) .milestone-connector {
-    height: 17px !important;
-}
-.timeline-milestone:nth-child(12) .milestone-dot {
-    bottom: 17px !important;  /* Goes up - changed to alternate */
 }
 
 /* CSS Custom Properties for Gradient Animations */
@@ -824,9 +852,36 @@ html, body {
 
 /* Technology In-Progress - Blue button with Orange Pulsating Glow behind */
 .timeline-milestone.technology.in-progress .milestone-dot {
-    /* Keep the blue tech styling but add orange glow behind */
+    /* Explicitly inherit blue tech styling and add orange glow behind */
     position: relative;
     overflow: visible;
+
+    /* Ensure blue tech colors are applied */
+    --pos-x: 11.14%;
+    --pos-y: 140%;
+    --spread-x: 150%;
+    --spread-y: 180.06%;
+
+    /* Blue color scheme for Tech */
+    --color-1: #000;       /* Black base (same as React) */
+    --color-2: #08122c;    /* Dark blue (similar to React's #08012c) */
+    --color-3: #1e3a6a;    /* Medium blue (was #4e1e40 purple) */
+    --color-4: #4678b8;    /* Light blue (was #70464e mauve) */
+    --color-5: #4488ff;    /* Bright blue (was #88394c burgundy) */
+
+    /* Border gradient */
+    --border-angle: 20deg;
+    --border-color-1: rgba(68, 136, 255, 0.2);   /* Blue 20% opacity */
+    --border-color-2: rgba(0, 102, 255, 0.75);   /* Deep blue 75% opacity */
+
+    background: radial-gradient(
+        var(--spread-x) var(--spread-y) at var(--pos-x) var(--pos-y),
+        var(--color-1) 37.35%,
+        var(--color-2) 61.36%,
+        var(--color-3) 78.42%,
+        var(--color-4) 89.52%,
+        var(--color-5) 100%
+    );
 }
 
 .timeline-milestone.technology.in-progress .milestone-dot::before {
@@ -834,34 +889,54 @@ html, body {
     position: absolute;
     top: 50%;
     left: 50%;
-    width: 200%;
-    height: 200%;
+    width: 160%;
+    height: 160%;
     transform: translate(-50%, -50%);
-    background: radial-gradient(circle, rgba(249, 115, 22, 0.4) 0%, rgba(249, 115, 22, 0.2) 40%, transparent 70%);
+    background: radial-gradient(circle, rgba(249, 115, 22, 0.08) 0%, rgba(249, 115, 22, 0.04) 70%, transparent 100%);
     border-radius: 50%;
     z-index: -1;
     animation: orangePulse 2s ease-in-out infinite;
     pointer-events: none;
+    filter: blur(12px);
 }
 
 @keyframes orangePulse {
     0%, 100% {
-        transform: translate(-50%, -50%) scale(0.8);
-        opacity: 0.4;
+        transform: translate(-50%, -50%) scale(0.9);
+        opacity: 0.6;
     }
     50% {
-        transform: translate(-50%, -50%) scale(1.2);
-        opacity: 0.7;
+        transform: translate(-50%, -50%) scale(1.1);
+        opacity: 0.9;
     }
 }
 
 .timeline-milestone.technology.in-progress .milestone-connector {
-    background: rgba(249, 115, 22, 0.3);  /* Orange connector for tech in-progress */
+    background: rgba(68, 136, 255, 0.3);  /* Blue connector for tech (keep blue even when in-progress) */
 }
 
 /* Override any conflicting border styles for tech in-progress */
 .timeline-milestone.technology.in-progress .milestone-dot {
-    box-shadow: 0 0 20px rgba(249, 115, 22, 0.5), 0 4px 16px 0 rgba(0, 0, 0, 0.1);
+    box-shadow: 0 4px 16px 0 rgba(0, 0, 0, 0.1);
+}
+
+/* Hover state for technology in-progress */
+.timeline-milestone.technology.in-progress:hover .milestone-dot {
+    /* Blue hover colors same as regular tech */
+    --pos-x: 0%;
+    --pos-y: 91.51%;
+    --spread-x: 120.24%;
+    --spread-y: 103.18%;
+    --color-1: #4488ff;    /* Bright blue */
+    --color-2: #64a8ff;    /* Light blue */
+    --color-3: #0066ff;    /* Deep blue */
+    --color-4: #0a1a4d;    /* Dark navy */
+    --color-5: #000;       /* Black */
+
+    /* Hover border animation */
+    --border-angle: 190deg;
+    --border-color-1: rgba(68, 136, 255, 0.1);
+    --border-color-2: rgba(68, 136, 255, 0.6);
 }
 
 /* In-Progress - Gray/Silver Theme (EXACT React gradient code with silver colors) */
@@ -949,11 +1024,11 @@ html, body {
 /* Milestone Connector Line - Removed duplicate, see line 307 for main definition */
 
 .milestone-connector.top {
-    bottom: 6px;
+    bottom: 0px;  /* Connect directly to timeline */
 }
 
 .milestone-connector.bottom {
-    top: 6px;
+    top: 0px;  /* Connect directly to timeline */
 }
 
 .timeline-milestone.completed .milestone-connector {

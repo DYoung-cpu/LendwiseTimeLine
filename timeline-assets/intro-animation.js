@@ -152,9 +152,6 @@ document.addEventListener('DOMContentLoaded', () => {
                 if (typeof setupTimelineNavigation !== 'undefined') {
                     setupTimelineNavigation();
                 }
-                if (typeof setupPositionControls !== 'undefined') {
-                    setupPositionControls();
-                }
                 if (typeof setupModalHandlers !== 'undefined') {
                     setupModalHandlers();
                 }

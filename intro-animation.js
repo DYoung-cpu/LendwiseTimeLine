@@ -158,13 +158,8 @@ document.addEventListener('DOMContentLoaded', () => {
                 if (typeof setupModalHandlers !== 'undefined') {
                     setupModalHandlers();
                 }
-                console.log('Checking for setupFilterContainer:', typeof setupFilterContainer);
-                if (typeof setupFilterContainer !== 'undefined') {
-                    console.log('Calling setupFilterContainer...');
-                    setupFilterContainer();
-                } else {
-                    console.error('❌ setupFilterContainer function not found!');
-                }
+                // Filter system is now inline in HTML - no setup needed
+                console.log('✅ New filter system loaded inline');
                 console.log('✅ Timeline initialized after 3-second intro');
             }, 100);
         }

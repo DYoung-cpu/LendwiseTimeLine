@@ -1225,8 +1225,10 @@ function setupTimelineNavigation() {
     console.log('✅ Timeline navigation with drag support initialized');
 }
 
-// Setup Position Controls for Moving Assets
+// Position Controls Removed
 function setupPositionControls() {
+    // Function disabled - positioning controls removed
+    return;
     // Load saved positions from localStorage
     const savedPositions = JSON.parse(localStorage.getItem('lendwisePositions') || '{}');
     const defaultPositions = {

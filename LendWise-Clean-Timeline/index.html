@@ -1,0 +1,1888 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>LendWise Timeline - Our Journey to Excellence</title>
+
+    <!-- Three.js for shader animation -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+
+    <!-- Include both CSS files -->
+    <link rel="stylesheet" href="timeline-styles.css">
+    <link rel="stylesheet" href="timeline-clean-test.css">
+</head>
+<body>
+    <!-- Three.js Shader Intro Animation (3 second overlay) -->
+    <div id="shader-container" class="shader-intro">
+        <div class="shader-overlay">
+            <!-- WISR Video Circle in Center -->
+            <div class="wisr-showcase-center">
+                <div class="wisr-glow"></div>
+                <div class="wisr-video-circle">
+                    <video id="center-owl-video" autoplay muted loop playsinline>
+                        <source src="wisr-owl.mp4" type="video/mp4" />
+                    </video>
+                    <div class="video-mask-overlay"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Main Content - Modern Timeline (initially hidden) -->
+    <div class="main-content" style="opacity: 0;">
+
+    <!-- Integrated Hero & Timeline Section -->
+    <section class="hero-timeline-integrated">
+        <div class="aurora-layer aurora-1"></div>
+        <div class="aurora-layer aurora-2"></div>
+        <div class="aurora-layer aurora-3"></div>
+        <div class="aurora-layer aurora-4"></div>
+
+        <div class="integrated-content">
+            <!-- Strategic Roadmap Timeline -->
+            <div class="roadmap-container">
+                <div class="roadmap-header">
+                    <div class="lendwise-logo-text">
+                        <span class="lendwise-text">
+                            <span class="tall-letter">L</span>END<span class="tall-letter">W</span>ISE
+                        </span>
+                        <span class="mortgage-text">MORTGAGE</span>
+                    </div>
+                    <p class="roadmap-subtitle">OUR JOURNEY TO EXCELLENCE</p>
+                </div>
+
+                <div class="roadmap-timeline">
+                    <!-- Timeline Navigation Arrows -->
+                    <button class="timeline-nav timeline-nav-left" id="timeline-left">
+                        <span>‹</span>
+                    </button>
+                    <button class="timeline-nav timeline-nav-right" id="timeline-right">
+                        <span>›</span>
+                    </button>
+
+                    <!-- Edge Gradient Masks -->
+                    <div class="timeline-edge-mask-left"></div>
+                    <div class="timeline-edge-mask-right"></div>
+
+                    <!-- Timeline Viewport Container -->
+                    <div class="timeline-viewport">
+                        <!-- Timeline Line -->
+                        <div class="timeline-line-container">
+                        <div class="timeline-main-line"></div>
+
+                        <!-- Timeline Dots and Milestones -->
+                        <div class="timeline-milestones">
+
+                            <!-- Inception - March 2025 -->
+                            <div class="timeline-milestone completed" data-index="0" data-milestone="inception" style="left: 8%;">
+                                <div class="milestone-connector bottom"></div>
+                                <div class="milestone-dot">
+                                    <span class="milestone-icon-small">Inception</span>
+                                </div>
+                                <div class="milestone-quarter">Mar 2025</div>
+                            </div>
+
+                            <!-- Google Sponsorship - April 2025 -->
+                            <div class="timeline-milestone completed" data-index="1" data-milestone="google-sponsor" style="left: 14%;">
+                                <div class="milestone-connector top"></div>
+                                <div class="milestone-dot">
+                                    <span class="milestone-icon-small">Google</span>
+                                </div>
+                                <div class="milestone-quarter">Apr 2025</div>
+                            </div>
+
+                            <!-- NMLS Approval - May 2025 (Purple, Low) -->
+                            <div class="timeline-milestone operations" data-index="3" data-milestone="nmls" style="left: 20%;">
+                                <div class="milestone-connector bottom"></div>
+                                <div class="milestone-dot">
+                                    <span class="milestone-icon-small">NMLS</span>
+                                </div>
+                                <div class="milestone-quarter">May 2025</div>
+                            </div>
+
+                            <!-- DRE Approval - May 2025 (Purple, Low) -->
+                            <div class="timeline-milestone operations" data-index="4" data-milestone="dre" style="left: 26%;">
+                                <div class="milestone-connector top"></div>
+                                <div class="milestone-dot">
+                                    <span class="milestone-icon-small">CA DRE</span>
+                                </div>
+                                <div class="milestone-quarter">May 2025</div>
+                            </div>
+
+                            <!-- Q3 2024 - Location -->
+                            <div class="timeline-milestone completed" data-index="5" data-milestone="headquarters" style="left: 32%;">
+                                <div class="milestone-connector bottom"></div>
+                                <div class="milestone-dot">
+                                    <span class="milestone-icon-small">Headquarters</span>
+                                </div>
+                                <div class="milestone-quarter">Jun 2025</div>
+                            </div>
+
+                            <!-- The Team - July 2025 -->
+                            <div class="timeline-milestone completed" data-index="6" data-milestone="staff" style="left: 38%;">
+                                <div class="milestone-connector top"></div>
+                                <div class="milestone-dot">
+                                    <span class="milestone-icon-small">The Team</span>
+                                </div>
+                                <div class="milestone-quarter">Jul 2025</div>
+                            </div>
+
+                            <!-- Website - September 2025 -->
+                            <div class="timeline-milestone completed" data-index="7" data-milestone="website" style="left: 44%;">
+                                <div class="milestone-connector top"></div>
+                                <div class="milestone-dot">
+                                    <span class="milestone-icon-small">Website</span>
+                                </div>
+                                <div class="milestone-quarter">Sep 2025</div>
+                            </div>
+
+                            <!-- Integrations - September 28, 2025 -->
+                            <div class="timeline-milestone technology in-progress" data-index="8" data-milestone="integrations" style="left: 48%;">
+                                <div class="milestone-connector top"></div>
+                                <div class="milestone-dot">
+                                    <span class="milestone-icon-small">Integrations</span>
+                                </div>
+                                <div class="milestone-quarter">Sep 28 2025</div>
+                            </div>
+
+                            <!-- DFPI AI - October 2025 -->
+                            <div class="timeline-milestone completed" data-index="9" data-milestone="dfpi-ai" style="left: 52%;">
+                                <div class="milestone-connector bottom"></div>
+                                <div class="milestone-dot">
+                                    <span class="milestone-icon-small">DFPI AI</span>
+                                </div>
+                                <div class="milestone-quarter">Oct 2025</div>
+                            </div>
+
+                            <!-- LOS Integration - October 2025 -->
+                            <div class="timeline-milestone technology" data-index="10" data-milestone="los" style="left: 56%;">
+                                <div class="milestone-connector top"></div>
+                                <div class="milestone-dot">
+                                    <span class="milestone-icon-small">LOS</span>
+                                </div>
+                                <div class="milestone-quarter">Oct 2025</div>
+                            </div>
+
+                            <!-- POS System - October 2025 -->
+                            <div class="timeline-milestone technology" data-index="11" data-milestone="pos" style="left: 60%;">
+                                <div class="milestone-connector top"></div>
+                                <div class="milestone-dot">
+                                    <span class="milestone-icon-small">POS</span>
+                                </div>
+                                <div class="milestone-quarter">Oct 2025</div>
+                            </div>
+
+                            <!-- Optimal Blue - October 2025 -->
+                            <div class="timeline-milestone technology" data-index="12" data-milestone="optimal" style="left: 64%;">
+                                <div class="milestone-connector top"></div>
+                                <div class="milestone-dot">
+                                    <span class="milestone-icon-small">Optimal Blue</span>
+                                </div>
+                                <div class="milestone-quarter">Oct 2025</div>
+                            </div>
+
+                            <!-- Mission Control CRM - November 2025 -->
+                            <div class="timeline-milestone future" data-index="13" data-milestone="mission-control" style="left: 68%;">
+                                <div class="milestone-connector top"></div>
+                                <div class="milestone-dot">
+                                    <span class="milestone-icon-small">Mission CRM</span>
+                                </div>
+                                <div class="milestone-quarter">Nov 2025</div>
+                            </div>
+
+                            <!-- Google Analytics - November 2025 -->
+                            <div class="timeline-milestone completed" data-index="14" data-milestone="analytics" style="left: 72%;">
+                                <div class="milestone-connector top"></div>
+                                <div class="milestone-dot">
+                                    <span class="milestone-icon-small">Analytics</span>
+                                </div>
+                                <div class="milestone-quarter">Nov 2025</div>
+                            </div>
+
+                            <!-- WISR AI - December 2025 (Future Project) -->
+                            <div class="timeline-milestone future" data-index="15" data-milestone="wisr" style="left: 76%;">
+                                <div class="milestone-connector top"></div>
+                                <div class="milestone-dot">
+                                    <span class="milestone-icon-small">WISR AI</span>
+                                </div>
+                                <div class="milestone-quarter">Dec 2025</div>
+                            </div>
+
+
+                        </div>
+                    </div>
+                    </div> <!-- End timeline-viewport -->
+                </div>
+            </div>
+
+            <!-- 3D Circular Gallery Container -->
+            <div class="circular-gallery-container">
+                <!-- Landing Page Owl - Centered in container -->
+                <div class="landing-owl" id="landingOwl">
+                    <div class="wisr-glow"></div>
+                    <div class="wisr-video-circle">
+                        <video autoplay muted loop playsinline>
+                            <source src="wisr-owl.mp4" type="video/mp4" />
+                        </video>
+                        <div class="video-mask-overlay"></div>
+                    </div>
+                </div>
+
+                <!-- 3D Gallery Track -->
+                <div class="gallery-track" id="galleryTrack">
+                    <!-- Gallery Cards -->
+                    <!-- Inception Card -->
+                    <div class="gallery-card" data-category="foundation" data-index="0" data-id="inception">
+                        <div class="card-content">
+                            <div class="card-icon">🚀</div>
+                            <h3>Our Story</h3>
+                            <p class="card-date">March 2025</p>
+                            <p class="card-description">Building the Future</p>
+                        </div>
+                    </div>
+
+                    <div class="gallery-card has-image" data-category="milestone" data-index="1" data-id="location" style="background-image: url('RI-HQ_21800Oxnard.webp');">
+                        <div class="card-content">
+                            <h3>Headquarters</h3>
+                            <p class="card-date">Woodland Hills, CA</p>
+                            <p class="card-description">21800 Oxnard St</p>
+                        </div>
+                    </div>
+
+                    <div class="gallery-card" data-category="licensing" data-index="2" data-id="licensing">
+                        <div class="card-content">
+                            <div class="card-icon">📜</div>
+                            <h3>Licensing</h3>
+                            <p class="card-date">May 2024</p>
+                            <p class="card-description">Regulatory Compliance</p>
+                        </div>
+                    </div>
+
+                    <div class="gallery-card" data-category="product" data-index="3">
+                        <div class="card-content">
+                            <div class="card-icon">💻</div>
+                            <h3>Encompass</h3>
+                            <p class="card-date">Aug 2024</p>
+                            <p class="card-description">LOS integrated</p>
+                        </div>
+                    </div>
+
+                    <div class="gallery-card" data-category="team" data-index="4" data-id="team">
+                        <div class="card-content">
+                            <div class="card-icon">👥</div>
+                            <h3>The Team</h3>
+                            <p class="card-date">Jul 2025</p>
+                            <p class="card-description">Our talented professionals</p>
+                        </div>
+                    </div>
+
+                    <div class="gallery-card" data-category="expansion" data-index="5">
+                        <div class="card-content">
+                            <div class="card-icon">🗺️</div>
+                            <h3>Multi-State</h3>
+                            <p class="card-date">Oct 2024</p>
+                            <p class="card-description">7 states licensed</p>
+                        </div>
+                    </div>
+
+                    <div class="gallery-card" data-category="product" data-index="6">
+                        <div class="card-content">
+                            <div class="card-icon">📊</div>
+                            <h3>Mission CRM</h3>
+                            <p class="card-date">Oct 2024</p>
+                            <p class="card-description">AI-powered CRM</p>
+                        </div>
+                    </div>
+
+                    <div class="gallery-card" data-category="innovation" data-index="7" data-id="wisr">
+                        <div class="card-content">
+                            <div class="card-icon">🤖</div>
+                            <h3>WISR AI</h3>
+                            <p class="card-date">Jun 10 2025</p>
+                            <p class="card-description">Intelligent AI Platform</p>
+                        </div>
+                    </div>
+
+                    <div class="gallery-card" data-category="technology" data-index="8" data-id="integrations">
+                        <div class="card-content">
+                            <div class="card-icon">🔗</div>
+                            <h3>Integrations</h3>
+                            <p class="card-date">Sep 28 2025</p>
+                            <p class="card-description">System Connectivity</p>
+                        </div>
+                    </div>
+
+                    <div class="gallery-card google-card" data-category="partnership" data-index="9" data-id="google-sponsor">
+                        <div class="card-content">
+                            <div class="card-icon google-logo">
+                                <svg viewBox="0 0 24 24" width="48" height="48">
+                                    <path d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z" fill="#4285F4"/>
+                                    <path d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z" fill="#34A853"/>
+                                    <path d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z" fill="#FBBC05"/>
+                                    <path d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z" fill="#EA4335"/>
+                                </svg>
+                            </div>
+                            <h3>Google Analytics</h3>
+                            <p class="card-date">Apr 2025</p>
+                            <p class="card-description">Official Sponsorship</p>
+                        </div>
+                    </div>
+
+                    <div class="gallery-card" data-category="innovation" data-index="10">
+                        <div class="card-content">
+                            <div class="card-icon">🧠</div>
+                            <h3>AI Underwriting</h3>
+                            <p class="card-date">Coming 2025</p>
+                            <p class="card-description">Auto decisions</p>
+                        </div>
+                    </div>
+
+                    <div class="gallery-card" data-category="expansion" data-index="11">
+                        <div class="card-content">
+                            <div class="card-icon">🎯</div>
+                            <h3>25 States</h3>
+                            <p class="card-date">Target 2025</p>
+                            <p class="card-description">Nationwide goal</p>
+                        </div>
+                    </div>
+                </div><!-- gallery-track -->
+            </div><!-- circular-gallery-container -->
+
+        </div><!-- integrated-content -->
+    </section>
+
+    <!-- Detail Modal -->
+    <div id="timeline-modal" class="modal">
+        <div class="modal-dialog">
+            <div class="modal-header">
+                <div class="modal-icon-container">
+                    <span class="modal-icon"></span>
+                </div>
+                <div class="modal-title-section">
+                    <h2 id="modal-title"></h2>
+                    <div class="modal-badges">
+                        <span id="modal-date-badge"></span>
+                        <span id="modal-category-badge"></span>
+                    </div>
+                </div>
+                <button class="modal-close">&times;</button>
+            </div>
+            <div class="modal-body">
+                <!-- Standard content for non-location milestones -->
+                <div id="standard-content">
+                    <p id="modal-description"></p>
+                    <div id="modal-details"></div>
+                </div>
+
+                <!-- Enhanced content for location milestone -->
+                <div id="location-content" style="display: none;">
+                    <!-- Image Gallery Section -->
+                    <div class="location-gallery">
+                        <div class="gallery-main">
+                            <img src="" id="main-image" alt="Office view" />
+                            <div class="image-caption">Modern Office Exterior</div>
+                        </div>
+                        <div class="gallery-thumbs">
+                            <!-- Thumbnails will be added dynamically -->
+                        </div>
+                    </div>
+
+                    <!-- Info Cards Grid -->
+                    <div class="location-grid">
+                        <div class="info-card">
+                            <h3>📍 Location & Address</h3>
+                            <p class="address"></p>
+                            <ul class="location-details"></ul>
+                        </div>
+
+                        <div class="info-card">
+                            <h3>🏢 Space Details</h3>
+                            <ul class="space-list"></ul>
+                        </div>
+
+                        <div class="info-card full-width">
+                            <h3>✨ Why We Chose This Location</h3>
+                            <ul class="benefits-list"></ul>
+                        </div>
+
+                        <div class="info-card">
+                            <h3>🎯 Building Amenities</h3>
+                            <ul class="amenities-list"></ul>
+                        </div>
+
+                        <div class="info-card">
+                            <h3>📊 Key Metrics</h3>
+                            <ul class="metrics-list"></ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    </div> <!-- End of main-content -->
+
+    <!-- Fullscreen Headquarters Modal -->
+    <div id="headquarters-modal" class="fullscreen-modal">
+        <!-- Close button -->
+        <button class="modal-close-btn" onclick="closeHeadquartersModal()">×</button>
+
+        <!-- Modal Content Container -->
+        <div class="inception-modal-content">
+            <!-- Hero Section -->
+            <div class="inception-hero">
+                <h1 class="hero-title">Our Headquarters</h1>
+                <p class="hero-tagline">Woodland Hills · California · State-of-the-Art Facility</p>
+            </div>
+
+            <!-- Office Gallery Section -->
+            <div class="headquarters-gallery-container">
+                <h2 class="section-title">Office Gallery</h2>
+                <div class="hq-gallery-grid">
+                    <div class="hq-main-image">
+                        <img id="hq-main-img" src="RI-HQ_21800Oxnard.webp" alt="LendWise Headquarters" />
+                        <div class="image-overlay">
+                            <h3 id="hq-image-title">LendWise Headquarters - Main Building</h3>
+                            <p>21800 Oxnard Street, Woodland Hills, CA 91367</p>
+                        </div>
+                    </div>
+                    <div class="hq-gallery-thumbs">
+                        <div class="thumb-item active" onclick="changeHQImage('RI-HQ_21800Oxnard.webp', 'Main Building', this)">
+                            <img src="RI-HQ_21800Oxnard.webp" alt="Main Building" />
+                            <span>Main Building</span>
+                        </div>
+                        <div class="thumb-item" onclick="changeHQImage('hq-exterior-1.jpg', 'North Entrance', this)">
+                            <img src="hq-exterior-1.jpg" alt="North Entrance" />
+                            <span>North View</span>
+                        </div>
+                        <div class="thumb-item" onclick="changeHQImage('hq-exterior-2.jpg', 'East Wing', this)">
+                            <img src="hq-exterior-2.jpg" alt="East Wing" />
+                            <span>East Wing</span>
+                        </div>
+                        <div class="thumb-item" onclick="changeHQImage('hq-exterior-3.jpg', 'Parking Facility', this)">
+                            <img src="hq-exterior-3.jpg" alt="Parking" />
+                            <span>Parking Area</span>
+                        </div>
+                        <div class="thumb-item">
+                            <div class="placeholder-thumb">
+                                <span class="thumb-icon">🏢</span>
+                                <span>Lobby</span>
+                            </div>
+                        </div>
+                        <div class="thumb-item">
+                            <div class="placeholder-thumb">
+                                <span class="thumb-icon">💼</span>
+                                <span>Workspace</span>
+                            </div>
+                        </div>
+                        <div class="thumb-item">
+                            <div class="placeholder-thumb">
+                                <span class="thumb-icon">🤝</span>
+                                <span>Conference</span>
+                            </div>
+                        </div>
+                        <div class="thumb-item">
+                            <div class="placeholder-thumb">
+                                <span class="thumb-icon">☕</span>
+                                <span>Break Room</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Facility Details Section -->
+            <div class="headquarters-details">
+                <h2 class="section-title">Facility Features</h2>
+                <div class="features-grid">
+                    <div class="feature-card">
+                        <div class="feature-icon">📍</div>
+                        <h3>Prime Location</h3>
+                        <ul>
+                            <li>Heart of Woodland Hills</li>
+                            <li>Easy freeway access (101/405)</li>
+                            <li>Ample parking facilities</li>
+                            <li>Near public transportation</li>
+                        </ul>
+                    </div>
+                    <div class="feature-card">
+                        <div class="feature-icon">🏢</div>
+                        <h3>Modern Workspace</h3>
+                        <ul>
+                            <li>15,000 sq ft office space</li>
+                            <li>Open floor plan design</li>
+                            <li>Natural lighting throughout</li>
+                            <li>Ergonomic workstations</li>
+                        </ul>
+                    </div>
+                    <div class="feature-card">
+                        <div class="feature-icon">💡</div>
+                        <h3>Technology</h3>
+                        <ul>
+                            <li>High-speed fiber internet</li>
+                            <li>Video conference rooms</li>
+                            <li>Smart building systems</li>
+                            <li>Secure server rooms</li>
+                        </ul>
+                    </div>
+                    <div class="feature-card">
+                        <div class="feature-icon">🌿</div>
+                        <h3>Amenities</h3>
+                        <ul>
+                            <li>Full kitchen & cafe</li>
+                            <li>Wellness/quiet rooms</li>
+                            <li>Game & recreation area</li>
+                            <li>Outdoor patio space</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Building Info Section -->
+            <div class="building-info">
+                <h2 class="section-title">Building Information</h2>
+                <div class="info-stats">
+                    <div class="stat-box">
+                        <div class="stat-value">2024</div>
+                        <div class="stat-label">Year Established</div>
+                    </div>
+                    <div class="stat-box">
+                        <div class="stat-value">15,000</div>
+                        <div class="stat-label">Square Feet</div>
+                    </div>
+                    <div class="stat-box">
+                        <div class="stat-value">150+</div>
+                        <div class="stat-label">Employee Capacity</div>
+                    </div>
+                    <div class="stat-box">
+                        <div class="stat-value">24/7</div>
+                        <div class="stat-label">Security Access</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Contact Section -->
+            <div class="headquarters-contact">
+                <h2 class="section-title">Visit Us</h2>
+                <div class="contact-info">
+                    <div class="address-block">
+                        <h3>📍 Address</h3>
+                        <p>21800 Oxnard Street<br>
+                        Suite 200<br>
+                        Woodland Hills, CA 91367</p>
+                    </div>
+                    <div class="hours-block">
+                        <h3>🕐 Office Hours</h3>
+                        <p>Monday - Friday: 9:00 AM - 6:00 PM<br>
+                        Saturday: By Appointment<br>
+                        Sunday: Closed</p>
+                    </div>
+                    <div class="contact-block">
+                        <h3>📞 Contact</h3>
+                        <p>Main: (818) 555-0100<br>
+                        Email: info@lendwisemtg.com<br>
+                        Fax: (818) 555-0101</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Fullscreen Licensing Modal -->
+    <div id="licensing-modal" class="fullscreen-modal">
+        <!-- Close button -->
+        <button class="modal-close-btn" onclick="closeLicensingModal()">×</button>
+
+        <!-- Modal Content Container -->
+        <div class="inception-modal-content">
+            <!-- Hero Section -->
+            <div class="inception-hero">
+                <h1 class="hero-title">Our Licensing & Coverage</h1>
+                <p class="hero-tagline">Expanding Nationwide · State by State</p>
+            </div>
+
+            <!-- Licensed States Section -->
+            <div class="licensed-states-container">
+                <h2 class="section-title">Currently Licensed States</h2>
+
+                <!-- Licensing Map -->
+                <div class="licensing-map-container">
+                    <img src="licensing-map.png" alt="LendWise Licensed States Map" class="licensing-map-image" />
+                    <div class="map-stats">
+                        <div class="map-stat">
+                            <span class="stat-number">2</span>
+                            <span class="stat-label">Licensed States</span>
+                        </div>
+                        <div class="map-stat">
+                            <span class="stat-number">3</span>
+                            <span class="stat-label">Total Officers</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="states-grid">
+                    <div class="state-card licensed-state">
+                        <div class="state-icon-wrapper">
+                            <span class="state-abbreviation">CA</span>
+                        </div>
+                        <h3>California</h3>
+                        <div class="license-details">
+                            <p class="license-number">NMLS #2353453</p>
+                            <p class="license-type">DRE #02201234</p>
+                            <span class="status-badge active">Active</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+    <!-- Fullscreen Inception Modal -->
+    <div id="inception-modal" class="fullscreen-modal">
+        <!-- Close button -->
+        <button class="modal-close-btn" onclick="closeInceptionModal()">×</button>
+
+        <!-- Modal Content Container -->
+        <div class="inception-modal-content">
+            <!-- Hero Section -->
+            <div class="inception-hero">
+                <h1 class="hero-title">Building the Future of Mortgage Lending</h1>
+                <p class="hero-tagline">Our Story · Our Vision · Our Commitment</p>
+            </div>
+
+            <!-- Founders Section -->
+            <div class="founders-container">
+                <h2 class="section-title">Leadership Team</h2>
+
+                <!-- CEO -->
+                <div class="founder-spotlight">
+                    <div class="founder-image-container">
+                        <img src="amini_headshot_grey.png" alt="Anthony Amini" />
+                        <div class="founder-overlay"></div>
+                    </div>
+                    <div class="founder-details">
+                        <h3>Anthony Amini</h3>
+                        <p class="founder-role">President & Chief Executive Officer</p>
+                        <p class="founder-bio">
+                            Leading LendWise with visionary strategic direction, Anthony brings extensive experience
+                            in executive management and a deep commitment to revolutionizing the mortgage industry
+                            through innovation and excellence.
+                        </p>
+                        <div class="expertise-tags">
+                            <span>Executive Leadership</span>
+                            <span>Strategic Vision</span>
+                            <span>Industry Innovation</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- COO & CFO -->
+                <div class="founder-spotlight">
+                    <div class="founder-image-container">
+                        <img src="gady_update_2.png" alt="Gady Gabrielzadeh" />
+                        <div class="founder-overlay"></div>
+                    </div>
+                    <div class="founder-details">
+                        <h3>Gady Gabrielzadeh</h3>
+                        <p class="founder-role">Chief Operating Officer & Chief Financial Officer</p>
+                        <p class="founder-bio">
+                            Overseeing operations and financial management, Gady ensures seamless execution of our vision
+                            while maintaining the highest standards of compliance and fiscal responsibility. His dual role
+                            enables integrated operational and financial excellence.
+                        </p>
+                        <div class="expertise-tags">
+                            <span>Operations Management</span>
+                            <span>Financial Strategy</span>
+                            <span>Compliance</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- CMO -->
+                <div class="founder-spotlight">
+                    <div class="founder-image-container">
+                        <img src="thumbnail_IMG_2168.jpg" alt="David Young" />
+                        <div class="founder-overlay"></div>
+                    </div>
+                    <div class="founder-details">
+                        <h3>David Young</h3>
+                        <p class="founder-role">Chief Marketing Officer</p>
+                        <p class="founder-bio">
+                            With over 24 years of experience in mortgage banking, David leads our marketing initiatives,
+                            brand development, and business development strategy, ensuring LendWise's message of innovation
+                            and service excellence reaches every client.
+                        </p>
+                        <blockquote class="founder-quote">
+                            "At LendWise, we're not just processing loans – we're building dreams and creating opportunities
+                            for families to achieve homeownership through intelligent, compassionate lending."
+                        </blockquote>
+                        <div class="expertise-tags">
+                            <span>Marketing Strategy</span>
+                            <span>Brand Development</span>
+                            <span>Business Development</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- CSO -->
+                <div class="founder-spotlight">
+                    <div class="founder-image-container">
+                        <img src="tony_nasim.jpg" alt="Tony Nasim" />
+                        <div class="founder-overlay"></div>
+                    </div>
+                    <div class="founder-details">
+                        <h3>Tony Nasim</h3>
+                        <p class="founder-role">Chief Sales Officer</p>
+                        <p class="founder-bio">
+                            Leading our sales initiatives with exceptional expertise, Tony drives client acquisition
+                            and revenue strategy, building lasting relationships while ensuring every client receives
+                            personalized attention and optimal lending solutions.
+                        </p>
+                        <div class="expertise-tags">
+                            <span>Sales Leadership</span>
+                            <span>Client Acquisition</span>
+                            <span>Revenue Strategy</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Vision Section -->
+            <div class="vision-section">
+                <h2 class="section-title">The LendWise Vision</h2>
+                <div class="vision-grid">
+                    <div class="vision-card">
+                        <div class="vision-icon">🎯</div>
+                        <h3>Mission</h3>
+                        <p>To revolutionize mortgage lending by combining cutting-edge technology with personalized service,
+                        making homeownership accessible and transparent for everyone.</p>
+                    </div>
+                    <div class="vision-card">
+                        <div class="vision-icon">💡</div>
+                        <h3>Innovation</h3>
+                        <p>Leveraging AI and automation to streamline the lending process while maintaining the human touch
+                        that makes each client feel valued and understood.</p>
+                    </div>
+                    <div class="vision-card">
+                        <div class="vision-icon">🤝</div>
+                        <h3>Partnership</h3>
+                        <p>Building lasting relationships with clients, partners, and communities through trust, transparency,
+                        and unwavering commitment to their success.</p>
+                    </div>
+                    <div class="vision-card">
+                        <div class="vision-icon">🚀</div>
+                        <h3>Growth</h3>
+                        <p>Expanding nationwide while maintaining our core values, setting new standards for excellence
+                        in the mortgage industry.</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Story Section -->
+            <div class="story-section">
+                <h2 class="section-title">Our Story</h2>
+                <div class="story-content">
+                    <p>
+                        LendWise Mortgage Corporation was born from a simple observation: the mortgage industry was ready
+                        for transformation. After decades in traditional lending, we recognized that technology could solve
+                        the pain points that have frustrated borrowers and loan officers alike.
+                    </p>
+                    <p>
+                        In March 2025, we set out to build something different – a mortgage company that puts people first,
+                        powered by technology that works seamlessly in the background. Our platform combines the efficiency
+                        of modern automation with the expertise and care that only experienced professionals can provide.
+                    </p>
+                    <p>
+                        Today, we're not just another mortgage lender. We're pioneers in a new era of lending, where
+                        transparency replaces confusion, speed doesn't sacrifice accuracy, and every client receives
+                        the attention they deserve.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Fullscreen Team Modal -->
+    <div id="team-modal" class="fullscreen-modal">
+        <!-- Close button -->
+        <button class="modal-close-btn" onclick="closeTeamModal()">×</button>
+
+        <!-- Modal Content Container -->
+        <div class="inception-modal-content">
+            <!-- Hero Section -->
+            <div class="inception-hero">
+                <h1 class="hero-title">Meet Our Team</h1>
+                <p class="hero-tagline">Dedicated Professionals · Expert Knowledge · Client-Focused</p>
+            </div>
+
+            <!-- Team Grid Section -->
+            <div class="team-container">
+                <h2 class="section-title">Leadership & Support Staff</h2>
+
+                <div class="team-grid">
+                    <!-- Sara Cohen - LOA Support -->
+                    <div class="team-member">
+                        <div class="member-image-container">
+                            <img src="sara-cohen.png" alt="Sara Cohen" />
+                            <div class="member-overlay"></div>
+                        </div>
+                        <div class="member-details">
+                            <h3>Sara Cohen</h3>
+                            <p class="member-role">Head of LOA Support</p>
+                            <p class="member-bio">
+                                Leading our Loan Officer Assistant support team with exceptional organizational skills
+                                and deep understanding of loan processing workflows.
+                            </p>
+                            <div class="member-skills">
+                                <span>LOA Management</span>
+                                <span>Process Optimization</span>
+                                <span>Team Leadership</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Alberto Martinez - Sales Support -->
+                    <div class="team-member">
+                        <div class="member-image-container">
+                            <img src="alberto-martinez.png" alt="Alberto Martinez" />
+                            <div class="member-overlay"></div>
+                        </div>
+                        <div class="member-details">
+                            <h3>Alberto Martinez</h3>
+                            <p class="member-role">Manager of Sales Support</p>
+                            <p class="member-bio">
+                                Driving sales excellence through strategic support initiatives and comprehensive
+                                training programs for our loan officer network.
+                            </p>
+                            <div class="member-skills">
+                                <span>Sales Strategy</span>
+                                <span>Training & Development</span>
+                                <span>Client Relations</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Kailey Kildunne - Marketing Coordinator -->
+                    <div class="team-member">
+                        <div class="member-image-container">
+                            <img src="kailey.png" alt="Kailey Kildunne" />
+                            <div class="member-overlay"></div>
+                        </div>
+                        <div class="member-details">
+                            <h3>Kailey Kildunne</h3>
+                            <p class="member-role">Marketing Coordinator</p>
+                            <p class="member-bio">
+                                Orchestrating innovative marketing strategies and brand initiatives to elevate
+                                LendWise's presence in the mortgage industry.
+                            </p>
+                            <div class="member-skills">
+                                <span>Digital Marketing</span>
+                                <span>Brand Strategy</span>
+                                <span>Content Creation</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Udeshika Amini - Operations & Vendor Relations Manager -->
+                    <div class="team-member">
+                        <div class="member-image-container">
+                            <img src="udeshika-amini.jpg" alt="Udeshika Amini" />
+                            <div class="member-overlay"></div>
+                        </div>
+                        <div class="member-details">
+                            <h3>Udeshika Amini</h3>
+                            <p class="member-role">Operations & Vendor Relations Manager</p>
+                            <p class="member-bio">
+                                Managing corporate headquarters operations, vendor relationships, procurement,
+                                and ensuring smooth workplace dynamics across all departments.
+                            </p>
+                            <div class="member-skills">
+                                <span>Vendor Management</span>
+                                <span>Operations Excellence</span>
+                                <span>HR Relations</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Team Statistics -->
+                <div class="team-stats">
+                    <div class="stat-box">
+                        <div class="stat-value">4</div>
+                        <div class="stat-label">Core Team Members</div>
+                    </div>
+                    <div class="stat-box">
+                        <div class="stat-value">50+</div>
+                        <div class="stat-label">Years Combined Experience</div>
+                    </div>
+                    <div class="stat-box">
+                        <div class="stat-value">98%</div>
+                        <div class="stat-label">Client Satisfaction</div>
+                    </div>
+                    <div class="stat-box">
+                        <div class="stat-value">24/7</div>
+                        <div class="stat-label">Support Available</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Fullscreen WISR AI Modal -->
+    <div id="wisr-modal" class="fullscreen-modal">
+        <!-- Close button -->
+        <button class="modal-close-btn" onclick="closeWisrModal()">×</button>
+
+        <!-- Modal Content Container -->
+        <div class="inception-modal-content">
+            <!-- Hero Section -->
+            <div class="inception-hero">
+                <h1 class="hero-title">WISR AI Platform</h1>
+                <p class="hero-tagline">Intelligent Assistance · Instant Answers · Seamless Integration</p>
+            </div>
+
+            <!-- Overview Section -->
+            <div class="vision-section">
+                <h2 class="section-title">The Intelligence Behind LendWise</h2>
+                <div class="vision-content">
+                    <p>
+                        WISR AI is the revolutionary artificial intelligence platform that powers every aspect of LendWise operations.
+                        Acting as a personal assistant to loan officers, borrowers, and support staff, WISR provides instant,
+                        intelligent responses to any question about loans, guidelines, processes, or requirements.
+                    </p>
+                    <p>
+                        As the central nervous system of our technology stack, WISR connects all databases, systems, and processes,
+                        creating a unified intelligence layer that makes complex lending decisions simple and instant.
+                    </p>
+                </div>
+            </div>
+
+            <!-- Core Capabilities Grid -->
+            <div class="features-grid">
+                <div class="feature-card">
+                    <div class="feature-icon">⚡</div>
+                    <h3>Instant Pre-Approvals</h3>
+                    <p>AI-powered underwriting delivers accurate pre-approvals in seconds, not hours or days.</p>
+                </div>
+
+                <div class="feature-card">
+                    <div class="feature-icon">📚</div>
+                    <h3>Guideline Intelligence</h3>
+                    <p>Real-time access to all investor guidelines and rules, instantly matched to each scenario.</p>
+                </div>
+
+                <div class="feature-card">
+                    <div class="feature-icon">🤝</div>
+                    <h3>Personal AI Assistant</h3>
+                    <p>Natural language interface allows users to ask any question and receive expert answers instantly.</p>
+                </div>
+
+                <div class="feature-card">
+                    <div class="feature-icon">🔍</div>
+                    <h3>Document Analysis</h3>
+                    <p>Automated review and verification of all loan documents with AI-powered accuracy.</p>
+                </div>
+
+                <div class="feature-card">
+                    <div class="feature-icon">📊</div>
+                    <h3>Predictive Analytics</h3>
+                    <p>Advanced algorithms predict loan performance and identify optimal pricing strategies.</p>
+                </div>
+
+                <div class="feature-card">
+                    <div class="feature-icon">🔄</div>
+                    <h3>Workflow Automation</h3>
+                    <p>Intelligent orchestration of all lending processes from application to closing.</p>
+                </div>
+            </div>
+
+            <!-- Integration Ecosystem -->
+            <div class="integration-section">
+                <h2 class="section-title">Connected to Everything</h2>
+                <div class="integration-grid">
+                    <div class="integration-item">
+                        <span class="integration-icon">🏦</span>
+                        <span>Credit Bureaus</span>
+                    </div>
+                    <div class="integration-item">
+                        <span class="integration-icon">📈</span>
+                        <span>Market Data</span>
+                    </div>
+                    <div class="integration-item">
+                        <span class="integration-icon">📋</span>
+                        <span>Compliance Systems</span>
+                    </div>
+                    <div class="integration-item">
+                        <span class="integration-icon">💼</span>
+                        <span>Investor Platforms</span>
+                    </div>
+                    <div class="integration-item">
+                        <span class="integration-icon">📱</span>
+                        <span>CRM Systems</span>
+                    </div>
+                    <div class="integration-item">
+                        <span class="integration-icon">📂</span>
+                        <span>Document Management</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Performance Metrics -->
+            <div class="team-stats">
+                <div class="stat-box">
+                    <div class="stat-value"><1s</div>
+                    <div class="stat-label">Response Time</div>
+                </div>
+                <div class="stat-box">
+                    <div class="stat-value">99.9%</div>
+                    <div class="stat-label">Uptime</div>
+                </div>
+                <div class="stat-box">
+                    <div class="stat-value">24/7</div>
+                    <div class="stat-label">Availability</div>
+                </div>
+                <div class="stat-box">
+                    <div class="stat-value">∞</div>
+                    <div class="stat-label">Knowledge Base</div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Fullscreen Integrations Modal -->
+    <div id="integrations-modal" class="fullscreen-modal">
+        <!-- Close button -->
+        <button class="modal-close-btn" id="integrations-modal-close">×</button>
+
+        <!-- Modal Content Container -->
+        <div class="inception-modal-content">
+            <!-- Hero Section -->
+            <div class="inception-hero">
+                <h1 class="hero-title">Platform Integrations</h1>
+                <p class="hero-tagline">Seamless Connectivity · Unified Workflows · Enhanced Efficiency</p>
+            </div>
+
+            <!-- Overview Section -->
+            <div class="vision-section">
+                <h2 class="section-title">Complete System Integration</h2>
+                <div class="vision-content">
+                    <p>
+                        Our comprehensive integration platform connects LendWise with industry-leading systems,
+                        creating a seamless ecosystem that eliminates data silos and manual processes. From loan
+                        origination to pricing engines to communication tools, every system works in perfect harmony.
+                    </p>
+                    <p>
+                        By unifying these critical platforms, we enable loan officers to work more efficiently,
+                        reduce errors, and provide faster service to borrowers—all while maintaining complete
+                        data integrity and compliance across all systems.
+                    </p>
+                </div>
+            </div>
+
+            <!-- Integration Categories -->
+            <div class="integration-grid">
+                <!-- Core Systems -->
+                <div class="integration-category">
+                    <h3 class="category-title">Core Lending Systems</h3>
+                    <div class="integration-items">
+                        <div class="integration-card">
+                            <div class="integration-logo">📊</div>
+                            <h4>Encompass</h4>
+                            <p>Complete LOS integration for seamless loan origination and processing workflows</p>
+                            <div class="integration-features">
+                                <span>Real-time sync</span>
+                                <span>Automated workflows</span>
+                                <span>Document management</span>
+                            </div>
+                        </div>
+
+                        <div class="integration-card">
+                            <div class="integration-logo">💰</div>
+                            <h4>Optimal Blue</h4>
+                            <p>Dynamic pricing engine integration for instant, accurate rate quotes and lock desk management</p>
+                            <div class="integration-features">
+                                <span>Live pricing</span>
+                                <span>Rate locks</span>
+                                <span>Investor selection</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Communication Systems -->
+                <div class="integration-category">
+                    <h3 class="category-title">Communication & Productivity</h3>
+                    <div class="integration-items">
+                        <div class="integration-card">
+                            <div class="integration-logo">
+                                <svg viewBox="0 0 24 24" width="32" height="32">
+                                    <path d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z" fill="#4285F4"/>
+                                    <path d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z" fill="#34A853"/>
+                                    <path d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z" fill="#FBBC05"/>
+                                    <path d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z" fill="#EA4335"/>
+                                </svg>
+                            </div>
+                            <h4>Google Workspace</h4>
+                            <p>Full Google ecosystem integration including Gmail, Calendar, Drive, and Meet</p>
+                            <div class="integration-features">
+                                <span>Email automation</span>
+                                <span>Calendar sync</span>
+                                <span>Document sharing</span>
+                            </div>
+                        </div>
+
+                        <div class="integration-card">
+                            <div class="integration-logo">📧</div>
+                            <h4>Email Marketing</h4>
+                            <p>Advanced email campaign management and automated client communication</p>
+                            <div class="integration-features">
+                                <span>Drip campaigns</span>
+                                <span>Client tracking</span>
+                                <span>Analytics</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Data & Analytics -->
+                <div class="integration-category">
+                    <h3 class="category-title">Data & Analytics</h3>
+                    <div class="integration-items">
+                        <div class="integration-card">
+                            <div class="integration-logo">📈</div>
+                            <h4>Credit Bureaus</h4>
+                            <p>Direct integration with all major credit bureaus for instant credit pulls</p>
+                            <div class="integration-features">
+                                <span>Soft pulls</span>
+                                <span>Tri-merge reports</span>
+                                <span>Score monitoring</span>
+                            </div>
+                        </div>
+
+                        <div class="integration-card">
+                            <div class="integration-logo">🏦</div>
+                            <h4>Banking APIs</h4>
+                            <p>Secure connections to financial institutions for asset verification</p>
+                            <div class="integration-features">
+                                <span>Account verification</span>
+                                <span>Asset tracking</span>
+                                <span>Transaction history</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Integration Benefits -->
+            <div class="benefits-section">
+                <h2 class="section-title">Integration Benefits</h2>
+                <div class="benefits-grid">
+                    <div class="benefit-card">
+                        <div class="benefit-icon">⚡</div>
+                        <h4>Speed & Efficiency</h4>
+                        <p>Eliminate manual data entry with automatic synchronization across all platforms</p>
+                    </div>
+                    <div class="benefit-card">
+                        <div class="benefit-icon">🔒</div>
+                        <h4>Data Security</h4>
+                        <p>Enterprise-grade security with encrypted connections and compliance monitoring</p>
+                    </div>
+                    <div class="benefit-card">
+                        <div class="benefit-icon">🔄</div>
+                        <h4>Real-Time Updates</h4>
+                        <p>Instant synchronization ensures all teams work with the latest information</p>
+                    </div>
+                    <div class="benefit-card">
+                        <div class="benefit-icon">📊</div>
+                        <h4>Unified Reporting</h4>
+                        <p>Comprehensive analytics across all integrated systems from a single dashboard</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Coming Soon Section -->
+            <div class="timeline-cta">
+                <div class="cta-content">
+                    <h3>More Integrations Coming</h3>
+                    <p>We're continuously expanding our integration ecosystem to include more tools and services that enhance your lending experience.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Milestone Data -->
+    <script>
+        const milestoneData = {
+            inception: {
+                title: "Company Inception",
+                date: "March 2025",
+                category: "Foundation",
+                icon: "🚀",
+                description: "The inception of LendWise Mortgage Corporation marks the beginning of our journey to transform mortgage lending through innovation, technology, and unwavering commitment to client success.",
+                impact: "Founding vision established with leadership team and initial strategic framework",
+                metrics: [
+                    "Executive leadership team assembled",
+                    "Initial capital commitments secured",
+                    "Core strategic partnerships identified",
+                    "Technology and innovation roadmap defined"
+                ],
+                team: "Founding partners bring combined 50+ years of mortgage and technology expertise",
+                challenges: "Creating differentiation in a traditional industry ready for disruption",
+                outcome: "Launch of a transformative mortgage lending platform with clear vision and strong foundation"
+            },
+            founded: {
+                title: "Company Founded",
+                date: "August 1, 2024",
+                category: "Foundation",
+                icon: "🏢",
+                description: "LendWise Mortgage Corporation was officially established as a Delaware C-Corporation with a vision to revolutionize the mortgage lending industry through technology and exceptional service.",
+                impact: "Established the foundation for what would become a leading mortgage technology platform",
+                metrics: [
+                    "Initial team of 3 founders",
+                    "Secured seed funding of $500K",
+                    "Delaware C-Corporation structure",
+                    "Business plan and roadmap created"
+                ],
+                team: "David Young (Founder & CEO) with 24 years mortgage banking expertise",
+                challenges: "Building credibility in a highly regulated and competitive market",
+                outcome: "Successfully launched with proper structure and clear vision for disrupting the mortgage industry"
+            },
+            headquarters: {
+                title: "Premium Office Location",
+                date: "June 2025",
+                category: "Infrastructure",
+                icon: "🏢",
+                description: "Established our state-of-the-art headquarters in Woodland Hills, California.",
+                impact: "Created a professional home base for operations and growth",
+                metrics: [
+                    "21800 Oxnard Street, Woodland Hills",
+                    "15,000 sq ft modern facility",
+                    "150+ employee capacity",
+                    "LEED Gold certified building"
+                ],
+                team: "Full operational staff supporting all divisions",
+                challenges: "Finding the perfect location with room for growth",
+                outcome: "World-class facility supporting our nationwide operations"
+            },
+            location: {
+                title: "Premium Office Location",
+                date: "August 1, 2024",
+                category: "Infrastructure",
+                icon: "🏢",
+                address: "1234 Business Park Drive, Suite 500, Newport Beach, CA 92660",
+                images: [
+                    "https://images.unsplash.com/photo-1497366216548-37526070297c?w=1200", // Modern office exterior
+                    "https://images.unsplash.com/photo-1497366811353-6870744d04b2?w=1200", // Open workspace
+                    "https://images.unsplash.com/photo-1497366754035-f200586c5e9b?w=1200", // Conference room
+                    "https://images.unsplash.com/photo-1497366412874-3415097a27e7?w=1200"  // Lounge area
+                ],
+                description: "Secured a state-of-the-art 8,500 sq ft office space in the heart of Newport Beach's prestigious financial district, providing the perfect environment for innovation and growth.",
+                details: {
+                    size: "8,500 square feet",
+                    floors: "5th floor penthouse suite",
+                    capacity: "75+ employees",
+                    parking: "150 dedicated spaces",
+                    lease: "5-year term with expansion options"
+                },
+                whyThisLocation: [
+                    "Prime location in Newport Beach financial district",
+                    "Walking distance to major banks and lending partners",
+                    "Easy freeway access (405/55/73 interchange)",
+                    "Prestigious Class A business address",
+                    "Modern building with latest technology infrastructure",
+                    "Ocean views inspiring creativity and excellence"
+                ],
+                amenities: [
+                    "24/7 secured access with biometric entry",
+                    "Dedicated 10GB fiber internet connection",
+                    "Modern HVAC with HEPA air purification",
+                    "Electric vehicle charging stations (10 spots)",
+                    "On-site fitness center and wellness room",
+                    "Rooftop terrace for events and meetings"
+                ],
+                spaces: [
+                    "Executive offices (8 private)",
+                    "Open collaboration areas (3 zones)",
+                    "Conference rooms (4 with video conferencing)",
+                    "Training room (40 person capacity)",
+                    "Employee lounge with full kitchen",
+                    "Client meeting suites with privacy"
+                ],
+                impact: "Created a professional headquarters that reflects our commitment to excellence and innovation",
+                metrics: [
+                    "25% under market rate secured",
+                    "90% employee satisfaction with location",
+                    "15-minute average commute time",
+                    "LEED Gold certified building"
+                ],
+                outcome: "Established a flagship location that supports our growth and reinforces our professional brand"
+            },
+            nmls: {
+                title: "NMLS Registration",
+                date: "September 1, 2024",
+                category: "Licensing",
+                icon: "📜",
+                description: "Achieved Nationwide Mortgage Licensing System (NMLS) registration, establishing our foundation for multi-state mortgage operations.",
+                impact: "Enabled legal operation as a mortgage company across multiple states",
+                metrics: [
+                    "NMLS ID: #2581507",
+                    "30-day approval process",
+                    "$50,000 surety bond posted",
+                    "All key personnel vetted and approved"
+                ],
+                team: "Compliance team and legal counsel",
+                challenges: "Complex application process and extensive background checks",
+                outcome: "Approved status allowing nationwide mortgage operations"
+            },
+            dre: {
+                title: "California DRE License",
+                date: "October 15, 2024",
+                category: "Licensing",
+                icon: "🏛️",
+                description: "Secured California Department of Real Estate broker license, enabling full mortgage operations in California.",
+                impact: "Authorized to conduct mortgage business in California, the largest mortgage market in the US",
+                metrics: [
+                    "Broker license secured",
+                    "Responsible broker designated",
+                    "Trust account established",
+                    "Office location approved"
+                ],
+                team: "Legal and compliance teams",
+                outcome: "Full authorization to originate mortgages in California"
+            },
+            'dfpi-ai': {
+                title: "DFPI AI Platform",
+                date: "October 2025",
+                category: "Technology",
+                icon: "🤖",
+                description: "Successfully deployed AI-powered compliance and risk assessment platform for DFPI regulatory requirements.",
+                impact: "Automated regulatory compliance monitoring with AI-driven risk assessment",
+                metrics: [
+                    "Real-time compliance monitoring",
+                    "Automated risk scoring",
+                    "95% accuracy in regulatory predictions",
+                    "50% reduction in compliance processing time"
+                ],
+                team: "AI development and compliance teams",
+                challenges: "Integrating complex regulatory requirements with AI decision-making",
+                outcome: "Industry-leading AI compliance platform"
+            },
+            los: {
+                title: "LOS Platform Integration",
+                date: "October 2025",
+                category: "Technology",
+                icon: "💻",
+                description: "Advanced Loan Origination System integration with AI-powered workflow automation and enhanced processing capabilities.",
+                status: "In Progress",
+                impact: "Next-generation loan processing with AI automation and streamlined workflows",
+                metrics: [
+                    "AI-powered application processing",
+                    "Advanced workflow automation",
+                    "Real-time status tracking",
+                    "Integrated compliance monitoring",
+                    "Mobile-optimized interface"
+                ],
+                team: "Technology team and AI development specialists",
+                challenges: "Integrating AI capabilities with traditional LOS workflows",
+                outcome: "Target: Industry-leading automated loan origination platform"
+            },
+            dscr: {
+                title: "DSCR Generator Launch",
+                date: "January 10, 2025",
+                category: "Product",
+                icon: "🚀",
+                description: "Launched proprietary DSCR (Debt Service Coverage Ratio) qualification tool for investment property loans.",
+                impact: "Revolutionary tool providing instant DSCR calculations and pre-approvals",
+                metrics: [
+                    "< 5 second calculation time",
+                    "500+ properties analyzed",
+                    "99.9% accuracy rate",
+                    "PDF report generation"
+                ],
+                team: "Product development team",
+                outcome: "Industry-first instant DSCR qualification tool"
+            },
+            multistate: {
+                title: "Multi-State Licensing",
+                date: "February 1, 2025",
+                category: "Expansion",
+                icon: "🗺️",
+                description: "Achieved licensing in 7 states, marking our first major geographic expansion.",
+                impact: "Expanded market reach to cover 100M+ population",
+                metrics: [
+                    "Licensed in CA, AZ, NV, OR, WA, TX, FL",
+                    "100M+ population coverage",
+                    "$2.5T market opportunity",
+                    "7 state compliance frameworks"
+                ],
+                outcome: "Regional mortgage lender with multi-state presence"
+            },
+            crm: {
+                title: "Mission Control CRM",
+                date: "March 1, 2025",
+                category: "Product",
+                icon: "📊",
+                description: "Launching AI-powered CRM system specifically designed for loan officers.",
+                status: "In Progress",
+                impact: "Complete loan officer workflow automation and intelligence",
+                metrics: [
+                    "AI-powered lead scoring",
+                    "Automated follow-ups",
+                    "Pipeline management",
+                    "Integrated communication tools"
+                ],
+                team: "Product and AI development teams",
+                outcome: "Target: Most advanced LO-focused CRM in the industry"
+            },
+            wisr: {
+                title: "WISR AI Assistant",
+                date: "April 2025",
+                category: "Innovation",
+                icon: "🤖",
+                description: "Full AI integration providing intelligent assistance to loan officers throughout the loan process.",
+                status: "In Progress",
+                impact: "AI-powered loan officer assistant for maximum productivity",
+                metrics: [
+                    "24/7 AI availability",
+                    "Natural language processing",
+                    "Automated document analysis",
+                    "Smart recommendations"
+                ],
+                outcome: "Target: Industry-leading AI assistant for mortgage professionals"
+            },
+            fhava: {
+                title: "FHA/VA Approval",
+                date: "June 2025",
+                category: "Licensing",
+                icon: "🏛️",
+                description: "Pursuing FHA and VA approval to serve first-time homebuyers and veterans.",
+                status: "Planned",
+                impact: "Access to government-backed loan programs",
+                metrics: [
+                    "FHA lender approval",
+                    "VA lender authorization",
+                    "Ginnie Mae issuer status",
+                    "Expanded product offerings"
+                ],
+                outcome: "Target: Full government lending capabilities"
+            },
+            underwriting: {
+                title: "AI Underwriting",
+                date: "September 2025",
+                category: "Innovation",
+                icon: "🧠",
+                description: "Automated underwriting system using artificial intelligence for faster, more accurate loan decisions.",
+                status: "Planned",
+                impact: "Revolutionary AI-powered underwriting reducing decision time to hours",
+                metrics: [
+                    "24-hour decisions",
+                    "95% automation rate",
+                    "Enhanced risk assessment",
+                    "Reduced human error"
+                ],
+                outcome: "Target: Fastest underwriting in the industry"
+            },
+            licensing: {
+                title: "Multi-State Licensing",
+                date: "May 2025",
+                category: "Regulatory Compliance",
+                icon: "📜",
+                description: "LendWise achieves multi-state licensing, establishing our presence in California and Florida.",
+                impact: "Enabled legal mortgage operations in two major states",
+                metrics: [
+                    "California DRE License #02184567",
+                    "Florida License #MLD1826",
+                    "Combined population coverage: 60M+",
+                    "$2.5T combined housing market"
+                ],
+                team: "Dedicated compliance team ensures regulatory adherence",
+                challenges: "Meeting diverse state requirements and maintaining compliance",
+                outcome: "Foundation for nationwide expansion established"
+            },
+            staff: {
+                title: "The Team",
+                date: "July 2025",
+                category: "Human Resources",
+                icon: "👥",
+                description: "Building a world-class team of mortgage professionals dedicated to excellence and innovation.",
+                impact: "Assembled industry-leading talent to drive our mission forward",
+                metrics: [
+                    "25+ dedicated professionals",
+                    "200+ years combined experience",
+                    "98% client satisfaction rating",
+                    "24/7 support availability"
+                ],
+                team: "Cross-functional experts in lending, technology, compliance, and customer service",
+                challenges: "Recruiting top talent in a competitive market",
+                outcome: "Created a culture of excellence with passionate professionals"
+            },
+            team: {
+                title: "The Team",
+                date: "July 2025",
+                category: "Human Resources",
+                icon: "👥",
+                description: "Building a world-class team of mortgage professionals dedicated to excellence and innovation.",
+                impact: "Assembled industry-leading talent to drive our mission forward",
+                metrics: [
+                    "25+ dedicated professionals",
+                    "200+ years combined experience",
+                    "98% client satisfaction rating",
+                    "24/7 support availability"
+                ],
+                team: "Cross-functional experts in lending, technology, compliance, and customer service",
+                challenges: "Recruiting top talent in a competitive market",
+                outcome: "Created a culture of excellence with passionate professionals"
+            },
+            wisr: {
+                title: "WISR AI Platform",
+                date: "June 10, 2025",
+                category: "Artificial Intelligence",
+                icon: "🤖",
+                description: "Revolutionary AI platform serving as the intelligent backbone of LendWise, providing personalized assistance to loan officers, borrowers, and support staff across all operations.",
+                impact: "Transformed lending operations with AI-powered automation and intelligent decision-making",
+                metrics: [
+                    "24/7 AI assistance for all users",
+                    "Instant pre-approval capabilities",
+                    "Real-time investor guideline matching",
+                    "99.9% uptime reliability",
+                    "Sub-second response times"
+                ],
+                capabilities: [
+                    "Instant loan pre-approvals with AI underwriting",
+                    "Real-time investor guidelines and compliance checking",
+                    "Natural language Q&A for any lending question",
+                    "Automated document analysis and verification",
+                    "Predictive analytics for loan performance",
+                    "Smart pricing optimization",
+                    "Intelligent lead scoring and routing",
+                    "Automated workflow orchestration"
+                ],
+                integrations: [
+                    "Connected to all LendWise systems",
+                    "Integrated with major credit bureaus",
+                    "Links to investor platforms",
+                    "Syncs with compliance databases",
+                    "Connects to market data feeds"
+                ],
+                team: "AI engineers, data scientists, and mortgage experts collaborating to build intelligent solutions",
+                challenges: "Creating an AI that truly understands the complexities of mortgage lending",
+                outcome: "Industry's most advanced AI assistant revolutionizing how lending professionals work"
+            },
+            'google-sponsor': {
+                title: "Google Analytics Official Sponsorship",
+                date: "April 2025",
+                category: "Strategic Partnership",
+                icon: "🤝",
+                description: "LendWise becomes an official Google Analytics partner, gaining exclusive access to beta features, dedicated support, and co-marketing opportunities.",
+                impact: "Elevated market position as a technology-forward mortgage lender",
+                metrics: [
+                    "Official Google Analytics Partner status",
+                    "Access to beta features and early releases",
+                    "Dedicated Google support team",
+                    "Co-marketing opportunities worth $250K+",
+                    "Annual conference speaking opportunities"
+                ],
+                benefits: [
+                    "Priority access to new GA4 features",
+                    "Quarterly business reviews with Google team",
+                    "Custom training for our analytics team",
+                    "Joint case studies and white papers",
+                    "Google Cloud credits worth $100K annually"
+                ],
+                sponsorshipDetails: {
+                    tier: "Premier Partner",
+                    duration: "3-year agreement",
+                    value: "$500K in total benefits",
+                    certification: "Google Analytics Certified Company"
+                },
+                team: "Dedicated team of 5 certified Google Analytics professionals",
+                challenges: "Meeting Google's stringent partner requirements and maintaining certification standards",
+                outcome: "Industry recognition as a data-driven, technology-first mortgage lender"
+            },
+            pos: {
+                title: "POS System Integration",
+                date: "October 2025",
+                category: "Technology",
+                icon: "💳",
+                description: "Advanced Point of Sale system integration for streamlined transaction processing and customer experience.",
+                status: "In Progress",
+                impact: "Enhanced customer experience with integrated payment processing and loan origination",
+                metrics: [
+                    "Real-time payment processing",
+                    "Integrated loan application workflow",
+                    "Multi-channel support (web, mobile, in-person)",
+                    "99.9% transaction success rate"
+                ],
+                team: "Technology and product development teams",
+                challenges: "Seamless integration with existing LOS and compliance systems",
+                outcome: "Target: Industry-leading customer experience platform"
+            },
+            'mission-control': {
+                title: "Mission Control CRM",
+                date: "November 2025",
+                category: "Product",
+                icon: "🎛️",
+                description: "Next-generation CRM platform designed specifically for loan officers with AI-powered automation and intelligence.",
+                status: "Planned",
+                impact: "Revolutionary loan officer productivity with AI-powered workflow automation",
+                metrics: [
+                    "AI-powered lead scoring and routing",
+                    "Automated follow-up sequences",
+                    "Integrated communication tools",
+                    "Real-time pipeline analytics",
+                    "Mobile-first design"
+                ],
+                team: "Product development and AI teams",
+                challenges: "Creating the most intuitive and powerful LO-focused CRM in the industry",
+                outcome: "Target: #1 loan officer productivity platform"
+            },
+            nationwide: {
+                title: "25-State Goal",
+                date: "December 2025",
+                category: "Milestone",
+                icon: "🎯",
+                description: "Achieving presence in 25 states, establishing LendWise as a true national mortgage lender.",
+                status: "Planned",
+                impact: "National mortgage lender status with coast-to-coast coverage",
+                metrics: [
+                    "25 state licenses",
+                    "200M+ population coverage",
+                    "50+ loan officers",
+                    "$5B annual origination target"
+                ],
+                outcome: "Target: Top 100 mortgage lender nationally"
+            }
+        };
+    </script>
+
+    <!-- Include JavaScript files -->
+    <script src="intro-animation.js"></script>
+    <script src="modern-timeline.js"></script>
+    <!-- New Filter Button Container -->
+    <div class="new-filter-container" id="new-filter-container">
+        <!-- Left side filter options -->
+        <div class="filter-options-left" id="filter-options-left">
+            <button class="filter-option-btn filter-operations" data-value="operations">Operations</button>
+            <button class="filter-option-btn filter-tech" data-value="tech">Tech</button>
+            <button class="filter-option-btn filter-completed" data-value="completed">Completed</button>
+        </div>
+
+        <!-- Main Filter Button (Center) -->
+        <button class="new-filter-btn" id="main-filter-btn">
+            <svg class="filter-icon" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <polygon points="22,3 2,3 10,12.46 10,19 14,21 14,12.46"></polygon>
+            </svg>
+            <span>Filter</span>
+            <span class="filter-count" id="filter-count" style="display: none;">0</span>
+        </button>
+
+        <!-- Right side filter options -->
+        <div class="filter-options-right" id="filter-options-right">
+            <button class="filter-option-btn filter-in-progress" data-value="in-progress">In Progress</button>
+            <button class="filter-option-btn filter-future" data-value="future">Future</button>
+            <button class="filter-clear-btn" id="filter-clear-btn">
+                <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <line x1="18" y1="6" x2="6" y2="18"></line>
+                    <line x1="6" y1="6" x2="18" y2="18"></line>
+                </svg>
+            </button>
+        </div>
+    </div>
+
+    </div> <!-- End of main-content -->
+
+    <!-- New Filter JavaScript -->
+    <script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const container = document.getElementById('new-filter-container');
+        const mainBtn = document.getElementById('main-filter-btn');
+        const leftOptions = document.getElementById('filter-options-left');
+        const rightOptions = document.getElementById('filter-options-right');
+        const optionBtns = document.querySelectorAll('.filter-option-btn');
+        const clearBtn = document.getElementById('filter-clear-btn');
+        const countDisplay = document.getElementById('filter-count');
+
+        let isOpen = false;
+        let selectedFilters = [];
+        let isDragging = false;
+        let dragStartTime = 0;
+        let dragDistance = 0;
+        let startX = 0;
+        let startY = 0;
+        let currentX = 0;
+        let currentY = 0;
+        let offsetX = 0;
+        let offsetY = 0;
+
+        // Toggle filter options
+        function toggleOptions() {
+            isOpen = !isOpen;
+            if (isOpen) {
+                // Show containers using CSS classes
+                leftOptions.classList.add('visible');
+                rightOptions.classList.add('visible');
+
+                // Stagger option animations for both sides
+                const leftBtns = leftOptions.querySelectorAll('.filter-option-btn');
+                const rightBtns = rightOptions.querySelectorAll('.filter-option-btn');
+
+                // Animate left buttons (reverse order for proper stagger)
+                leftBtns.forEach((btn, index) => {
+                    btn.style.opacity = '0';
+                    btn.style.transform = 'scale(0.8)';
+                    setTimeout(() => {
+                        btn.style.transition = 'all 0.3s cubic-bezier(0.4, 0, 0.2, 1)';
+                        btn.style.opacity = '1';
+                        btn.style.transform = 'scale(1)';
+                    }, (leftBtns.length - index - 1) * 50);
+                });
+
+                // Animate right buttons
+                rightBtns.forEach((btn, index) => {
+                    btn.style.opacity = '0';
+                    btn.style.transform = 'scale(0.8)';
+                    setTimeout(() => {
+                        btn.style.transition = 'all 0.3s cubic-bezier(0.4, 0, 0.2, 1)';
+                        btn.style.opacity = '1';
+                        btn.style.transform = 'scale(1)';
+                    }, index * 50);
+                });
+
+                // Show clear button if needed
+                if (selectedFilters.length > 0) {
+                    setTimeout(() => {
+                        clearBtn.classList.add('visible');
+                    }, rightBtns.length * 50);
+                }
+            } else {
+                // Hide containers using CSS classes
+                leftOptions.classList.remove('visible');
+                rightOptions.classList.remove('visible');
+                clearBtn.classList.remove('visible');
+            }
+        }
+
+        // Handle option selection
+        function handleOptionSelect(value) {
+            if (selectedFilters.includes(value)) {
+                selectedFilters = selectedFilters.filter(f => f !== value);
+            } else {
+                selectedFilters.push(value);
+            }
+            updateUI();
+        }
+
+        // Clear all filters
+        function clearAllFilters() {
+            selectedFilters = [];
+            updateUI();
+            toggleOptions();
+        }
+
+        // Update UI based on selected filters
+        function updateUI() {
+            // Update count display
+            if (selectedFilters.length > 0) {
+                countDisplay.textContent = selectedFilters.length;
+                countDisplay.style.display = 'flex';
+            } else {
+                countDisplay.style.display = 'none';
+            }
+
+            // Update option button states
+            optionBtns.forEach(btn => {
+                const value = btn.getAttribute('data-value');
+                if (selectedFilters.includes(value)) {
+                    btn.classList.add('selected');
+                } else {
+                    btn.classList.remove('selected');
+                }
+            });
+
+            // Show/hide clear button
+            if (selectedFilters.length > 0 && isOpen) {
+                clearBtn.classList.add('visible');
+            } else {
+                clearBtn.classList.remove('visible');
+            }
+        }
+
+        // Drag functionality
+        function handleDragStart(e) {
+            dragStartTime = Date.now();
+            dragDistance = 0;
+            isDragging = true;
+
+            if (e.type === 'mousedown') {
+                startX = e.clientX - offsetX;
+                startY = e.clientY - offsetY;
+            } else if (e.type === 'touchstart') {
+                startX = e.touches[0].clientX - offsetX;
+                startY = e.touches[0].clientY - offsetY;
+            }
+
+            container.style.transition = 'none';
+            e.preventDefault();
+        }
+
+        function handleDragMove(e) {
+            if (!isDragging) return;
+
+            e.preventDefault();
+
+            if (e.type === 'mousemove') {
+                currentX = e.clientX - startX;
+                currentY = e.clientY - startY;
+            } else if (e.type === 'touchmove') {
+                currentX = e.touches[0].clientX - startX;
+                currentY = e.touches[0].clientY - startY;
+            }
+
+            dragDistance = Math.sqrt(Math.pow(currentX - offsetX, 2) + Math.pow(currentY - offsetY, 2));
+            offsetX = currentX;
+            offsetY = currentY;
+
+            container.style.transform = `translate(${currentX}px, ${currentY}px)`;
+        }
+
+        function handleDragEnd(e) {
+            if (!isDragging) return;
+
+            isDragging = false;
+            container.style.transition = 'all 0.3s cubic-bezier(0.4, 0, 0.2, 1)';
+
+            const dragDuration = Date.now() - dragStartTime;
+
+            // If it was a quick click with minimal movement, toggle options
+            if (dragDuration < 200 && dragDistance < 5) {
+                toggleOptions();
+            }
+        }
+
+        // Event listeners - drag functionality disabled
+        mainBtn.addEventListener('click', toggleOptions);
+
+        optionBtns.forEach(btn => {
+            btn.addEventListener('click', (e) => {
+                e.stopPropagation();
+                handleOptionSelect(btn.getAttribute('data-value'));
+            });
+        });
+
+        clearBtn.addEventListener('click', (e) => {
+            e.stopPropagation();
+            clearAllFilters();
+        });
+
+        // Close options when clicking outside
+        document.addEventListener('click', (e) => {
+            if (!container.contains(e.target) && isOpen) {
+                toggleOptions();
+            }
+        });
+    });
+    </script>
+</body>
+</html>

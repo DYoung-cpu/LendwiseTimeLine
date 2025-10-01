@@ -275,7 +275,7 @@ html, body {
        Timeline line is at 50% of .timeline-line-container (180px height = 90px from top)
        Plus roadmap-timeline padding (80px) = 170px
        With translateY(-50%), the circle center will be at exactly 170px */
-    top: 209px; /* Lowered by 10% (190px + 19px = 209px) */
+    top: 240px; /* Lowered by additional 15% (209px + 31px = 240px) */
     transform: translateY(-50%);
     background: rgba(100, 200, 255, 0.1);
     border: 2px solid rgba(100, 200, 255, 0.5);
@@ -3510,7 +3510,7 @@ body {
     .timeline-nav {
         width: 35px;
         height: 35px;
-        top: 165px; /* Lowered by 10% (150px + 15px = 165px) */
+        top: 190px; /* Lowered by additional 15% (165px + 25px = 190px) */
     }
 
     .timeline-nav span {

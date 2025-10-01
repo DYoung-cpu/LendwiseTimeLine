@@ -139,7 +139,6 @@ function transitionToTimeline() {
                 setupNavigationButtons();
                 setupTimelineClicks();
                 setupTimelineNavigation();
-                setupPositionControls();
                 setupModalHandlers();
                 console.log('✅ Timeline initialized after auth');
             }

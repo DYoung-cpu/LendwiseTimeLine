@@ -209,6 +209,21 @@ html, body {
     margin-top: 30px; /* More space from title */
 }
 
+/* Timeline Border Container - Subtle visual separation */
+.timeline-border-container {
+    position: relative;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 12px;
+    background: rgba(255, 255, 255, 0.02);
+    backdrop-filter: blur(10px);
+    padding: 20px;
+    margin: 10px 0;
+    box-shadow:
+        0 1px 3px rgba(0, 0, 0, 0.12),
+        0 1px 2px rgba(0, 0, 0, 0.24),
+        inset 0 1px 0 rgba(255, 255, 255, 0.1);
+}
+
 /* Timeline Viewport - Contains scrollable area */
 .timeline-viewport {
     position: relative;

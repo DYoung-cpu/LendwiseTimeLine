@@ -216,8 +216,8 @@ html, body {
     border-radius: 12px;
     background: rgba(255, 255, 255, 0.02);
     backdrop-filter: blur(10px);
-    padding: 7px 20px; /* Reduced vertical padding by additional 20% (9px -> 7px), kept horizontal at 20px */
-    margin: 10px 0;
+    padding: 7px 60px; /* Extended horizontal padding to visually encompass arrow areas */
+    margin: 10px -40px; /* Negative horizontal margins to expand border width beyond viewport */
     box-shadow:
         0 1px 3px rgba(0, 0, 0, 0.12),
         0 1px 2px rgba(0, 0, 0, 0.24),

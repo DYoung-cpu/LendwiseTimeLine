@@ -53,22 +53,21 @@
                 </div>
 
                 <div class="roadmap-timeline">
-                    <!-- Timeline Border Container - Now wraps arrows and viewport -->
+                    <!-- Timeline Navigation Arrows -->
+                    <button class="timeline-nav timeline-nav-left" id="timeline-left">
+                        <span>‹</span>
+                    </button>
+                    <button class="timeline-nav timeline-nav-right" id="timeline-right">
+                        <span>›</span>
+                    </button>
+
+                    <!-- Edge Gradient Masks -->
+                    <div class="timeline-edge-mask-left"></div>
+                    <div class="timeline-edge-mask-right"></div>
+
+                    <!-- Timeline Viewport Container -->
                     <div class="timeline-border-container">
-                        <!-- Timeline Navigation Arrows -->
-                        <button class="timeline-nav timeline-nav-left" id="timeline-left">
-                            <span>‹</span>
-                        </button>
-                        <button class="timeline-nav timeline-nav-right" id="timeline-right">
-                            <span>›</span>
-                        </button>
-
-                        <!-- Edge Gradient Masks -->
-                        <div class="timeline-edge-mask-left"></div>
-                        <div class="timeline-edge-mask-right"></div>
-
-                        <!-- Timeline Viewport Container -->
-                        <div class="timeline-viewport">
+                    <div class="timeline-viewport">
                         <!-- Timeline Line -->
                         <div class="timeline-line-container">
                         <div class="timeline-main-line"></div>
@@ -213,7 +212,8 @@
 
 
                         </div>
-                        </div> <!-- End timeline-viewport -->
+                    </div>
+                    </div> <!-- End timeline-viewport -->
                     </div> <!-- End timeline-border-container -->
                 </div>
             </div>

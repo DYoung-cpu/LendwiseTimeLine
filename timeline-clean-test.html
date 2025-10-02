@@ -1664,41 +1664,123 @@
     <script src="modern-timeline.js"></script>
     </div> <!-- End of main-content -->
 
-    <!-- Timeline Filter JavaScript -->
+    <!-- New Filter Button Container -->
+    <div class="new-filter-container" id="new-filter-container">
+        <!-- Left side filter options -->
+        <div class="filter-options-left" id="filter-options-left">
+            <button class="filter-option-btn filter-operations" data-value="operations">Operations</button>
+            <button class="filter-option-btn filter-tech" data-value="tech">Tech</button>
+            <button class="filter-option-btn filter-completed" data-value="completed">Completed</button>
+        </div>
+
+        <!-- Main Filter Button (Center) -->
+        <button class="new-filter-btn" id="main-filter-btn">
+            <svg class="filter-icon" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <polygon points="22,3 2,3 10,12.46 10,19 14,21 14,12.46"></polygon>
+            </svg>
+            <span>Filter</span>
+            <span class="filter-count" id="filter-count" style="display: none;">0</span>
+        </button>
+
+        <!-- Right side filter options -->
+        <div class="filter-options-right" id="filter-options-right">
+            <button class="filter-option-btn filter-in-progress" data-value="in-progress">In Progress</button>
+            <button class="filter-option-btn filter-future" data-value="future">Future</button>
+            <button class="filter-clear-btn" id="filter-clear-btn">
+                <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <line x1="18" y1="6" x2="6" y2="18"></line>
+                    <line x1="6" y1="6" x2="18" y2="18"></line>
+                </svg>
+            </button>
+        </div>
+    </div>
+
+    <!-- New Filter JavaScript -->
     <script>
     document.addEventListener('DOMContentLoaded', function() {
-        const filterBtn = document.getElementById('timeline-filter-btn');
-        const filterDropdown = document.getElementById('timeline-filter-dropdown');
-        const filterOptions = document.querySelectorAll('.timeline-filter-option');
-        const clearBtn = document.getElementById('timeline-filter-clear');
-        const countDisplay = document.getElementById('timeline-filter-count');
-        
-        let selectedFilters = [];
-        let isOpen = false;
+        const container = document.getElementById('new-filter-container');
+        const mainBtn = document.getElementById('main-filter-btn');
+        const leftOptions = document.getElementById('filter-options-left');
+        const rightOptions = document.getElementById('filter-options-right');
+        const optionBtns = document.querySelectorAll('.filter-option-btn');
+        const clearBtn = document.getElementById('filter-clear-btn');
+        const countDisplay = document.getElementById('filter-count');
 
-        // Toggle dropdown
-        function toggleDropdown() {
+        let isOpen = false;
+        let selectedFilters = [];
+        let isDragging = false;
+        let dragStartTime = 0;
+        let dragDistance = 0;
+        let startX = 0;
+        let startY = 0;
+        let currentX = 0;
+        let currentY = 0;
+        let offsetX = 0;
+        let offsetY = 0;
+
+        // Toggle filter options
+        function toggleOptions() {
             isOpen = !isOpen;
-            filterDropdown.classList.toggle('active', isOpen);
+            if (isOpen) {
+                // Show containers using CSS classes
+                leftOptions.classList.add('visible');
+                rightOptions.classList.add('visible');
+
+                // Stagger option animations for both sides
+                const leftBtns = leftOptions.querySelectorAll('.filter-option-btn');
+                const rightBtns = rightOptions.querySelectorAll('.filter-option-btn');
+
+                // Animate left buttons (reverse order for proper stagger)
+                leftBtns.forEach((btn, index) => {
+                    btn.style.opacity = '0';
+                    btn.style.transform = 'scale(0.8)';
+                    setTimeout(() => {
+                        btn.style.transition = 'all 0.3s cubic-bezier(0.4, 0, 0.2, 1)';
+                        btn.style.opacity = '1';
+                        btn.style.transform = 'scale(1)';
+                    }, (leftBtns.length - index - 1) * 50);
+                });
+
+                // Animate right buttons
+                rightBtns.forEach((btn, index) => {
+                    btn.style.opacity = '0';
+                    btn.style.transform = 'scale(0.8)';
+                    setTimeout(() => {
+                        btn.style.transition = 'all 0.3s cubic-bezier(0.4, 0, 0.2, 1)';
+                        btn.style.opacity = '1';
+                        btn.style.transform = 'scale(1)';
+                    }, index * 50);
+                });
+
+                // Show clear button if needed
+                if (selectedFilters.length > 0) {
+                    setTimeout(() => {
+                        clearBtn.classList.add('visible');
+                    }, rightBtns.length * 50);
+                }
+            } else {
+                // Hide containers using CSS classes
+                leftOptions.classList.remove('visible');
+                rightOptions.classList.remove('visible');
+                clearBtn.classList.remove('visible');
+            }
         }
 
-        // Handle filter selection
-        function handleFilterSelect(filterValue) {
-            if (selectedFilters.includes(filterValue)) {
-                selectedFilters = selectedFilters.filter(f => f !== filterValue);
+        // Handle option selection
+        function handleOptionSelect(value) {
+            if (selectedFilters.includes(value)) {
+                selectedFilters = selectedFilters.filter(f => f !== value);
             } else {
-                selectedFilters.push(filterValue);
+                selectedFilters.push(value);
             }
             updateUI();
-            applyFilters();
         }
 
         // Clear all filters
         function clearAllFilters() {
             selectedFilters = [];
             updateUI();
-            applyFilters();
-            toggleDropdown();
+            toggleOptions();
         }
 
         // Update UI based on selected filters
@@ -1712,51 +1794,89 @@
             }
 
             // Update option button states
-            filterOptions.forEach(option => {
-                const filterValue = option.getAttribute('data-filter');
-                option.classList.toggle('active', selectedFilters.includes(filterValue));
+            optionBtns.forEach(btn => {
+                const value = btn.getAttribute('data-value');
+                if (selectedFilters.includes(value)) {
+                    btn.classList.add('selected');
+                } else {
+                    btn.classList.remove('selected');
+                }
             });
+
+            // Show/hide clear button
+            if (selectedFilters.length > 0 && isOpen) {
+                clearBtn.classList.add('visible');
+            } else {
+                clearBtn.classList.remove('visible');
+            }
         }
 
-        // Apply filters to timeline milestones
-        function applyFilters() {
-            const milestones = document.querySelectorAll('.timeline-milestone');
-            
-            if (selectedFilters.length === 0) {
-                // Show all milestones
-                milestones.forEach(milestone => {
-                    milestone.style.display = 'flex';
-                    milestone.style.opacity = '1';
-                });
-            } else {
-                // Filter milestones
-                milestones.forEach(milestone => {
-                    const hasMatchingClass = selectedFilters.some(filter => 
-                        milestone.classList.contains(filter)
-                    );
-                    
-                    if (hasMatchingClass) {
-                        milestone.style.display = 'flex';
-                        milestone.style.opacity = '1';
-                    } else {
-                        milestone.style.display = 'none';
-                        milestone.style.opacity = '0';
-                    }
-                });
+        // Drag functionality
+        function handleDragStart(e) {
+            dragStartTime = Date.now();
+            dragDistance = 0;
+            isDragging = true;
+
+            if (e.type === 'mousedown') {
+                startX = e.clientX - offsetX;
+                startY = e.clientY - offsetY;
+            } else if (e.type === 'touchstart') {
+                startX = e.touches[0].clientX - offsetX;
+                startY = e.touches[0].clientY - offsetY;
+            }
+
+            container.style.transition = 'none';
+            e.preventDefault();
+        }
+
+        function handleDragMove(e) {
+            if (!isDragging) return;
+
+            e.preventDefault();
+
+            if (e.type === 'mousemove') {
+                currentX = e.clientX - startX;
+                currentY = e.clientY - startY;
+            } else if (e.type === 'touchmove') {
+                currentX = e.touches[0].clientX - startX;
+                currentY = e.touches[0].clientY - startY;
+            }
+
+            dragDistance = Math.sqrt(Math.pow(currentX - offsetX, 2) + Math.pow(currentY - offsetY, 2));
+            offsetX = currentX;
+            offsetY = currentY;
+
+            container.style.transform = `translate(${currentX}px, ${currentY}px)`;
+        }
+
+        function handleDragEnd(e) {
+            if (!isDragging) return;
+
+            isDragging = false;
+            container.style.transition = 'all 0.3s cubic-bezier(0.4, 0, 0.2, 1)';
+
+            const dragDuration = Date.now() - dragStartTime;
+
+            // If it was a quick click with minimal movement, toggle options
+            if (dragDuration < 200 && dragDistance < 5) {
+                toggleOptions();
             }
         }
 
         // Event listeners
-        filterBtn.addEventListener('click', (e) => {
-            e.stopPropagation();
-            toggleDropdown();
-        });
+        mainBtn.addEventListener('mousedown', handleDragStart);
+        mainBtn.addEventListener('touchstart', handleDragStart, { passive: false });
 
-        filterOptions.forEach(option => {
-            option.addEventListener('click', (e) => {
+        document.addEventListener('mousemove', handleDragMove);
+        document.addEventListener('touchmove', handleDragMove, { passive: false });
+
+        document.addEventListener('mouseup', handleDragEnd);
+        document.addEventListener('touchend', handleDragEnd);
+
+        optionBtns.forEach(btn => {
+            btn.addEventListener('click', (e) => {
                 e.stopPropagation();
-                const filterValue = option.getAttribute('data-filter');
-                handleFilterSelect(filterValue);
+                handleOptionSelect(btn.getAttribute('data-value'));
             });
         });
 
@@ -1765,12 +1885,10 @@
             clearAllFilters();
         });
 
-        // Close dropdown when clicking outside
+        // Close options when clicking outside
         document.addEventListener('click', (e) => {
-            if (!filterBtn.contains(e.target) && !filterDropdown.contains(e.target)) {
-                if (isOpen) {
-                    toggleDropdown();
-                }
+            if (!container.contains(e.target) && isOpen) {
+                toggleOptions();
             }
         });
     });

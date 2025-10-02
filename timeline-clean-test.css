@@ -212,13 +212,14 @@ html, body {
 /* Timeline Border Container - Subtle visual separation */
 .timeline-border-container {
     position: relative;
-    border: 1px solid rgba(255, 255, 255, 0.1);
+    border: 1px solid rgba(255, 255, 255, 0.15);
     border-radius: 12px;
-    background: rgba(255, 255, 255, 0.02);
+    background: rgba(255, 255, 255, 0.04);
     backdrop-filter: blur(10px);
-    padding: 6px 100px; /* Reduced vertical padding by 20% (7px -> 6px), maintained horizontal at 100px */
+    padding: 1px 100px; /* DRAMATIC reduction to 1px for testing visibility of changes */
     margin: 10px -80px; /* Increased negative horizontal margins to extend border well past arrows */
     box-shadow:
+        0 0 20px rgba(255, 255, 255, 0.1),          /* Soft outer glow for visibility */
         0 1px 3px rgba(0, 0, 0, 0.12),
         0 1px 2px rgba(0, 0, 0, 0.24),
         inset 0 1px 0 rgba(255, 255, 255, 0.1);
@@ -231,7 +232,7 @@ html, body {
     overflow-x: auto;  /* Enable horizontal scroll */
     overflow-y: visible; /* Allow glow effects to show vertically */
     margin: 0; /* Removed negative margins to prevent container boundary */
-    padding: 40px 20px; /* Added horizontal padding to compensate */
+    padding: 25px 20px; /* Increased from 5px to 25px to provide space for milestone buttons */
     /* Hide scrollbar but keep scroll functionality */
     scrollbar-width: none; /* Firefox - hide scrollbar */
     -ms-overflow-style: none; /* IE and Edge - hide scrollbar */

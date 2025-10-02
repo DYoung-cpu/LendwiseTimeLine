@@ -67,6 +67,27 @@
 
                     <!-- Timeline Viewport Container -->
                     <div class="timeline-border-container">
+                        <!-- Integrated Filter Button - Top Right Corner -->
+                        <div class="timeline-filter-container">
+                            <button class="timeline-filter-btn" id="timeline-filter-btn">
+                                <svg class="filter-icon" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                    <polygon points="22,3 2,3 10,12.46 10,19 14,21 14,12.46"></polygon>
+                                </svg>
+                                <span>Filter</span>
+                                <span class="filter-count" id="timeline-filter-count" style="display: none;">0</span>
+                            </button>
+                            
+                            <!-- Filter Options Dropdown -->
+                            <div class="timeline-filter-dropdown" id="timeline-filter-dropdown">
+                                <button class="timeline-filter-option" data-filter="completed">Completed</button>
+                                <button class="timeline-filter-option" data-filter="technology">Technology</button>
+                                <button class="timeline-filter-option" data-filter="operations">Operations</button>
+                                <button class="timeline-filter-option" data-filter="in-progress">In Progress</button>
+                                <button class="timeline-filter-option" data-filter="future">Future</button>
+                                <button class="timeline-filter-clear" id="timeline-filter-clear">Clear All</button>
+                            </div>
+                        </div>
+                    
                     <div class="timeline-viewport">
                         <!-- Timeline Line -->
                         <div class="timeline-line-container">

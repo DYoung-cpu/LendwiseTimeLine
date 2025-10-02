@@ -216,13 +216,20 @@ html, body {
     border-radius: 12px;
     background: rgba(255, 255, 255, 0.04);
     backdrop-filter: blur(10px);
-    padding: 1px 100px; /* DRAMATIC reduction to 1px for testing visibility of changes */
-    margin: 10px -80px; /* Increased negative horizontal margins to extend border well past arrows */
+    padding: 40px 100px 20px; /* Top padding for filter badge integration */
+    margin: 30px -80px 10px; /* Adjusted top margin for filter */
     box-shadow:
         0 0 20px rgba(255, 255, 255, 0.1),          /* Soft outer glow for visibility */
         0 1px 3px rgba(0, 0, 0, 0.12),
         0 1px 2px rgba(0, 0, 0, 0.24),
         inset 0 1px 0 rgba(255, 255, 255, 0.1);
+    transition: padding-top 0.4s ease, margin-top 0.4s ease; /* Smooth expand/compress */
+}
+
+/* Expanded state when filter is open */
+.timeline-border-container.filter-expanded {
+    padding-top: 80px; /* More space when filter categories show */
+    margin-top: 50px; /* Adjust margin to keep content aligned */
 }
 
 /* Timeline Viewport - Contains scrollable area */
@@ -4079,9 +4086,10 @@ body {
 
 /* Container positioning */
 .new-filter-container {
-    position: fixed;
-    top: 150px;
-    left: 400px;
+    position: absolute;
+    top: -28px; /* Badge-like positioning - half in, half out */
+    left: 50%;
+    transform: translateX(-50%);
     z-index: 10000;
     display: flex;
     flex-direction: row;

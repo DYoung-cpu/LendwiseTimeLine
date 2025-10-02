@@ -1,0 +1,391 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Timeline Clean Test</title>
+    <link rel="stylesheet" href="timeline-clean-test.css">
+</head>
+<body>
+    <!-- Aurora Background Layers -->
+    <div class="aurora-layer aurora-1"></div>
+    <div class="aurora-layer aurora-2"></div>
+    <div class="aurora-layer aurora-3"></div>
+    <div class="aurora-layer aurora-4"></div>
+
+    <!-- Main Content -->
+    <div class="hero-timeline-integrated">
+        <div class="integrated-content">
+            <!-- Strategic Roadmap Timeline -->
+            <div class="roadmap-container">
+                <!-- Timeline Filter Container -->
+                <div class="timeline-filter-container">
+                    <button class="timeline-filter-btn">
+                        <svg class="filter-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <polygon points="22,3 2,3 10,12.46 10,19 14,21 14,12.46 22,3"></polygon>
+                        </svg>
+                        Filter
+                        <span class="filter-count">0</span>
+                    </button>
+                    <div class="timeline-filter-dropdown">
+                        <button class="timeline-filter-option" data-filter="all">All</button>
+                        <button class="timeline-filter-option" data-filter="completed">Completed</button>
+                        <button class="timeline-filter-option" data-filter="technology">Technology</button>
+                        <button class="timeline-filter-option" data-filter="operations">Operations</button>
+                        <button class="timeline-filter-option" data-filter="future">Future</button>
+                        <button class="timeline-filter-clear">Clear All</button>
+                    </div>
+                </div>
+
+                <div class="roadmap-header">
+                    <div class="lendwise-logo-text">
+                        <span class="lendwise-text">
+                            <span class="tall-letter">L</span>endw<span class="tall-letter">i</span>se
+                        </span>
+                        <span class="mortgage-text">Mortgage</span>
+                    </div>
+                    <h2 class="roadmap-title">Strategic Roadmap</h2>
+                    <p class="roadmap-subtitle">Our Journey to Transform Mortgage Technology</p>
+                </div>
+
+                <div class="roadmap-timeline">
+                    <!-- Timeline Border Container -->
+                    <div class="timeline-border-container">
+                        <!-- Navigation Arrows -->
+                        <button class="timeline-nav timeline-nav-left" id="timeline-left">
+                            <span>‹</span>
+                        </button>
+                        <button class="timeline-nav timeline-nav-right" id="timeline-right">
+                            <span>›</span>
+                        </button>
+
+                        <!-- Timeline Viewport -->
+                        <div class="timeline-viewport">
+                            <div class="timeline-line-container">
+                                <!-- Main Timeline Line -->
+                                <div class="timeline-main-line"></div>
+
+                                <!-- Timeline Milestones -->
+                                <div class="timeline-milestones">
+                                    <!-- Milestone 1: Inception -->
+                                    <div class="timeline-milestone completed" style="left: 5%;" data-category="milestone">
+                                        <div class="milestone-connector"></div>
+                                        <div class="milestone-dot">
+                                            <span class="milestone-icon-small">INCEPTION</span>
+                                        </div>
+                                        <div class="milestone-quarter">Q4 2023</div>
+                                    </div>
+
+                                    <!-- Milestone 2: Google Sponsorship -->
+                                    <div class="timeline-milestone completed" style="left: 12%;" data-category="operations">
+                                        <div class="milestone-connector"></div>
+                                        <div class="milestone-dot">
+                                            <span class="milestone-icon-small">GOOGLE</span>
+                                        </div>
+                                        <div class="milestone-quarter">Q1 2024</div>
+                                    </div>
+
+                                    <!-- Milestone 3: NMLS -->
+                                    <div class="timeline-milestone completed operations" style="left: 20%;" data-category="operations">
+                                        <div class="milestone-connector"></div>
+                                        <div class="milestone-dot">
+                                            <span class="milestone-icon-small">NMLS</span>
+                                        </div>
+                                        <div class="milestone-quarter">Q1 2024</div>
+                                    </div>
+
+                                    <!-- Milestone 4: CA DRE -->
+                                    <div class="timeline-milestone completed operations" style="left: 28%;" data-category="operations">
+                                        <div class="milestone-connector"></div>
+                                        <div class="milestone-dot">
+                                            <span class="milestone-icon-small">CA DRE</span>
+                                        </div>
+                                        <div class="milestone-quarter">Q2 2024</div>
+                                    </div>
+
+                                    <!-- Milestone 5: Headquarters -->
+                                    <div class="timeline-milestone completed" style="left: 36%;" data-category="milestone">
+                                        <div class="milestone-connector"></div>
+                                        <div class="milestone-dot">
+                                            <span class="milestone-icon-small">HQ</span>
+                                        </div>
+                                        <div class="milestone-quarter">Q2 2024</div>
+                                    </div>
+
+                                    <!-- Milestone 6: The Team -->
+                                    <div class="timeline-milestone completed" style="left: 44%;" data-category="milestone">
+                                        <div class="milestone-connector"></div>
+                                        <div class="milestone-dot">
+                                            <span class="milestone-icon-small">TEAM</span>
+                                        </div>
+                                        <div class="milestone-quarter">Q3 2024</div>
+                                    </div>
+
+                                    <!-- Milestone 7: Website -->
+                                    <div class="timeline-milestone completed technology" style="left: 52%;" data-category="technology">
+                                        <div class="milestone-connector"></div>
+                                        <div class="milestone-dot">
+                                            <span class="milestone-icon-small">WEBSITE</span>
+                                        </div>
+                                        <div class="milestone-quarter">Q3 2024</div>
+                                    </div>
+
+                                    <!-- Milestone 8: Integrations -->
+                                    <div class="timeline-milestone completed technology" style="left: 60%;" data-category="technology">
+                                        <div class="milestone-connector"></div>
+                                        <div class="milestone-dot">
+                                            <span class="milestone-icon-small">INTEGRATIONS</span>
+                                        </div>
+                                        <div class="milestone-quarter">Q4 2024</div>
+                                    </div>
+
+                                    <!-- Milestone 9: DFPI AI -->
+                                    <div class="timeline-milestone technology in-progress" style="left: 68%;" data-category="technology">
+                                        <div class="milestone-connector"></div>
+                                        <div class="milestone-dot">
+                                            <span class="milestone-icon-small">DFPI AI</span>
+                                        </div>
+                                        <div class="milestone-quarter">Q1 2025</div>
+                                    </div>
+
+                                    <!-- Milestone 10: LOS -->
+                                    <div class="timeline-milestone future technology" style="left: 76%;" data-category="technology">
+                                        <div class="milestone-connector"></div>
+                                        <div class="milestone-dot">
+                                            <span class="milestone-icon-small">LOS</span>
+                                        </div>
+                                        <div class="milestone-quarter">Q2 2025</div>
+                                    </div>
+
+                                    <!-- Milestone 11: POS -->
+                                    <div class="timeline-milestone future technology" style="left: 84%;" data-category="technology">
+                                        <div class="milestone-connector"></div>
+                                        <div class="milestone-dot">
+                                            <span class="milestone-icon-small">POS</span>
+                                        </div>
+                                        <div class="milestone-quarter">Q3 2025</div>
+                                    </div>
+
+                                    <!-- Milestone 12: WISR AI -->
+                                    <div class="timeline-milestone future technology" style="left: 92%;" data-category="technology">
+                                        <div class="milestone-connector"></div>
+                                        <div class="milestone-dot">
+                                            <span class="milestone-icon-small">WISR AI</span>
+                                        </div>
+                                        <div class="milestone-quarter">Q4 2025</div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Circular Gallery Container -->
+            <div class="circular-gallery-container">
+                <!-- Landing Page Owl -->
+                <div class="landing-owl">
+                    <div class="wisr-video-circle">
+                        <video autoplay muted loop>
+                            <source src="https://via.placeholder.com/200x200/000000/FFFFFF?text=OWL+VIDEO" type="video/mp4">
+                        </video>
+                        <div class="video-mask-overlay"></div>
+                    </div>
+                </div>
+
+                <!-- Gallery Track -->
+                <div class="gallery-track">
+                    <!-- Sample Gallery Cards -->
+                    <div class="gallery-card" style="transform: rotateY(0deg) translateZ(380px);">
+                        <div class="card-content">
+                            <div class="card-icon">🏢</div>
+                            <h3>Inception</h3>
+                            <div class="card-date">Q4 2023</div>
+                            <div class="card-description">Company founded</div>
+                        </div>
+                    </div>
+
+                    <div class="gallery-card" style="transform: rotateY(60deg) translateZ(380px);">
+                        <div class="card-content">
+                            <div class="card-icon">🔧</div>
+                            <h3>Technology</h3>
+                            <div class="card-date">Q1 2024</div>
+                            <div class="card-description">Tech stack built</div>
+                        </div>
+                    </div>
+
+                    <div class="gallery-card" style="transform: rotateY(120deg) translateZ(380px);">
+                        <div class="card-content">
+                            <div class="card-icon">👥</div>
+                            <h3>Team</h3>
+                            <div class="card-date">Q2 2024</div>
+                            <div class="card-description">Core team assembled</div>
+                        </div>
+                    </div>
+
+                    <div class="gallery-card" style="transform: rotateY(180deg) translateZ(380px);">
+                        <div class="card-content">
+                            <div class="card-icon">🚀</div>
+                            <h3>Launch</h3>
+                            <div class="card-date">Q3 2024</div>
+                            <div class="card-description">Product launched</div>
+                        </div>
+                    </div>
+
+                    <div class="gallery-card" style="transform: rotateY(240deg) translateZ(380px);">
+                        <div class="card-content">
+                            <div class="card-icon">🤖</div>
+                            <h3>AI Integration</h3>
+                            <div class="card-date">Q4 2024</div>
+                            <div class="card-description">AI features added</div>
+                        </div>
+                    </div>
+
+                    <div class="gallery-card" style="transform: rotateY(300deg) translateZ(380px);">
+                        <div class="card-content">
+                            <div class="card-icon">📈</div>
+                            <h3>Growth</h3>
+                            <div class="card-date">Q1 2025</div>
+                            <div class="card-description">Scaling operations</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Basic timeline navigation
+        document.addEventListener('DOMContentLoaded', function() {
+            const leftArrow = document.getElementById('timeline-left');
+            const rightArrow = document.getElementById('timeline-right');
+            const timelineContainer = document.querySelector('.timeline-line-container');
+            const filterBtn = document.querySelector('.timeline-filter-btn');
+            const filterDropdown = document.querySelector('.timeline-filter-dropdown');
+            const filterOptions = document.querySelectorAll('.timeline-filter-option');
+            const filterClear = document.querySelector('.timeline-filter-clear');
+            const filterCount = document.querySelector('.filter-count');
+            const milestones = document.querySelectorAll('.timeline-milestone');
+
+            let currentPosition = 0;
+            const scrollAmount = 200;
+            const maxScroll = 1400; // Adjust based on timeline width
+
+            // Timeline navigation
+            if (leftArrow && rightArrow && timelineContainer) {
+                leftArrow.addEventListener('click', () => {
+                    currentPosition = Math.min(0, currentPosition + scrollAmount);
+                    timelineContainer.style.transform = `translateX(${currentPosition}px)`;
+                });
+
+                rightArrow.addEventListener('click', () => {
+                    currentPosition = Math.max(-maxScroll, currentPosition - scrollAmount);
+                    timelineContainer.style.transform = `translateX(${currentPosition}px)`;
+                });
+            }
+
+            // Filter functionality
+            if (filterBtn && filterDropdown) {
+                filterBtn.addEventListener('click', () => {
+                    filterDropdown.classList.toggle('active');
+                });
+
+                // Close dropdown when clicking outside
+                document.addEventListener('click', (e) => {
+                    if (!filterBtn.contains(e.target) && !filterDropdown.contains(e.target)) {
+                        filterDropdown.classList.remove('active');
+                    }
+                });
+            }
+
+            // Filter options
+            let activeFilters = new Set();
+
+            filterOptions.forEach(option => {
+                option.addEventListener('click', () => {
+                    const filter = option.dataset.filter;
+                    
+                    if (filter === 'all') {
+                        // Clear all filters and show all
+                        activeFilters.clear();
+                        filterOptions.forEach(opt => opt.classList.remove('active'));
+                        option.classList.add('active');
+                        showAllMilestones();
+                    } else {
+                        // Toggle individual filter
+                        document.querySelector('[data-filter="all"]').classList.remove('active');
+                        
+                        if (activeFilters.has(filter)) {
+                            activeFilters.delete(filter);
+                            option.classList.remove('active');
+                        } else {
+                            activeFilters.add(filter);
+                            option.classList.add('active');
+                        }
+                        
+                        applyFilters();
+                    }
+                    
+                    updateFilterCount();
+                });
+            });
+
+            // Clear all filters
+            if (filterClear) {
+                filterClear.addEventListener('click', () => {
+                    activeFilters.clear();
+                    filterOptions.forEach(opt => opt.classList.remove('active'));
+                    document.querySelector('[data-filter="all"]').classList.add('active');
+                    showAllMilestones();
+                    updateFilterCount();
+                });
+            }
+
+            function showAllMilestones() {
+                milestones.forEach(milestone => {
+                    milestone.style.display = 'flex';
+                    milestone.style.opacity = '1';
+                });
+            }
+
+            function applyFilters() {
+                if (activeFilters.size === 0) {
+                    showAllMilestones();
+                    return;
+                }
+
+                milestones.forEach(milestone => {
+                    const category = milestone.dataset.category;
+                    const classes = milestone.className.split(' ');
+                    
+                    let shouldShow = false;
+                    
+                    // Check if milestone matches any active filter
+                    activeFilters.forEach(filter => {
+                        if (filter === category || classes.includes(filter)) {
+                            shouldShow = true;
+                        }
+                    });
+
+                    if (shouldShow) {
+                        milestone.style.display = 'flex';
+                        milestone.style.opacity = '1';
+                    } else {
+                        milestone.style.display = 'none';
+                        milestone.style.opacity = '0.3';
+                    }
+                });
+            }
+
+            function updateFilterCount() {
+                if (filterCount) {
+                    filterCount.textContent = activeFilters.size;
+                }
+            }
+
+            // Initialize with "All" selected
+            document.querySelector('[data-filter="all"]').classList.add('active');
+        });
+    </script>
+</body>
+</html>

@@ -212,14 +212,13 @@ html, body {
 /* Timeline Border Container - Filter is PART of the border */
 .timeline-border-container {
     position: relative;
-    border: 1px solid rgba(255, 255, 255, 0.15);
-    border-top: none; /* Will draw top border with gap using ::before */
+    border: none; /* SVG border will handle all borders */
     border-radius: 12px;
     background: rgba(255, 255, 255, 0.04);
     backdrop-filter: blur(10px);
     padding: 30px 100px;
     margin: 20px -80px;
-    margin-top: 15px; /* Space for filter */
+    margin-top: 35px; /* Space for filter container notch */
     box-shadow:
         0 0 20px rgba(255, 255, 255, 0.1),
         0 1px 3px rgba(0, 0, 0, 0.12),
@@ -229,47 +228,30 @@ html, body {
     transition: padding 0.3s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
-/* Top border with gap for filter button - Left line */
-.timeline-border-container::before {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: 12px;
-    width: calc(50% - 55px);
-    height: 1px;
-    background: rgba(255, 255, 255, 0.15);
-    pointer-events: none;
-    z-index: 0;
-}
-
-/* Top border with gap for filter button - Right line */
-.timeline-border-container::after {
-    content: '';
-    position: absolute;
-    top: 0;
-    right: 12px;
-    width: calc(50% - 55px);
-    height: 1px;
-    background: rgba(255, 255, 255, 0.15);
-    pointer-events: none;
-    z-index: 0;
-}
-
-/* SVG Border with Physical Notch */
+/* SVG Border with Integrated Filter Container */
 .border-svg {
     position: absolute;
-    top: -16px; /* Shift up to show notch above container */
+    top: -35px; /* Shift up to show integrated container above */
     left: 0;
     width: 100%;
-    /* height set dynamically by JS to include notch space */
+    height: calc(100% + 35px);
     pointer-events: none;
-    z-index: 1;
+    z-index: 5;
+    overflow: visible;
 }
 
 .border-path {
-    stroke: rgba(255, 255, 255, 0.3) !important;
-    stroke-width: 2px !important;
-    transition: d 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    stroke: rgba(255, 255, 255, 0.15);
+    stroke-width: 1;
+    stroke-linecap: square;
+    fill: none;
+    transition: d 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    vector-effect: non-scaling-stroke;
+}
+
+#filter-sections path {
+    transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    vector-effect: non-scaling-stroke;
 }
 
 /* Expanded state - everything moves as one unified piece */
@@ -281,7 +263,7 @@ html, body {
 
 .filter-expanded .new-filter-btn {
     min-width: 120px;
-    transform: scale(1.02);
+    /* transform set below to move button to 4th section position */
     box-shadow:
         0 1px 0 rgba(255, 255, 255, 0.1),
         0 2px 12px rgba(0, 0, 0, 0.4);
@@ -4141,56 +4123,73 @@ body {
    NEW FILTER BUTTON COMPONENT
    ======================================== */
 
-/* Container positioning - SITS IN SVG NOTCH */
+/* Container positioning - SITS IN SVG INTEGRATED CONTAINER */
 .new-filter-container {
     position: absolute;
-    top: -16px; /* Sits in 16px deep notch */
+    top: -20px;
     left: 50%;
     transform: translateX(-50%);
-    z-index: 10000;
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-    gap: 8px;
-    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    z-index: 10;
+    width: 110px; /* Closed state: just Filter button */
+    height: 26px;
+    transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
     user-select: none;
     opacity: 0;
     animation: showNewFilter 0.5s ease-in-out 3.5s forwards;
+    pointer-events: none;
+}
+
+/* Expanded state: show all 6 sections */
+.new-filter-container.filter-expanded {
+    width: 510px; /* 6 sections × 85px */
+}
+
+.new-filter-container > * {
+    pointer-events: auto;
 }
 
 @keyframes showNewFilter {
     to { opacity: 1; }
 }
 
-/* Main filter button - PART OF border structure */
+/* Main filter button - Transparent clickable layer, SVG border provides visual */
 .new-filter-btn {
-    position: relative;
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
+    top: 0;
     display: flex;
     align-items: center;
     justify-content: center;
-    gap: 6px;
-    padding: 8px 20px;
-    min-width: 90px;
-    height: 36px;
-    border-radius: 8px;
-    background: linear-gradient(135deg, #4a4a4a, #a0a0a0, #d0d0d0);
-    border: 1px solid rgba(255, 255, 255, 0.3);
-    color: white;
-    font-family: 'Montserrat', sans-serif;
-    font-size: 12px;
-    font-weight: 600;
+    gap: 5px;
+    padding: 0;
+    width: 85px;
+    height: 26px;
+    background: transparent;
+    border: none;
+    color: rgba(255, 255, 255, 0.9);
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+    font-size: 8px;
+    font-weight: 700;
     letter-spacing: 0.5px;
+    text-transform: uppercase;
+    line-height: 12.8px;
     cursor: pointer;
-    transition: transform 0.2s ease, background 0.2s ease;
+    transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* Position Filter button at 4th section when expanded (center at 297.5px) */
+/* Use transform instead of left to avoid jumps during container width animation */
+.filter-expanded .new-filter-btn {
+    transform: translateX(calc(-50% + 42.5px)) scale(1.02);
 }
 
 .new-filter-btn:hover {
-    background: linear-gradient(135deg, #5a5a5a, #b0b0b0, #e0e0e0);
-    transform: scale(1.05);
+    opacity: 0.8;
 }
 
 .new-filter-btn:active {
-    transform: scale(0.98);
+    opacity: 0.6;
 }
 
 /* Filter icon */
@@ -4215,90 +4214,102 @@ body {
     font-weight: 600;
 }
 
-/* Left filter options container */
-.filter-options-left {
-    display: flex;
-    align-items: center;
-    gap: 8px;
-    opacity: 0;
-    visibility: hidden;
-    transform: translateX(-20px) scale(0.9);
-    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-    position: absolute;
-    right: calc(100% + 10px);
-    top: 50%;
-    transform: translateY(-50%) translateX(-20px) scale(0.9);
-}
-
-.filter-options-left.visible {
-    opacity: 1;
-    visibility: visible;
-    transform: translateY(-50%) translateX(0) scale(1);
-}
-
-/* Right filter options container */
+/* Filter options containers - positioned to align with SVG sections */
+.filter-options-left,
 .filter-options-right {
-    display: flex;
-    align-items: center;
-    gap: 8px;
+    position: absolute;
+    top: 0;
+    height: 100%;
     opacity: 0;
     visibility: hidden;
-    transform: translateX(20px) scale(0.9);
     transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-    position: absolute;
-    left: calc(100% + 10px);
-    top: 50%;
-    transform: translateY(-50%) translateX(20px) scale(0.9);
 }
 
+.filter-options-left {
+    left: 0;
+    width: 255px; /* 3 sections × 85px */
+}
+
+.filter-options-right {
+    right: 0;
+    width: 170px; /* 2 sections × 85px */
+}
+
+/* Position Operations button in 1st section (center at 42.5px) */
+.filter-operations {
+    position: absolute;
+    left: 42.5px;
+    top: -1px;
+    transform: translateX(-50%);
+}
+
+/* Position Tech button in 2nd section (center at 127.5px) */
+.filter-tech {
+    position: absolute;
+    left: 127.5px;
+    top: -1px;
+    transform: translateX(-50%);
+}
+
+/* Position Completed button in 3rd section (center at 212.5px) */
+.filter-completed {
+    position: absolute;
+    left: 212.5px;
+    top: -1px;
+    transform: translateX(-50%);
+}
+
+/* Position In Progress button in 5th section (center at 382.5px absolute = 42.5px relative) */
+.filter-in-progress {
+    position: absolute;
+    left: 42.5px;
+    top: -1px;
+    transform: translateX(-50%);
+}
+
+/* Position Future button in 6th section (center at 467.5px absolute = 127.5px relative) */
+.filter-future {
+    position: absolute;
+    left: 127.5px;
+    top: -1px;
+    transform: translateX(-50%);
+}
+
+.filter-options-left.visible,
 .filter-options-right.visible {
     opacity: 1;
     visibility: visible;
-    transform: translateY(-50%) translateX(0) scale(1);
 }
 
-/* Individual filter option buttons */
+/* Individual filter option buttons - Transparent clickable layers */
 .filter-option-btn {
-    position: relative;
     display: flex;
     align-items: center;
     justify-content: center;
-    padding: 8px 14px;
+    padding: 0;
+    background: transparent;
     border: none;
-    border-radius: 8px;
-    background: rgba(255, 255, 255, 0.1);
-    backdrop-filter: blur(10px);
-    -webkit-backdrop-filter: blur(10px);
-    border: 1px solid rgba(255, 255, 255, 0.2);
-    box-shadow: 0 3px 12px 0 rgba(0, 0, 0, 0.1);
-    color: white;
-    font-family: 'Montserrat', sans-serif;
-    font-size: 12px;
-    font-weight: 500;
+    color: rgba(255, 255, 255, 0.9);
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+    font-size: 8px;
+    font-weight: 700;
+    letter-spacing: 0.5px;
+    text-transform: uppercase;
+    line-height: 12.8px;
     cursor: pointer;
-    transition: all 0.3s ease;
-    isolation: isolate;
     opacity: 0;
-    transform: scale(0.8);
     white-space: nowrap;
-    min-width: 84px;
+    width: 80px;
     height: 28px;
+    transition: opacity 0.3s ease;
 }
 
 .filter-option-btn:hover {
-    transform: scale(1.05);
-    background: rgba(255, 255, 255, 0.15);
-    border-color: rgba(255, 255, 255, 0.3);
+    opacity: 0.8;
 }
 
 .filter-option-btn:active {
-    transform: scale(0.95);
-}
-
-.filter-option-btn.selected {
-    background: rgba(59, 130, 246, 0.2);
-    border-color: rgba(255, 255, 255, 0.2);
-    box-shadow: 0 0 0 2px rgb(59, 130, 246), 0 0 0 4px rgba(0, 0, 0, 0), 0 4px 16px 0 rgba(0, 0, 0, 0.1);
+    opacity: 0.6;
 }
 
 /* Clear button */
@@ -4307,9 +4318,9 @@ body {
     display: flex;
     align-items: center;
     justify-content: center;
-    padding: 8px 14px;
+    padding: 6px 14px;
     border: none;
-    border-radius: 8px;
+    border-radius: 14px;
     background: rgba(239, 68, 68, 0.2);
     backdrop-filter: blur(10px);
     -webkit-backdrop-filter: blur(10px);
@@ -4322,7 +4333,7 @@ body {
     opacity: 0;
     visibility: hidden;
     transform: scale(0.8);
-    min-width: 84px;
+    min-width: 80px;
     height: 28px;
 }
 
@@ -4347,104 +4358,4 @@ body {
     height: 12px;
 }
 
-/* Colored Filter Options */
-
-/* Completed Filter - Green */
-.filter-option-btn.filter-completed {
-    background: rgba(34, 197, 94, 0.15);
-    border-color: rgba(34, 197, 94, 0.3);
-    color: rgb(34, 197, 94);
-}
-
-.filter-option-btn.filter-completed:hover {
-    background: rgba(34, 197, 94, 0.25);
-    border-color: rgba(34, 197, 94, 0.4);
-    color: white;
-}
-
-.filter-option-btn.filter-completed.selected {
-    background: rgba(34, 197, 94, 0.3);
-    border-color: rgb(34, 197, 94);
-    box-shadow: 0 0 0 2px rgb(34, 197, 94), 0 0 0 4px rgba(0, 0, 0, 0), 0 3px 12px 0 rgba(0, 0, 0, 0.1);
-    color: white;
-}
-
-/* Tech Filter - Blue */
-.filter-option-btn.filter-tech {
-    background: rgba(59, 130, 246, 0.15);
-    border-color: rgba(59, 130, 246, 0.3);
-    color: rgb(59, 130, 246);
-}
-
-.filter-option-btn.filter-tech:hover {
-    background: rgba(59, 130, 246, 0.25);
-    border-color: rgba(59, 130, 246, 0.4);
-    color: white;
-}
-
-.filter-option-btn.filter-tech.selected {
-    background: rgba(59, 130, 246, 0.3);
-    border-color: rgb(59, 130, 246);
-    box-shadow: 0 0 0 2px rgb(59, 130, 246), 0 0 0 4px rgba(0, 0, 0, 0), 0 3px 12px 0 rgba(0, 0, 0, 0.1);
-    color: white;
-}
-
-/* Operations Filter - Purple */
-.filter-option-btn.filter-operations {
-    background: rgba(147, 51, 234, 0.15);
-    border-color: rgba(147, 51, 234, 0.3);
-    color: rgb(147, 51, 234);
-}
-
-.filter-option-btn.filter-operations:hover {
-    background: rgba(147, 51, 234, 0.25);
-    border-color: rgba(147, 51, 234, 0.4);
-    color: white;
-}
-
-.filter-option-btn.filter-operations.selected {
-    background: rgba(147, 51, 234, 0.3);
-    border-color: rgb(147, 51, 234);
-    box-shadow: 0 0 0 2px rgb(147, 51, 234), 0 0 0 4px rgba(0, 0, 0, 0), 0 3px 12px 0 rgba(0, 0, 0, 0.1);
-    color: white;
-}
-
-/* In Progress Filter - Orange */
-.filter-option-btn.filter-in-progress {
-    background: rgba(249, 115, 22, 0.15);
-    border-color: rgba(249, 115, 22, 0.3);
-    color: rgb(249, 115, 22);
-}
-
-.filter-option-btn.filter-in-progress:hover {
-    background: rgba(249, 115, 22, 0.25);
-    border-color: rgba(249, 115, 22, 0.4);
-    color: white;
-}
-
-.filter-option-btn.filter-in-progress.selected {
-    background: rgba(249, 115, 22, 0.3);
-    border-color: rgb(249, 115, 22);
-    box-shadow: 0 0 0 2px rgb(249, 115, 22), 0 0 0 4px rgba(0, 0, 0, 0), 0 3px 12px 0 rgba(0, 0, 0, 0.1);
-    color: white;
-}
-
-/* Future Filter - Gold */
-.filter-option-btn.filter-future {
-    background: rgba(245, 158, 11, 0.15);
-    border-color: rgba(245, 158, 11, 0.3);
-    color: rgb(245, 158, 11);
-}
-
-.filter-option-btn.filter-future:hover {
-    background: rgba(245, 158, 11, 0.25);
-    border-color: rgba(245, 158, 11, 0.4);
-    color: white;
-}
-
-.filter-option-btn.filter-future.selected {
-    background: rgba(245, 158, 11, 0.3);
-    border-color: rgb(245, 158, 11);
-    box-shadow: 0 0 0 2px rgb(245, 158, 11), 0 0 0 4px rgba(0, 0, 0, 0), 0 3px 12px 0 rgba(0, 0, 0, 0.1);
-    color: white;
-}
+/* All color-specific styling removed - buttons are now transparent clickable layers */

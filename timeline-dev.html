@@ -10,7 +10,7 @@
 
     <!-- Include both CSS files -->
     <link rel="stylesheet" href="timeline-styles.css?v=20251002215200">
-    <link rel="stylesheet" href="timeline-clean-test.css?v=20251002222200">
+    <link rel="stylesheet" href="timeline-clean-test.css?v=20251003070200">
 </head>
 <body>
     <!-- Three.js Shader Intro Animation (3 second overlay) -->
@@ -67,6 +67,71 @@
 
                     <!-- Timeline Viewport Container -->
                     <div class="timeline-border-container">
+
+                        <!-- SVG Border with Integrated Filter Container -->
+                        <svg class="border-svg" id="border-svg" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="none">
+                            <defs>
+                                <!-- Purple gradient for Operations -->
+                                <radialGradient id="operationsGradient" cx="50%" cy="20%" r="80%">
+                                    <stop offset="0%" style="stop-color:#9944ff;stop-opacity:1" />
+                                    <stop offset="25%" style="stop-color:#8646b8;stop-opacity:1" />
+                                    <stop offset="50%" style="stop-color:#4a1e6a;stop-opacity:1" />
+                                    <stop offset="75%" style="stop-color:#1a082c;stop-opacity:1" />
+                                    <stop offset="100%" style="stop-color:#000000;stop-opacity:1" />
+                                </radialGradient>
+
+                                <!-- Blue gradient for Tech -->
+                                <radialGradient id="techGradient" cx="50%" cy="20%" r="80%">
+                                    <stop offset="0%" style="stop-color:#4488ff;stop-opacity:1" />
+                                    <stop offset="25%" style="stop-color:#4678b8;stop-opacity:1" />
+                                    <stop offset="50%" style="stop-color:#1e3a6a;stop-opacity:1" />
+                                    <stop offset="75%" style="stop-color:#08122c;stop-opacity:1" />
+                                    <stop offset="100%" style="stop-color:#000000;stop-opacity:1" />
+                                </radialGradient>
+
+                                <!-- Green gradient for Completed -->
+                                <radialGradient id="completedGradient" cx="50%" cy="20%" r="80%">
+                                    <stop offset="0%" style="stop-color:#00ff96;stop-opacity:1" />
+                                    <stop offset="25%" style="stop-color:#00c851;stop-opacity:1" />
+                                    <stop offset="50%" style="stop-color:#1e6a46;stop-opacity:1" />
+                                    <stop offset="75%" style="stop-color:#082c1a;stop-opacity:1" />
+                                    <stop offset="100%" style="stop-color:#000000;stop-opacity:1" />
+                                </radialGradient>
+
+                                <!-- Gray/Silver gradient for Filter (center) -->
+                                <radialGradient id="filterGradient" cx="50%" cy="20%" r="80%">
+                                    <stop offset="0%" style="stop-color:#d0d0d0;stop-opacity:1" />
+                                    <stop offset="25%" style="stop-color:#a0a0a0;stop-opacity:1" />
+                                    <stop offset="50%" style="stop-color:#4a4a4a;stop-opacity:1" />
+                                    <stop offset="75%" style="stop-color:#1a1a1a;stop-opacity:1" />
+                                    <stop offset="100%" style="stop-color:#000000;stop-opacity:1" />
+                                </radialGradient>
+
+                                <!-- Orange/Amber gradient for In Progress -->
+                                <radialGradient id="inProgressGradient" cx="50%" cy="20%" r="80%">
+                                    <stop offset="0%" style="stop-color:#ff7316;stop-opacity:1" />
+                                    <stop offset="25%" style="stop-color:#ff8c42;stop-opacity:1" />
+                                    <stop offset="50%" style="stop-color:#6a3a1e;stop-opacity:1" />
+                                    <stop offset="75%" style="stop-color:#2c1408;stop-opacity:1" />
+                                    <stop offset="100%" style="stop-color:#000000;stop-opacity:1" />
+                                </radialGradient>
+
+                                <!-- Gold gradient for Future -->
+                                <radialGradient id="futureGradient" cx="50%" cy="20%" r="80%">
+                                    <stop offset="0%" style="stop-color:#ffdd44;stop-opacity:1" />
+                                    <stop offset="25%" style="stop-color:#b89c46;stop-opacity:1" />
+                                    <stop offset="50%" style="stop-color:#6b5a1e;stop-opacity:1" />
+                                    <stop offset="75%" style="stop-color:#2c2008;stop-opacity:1" />
+                                    <stop offset="100%" style="stop-color:#000000;stop-opacity:1" />
+                                </radialGradient>
+                            </defs>
+                            <!-- Main border outline (stroke only) -->
+                            <path class="border-path" id="border-path" stroke="rgba(255, 255, 255, 0.15)" stroke-width="1" fill="none"/>
+                            <!-- Filter container sections (will be dynamically created by JS) -->
+                            <g id="filter-sections"></g>
+                            <!-- Filter button border outline -->
+                            <path id="filter-border" stroke="rgba(255, 255, 255, 0.15)" stroke-width="1" fill="none" d=""></path>
+                        </svg>
 
                         <!-- Filter Button Container -->
                         <div class="new-filter-container" id="new-filter-container">
@@ -1708,6 +1773,10 @@
         const optionBtns = document.querySelectorAll('.filter-option-btn');
         const clearBtn = document.getElementById('filter-clear-btn');
         const countDisplay = document.getElementById('filter-count');
+        const borderSvg = document.getElementById('border-svg');
+        const borderPath = document.getElementById('border-path');
+        const filterSections = document.getElementById('filter-sections');
+        const borderContainer = document.querySelector('.timeline-border-container');
 
         let isOpen = false;
         let selectedFilters = [];
@@ -1721,14 +1790,188 @@
         let offsetX = 0;
         let offsetY = 0;
 
+        // Create main border path (rectangular outline with gap at top)
+        function createMainBorderPath(expanded = false) {
+            const width = borderContainer.offsetWidth;
+            const height = borderContainer.offsetHeight + 35;
+            const radius = 12;
+            const centerX = width / 2;
+            const containerWidth = expanded ? 510 : 110;
+            const containerRadius = 20;
+            const containerY = 35;
+
+            const containerLeft = centerX - (containerWidth / 2);
+            const containerRight = centerX + (containerWidth / 2);
+
+            // Rectangular border with gap for container
+            // Extend endpoints to hide completely under filter button (33px covers the gap)
+            const extendBy = 33;
+            return `
+                M ${radius} ${containerY}
+                L ${containerLeft - containerRadius + extendBy} ${containerY}
+                M ${containerRight + containerRadius - extendBy} ${containerY}
+                L ${width - radius} ${containerY}
+                Q ${width} ${containerY} ${width} ${containerY + radius}
+                L ${width} ${height - radius}
+                Q ${width} ${height} ${width - radius} ${height}
+                L ${radius} ${height}
+                Q 0 ${height} 0 ${height - radius}
+                L 0 ${containerY + radius}
+                Q 0 ${containerY} ${radius} ${containerY}
+            `.trim().replace(/\s+/g, ' ');
+        }
+
+        // Create colored sections for filter capsule
+        function createFilterSections(expanded = false) {
+            const width = borderContainer.offsetWidth;
+            const centerX = width / 2;
+            const containerHeight = 26;
+            const containerRadius = 8; // Soft rounded corners instead of pill shape
+            const containerY = 15;
+
+            // Clear existing sections
+            filterSections.innerHTML = '';
+
+            if (!expanded) {
+                // Closed: Just gray Filter section
+                const containerWidth = 110;
+                const containerLeft = centerX - (containerWidth / 2);
+                const containerRight = centerX + (containerWidth / 2);
+
+                const path = document.createElementNS('http://www.w3.org/2000/svg', 'path');
+                path.setAttribute('d', `
+                    M ${containerLeft + containerRadius} ${containerY}
+                    L ${containerRight - containerRadius} ${containerY}
+                    Q ${containerRight} ${containerY} ${containerRight} ${containerY + containerRadius}
+                    Q ${containerRight} ${containerY + containerHeight} ${containerRight - containerRadius} ${containerY + containerHeight}
+                    L ${containerLeft + containerRadius} ${containerY + containerHeight}
+                    Q ${containerLeft} ${containerY + containerHeight} ${containerLeft} ${containerY + containerRadius}
+                    Q ${containerLeft} ${containerY} ${containerLeft + containerRadius} ${containerY}
+                    Z
+                `.trim().replace(/\s+/g, ' '));
+                path.setAttribute('fill', 'url(#filterGradient)');
+                path.setAttribute('stroke', 'rgba(255, 255, 255, 0.3)');
+                path.setAttribute('stroke-width', '1');
+                filterSections.appendChild(path);
+            } else {
+                // Expanded: 6 colored sections
+                const totalWidth = 510;
+                const sectionWidth = 85;
+                const startX = centerX - (totalWidth / 2);
+
+                const sections = [
+                    { gradient: 'operationsGradient', x: startX },
+                    { gradient: 'techGradient', x: startX + sectionWidth },
+                    { gradient: 'completedGradient', x: startX + sectionWidth * 2 },
+                    { gradient: 'filterGradient', x: startX + sectionWidth * 3 },
+                    { gradient: 'inProgressGradient', x: startX + sectionWidth * 4 },
+                    { gradient: 'futureGradient', x: startX + sectionWidth * 5 }
+                ];
+
+                sections.forEach((section, index) => {
+                    const path = document.createElementNS('http://www.w3.org/2000/svg', 'path');
+                    const isFirst = index === 0;
+                    const isLast = index === sections.length - 1;
+                    const overlap = 2; // 2px overlap to prevent seams
+                    const leftX = section.x - (isFirst ? 0 : overlap);
+                    const rightX = section.x + sectionWidth + (isLast ? 0 : overlap);
+
+                    let pathData = `M ${leftX + (isFirst ? containerRadius : 0)} ${containerY}`;
+                    pathData += ` L ${rightX - (isLast ? containerRadius : 0)} ${containerY}`;
+
+                    if (isLast) {
+                        pathData += ` Q ${rightX} ${containerY} ${rightX} ${containerY + containerRadius}`;
+                        pathData += ` Q ${rightX} ${containerY + containerHeight} ${rightX - containerRadius} ${containerY + containerHeight}`;
+                    } else {
+                        pathData += ` L ${rightX} ${containerY + containerHeight}`;
+                    }
+
+                    pathData += ` L ${leftX + (isFirst ? containerRadius : 0)} ${containerY + containerHeight}`;
+
+                    if (isFirst) {
+                        pathData += ` Q ${leftX} ${containerY + containerHeight} ${leftX} ${containerY + containerRadius}`;
+                        pathData += ` Q ${leftX} ${containerY} ${leftX + containerRadius} ${containerY}`;
+                    } else {
+                        pathData += ` L ${leftX} ${containerY}`;
+                    }
+
+                    pathData += ' Z';
+
+                    path.setAttribute('d', pathData.trim().replace(/\s+/g, ' '));
+                    path.setAttribute('fill', `url(#${section.gradient})`);
+                    // Only stroke outer edges, not between sections
+                    if (isFirst || isLast) {
+                        path.setAttribute('stroke', 'rgba(255, 255, 255, 0.3)');
+                        path.setAttribute('stroke-width', '1');
+                    }
+                    filterSections.appendChild(path);
+                });
+            }
+        }
+
+        // Create filter button border outline
+        function createFilterBorder(expanded = false) {
+            const filterBorder = document.getElementById('filter-border');
+            const width = borderContainer.offsetWidth;
+            const centerX = width / 2;
+            const containerHeight = 26;
+            const containerRadius = 8;
+            const containerY = 15;
+            const containerWidth = expanded ? 510 : 110;
+            const containerLeft = centerX - (containerWidth / 2);
+            const containerRight = centerX + (containerWidth / 2);
+
+            // Draw border outline around filter buttons (top and bottom edges with rounded corners)
+            const borderPath = `
+                M ${containerLeft + containerRadius} ${containerY}
+                L ${containerRight - containerRadius} ${containerY}
+                Q ${containerRight} ${containerY} ${containerRight} ${containerY + containerRadius}
+                L ${containerRight} ${containerY + containerHeight - containerRadius}
+                Q ${containerRight} ${containerY + containerHeight} ${containerRight - containerRadius} ${containerY + containerHeight}
+                L ${containerLeft + containerRadius} ${containerY + containerHeight}
+                Q ${containerLeft} ${containerY + containerHeight} ${containerLeft} ${containerY + containerHeight - containerRadius}
+                L ${containerLeft} ${containerY + containerRadius}
+                Q ${containerLeft} ${containerY} ${containerLeft + containerRadius} ${containerY}
+            `.trim().replace(/\s+/g, ' ');
+
+            filterBorder.setAttribute('d', borderPath);
+        }
+
+        // Initialize border on load
+        function initBorder() {
+            borderSvg.setAttribute('viewBox', `0 0 ${borderContainer.offsetWidth} ${borderContainer.offsetHeight + 35}`);
+            borderPath.setAttribute('d', createMainBorderPath(false));
+            createFilterSections(false);
+            createFilterBorder(false);
+        }
+
+        // Update border when toggling
+        function updateBorder(expanded) {
+            borderPath.setAttribute('d', createMainBorderPath(expanded));
+            createFilterSections(expanded);
+            createFilterBorder(expanded);
+        }
+
+        // Initialize border
+        initBorder();
+
+        // Update border on window resize
+        window.addEventListener('resize', () => {
+            initBorder();
+            if (isOpen) {
+                updateBorder(true);
+            }
+        });
+
         // Toggle filter options
         function toggleOptions() {
             isOpen = !isOpen;
-            const borderContainer = document.querySelector('.timeline-border-container');
 
             if (isOpen) {
                 // Expand border for filter categories
                 borderContainer.classList.add('filter-expanded');
+                container.classList.add('filter-expanded');
+                updateBorder(true);
 
                 // Show containers using CSS classes
                 leftOptions.classList.add('visible');
@@ -1738,26 +1981,24 @@
                 const leftBtns = leftOptions.querySelectorAll('.filter-option-btn');
                 const rightBtns = rightOptions.querySelectorAll('.filter-option-btn');
 
-                // Animate left buttons (reverse order for proper stagger)
+                // Animate left buttons (reverse order for proper stagger) - fade in only
+                // Delay fade-in until container expansion is mostly complete (300ms)
                 leftBtns.forEach((btn, index) => {
+                    btn.style.transition = 'opacity 0.2s ease-out';
                     btn.style.opacity = '0';
-                    btn.style.transform = 'scale(0.8)';
                     setTimeout(() => {
-                        btn.style.transition = 'all 0.3s cubic-bezier(0.4, 0, 0.2, 1)';
                         btn.style.opacity = '1';
-                        btn.style.transform = 'scale(1)';
-                    }, (leftBtns.length - index - 1) * 50);
+                    }, 300 + (leftBtns.length - index - 1) * 30);
                 });
 
-                // Animate right buttons
+                // Animate right buttons - fade in only
+                // Delay fade-in until container expansion is mostly complete (300ms)
                 rightBtns.forEach((btn, index) => {
+                    btn.style.transition = 'opacity 0.2s ease-out';
                     btn.style.opacity = '0';
-                    btn.style.transform = 'scale(0.8)';
                     setTimeout(() => {
-                        btn.style.transition = 'all 0.3s cubic-bezier(0.4, 0, 0.2, 1)';
                         btn.style.opacity = '1';
-                        btn.style.transform = 'scale(1)';
-                    }, index * 50);
+                    }, 300 + index * 30);
                 });
 
                 // Show clear button if needed
@@ -1767,13 +2008,44 @@
                     }, rightBtns.length * 50);
                 }
             } else {
+                // Hide button text during close animation to prevent visible position jumps
+                const filterTextElements = mainBtn.querySelectorAll('span, svg');
+                filterTextElements.forEach(el => {
+                    el.style.opacity = '0';
+                });
+
+                // Temporarily disable container width transition
+                container.style.transition = 'none';
+
                 // Compress border back to normal
                 borderContainer.classList.remove('filter-expanded');
+                container.classList.remove('filter-expanded');
+                updateBorder(false);
 
                 // Hide containers using CSS classes
                 leftOptions.classList.remove('visible');
                 rightOptions.classList.remove('visible');
                 clearBtn.classList.remove('visible');
+
+                // Re-enable container transition and show text after animation completes
+                setTimeout(() => {
+                    container.style.transition = '';
+                    filterTextElements.forEach(el => {
+                        el.style.opacity = '';
+                    });
+                }, 400);
+
+                // Reset inline styles on option buttons to ensure they're hidden
+                const leftBtns = leftOptions.querySelectorAll('.filter-option-btn');
+                const rightBtns = rightOptions.querySelectorAll('.filter-option-btn');
+                leftBtns.forEach(btn => {
+                    btn.style.opacity = '';
+                    btn.style.transition = '';
+                });
+                rightBtns.forEach(btn => {
+                    btn.style.opacity = '';
+                    btn.style.transition = '';
+                });
             }
         }
 

@@ -4131,7 +4131,7 @@ body {
     transform: translateX(-50%);
     z-index: 10;
     width: 110px; /* Closed state: just Filter button */
-    height: 26px;
+    height: 23px;
     transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
     user-select: none;
     opacity: 0;
@@ -4164,7 +4164,7 @@ body {
     gap: 5px;
     padding: 0;
     width: 85px;
-    height: 26px;
+    height: 23px;
     background: transparent;
     border: none;
     color: rgba(255, 255, 255, 0.9);

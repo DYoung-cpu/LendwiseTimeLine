@@ -71,7 +71,7 @@ class TimelineStars {
             this.particles.push({
                 x: Math.random() * this.width,
                 y: Math.random() * this.height,
-                size: Math.random() * 2 + 1, // 1-3px
+                size: Math.random() * 1 + 0.5, // 0.5-1.5px (smaller sparkles)
                 baseOpacity: Math.random() * 0.4 + 0.4, // 0.4-0.8
                 opacity: Math.random() * 0.4 + 0.4,
                 twinkleSpeed: Math.random() * 0.02 + 0.01, // 0.01-0.03
@@ -79,7 +79,8 @@ class TimelineStars {
                 vx: (Math.random() - 0.5) * 0.2, // Slow drift
                 vy: (Math.random() - 0.5) * 0.2,
                 color: selectedColor,
-                scrollVx: 0 // Velocity from scroll
+                scrollVx: 0, // Velocity from scroll
+                rotation: Math.random() * Math.PI // Random rotation for sparkle
             });
         }
     }
@@ -174,11 +175,64 @@ class TimelineStars {
         this.ctx.clearRect(0, 0, this.width, this.height);
 
         this.particles.forEach(particle => {
-            this.ctx.beginPath();
-            this.ctx.arc(particle.x, particle.y, particle.size, 0, Math.PI * 2);
-            this.ctx.fillStyle = this.hexToRgba(particle.color, particle.opacity);
-            this.ctx.fill();
+            this.drawSparkle(particle);
         });
+    }
+
+    drawSparkle(particle) {
+        const { x, y, size, color, opacity, rotation } = particle;
+
+        this.ctx.save();
+        this.ctx.translate(x, y);
+        this.ctx.rotate(rotation);
+
+        // Draw a 4-ray sparkle (cross pattern)
+        const rayLength = size * 3; // Rays extend 3x the base size
+        const rayWidth = size * 0.3; // Thin rays
+
+        this.ctx.fillStyle = this.hexToRgba(color, opacity);
+
+        // Horizontal ray
+        this.ctx.beginPath();
+        this.ctx.moveTo(-rayLength, 0);
+        this.ctx.lineTo(-rayWidth, -rayWidth);
+        this.ctx.lineTo(0, 0);
+        this.ctx.lineTo(-rayWidth, rayWidth);
+        this.ctx.closePath();
+        this.ctx.fill();
+
+        this.ctx.beginPath();
+        this.ctx.moveTo(rayLength, 0);
+        this.ctx.lineTo(rayWidth, -rayWidth);
+        this.ctx.lineTo(0, 0);
+        this.ctx.lineTo(rayWidth, rayWidth);
+        this.ctx.closePath();
+        this.ctx.fill();
+
+        // Vertical ray
+        this.ctx.beginPath();
+        this.ctx.moveTo(0, -rayLength);
+        this.ctx.lineTo(-rayWidth, -rayWidth);
+        this.ctx.lineTo(0, 0);
+        this.ctx.lineTo(rayWidth, -rayWidth);
+        this.ctx.closePath();
+        this.ctx.fill();
+
+        this.ctx.beginPath();
+        this.ctx.moveTo(0, rayLength);
+        this.ctx.lineTo(-rayWidth, rayWidth);
+        this.ctx.lineTo(0, 0);
+        this.ctx.lineTo(rayWidth, rayWidth);
+        this.ctx.closePath();
+        this.ctx.fill();
+
+        // Center glow
+        this.ctx.beginPath();
+        this.ctx.arc(0, 0, size * 0.8, 0, Math.PI * 2);
+        this.ctx.fillStyle = this.hexToRgba(color, opacity * 1.2);
+        this.ctx.fill();
+
+        this.ctx.restore();
     }
 
     animate() {

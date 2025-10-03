@@ -209,20 +209,82 @@ html, body {
     margin-top: 30px; /* More space from title */
 }
 
-/* Timeline Border Container - Subtle visual separation */
+/* Timeline Border Container - Filter is PART of the border */
 .timeline-border-container {
     position: relative;
     border: 1px solid rgba(255, 255, 255, 0.15);
+    border-top: none; /* Will draw top border with gap using ::before */
     border-radius: 12px;
     background: rgba(255, 255, 255, 0.04);
     backdrop-filter: blur(10px);
-    padding: 1px 100px; /* DRAMATIC reduction to 1px for testing visibility of changes */
-    margin: 10px -80px; /* Increased negative horizontal margins to extend border well past arrows */
+    padding: 30px 100px;
+    margin: 20px -80px;
+    margin-top: 15px; /* Space for filter */
     box-shadow:
-        0 0 20px rgba(255, 255, 255, 0.1),          /* Soft outer glow for visibility */
+        0 0 20px rgba(255, 255, 255, 0.1),
         0 1px 3px rgba(0, 0, 0, 0.12),
         0 1px 2px rgba(0, 0, 0, 0.24),
         inset 0 1px 0 rgba(255, 255, 255, 0.1);
+    overflow: visible;
+    transition: padding 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* Top border with gap for filter button - Left line */
+.timeline-border-container::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 12px;
+    width: calc(50% - 55px);
+    height: 1px;
+    background: rgba(255, 255, 255, 0.15);
+    pointer-events: none;
+    z-index: 0;
+}
+
+/* Top border with gap for filter button - Right line */
+.timeline-border-container::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    right: 12px;
+    width: calc(50% - 55px);
+    height: 1px;
+    background: rgba(255, 255, 255, 0.15);
+    pointer-events: none;
+    z-index: 0;
+}
+
+/* SVG Border with Physical Notch */
+.border-svg {
+    position: absolute;
+    top: -16px; /* Shift up to show notch above container */
+    left: 0;
+    width: 100%;
+    /* height set dynamically by JS to include notch space */
+    pointer-events: none;
+    z-index: 1;
+}
+
+.border-path {
+    stroke: rgba(255, 255, 255, 0.3) !important;
+    stroke-width: 2px !important;
+    transition: d 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* Expanded state - everything moves as one unified piece */
+.timeline-border-container.filter-expanded {
+    padding: 30px 140px; /* Expand horizontally for filter options */
+    /* NO vertical transform or margin changes */
+    /* SVG border notch expands via JavaScript */
+}
+
+.filter-expanded .new-filter-btn {
+    min-width: 120px;
+    transform: scale(1.02);
+    box-shadow:
+        0 1px 0 rgba(255, 255, 255, 0.1),
+        0 2px 12px rgba(0, 0, 0, 0.4);
 }
 
 /* Timeline Viewport - Contains scrollable area */
@@ -290,6 +352,8 @@ html, body {
     justify-content: center;
     transition: all 0.3s ease;
     backdrop-filter: blur(10px);
+    overflow: hidden;
+    box-sizing: border-box;
 }
 
 .timeline-nav:hover {
@@ -4077,11 +4141,12 @@ body {
    NEW FILTER BUTTON COMPONENT
    ======================================== */
 
-/* Container positioning */
+/* Container positioning - SITS IN SVG NOTCH */
 .new-filter-container {
-    position: fixed;
-    top: 150px;
-    left: 400px;
+    position: absolute;
+    top: -16px; /* Sits in 16px deep notch */
+    left: 50%;
+    transform: translateX(-50%);
     z-index: 10000;
     display: flex;
     flex-direction: row;
@@ -4097,41 +4162,35 @@ body {
     to { opacity: 1; }
 }
 
-/* Main filter button */
+/* Main filter button - PART OF border structure */
 .new-filter-btn {
     position: relative;
     display: flex;
     align-items: center;
     justify-content: center;
     gap: 6px;
-    padding: 8px 14px;
-    border: none;
+    padding: 8px 20px;
+    min-width: 90px;
+    height: 36px;
     border-radius: 8px;
-    background: rgba(255, 255, 255, 0.1);
-    backdrop-filter: blur(10px);
-    -webkit-backdrop-filter: blur(10px);
-    border: 1px solid rgba(255, 255, 255, 0.2);
-    box-shadow: 0 6px 24px 0 rgba(0, 0, 0, 0.1);
+    background: linear-gradient(135deg, #4a4a4a, #a0a0a0, #d0d0d0);
+    border: 1px solid rgba(255, 255, 255, 0.3);
     color: white;
     font-family: 'Montserrat', sans-serif;
     font-size: 12px;
-    font-weight: 500;
-    cursor: move;
-    transition: all 0.3s ease;
-    isolation: isolate;
-    white-space: nowrap;
-    min-width: 84px;
-    height: 28px;
+    font-weight: 600;
+    letter-spacing: 0.5px;
+    cursor: pointer;
+    transition: transform 0.2s ease, background 0.2s ease;
 }
 
 .new-filter-btn:hover {
+    background: linear-gradient(135deg, #5a5a5a, #b0b0b0, #e0e0e0);
     transform: scale(1.05);
-    background: rgba(255, 255, 255, 0.15);
-    border-color: rgba(255, 255, 255, 0.3);
 }
 
 .new-filter-btn:active {
-    transform: scale(0.95);
+    transform: scale(0.98);
 }
 
 /* Filter icon */
@@ -4165,12 +4224,16 @@ body {
     visibility: hidden;
     transform: translateX(-20px) scale(0.9);
     transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    position: absolute;
+    right: calc(100% + 10px);
+    top: 50%;
+    transform: translateY(-50%) translateX(-20px) scale(0.9);
 }
 
 .filter-options-left.visible {
     opacity: 1;
     visibility: visible;
-    transform: translateX(0) scale(1);
+    transform: translateY(-50%) translateX(0) scale(1);
 }
 
 /* Right filter options container */
@@ -4182,12 +4245,16 @@ body {
     visibility: hidden;
     transform: translateX(20px) scale(0.9);
     transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    position: absolute;
+    left: calc(100% + 10px);
+    top: 50%;
+    transform: translateY(-50%) translateX(20px) scale(0.9);
 }
 
 .filter-options-right.visible {
     opacity: 1;
     visibility: visible;
-    transform: translateX(0) scale(1);
+    transform: translateY(-50%) translateX(0) scale(1);
 }
 
 /* Individual filter option buttons */

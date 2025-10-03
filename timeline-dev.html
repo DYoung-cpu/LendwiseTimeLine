@@ -9,8 +9,8 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
 
     <!-- Include both CSS files -->
-    <link rel="stylesheet" href="timeline-styles.css">
-    <link rel="stylesheet" href="timeline-clean-test.css">
+    <link rel="stylesheet" href="timeline-styles.css?v=20251002215200">
+    <link rel="stylesheet" href="timeline-clean-test.css?v=20251002222200">
 </head>
 <body>
     <!-- Three.js Shader Intro Animation (3 second overlay) -->
@@ -67,7 +67,8 @@
 
                     <!-- Timeline Viewport Container -->
                     <div class="timeline-border-container">
-                        <!-- Filter Button Container (Integrated into Border) -->
+
+                        <!-- Filter Button Container -->
                         <div class="new-filter-container" id="new-filter-container">
                             <!-- Left side filter options -->
                             <div class="filter-options-left" id="filter-options-left">
@@ -1699,6 +1700,7 @@
     <!-- New Filter JavaScript -->
     <script>
     document.addEventListener('DOMContentLoaded', function() {
+
         const container = document.getElementById('new-filter-container');
         const mainBtn = document.getElementById('main-filter-btn');
         const leftOptions = document.getElementById('filter-options-left');

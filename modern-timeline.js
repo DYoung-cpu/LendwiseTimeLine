@@ -339,25 +339,45 @@ function updateCardOpacity(card, angle) {
         card.style.zIndex = 100 + (180 - absAngle);
     }
 
-    // Proximity-based gold glow effect
-    // Glow activates when card is approaching the owl (within 45 degrees)
-    // Strongest at 0 degrees (directly in front), fades as card moves away
-    const glowThreshold = 45; // Degrees from center where glow starts
+    // Proximity-based gold glow effect - based on physical distance to owl
+    // Get owl position
+    const owlElement = document.querySelector('.landing-owl .wisr-video-circle') ||
+                       document.querySelector('.landing-owl');
 
-    if (absAngle <= glowThreshold) {
-        // Calculate glow intensity (1.0 at center, 0.0 at threshold)
-        const glowIntensity = 1 - (absAngle / glowThreshold);
+    if (owlElement) {
+        const owlRect = owlElement.getBoundingClientRect();
+        const owlCenterX = owlRect.left + owlRect.width / 2;
+        const owlCenterY = owlRect.top + owlRect.height / 2;
 
-        // Apply gold glow border and shadow based on proximity
-        const glowStrength = glowIntensity * 0.8; // Max opacity 0.8
-        const shadowSpread = 10 + (glowIntensity * 25); // 10px to 35px
+        // Get card position
+        const cardRect = card.getBoundingClientRect();
+        const cardCenterX = cardRect.left + cardRect.width / 2;
+        const cardCenterY = cardRect.top + cardRect.height / 2;
 
-        card.style.setProperty('border-color', `rgba(255, 215, 0, ${glowStrength})`, 'important');
-        card.style.setProperty('box-shadow', `0 0 ${shadowSpread}px rgba(255, 215, 0, ${glowStrength * 0.6})`, 'important');
-    } else {
-        // No glow - reset to default
-        card.style.setProperty('border-color', 'rgba(255, 255, 255, 0.2)', 'important');
-        card.style.setProperty('box-shadow', 'none', 'important');
+        // Calculate distance from card center to owl center
+        const distance = Math.sqrt(
+            Math.pow(cardCenterX - owlCenterX, 2) +
+            Math.pow(cardCenterY - owlCenterY, 2)
+        );
+
+        const glowDistanceThreshold = 300; // Distance in pixels where glow starts
+
+        if (distance <= glowDistanceThreshold) {
+            // Calculate glow intensity (1.0 when touching owl, 0.0 at threshold)
+            const glowIntensity = 1 - (distance / glowDistanceThreshold);
+
+            // Apply gold glow border and shadow based on proximity
+            const glowStrength = glowIntensity * 1.0; // Max opacity 1.0
+            const shadowSpread = 20 + (glowIntensity * 50); // 20px to 70px
+            const shadowStrength = glowStrength * 0.9; // Strong shadow
+
+            card.style.setProperty('border-color', `rgba(255, 215, 0, ${glowStrength})`, 'important');
+            card.style.setProperty('box-shadow', `0 0 ${shadowSpread}px rgba(255, 215, 0, ${shadowStrength})`, 'important');
+        } else {
+            // No glow - reset to default
+            card.style.setProperty('border-color', 'rgba(255, 255, 255, 0.2)', 'important');
+            card.style.setProperty('box-shadow', 'none', 'important');
+        }
     }
 
     // Add/remove active class for front-facing cards

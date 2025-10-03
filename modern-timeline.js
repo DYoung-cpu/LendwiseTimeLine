@@ -339,6 +339,27 @@ function updateCardOpacity(card, angle) {
         card.style.zIndex = 100 + (180 - absAngle);
     }
 
+    // Proximity-based gold glow effect
+    // Glow activates when card is approaching the owl (within 45 degrees)
+    // Strongest at 0 degrees (directly in front), fades as card moves away
+    const glowThreshold = 45; // Degrees from center where glow starts
+
+    if (absAngle <= glowThreshold) {
+        // Calculate glow intensity (1.0 at center, 0.0 at threshold)
+        const glowIntensity = 1 - (absAngle / glowThreshold);
+
+        // Apply gold glow border and shadow based on proximity
+        const glowStrength = glowIntensity * 0.8; // Max opacity 0.8
+        const shadowSpread = 10 + (glowIntensity * 25); // 10px to 35px
+
+        card.style.borderColor = `rgba(255, 215, 0, ${glowStrength})`;
+        card.style.boxShadow = `0 0 ${shadowSpread}px rgba(255, 215, 0, ${glowStrength * 0.6})`;
+    } else {
+        // No glow - reset to default
+        card.style.borderColor = 'rgba(255, 255, 255, 0.2)';
+        card.style.boxShadow = 'none';
+    }
+
     // Add/remove active class for front-facing cards
     if (absAngle < 30) {
         card.classList.add('active');

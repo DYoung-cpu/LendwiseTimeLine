@@ -70,15 +70,15 @@ function initializeCarouselGallery() {
         // Calculate initial opacity based on angle
         updateCardOpacity(card, angle - galleryConfig.currentRotation);
 
-        // Add click handler for modal
-        card.addEventListener('click', () => {
-            const milestoneId = getMilestoneIdByIndex(index);
-            if (milestoneId) openModal(milestoneId);
-        });
+        // Click handler is now managed by setupMouseDragRotation
+        // which distinguishes between click and drag
     });
 
     // Removed scroll-based rotation - carousel should not be triggered by page scroll
     // setupScrollRotation(galleryTrack, cards);
+
+    // Setup mouse drag rotation
+    setupMouseDragRotation(galleryTrack, cards);
 
     // Start auto-rotation
     startAutoRotation(galleryTrack, cards);
@@ -133,6 +133,146 @@ function setupScrollRotation(galleryTrack, cards) {
             galleryConfig.isAutoRotating = true;
         }, 150);  // Match React's 150ms timeout
     });
+}
+
+// Setup mouse drag rotation control
+function setupMouseDragRotation(galleryTrack, cards) {
+    const carouselContainer = document.querySelector('.circular-gallery-container');
+    if (!carouselContainer) return;
+
+    let isDragging = false;
+    let startX = 0;
+    let startRotation = 0;
+    let dragDistance = 0;
+    let clickedCard = null;
+    const dragSensitivity = 0.5; // Degrees per pixel
+    const clickThreshold = 5; // Pixels - if drag is less than this, treat as click
+
+    function handleMouseDown(e) {
+        isDragging = true;
+        startX = e.clientX;
+        startRotation = galleryConfig.currentRotation;
+        dragDistance = 0;
+
+        // Track which card was clicked (if any)
+        clickedCard = e.target.closest('.gallery-card');
+
+        // Pause auto-rotation while dragging
+        galleryConfig.isAutoRotating = false;
+
+        // Change cursor
+        carouselContainer.style.cursor = 'grabbing';
+
+        e.preventDefault();
+    }
+
+    function handleMouseMove(e) {
+        if (!isDragging) return;
+
+        const deltaX = e.clientX - startX;
+        dragDistance = Math.abs(deltaX);
+
+        // Update rotation based on drag distance
+        galleryConfig.currentRotation = startRotation - (deltaX * dragSensitivity);
+
+        // Apply rotation to gallery
+        galleryTrack.style.transform = `rotateY(${galleryConfig.currentRotation}deg)`;
+
+        // Update card opacities
+        updateAllCardOpacities(cards);
+    }
+
+    function handleMouseUp(e) {
+        if (!isDragging) return;
+
+        isDragging = false;
+
+        // Reset cursor
+        carouselContainer.style.cursor = 'grab';
+
+        // If drag distance is very small and we clicked on a card, treat as a click
+        if (dragDistance < clickThreshold && clickedCard) {
+            // Find the card index
+            const cardIndex = Array.from(cards).indexOf(clickedCard);
+            if (cardIndex !== -1) {
+                const milestoneId = getMilestoneIdByIndex(cardIndex);
+                if (milestoneId) {
+                    openModal(milestoneId);
+                }
+            }
+        }
+
+        clickedCard = null;
+
+        // Resume auto-rotation after a short delay
+        setTimeout(() => {
+            galleryConfig.isAutoRotating = true;
+        }, 500);
+    }
+
+    // Touch support for mobile
+    function handleTouchStart(e) {
+        isDragging = true;
+        startX = e.touches[0].clientX;
+        startRotation = galleryConfig.currentRotation;
+        dragDistance = 0;
+
+        // Track which card was touched (if any)
+        clickedCard = e.target.closest('.gallery-card');
+
+        galleryConfig.isAutoRotating = false;
+        e.preventDefault();
+    }
+
+    function handleTouchMove(e) {
+        if (!isDragging) return;
+
+        const deltaX = e.touches[0].clientX - startX;
+        dragDistance = Math.abs(deltaX);
+
+        galleryConfig.currentRotation = startRotation - (deltaX * dragSensitivity);
+        galleryTrack.style.transform = `rotateY(${galleryConfig.currentRotation}deg)`;
+        updateAllCardOpacities(cards);
+
+        e.preventDefault();
+    }
+
+    function handleTouchEnd(e) {
+        if (!isDragging) return;
+
+        isDragging = false;
+
+        // If drag distance is very small and we touched a card, treat as a tap
+        if (dragDistance < clickThreshold && clickedCard) {
+            const cardIndex = Array.from(cards).indexOf(clickedCard);
+            if (cardIndex !== -1) {
+                const milestoneId = getMilestoneIdByIndex(cardIndex);
+                if (milestoneId) {
+                    openModal(milestoneId);
+                }
+            }
+        }
+
+        clickedCard = null;
+
+        setTimeout(() => {
+            galleryConfig.isAutoRotating = true;
+        }, 500);
+    }
+
+    // Add event listeners
+    carouselContainer.addEventListener('mousedown', handleMouseDown);
+    document.addEventListener('mousemove', handleMouseMove);
+    document.addEventListener('mouseup', handleMouseUp);
+
+    carouselContainer.addEventListener('touchstart', handleTouchStart, { passive: false });
+    document.addEventListener('touchmove', handleTouchMove, { passive: false });
+    document.addEventListener('touchend', handleTouchEnd);
+
+    // Set initial cursor
+    carouselContainer.style.cursor = 'grab';
+
+    console.log('Mouse drag rotation enabled - cards are draggable');
 }
 
 // Auto-rotation animation

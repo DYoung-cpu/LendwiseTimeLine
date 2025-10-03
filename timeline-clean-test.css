@@ -69,6 +69,34 @@ html, body {
     66% { opacity: 0.5; }
 }
 
+/* Timeline border glow animation - syncs with aurora background */
+@keyframes timelineBorderGlow {
+    0%, 100% {
+        box-shadow:
+            0 0 30px rgba(0, 200, 81, 0.3),
+            0 0 20px rgba(0, 200, 81, 0.2),
+            0 1px 3px rgba(0, 0, 0, 0.12),
+            0 1px 2px rgba(0, 0, 0, 0.24),
+            inset 0 1px 0 rgba(255, 255, 255, 0.1);
+    }
+    33% {
+        box-shadow:
+            0 0 30px rgba(255, 215, 0, 0.3),
+            0 0 20px rgba(255, 215, 0, 0.2),
+            0 1px 3px rgba(0, 0, 0, 0.12),
+            0 1px 2px rgba(0, 0, 0, 0.24),
+            inset 0 1px 0 rgba(255, 255, 255, 0.1);
+    }
+    66% {
+        box-shadow:
+            0 0 30px rgba(249, 168, 37, 0.3),
+            0 0 20px rgba(249, 168, 37, 0.2),
+            0 1px 3px rgba(0, 0, 0, 0.12),
+            0 1px 2px rgba(0, 0, 0, 0.24),
+            inset 0 1px 0 rgba(255, 255, 255, 0.1);
+    }
+}
+
 /* Integrated Hero Timeline Section */
 .hero-timeline-integrated {
     position: relative;
@@ -220,11 +248,12 @@ html, body {
     margin: 20px -80px;
     margin-top: 35px; /* Space for filter container notch */
     box-shadow:
-        0 0 30px rgba(255, 215, 0, 0.3),
-        0 0 20px rgba(255, 215, 0, 0.2),
+        0 0 30px rgba(0, 200, 81, 0.3),
+        0 0 20px rgba(0, 200, 81, 0.2),
         0 1px 3px rgba(0, 0, 0, 0.12),
         0 1px 2px rgba(0, 0, 0, 0.24),
         inset 0 1px 0 rgba(255, 255, 255, 0.1);
+    animation: timelineBorderGlow 15s ease-in-out infinite;
     overflow: visible;
     transition: padding 0.3s cubic-bezier(0.4, 0, 0.2, 1);
 }

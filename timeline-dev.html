@@ -10,7 +10,7 @@
 
     <!-- Include both CSS files -->
     <link rel="stylesheet" href="timeline-styles.css?v=20251002215200">
-    <link rel="stylesheet" href="timeline-clean-test.css?v=20251003070200">
+    <link rel="stylesheet" href="timeline-clean-test.css?v=20251003135500">
 </head>
 <body>
     <!-- Three.js Shader Intro Animation (3 second overlay) -->
@@ -1872,7 +1872,7 @@
                     const path = document.createElementNS('http://www.w3.org/2000/svg', 'path');
                     const isFirst = index === 0;
                     const isLast = index === sections.length - 1;
-                    const overlap = 2; // 2px overlap to prevent seams
+                    const overlap = 4; // 4px overlap to blend radial gradients at edges
                     const leftX = section.x - (isFirst ? 0 : overlap);
                     const rightX = section.x + sectionWidth + (isLast ? 0 : overlap);
 

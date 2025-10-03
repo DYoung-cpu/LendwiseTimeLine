@@ -262,7 +262,7 @@ html, body {
 }
 
 .filter-expanded .new-filter-btn {
-    min-width: 120px;
+    min-width: 104px;
     /* transform set below to move button to 4th section position */
     box-shadow:
         0 1px 0 rgba(255, 255, 255, 0.1),
@@ -4130,7 +4130,7 @@ body {
     left: 50%;
     transform: translateX(-50%);
     z-index: 10;
-    width: 110px; /* Closed state: just Filter button */
+    width: 96px; /* Closed state: just Filter button */
     height: 26px;
     transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
     user-select: none;
@@ -4141,7 +4141,7 @@ body {
 
 /* Expanded state: show all 6 sections */
 .new-filter-container.filter-expanded {
-    width: 510px; /* 6 sections × 85px */
+    width: 444px; /* 6 sections × 74px */
 }
 
 .new-filter-container > * {
@@ -4163,7 +4163,7 @@ body {
     justify-content: center;
     gap: 5px;
     padding: 0;
-    width: 85px;
+    width: 74px;
     height: 26px;
     background: transparent;
     border: none;
@@ -4178,10 +4178,10 @@ body {
     transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
-/* Position Filter button at 4th section when expanded (center at 297.5px) */
+/* Position Filter button at 4th section when expanded (center at 259px) */
 /* Use transform instead of left to avoid jumps during container width animation */
 .filter-expanded .new-filter-btn {
-    transform: translateX(calc(-50% + 42.5px)) scale(1.02);
+    transform: translateX(calc(-50% + 37px)) scale(1.02);
 }
 
 .new-filter-btn:hover {
@@ -4227,50 +4227,50 @@ body {
 
 .filter-options-left {
     left: 0;
-    width: 255px; /* 3 sections × 85px */
+    width: 222px; /* 3 sections × 74px */
 }
 
 .filter-options-right {
     right: 0;
-    width: 170px; /* 2 sections × 85px */
+    width: 148px; /* 2 sections × 74px */
 }
 
-/* Position Operations button in 1st section (center at 42.5px) */
+/* Position Operations button in 1st section (center at 37px) */
 .filter-operations {
     position: absolute;
-    left: 42.5px;
+    left: 37px;
     top: -1px;
     transform: translateX(-50%);
 }
 
-/* Position Tech button in 2nd section (center at 127.5px) */
+/* Position Tech button in 2nd section (center at 111px) */
 .filter-tech {
     position: absolute;
-    left: 127.5px;
+    left: 111px;
     top: -1px;
     transform: translateX(-50%);
 }
 
-/* Position Completed button in 3rd section (center at 212.5px) */
+/* Position Completed button in 3rd section (center at 185px) */
 .filter-completed {
     position: absolute;
-    left: 212.5px;
+    left: 185px;
     top: -1px;
     transform: translateX(-50%);
 }
 
-/* Position In Progress button in 5th section (center at 382.5px absolute = 42.5px relative) */
+/* Position In Progress button in 5th section (center at 333px absolute = 37px relative) */
 .filter-in-progress {
     position: absolute;
-    left: 42.5px;
+    left: 37px;
     top: -1px;
     transform: translateX(-50%);
 }
 
-/* Position Future button in 6th section (center at 467.5px absolute = 127.5px relative) */
+/* Position Future button in 6th section (center at 407px absolute = 111px relative) */
 .filter-future {
     position: absolute;
-    left: 127.5px;
+    left: 111px;
     top: -1px;
     transform: translateX(-50%);
 }
@@ -4299,7 +4299,7 @@ body {
     cursor: pointer;
     opacity: 0;
     white-space: nowrap;
-    width: 80px;
+    width: 70px;
     height: 28px;
     transition: opacity 0.3s ease;
 }
@@ -4333,7 +4333,7 @@ body {
     opacity: 0;
     visibility: hidden;
     transform: scale(0.8);
-    min-width: 80px;
+    min-width: 70px;
     height: 28px;
 }
 

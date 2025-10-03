@@ -97,6 +97,19 @@ html, body {
     }
 }
 
+/* Animated gradient overlay - brightens timeline background */
+@keyframes timelineGradientFlow {
+    0% {
+        background-position: 0% 50%;
+    }
+    50% {
+        background-position: 100% 50%;
+    }
+    100% {
+        background-position: 0% 50%;
+    }
+}
+
 /* Integrated Hero Timeline Section */
 .hero-timeline-integrated {
     position: relative;
@@ -258,6 +271,29 @@ html, body {
     transition: padding 0.3s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
+/* Animated gradient overlay for timeline background */
+.timeline-border-container::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    border-radius: 12px;
+    background: linear-gradient(
+        90deg,
+        rgba(255, 255, 255, 0.2),
+        rgba(255, 245, 200, 0.18),
+        rgba(200, 240, 255, 0.15),
+        rgba(255, 235, 180, 0.18),
+        rgba(255, 255, 255, 0.2)
+    );
+    background-size: 200% 100%;
+    animation: timelineGradientFlow 20s ease-in-out infinite;
+    pointer-events: none;
+    z-index: 0;
+}
+
 /* SVG Border with Integrated Filter Container */
 .border-svg {
     position: absolute;
@@ -302,6 +338,7 @@ html, body {
 /* Timeline Viewport - Contains scrollable area */
 .timeline-viewport {
     position: relative;
+    z-index: 1; /* Above gradient overlay */
     width: 100%;
     overflow-x: auto;  /* Enable horizontal scroll */
     overflow-y: visible; /* Allow glow effects to show vertically */

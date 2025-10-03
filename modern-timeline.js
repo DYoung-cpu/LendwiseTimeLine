@@ -352,12 +352,12 @@ function updateCardOpacity(card, angle) {
         const glowStrength = glowIntensity * 0.8; // Max opacity 0.8
         const shadowSpread = 10 + (glowIntensity * 25); // 10px to 35px
 
-        card.style.borderColor = `rgba(255, 215, 0, ${glowStrength})`;
-        card.style.boxShadow = `0 0 ${shadowSpread}px rgba(255, 215, 0, ${glowStrength * 0.6})`;
+        card.style.setProperty('border-color', `rgba(255, 215, 0, ${glowStrength})`, 'important');
+        card.style.setProperty('box-shadow', `0 0 ${shadowSpread}px rgba(255, 215, 0, ${glowStrength * 0.6})`, 'important');
     } else {
         // No glow - reset to default
-        card.style.borderColor = 'rgba(255, 255, 255, 0.2)';
-        card.style.boxShadow = 'none';
+        card.style.setProperty('border-color', 'rgba(255, 255, 255, 0.2)', 'important');
+        card.style.setProperty('box-shadow', 'none', 'important');
     }
 
     // Add/remove active class for front-facing cards

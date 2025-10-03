@@ -216,7 +216,7 @@ html, body {
     border-radius: 12px;
     background: rgba(255, 255, 255, 0.04);
     backdrop-filter: blur(10px);
-    padding: 24px 100px;
+    padding: 19px 100px;
     margin: 20px -80px;
     margin-top: 35px; /* Space for filter container notch */
     box-shadow:
@@ -256,7 +256,7 @@ html, body {
 
 /* Expanded state - everything moves as one unified piece */
 .timeline-border-container.filter-expanded {
-    padding: 24px 140px; /* Expand horizontally for filter options */
+    padding: 19px 140px; /* Expand horizontally for filter options */
     /* NO vertical transform or margin changes */
     /* SVG border notch expands via JavaScript */
 }

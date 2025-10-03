@@ -314,6 +314,7 @@ html, body {
 /* Timeline Viewport - Contains scrollable area */
 .timeline-viewport {
     position: relative;
+    z-index: 4; /* Above stars (3), ensures all timeline content stays above sparkles */
     width: 100%;
     overflow-x: auto;  /* Enable horizontal scroll */
     overflow-y: visible; /* Allow glow effects to show vertically */
@@ -4186,7 +4187,7 @@ body {
 /* Container positioning - SITS IN SVG INTEGRATED CONTAINER */
 .new-filter-container {
     position: absolute;
-    top: 35px;
+    top: 23px;
     left: 50%;
     transform: translateX(-50%);
     z-index: 10;

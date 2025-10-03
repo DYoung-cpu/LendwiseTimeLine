@@ -68,6 +68,18 @@ class TimelineStars {
                 }
             }
 
+            // Determine particle sensitivity for layered depth effect
+            // 20% fast (0.8-1.0), 50% medium (0.5-0.7), 30% slow (0.3-0.4)
+            let sensitivity;
+            const sensRandom = Math.random();
+            if (sensRandom < 0.2) {
+                sensitivity = Math.random() * 0.2 + 0.8; // Fast: 0.8-1.0
+            } else if (sensRandom < 0.7) {
+                sensitivity = Math.random() * 0.2 + 0.5; // Medium: 0.5-0.7
+            } else {
+                sensitivity = Math.random() * 0.1 + 0.3; // Slow: 0.3-0.4
+            }
+
             this.particles.push({
                 x: Math.random() * this.width,
                 y: Math.random() * this.height,
@@ -79,7 +91,8 @@ class TimelineStars {
                 vx: (Math.random() - 0.5) * 0.2, // Slow drift
                 vy: (Math.random() - 0.5) * 0.2,
                 color: selectedColor,
-                scrollVx: 0, // Velocity from scroll
+                sensitivity: sensitivity, // How reactive to scroll (0.3-1.0)
+                momentum: 0, // Current scroll-based velocity
                 rotation: Math.random() * Math.PI // Random rotation for sparkle
             });
         }
@@ -111,11 +124,17 @@ class TimelineStars {
             this.mouse.y = e.clientY - rect.top;
         });
 
-        // Scroll interaction
+        // Scroll interaction - velocity-based reaction
         if (this.viewport) {
             this.viewport.addEventListener('scroll', () => {
                 const currentScrollLeft = this.viewport.scrollLeft;
-                this.scrollVelocity = (currentScrollLeft - this.lastScrollLeft) * 0.1;
+                // Calculate actual scroll velocity (pixels per frame)
+                const rawVelocity = currentScrollLeft - this.lastScrollLeft;
+
+                // Apply base multiplier and cap max velocity
+                const maxVelocity = 20;
+                this.scrollVelocity = Math.max(-maxVelocity, Math.min(maxVelocity, rawVelocity * 0.5));
+
                 this.lastScrollLeft = currentScrollLeft;
             });
         }
@@ -131,7 +150,7 @@ class TimelineStars {
     }
 
     updateParticles() {
-        // Decay scroll velocity
+        // Gradual velocity decay (global scroll effect fades over time)
         this.scrollVelocity *= 0.95;
 
         this.particles.forEach(particle => {
@@ -143,9 +162,24 @@ class TimelineStars {
             particle.x += particle.vx;
             particle.y += particle.vy;
 
-            // Scroll interaction - particles drift opposite to scroll
-            particle.scrollVx = -this.scrollVelocity;
-            particle.x += particle.scrollVx;
+            // Velocity-based scroll reaction with per-particle sensitivity
+            // Each particle reacts differently based on scroll speed and its own sensitivity
+            const scrollInfluence = -this.scrollVelocity * particle.sensitivity;
+
+            // Update particle momentum (accelerates/decelerates based on scroll)
+            particle.momentum += scrollInfluence * 0.3; // Acceleration factor
+
+            // Apply momentum decay (particles coast to stop)
+            particle.momentum *= 0.92;
+
+            // Move particle based on momentum
+            particle.x += particle.momentum;
+
+            // Visual feedback: Brighten stars when moving fast
+            const movementSpeed = Math.abs(particle.momentum);
+            if (movementSpeed > 0.5) {
+                particle.opacity = Math.min(1.0, particle.opacity + movementSpeed * 0.1);
+            }
 
             // Cursor interaction (subtle)
             if (this.mouse.isOver && this.mouse.x !== null && this.mouse.y !== null) {

@@ -1761,8 +1761,8 @@
 
     <!-- Include JavaScript files -->
     <script src="intro-animation.js?v=20251003142500"></script>
-    <script src="modern-timeline.js?v=20251003151000"></script>
-    <script src="timeline-stars.js?v=20251003145000"></script>
+    <script src="modern-timeline.js?v=20251003152000"></script>
+    <script src="timeline-stars.js?v=20251003150000">
     </div> <!-- End of main-content -->
 
 
@@ -1794,34 +1794,43 @@
         let offsetX = 0;
         let offsetY = 0;
 
-        // Create main border path (rectangular outline with gap at top)
+        // Create main border path that wraps around the filter button
         function createMainBorderPath(expanded = false) {
             const width = borderContainer.offsetWidth;
             const height = borderContainer.offsetHeight + 35;
             const radius = 12;
             const centerX = width / 2;
-            const containerWidth = expanded ? 510 : 110;
-            const containerRadius = 20;
-            const containerY = 35;
 
-            const containerLeft = centerX - (containerWidth / 2);
-            const containerRight = centerX + (containerWidth / 2);
+            // Filter button specs (matching the actual button)
+            const filterWidth = expanded ? 510 : 110;
+            const filterHeight = 23;
+            const filterRadius = 8;
 
-            // Rectangular border with gap for container
-            // Extend endpoints to hide completely under filter button (33px covers the gap)
-            const extendBy = 33;
+            const filterLeft = centerX - (filterWidth / 2);
+            const filterRight = centerX + (filterWidth / 2);
+
+            // Create border path that wraps around the filter button
             return `
-                M ${radius} ${containerY}
-                L ${containerLeft - containerRadius + extendBy} ${containerY}
-                M ${containerRight + containerRadius - extendBy} ${containerY}
-                L ${width - radius} ${containerY}
-                Q ${width} ${containerY} ${width} ${containerY + radius}
+                M ${radius} 0
+                L ${filterLeft - filterRadius} 0
+
+                L ${filterLeft - filterRadius} ${-filterHeight + filterRadius}
+                Q ${filterLeft - filterRadius} ${-filterHeight} ${filterLeft} ${-filterHeight}
+
+                L ${filterRight} ${-filterHeight}
+
+                Q ${filterRight + filterRadius} ${-filterHeight} ${filterRight + filterRadius} ${-filterHeight + filterRadius}
+                L ${filterRight + filterRadius} 0
+
+                L ${width - radius} 0
+                Q ${width} 0 ${width} ${radius}
                 L ${width} ${height - radius}
                 Q ${width} ${height} ${width - radius} ${height}
                 L ${radius} ${height}
                 Q 0 ${height} 0 ${height - radius}
-                L 0 ${containerY + radius}
-                Q 0 ${containerY} ${radius} ${containerY}
+                L 0 ${radius}
+                Q 0 0 ${radius} 0
+                Z
             `.trim().replace(/\s+/g, ' ');
         }
 
@@ -1831,7 +1840,7 @@
             const centerX = width / 2;
             const containerHeight = 23;
             const containerRadius = 8; // Soft rounded corners instead of pill shape
-            const containerY = 24;
+            const containerY = 12;
 
             // Clear existing sections
             filterSections.innerHTML = '';
@@ -1920,7 +1929,7 @@
             const centerX = width / 2;
             const containerHeight = 23;
             const containerRadius = 8;
-            const containerY = 24;
+            const containerY = 12;
             const containerWidth = expanded ? 510 : 110;
             const containerLeft = centerX - (containerWidth / 2);
             const containerRight = centerX + (containerWidth / 2);

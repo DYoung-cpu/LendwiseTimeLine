@@ -10,7 +10,7 @@
 
     <!-- Include both CSS files -->
     <link rel="stylesheet" href="timeline-styles.css?v=20251002215200">
-    <link rel="stylesheet" href="timeline-clean-test.css?v=20251003143000">
+    <link rel="stylesheet" href="timeline-clean-test.css?v=20251003144500">
 </head>
 <body>
     <!-- Three.js Shader Intro Animation (3 second overlay) -->
@@ -67,6 +67,9 @@
 
                     <!-- Timeline Viewport Container -->
                     <div class="timeline-border-container">
+
+                        <!-- Star Particle Canvas -->
+                        <canvas id="timeline-stars" class="timeline-stars"></canvas>
 
                         <!-- SVG Border with Integrated Filter Container -->
                         <svg class="border-svg" id="border-svg" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="none">
@@ -1759,6 +1762,7 @@
     <!-- Include JavaScript files -->
     <script src="intro-animation.js?v=20251003142500"></script>
     <script src="modern-timeline.js?v=20251003145500"></script>
+    <script src="timeline-stars.js?v=20251003144500"></script>
     </div> <!-- End of main-content -->
 
 
@@ -1827,7 +1831,7 @@
             const centerX = width / 2;
             const containerHeight = 23;
             const containerRadius = 8; // Soft rounded corners instead of pill shape
-            const containerY = 35;
+            const containerY = 58;
 
             // Clear existing sections
             filterSections.innerHTML = '';
@@ -1916,7 +1920,7 @@
             const centerX = width / 2;
             const containerHeight = 23;
             const containerRadius = 8;
-            const containerY = 35;
+            const containerY = 58;
             const containerWidth = expanded ? 510 : 110;
             const containerLeft = centerX - (containerWidth / 2);
             const containerRight = centerX + (containerWidth / 2);

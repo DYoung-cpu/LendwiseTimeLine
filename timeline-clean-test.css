@@ -258,6 +258,18 @@ html, body {
     transition: padding 0.3s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
+/* Star Particle Canvas */
+.timeline-stars {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    border-radius: 12px;
+    pointer-events: none;
+    z-index: 3; /* Above aurora (1), below border SVG (5) */
+}
+
 /* SVG Border with Integrated Filter Container */
 .border-svg {
     position: absolute;
@@ -4174,7 +4186,7 @@ body {
 /* Container positioning - SITS IN SVG INTEGRATED CONTAINER */
 .new-filter-container {
     position: absolute;
-    top: 24px;
+    top: 35px;
     left: 50%;
     transform: translateX(-50%);
     z-index: 10;

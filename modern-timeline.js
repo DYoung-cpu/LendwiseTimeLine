@@ -173,7 +173,7 @@ function setupMouseDragRotation(galleryTrack, cards) {
         dragDistance = Math.abs(deltaX);
 
         // Update rotation based on drag distance
-        galleryConfig.currentRotation = startRotation - (deltaX * dragSensitivity);
+        galleryConfig.currentRotation = startRotation + (deltaX * dragSensitivity);
 
         // Apply rotation to gallery
         galleryTrack.style.transform = `rotateY(${galleryConfig.currentRotation}deg)`;
@@ -230,7 +230,7 @@ function setupMouseDragRotation(galleryTrack, cards) {
         const deltaX = e.touches[0].clientX - startX;
         dragDistance = Math.abs(deltaX);
 
-        galleryConfig.currentRotation = startRotation - (deltaX * dragSensitivity);
+        galleryConfig.currentRotation = startRotation + (deltaX * dragSensitivity);
         galleryTrack.style.transform = `rotateY(${galleryConfig.currentRotation}deg)`;
         updateAllCardOpacities(cards);
 

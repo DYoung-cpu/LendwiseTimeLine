@@ -216,7 +216,7 @@ html, body {
     border-radius: 12px;
     background: rgba(255, 255, 255, 0.04);
     backdrop-filter: blur(10px);
-    padding: 19px 100px;
+    padding: 10px 100px;
     margin: 20px -80px;
     margin-top: 35px; /* Space for filter container notch */
     box-shadow:
@@ -256,7 +256,7 @@ html, body {
 
 /* Expanded state - everything moves as one unified piece */
 .timeline-border-container.filter-expanded {
-    padding: 19px 140px; /* Expand horizontally for filter options */
+    padding: 10px 140px; /* Expand horizontally for filter options */
     /* NO vertical transform or margin changes */
     /* SVG border notch expands via JavaScript */
 }
@@ -1464,12 +1464,12 @@ html, body {
     display: flex;
     justify-content: center;
     align-items: center;
-    padding: 10px;
+    padding: 6px;
     background: white;
-    border-radius: 12px;
-    width: 70px;
-    height: 70px;
-    margin: 0 auto 15px;
+    border-radius: 10px;
+    width: 50px;
+    height: 50px;
+    margin: 0 auto 8px;
 }
 
 .google-card .google-logo svg {
@@ -1482,11 +1482,29 @@ html, body {
     box-shadow: 0 10px 30px rgba(66, 133, 244, 0.3);
 }
 
+.google-card .card-content {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
 .google-card .card-content h3 {
     background: linear-gradient(90deg, #4285F4, #34A853, #FBBC05, #EA4335);
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
     font-weight: 700;
+    font-size: 0.85rem;
+    margin-bottom: 4px;
+}
+
+.google-card .card-date {
+    font-size: 0.65rem;
+    margin-bottom: 3px;
+}
+
+.google-card .card-description {
+    font-size: 0.65rem;
 }
 
 /* Don't change background on hover for image cards */
@@ -4126,7 +4144,7 @@ body {
 /* Container positioning - SITS IN SVG INTEGRATED CONTAINER */
 .new-filter-container {
     position: absolute;
-    top: -20px;
+    top: 4px;
     left: 50%;
     transform: translateX(-50%);
     z-index: 10;

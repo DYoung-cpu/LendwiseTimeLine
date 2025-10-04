@@ -232,7 +232,7 @@ html, body {
 /* Timeline Container */
 .roadmap-timeline {
     position: relative;
-    padding: 80px 80px 100px; /* Increased vertical padding for spacing */
+    padding: 55px 80px 70px; /* Reduced vertical padding by ~30% for compact layout */
     overflow: visible; /* Changed from hidden to prevent container boundary */
     margin-top: 30px; /* More space from title */
 }
@@ -244,9 +244,9 @@ html, body {
     border-radius: 12px;
     background: rgba(255, 255, 255, 0.04);
     backdrop-filter: blur(10px);
-    padding: 10px 100px;
+    padding: 8px 100px;
     margin: 20px -80px;
-    margin-top: 35px; /* Space for filter container notch */
+    margin-top: 25px; /* Reduced space for filter container notch */
     box-shadow:
         0 0 30px rgba(0, 200, 81, 0.3),
         0 0 20px rgba(0, 200, 81, 0.2),
@@ -319,7 +319,7 @@ html, body {
     overflow-x: auto;  /* Enable horizontal scroll */
     overflow-y: visible; /* Allow glow effects to show vertically */
     margin: 0; /* Removed negative margins to prevent container boundary */
-    padding: 25px 20px; /* Increased from 5px to 25px to provide space for milestone buttons */
+    padding: 18px 15px; /* Reduced for compact layout */
     /* Hide scrollbar but keep scroll functionality */
     scrollbar-width: none; /* Firefox - hide scrollbar */
     -ms-overflow-style: none; /* IE and Edge - hide scrollbar */
@@ -368,8 +368,8 @@ html, body {
     background: rgba(100, 200, 255, 0.1);
     border: 2px solid rgba(100, 200, 255, 0.5);
     border-radius: 50%;
-    width: 40px;
-    height: 40px;
+    width: 32px;
+    height: 32px;
     cursor: pointer;
     z-index: 100;
     display: flex;
@@ -413,8 +413,8 @@ html, body {
 
 .timeline-line-container {
     position: relative;
-    width: 2000px;  /* Fixed width for scrolling */
-    height: 180px;  /* Reduced from 200px by 10% */
+    width: 1160px;  /* Reduced to fit actual content (last item at 76% + padding) */
+    height: 135px;  /* Reduced by 25% for compact layout */
     transition: transform 0.5s cubic-bezier(0.4, 0, 0.2, 1);
     will-change: transform;
     cursor: grab;
@@ -457,7 +457,7 @@ html, body {
     position: absolute;
     top: 50%;
     left: 0;
-    width: 2000px;  /* Fixed width to match container */
+    width: 2000px;  /* Must extend to cover all milestones */
     height: 1px;
     background: linear-gradient(90deg,
         transparent 0%,
@@ -473,7 +473,7 @@ html, body {
     position: absolute;
     top: 0;
     left: 0;
-    width: 2000px;  /* Match timeline-line-container width */
+    width: 2000px;  /* Must contain all milestone positions */
     height: 100%;
 }
 
@@ -508,14 +508,14 @@ html, body {
 
 /* Lines connecting timeline to dots below (odd milestones) */
 .timeline-milestone:nth-child(odd) .milestone-connector {
-    height: 36px;  /* Reduced from 40px by 10% */
+    height: 27px;  /* Reduced by 25% for compact layout */
     top: 50%;  /* Start from timeline center */
     background: linear-gradient(to bottom, rgba(100, 200, 255, 0.6), rgba(100, 200, 255, 0.1));
 }
 
 /* Lines connecting timeline to dots above (even milestones) */
 .timeline-milestone:nth-child(even) .milestone-connector {
-    height: 36px;  /* Reduced from 40px by 10% */
+    height: 27px;  /* Reduced by 25% for compact layout */
     bottom: 50%;  /* Start from timeline center */
     background: linear-gradient(to top, rgba(100, 200, 255, 0.6), rgba(100, 200, 255, 0.1));
 }
@@ -525,129 +525,129 @@ html, body {
 /* HIGH IMPORTANCE (67px) - Tallest branches */
 /* 1. Inception */
 .timeline-milestone:nth-child(1) .milestone-connector {
-    height: 67px !important;
+    height: 50px !important;
 }
 .timeline-milestone:nth-child(1) .milestone-dot {
-    top: 67px !important;
+    top: 50px !important;
 }
 
 /* LOW IMPORTANCE - NMLS (3) and DRE (4) */
 /* 3. NMLS - Purple, Low importance */
 .timeline-milestone:nth-child(3) .milestone-connector {
-    height: 17px !important;  /* Low importance */
+    height: 13px !important;  /* Low importance */
 }
 .timeline-milestone:nth-child(3) .milestone-dot {
-    top: 17px !important;  /* Goes down - changed from bottom */
+    top: 13px !important;  /* Goes down - changed from bottom */
 }
 
 /* 4. CA DRE - Purple, Low importance */
 .timeline-milestone:nth-child(4) .milestone-connector {
-    height: 17px !important;  /* Low importance */
+    height: 13px !important;  /* Low importance */
 }
 .timeline-milestone:nth-child(4) .milestone-dot {
-    bottom: 17px !important;  /* Goes up - changed from top */
+    bottom: 13px !important;  /* Goes up - changed from top */
 }
 
 /* 5. Headquarters */
 .timeline-milestone:nth-child(5) .milestone-connector {
-    height: 67px !important;
+    height: 50px !important;
 }
 .timeline-milestone:nth-child(5) .milestone-dot {
-    top: 67px !important;  /* Goes down - changed to alternate */
+    top: 50px !important;  /* Goes down - changed to alternate */
 }
 
 /* 6. The Team */
 .timeline-milestone:nth-child(6) .milestone-connector {
-    height: 67px !important;
+    height: 50px !important;
     bottom: 0px !important;  /* Start from timeline going up */
 }
 .timeline-milestone:nth-child(6) .milestone-dot {
-    bottom: 67px !important;  /* Position above timeline */
+    bottom: 50px !important;  /* Position above timeline */
 }
 
 /* 7. Website */
 .timeline-milestone:nth-child(7) .milestone-connector {
-    height: 34px !important;
+    height: 26px !important;
 }
 .timeline-milestone:nth-child(7) .milestone-dot {
-    top: 34px !important;  /* Goes down */
+    top: 26px !important;  /* Goes down */
 }
 
 /* 8. Integrations - HIGH IMPORTANCE */
 .timeline-milestone:nth-child(8) .milestone-connector {
-    height: 67px !important;
+    height: 50px !important;
     bottom: 0px !important;  /* Start from timeline going up */
 }
 .timeline-milestone:nth-child(8) .milestone-dot {
-    bottom: 67px !important;  /* Position above timeline - high importance */
+    bottom: 50px !important;  /* Position above timeline - high importance */
 }
 
 /* 9. DFPI AI */
 .timeline-milestone:nth-child(9) .milestone-connector {
-    height: 34px !important;
+    height: 26px !important;
 }
 .timeline-milestone:nth-child(9) .milestone-dot {
-    top: 34px !important;  /* Goes down */
+    top: 26px !important;  /* Goes down */
 }
 
 /* 10. LOS */
 .timeline-milestone:nth-child(10) .milestone-connector {
-    height: 34px !important;
+    height: 26px !important;
     bottom: 0px !important;  /* Start from timeline going up */
 }
 .timeline-milestone:nth-child(10) .milestone-dot {
-    bottom: 34px !important;  /* Position above timeline */
+    bottom: 26px !important;  /* Position above timeline */
 }
 
 /* 11. POS */
 .timeline-milestone:nth-child(11) .milestone-connector {
-    height: 34px !important;
+    height: 26px !important;
 }
 .timeline-milestone:nth-child(11) .milestone-dot {
-    top: 34px !important;  /* Goes down */
+    top: 26px !important;  /* Goes down */
 }
 
 /* 12. Optimal Blue */
 .timeline-milestone:nth-child(12) .milestone-connector {
-    height: 34px !important;
+    height: 26px !important;
     bottom: 0px !important;  /* Start from timeline going up */
 }
 .timeline-milestone:nth-child(12) .milestone-dot {
-    bottom: 34px !important;  /* Position above timeline */
+    bottom: 26px !important;  /* Position above timeline */
 }
 
 /* 13. Mission Control CRM */
 .timeline-milestone:nth-child(13) .milestone-connector {
-    height: 34px !important;
+    height: 26px !important;
 }
 .timeline-milestone:nth-child(13) .milestone-dot {
-    top: 34px !important;  /* Goes down */
+    top: 26px !important;  /* Goes down */
 }
 
 /* 14. Analytics - HIGH IMPORTANCE */
 .timeline-milestone:nth-child(14) .milestone-connector {
-    height: 67px !important;
+    height: 50px !important;
     bottom: 0px !important;  /* Start from timeline going up */
 }
 .timeline-milestone:nth-child(14) .milestone-dot {
-    bottom: 67px !important;  /* Position above timeline - high importance */
+    bottom: 50px !important;  /* Position above timeline - high importance */
 }
 
 /* 15. WISR AI */
 .timeline-milestone:nth-child(15) .milestone-connector {
-    height: 67px !important;
+    height: 50px !important;
 }
 .timeline-milestone:nth-child(15) .milestone-dot {
-    top: 67px !important;  /* Goes down */
+    top: 50px !important;  /* Goes down */
 }
 
 /* LOW IMPORTANCE (17px) - Shortest branches */
 /* 2. Google Sponsorship */
 .timeline-milestone:nth-child(2) .milestone-connector {
-    height: 17px !important;
+    height: 13px !important;
 }
 .timeline-milestone:nth-child(2) .milestone-dot {
-    bottom: 17px !important;  /* Goes up */
+    bottom: 13px !important;  /* Goes up */
 }
 
 /* CSS Custom Properties for Gradient Animations */
@@ -726,8 +726,8 @@ html, body {
 /* Milestone Dot - Gradient Button Design */
 .milestone-dot {
     min-width: 120px; /* Increased minimum width for edge-to-edge spacing */
-    height: 36px;
-    padding: 8px 20px; /* More padding for wider buttons */
+    height: 30px;
+    padding: 6px 18px; /* Reduced for compact layout */
     border-radius: 20px;
     margin: 0 auto;
     position: relative;
@@ -1406,7 +1406,7 @@ html, body {
     top: 50%;  /* LOCKED */
     margin-left: -65px;  /* Half of card width (130/2) */
     margin-top: -71px;  /* Half of new card height (142/2) */
-    background: rgba(255, 255, 255, 0.08);
+    background: rgba(255, 255, 255, 0.15);
     backdrop-filter: blur(10px);
     border: 2px solid rgba(255, 255, 255, 0.2);
     border-radius: 12px;
@@ -4187,17 +4187,19 @@ body {
 /* Container positioning - SITS IN SVG INTEGRATED CONTAINER */
 .new-filter-container {
     position: absolute;
-    top: 23px;
+    top: -28px;
     left: 50%;
     transform: translateX(-50%);
-    z-index: 10;
-    width: 110px; /* Closed state: just Filter button */
-    height: 23px;
-    transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    z-index: 10000;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: 8px;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
     user-select: none;
     opacity: 0;
     animation: showNewFilter 0.5s ease-in-out 3.5s forwards;
-    pointer-events: none;
+    pointer-events: auto;
 }
 
 /* Expanded state: show all 6 sections */
@@ -4213,30 +4215,58 @@ body {
     to { opacity: 1; }
 }
 
-/* Main filter button - Transparent clickable layer, SVG border provides visual */
+/* Main filter button */
 .new-filter-btn {
-    position: absolute;
-    left: 50%;
-    transform: translateX(-50%);
-    top: 0;
+    position: relative;
     display: flex;
     align-items: center;
     justify-content: center;
-    gap: 5px;
-    padding: 0;
-    width: 85px;
-    height: 23px;
-    background: transparent;
+    gap: 6px;
+    padding: 8px 14px;
     border: none;
-    color: rgba(255, 255, 255, 0.9);
-    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
-    font-size: 8px;
-    font-weight: 700;
-    letter-spacing: 0.5px;
-    text-transform: uppercase;
-    line-height: 12.8px;
+    border-radius: 8px;
+    /* Animated radial gradient background like timeline milestones */
+    --pos-x: 50%;
+    --pos-y: 50%;
+    --spread-x: 150%;
+    --spread-y: 150%;
+    --color-1: rgba(20, 40, 60, 0.9);
+    --color-2: rgba(30, 50, 70, 0.8);
+    --color-3: rgba(40, 80, 120, 0.7);
+    --color-4: rgba(60, 120, 180, 0.6);
+    --color-5: rgba(80, 140, 200, 0.5);
+    background: radial-gradient(
+        var(--spread-x) var(--spread-y) at var(--pos-x) var(--pos-y),
+        var(--color-1) 37.35%,
+        var(--color-2) 61.36%,
+        var(--color-3) 78.42%,
+        var(--color-4) 89.52%,
+        var(--color-5) 100%
+    );
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    box-shadow: 0 6px 24px 0 rgba(0, 0, 0, 0.1);
+    color: white;
+    font-family: 'Montserrat', sans-serif;
+    font-size: 12px;
+    font-weight: 500;
     cursor: pointer;
-    transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    transition:
+        --pos-x 0.5s,
+        --pos-y 0.5s,
+        --spread-x 0.5s,
+        --spread-y 0.5s,
+        --color-1 0.5s,
+        --color-2 0.5s,
+        --color-3 0.5s,
+        --color-4 0.5s,
+        --color-5 0.5s,
+        transform 0.3s ease;
+    isolation: isolate;
+    white-space: nowrap;
+    min-width: 84px;
+    height: 28px;
 }
 
 /* Position Filter button at 4th section when expanded (center at 297.5px) */
@@ -4246,7 +4276,14 @@ body {
 }
 
 .new-filter-btn:hover {
-    opacity: 0.8;
+    --color-1: rgba(0, 180, 216, 0.9);
+    --color-2: rgba(0, 150, 200, 0.8);
+    --color-3: rgba(0, 200, 255, 0.7);
+    --color-4: rgba(40, 220, 255, 0.6);
+    --color-5: rgba(80, 240, 255, 0.5);
+    --pos-x: 30%;
+    --pos-y: 70%;
+    transform: translateY(-1px);
 }
 
 .new-filter-btn:active {
@@ -4347,9 +4384,29 @@ body {
     display: flex;
     align-items: center;
     justify-content: center;
-    padding: 0;
-    background: transparent;
-    border: none;
+    padding: 6px 12px;
+    border: 1px solid rgba(255, 255, 255, 0.15);
+    border-radius: 6px;
+    /* Animated radial gradient background */
+    --pos-x: 50%;
+    --pos-y: 50%;
+    --spread-x: 150%;
+    --spread-y: 150%;
+    --color-1: rgba(30, 30, 30, 0.85);
+    --color-2: rgba(40, 40, 40, 0.75);
+    --color-3: rgba(50, 50, 50, 0.65);
+    --color-4: rgba(60, 60, 60, 0.55);
+    --color-5: rgba(70, 70, 70, 0.45);
+    background: radial-gradient(
+        var(--spread-x) var(--spread-y) at var(--pos-x) var(--pos-y),
+        var(--color-1) 37.35%,
+        var(--color-2) 61.36%,
+        var(--color-3) 78.42%,
+        var(--color-4) 89.52%,
+        var(--color-5) 100%
+    );
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
     color: rgba(255, 255, 255, 0.9);
     font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
     font-size: 8px;
@@ -4362,15 +4419,82 @@ body {
     white-space: nowrap;
     width: 80px;
     height: 28px;
-    transition: opacity 0.3s ease;
+    transition:
+        --pos-x 0.5s,
+        --pos-y 0.5s,
+        --spread-x 0.5s,
+        --spread-y 0.5s,
+        --color-1 0.5s,
+        --color-2 0.5s,
+        --color-3 0.5s,
+        --color-4 0.5s,
+        --color-5 0.5s,
+        opacity 0.3s ease,
+        transform 0.3s ease;
 }
 
-.filter-option-btn:hover {
-    opacity: 0.8;
+/* Operations button - Purple gradient */
+.filter-option-btn.filter-operations:hover {
+    --color-1: rgba(153, 68, 255, 0.9);
+    --color-2: rgba(120, 40, 200, 0.8);
+    --color-3: rgba(140, 60, 220, 0.7);
+    --color-4: rgba(170, 90, 240, 0.6);
+    --color-5: rgba(190, 110, 255, 0.5);
+    --pos-x: 30%;
+    --pos-y: 70%;
+    transform: translateY(-1px);
+}
+
+/* Tech button - Blue gradient */
+.filter-option-btn.filter-tech:hover {
+    --color-1: rgba(0, 120, 255, 0.9);
+    --color-2: rgba(0, 90, 200, 0.8);
+    --color-3: rgba(0, 140, 255, 0.7);
+    --color-4: rgba(40, 160, 255, 0.6);
+    --color-5: rgba(80, 180, 255, 0.5);
+    --pos-x: 30%;
+    --pos-y: 70%;
+    transform: translateY(-1px);
+}
+
+/* Completed button - Green/emerald gradient */
+.filter-option-btn.filter-completed:hover {
+    --color-1: rgba(42, 95, 74, 0.9);
+    --color-2: rgba(30, 71, 55, 0.8);
+    --color-3: rgba(196, 148, 31, 0.7);
+    --color-4: rgba(0, 200, 81, 0.6);
+    --color-5: rgba(0, 255, 150, 0.5);
+    --pos-x: 30%;
+    --pos-y: 70%;
+    transform: translateY(-1px);
+}
+
+/* In Progress button - Gray/white gradient */
+.filter-option-btn.filter-in-progress:hover {
+    --color-1: rgba(200, 200, 200, 0.9);
+    --color-2: rgba(160, 160, 160, 0.8);
+    --color-3: rgba(220, 220, 220, 0.7);
+    --color-4: rgba(240, 240, 240, 0.6);
+    --color-5: rgba(255, 255, 255, 0.5);
+    --pos-x: 30%;
+    --pos-y: 70%;
+    transform: translateY(-1px);
+}
+
+/* Future button - Gold gradient */
+.filter-option-btn.filter-future:hover {
+    --color-1: rgba(255, 215, 0, 0.9);
+    --color-2: rgba(255, 170, 0, 0.8);
+    --color-3: rgba(255, 221, 68, 0.7);
+    --color-4: rgba(184, 156, 70, 0.6);
+    --color-5: rgba(107, 90, 30, 0.5);
+    --pos-x: 30%;
+    --pos-y: 70%;
+    transform: translateY(-1px);
 }
 
 .filter-option-btn:active {
-    opacity: 0.6;
+    transform: scale(0.98);
 }
 
 /* Clear button */

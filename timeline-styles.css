@@ -622,6 +622,8 @@ body {
     border-radius: 50%;
     cursor: pointer;
     transition: all 0.3s;
+    overflow: hidden;
+    box-sizing: border-box;
 }
 
 .timeline-nav:hover {

@@ -67,9 +67,6 @@ function initializeCarouselGallery() {
         card.dataset.baseTransform = transform;
         console.log(`Card ${index}: ${transform}`);
 
-        // Calculate initial opacity based on angle
-        updateCardOpacity(card, angle - galleryConfig.currentRotation);
-
         // Click handler is now managed by setupMouseDragRotation
         // which distinguishes between click and drag
     });
@@ -80,11 +77,17 @@ function initializeCarouselGallery() {
     // Setup mouse drag rotation
     setupMouseDragRotation(galleryTrack, cards);
 
-    // Start auto-rotation
-    startAutoRotation(galleryTrack, cards);
-
     // Force initial render
     galleryTrack.style.transform = `rotateY(0deg)`;
+
+    // Use requestAnimationFrame to ensure DOM is fully laid out before calculating glow
+    requestAnimationFrame(() => {
+        // Calculate initial opacity and glow for all cards after layout is complete
+        updateAllCardOpacities(cards);
+    });
+
+    // Start auto-rotation
+    startAutoRotation(galleryTrack, cards);
 }
 
 // Setup scroll-based rotation control
@@ -299,7 +302,8 @@ function startAutoRotation(galleryTrack, cards) {
         galleryConfig.animationFrame = requestAnimationFrame(rotate);
     }
 
-    rotate();
+    // Start rotation loop (will begin on next animation frame, not synchronously)
+    galleryConfig.animationFrame = requestAnimationFrame(rotate);
 }
 
 // Update opacity for all cards based on viewing angle
@@ -318,12 +322,13 @@ function updateCardOpacity(card, angle) {
     while (angle > 180) angle -= 360;
     while (angle < -180) angle += 360;
 
-    // Calculate opacity (1 when facing viewer, 0.3 when at back)
+    // Calculate opacity (1 when facing viewer, 0.5 when at back)
     const absAngle = Math.abs(angle);
     let opacity = 1;
 
-    if (absAngle > 90) {
-        opacity = Math.max(0.3, 1 - ((absAngle - 90) / 90) * 0.7);
+    // Keep cards fully opaque until they're well past the viewer (120°)
+    if (absAngle > 120) {
+        opacity = Math.max(0.5, 1 - ((absAngle - 120) / 60) * 0.5);
     }
 
     card.style.opacity = opacity;
@@ -360,11 +365,20 @@ function updateCardOpacity(card, angle) {
             Math.pow(cardCenterY - owlCenterY, 2)
         );
 
-        const glowDistanceThreshold = 300; // Distance in pixels where glow starts
+        const glowDistanceThreshold = 450; // Distance in pixels where glow starts
 
-        if (distance <= glowDistanceThreshold) {
-            // Calculate glow intensity (1.0 when touching owl, 0.0 at threshold)
-            const glowIntensity = 1 - (distance / glowDistanceThreshold);
+        // Only glow cards that are visually in front (angle <= 135 degrees from center)
+        // This is wider than before to include cards near the owl sides
+        const isVisuallyInFront = absAngle <= 135;
+
+        if (distance <= glowDistanceThreshold && isVisuallyInFront) {
+            // Calculate glow intensity with exponential curve for better visibility
+            // Using squared falloff: more prominent glow at farther distances
+            const normalizedDistance = distance / glowDistanceThreshold;
+            const rawGlowIntensity = 1 - Math.pow(normalizedDistance, 2);
+
+            // Ensure minimum 30% glow for visibility - cards either glow visibly or not at all
+            const glowIntensity = Math.max(0.3, rawGlowIntensity);
 
             // Apply gold glow border and shadow based on proximity
             const glowStrength = glowIntensity * 1.0; // Max opacity 1.0
@@ -373,6 +387,7 @@ function updateCardOpacity(card, angle) {
 
             card.style.setProperty('border-color', `rgba(255, 215, 0, ${glowStrength})`, 'important');
             card.style.setProperty('box-shadow', `0 0 ${shadowSpread}px rgba(255, 215, 0, ${shadowStrength})`, 'important');
+
         } else {
             // No glow - reset to default
             card.style.setProperty('border-color', 'rgba(255, 255, 255, 0.2)', 'important');

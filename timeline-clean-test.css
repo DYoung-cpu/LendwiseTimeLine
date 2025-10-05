@@ -291,25 +291,6 @@ html, body {
     vector-effect: non-scaling-stroke;
 }
 
-#filter-sections path {
-    transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-    vector-effect: non-scaling-stroke;
-}
-
-/* Expanded state - everything moves as one unified piece */
-.timeline-border-container.filter-expanded {
-    padding: 10px 140px; /* Expand horizontally for filter options */
-    /* NO vertical transform or margin changes */
-    /* SVG border notch expands via JavaScript */
-}
-
-.filter-expanded .new-filter-btn {
-    min-width: 120px;
-    /* transform set below to move button to 4th section position */
-    box-shadow:
-        0 1px 0 rgba(255, 255, 255, 0.1),
-        0 2px 12px rgba(0, 0, 0, 0.4);
-}
 
 /* Timeline Viewport - Contains scrollable area */
 .timeline-viewport {
@@ -363,13 +344,20 @@ html, body {
        Timeline line is at 50% of .timeline-line-container (180px height = 90px from top)
        Plus roadmap-timeline padding (80px) = 170px
        With translateY(-50%), the circle center will be at exactly 170px */
-    top: 240px; /* Lowered by additional 15% (209px + 31px = 240px) */
+    top: 170px;
     transform: translateY(-50%);
     background: rgba(100, 200, 255, 0.1);
     border: 2px solid rgba(100, 200, 255, 0.5);
     border-radius: 50%;
-    width: 32px;
-    height: 32px;
+    width: 32px !important;
+    height: 32px !important;
+    min-width: 32px;
+    min-height: 32px;
+    max-width: 32px;
+    max-height: 32px;
+    padding: 0 !important;
+    aspect-ratio: 1 / 1;
+    flex-shrink: 0;
     cursor: pointer;
     z-index: 100;
     display: flex;
@@ -394,11 +382,11 @@ html, body {
 }
 
 .timeline-nav-left {
-    left: 20px; /* Moved further from edge */
+    left: 50px;
 }
 
 .timeline-nav-right {
-    right: 20px; /* Moved further from edge */
+    right: 50px;
 }
 
 .timeline-nav:disabled {
@@ -3616,8 +3604,13 @@ body {
     }
 
     .timeline-nav {
-        width: 35px;
-        height: 35px;
+        width: 35px !important;
+        height: 35px !important;
+        min-width: 35px;
+        min-height: 35px;
+        max-width: 35px;
+        max-height: 35px;
+        aspect-ratio: 1 / 1;
         top: 190px; /* Lowered by additional 15% (165px + 25px = 190px) */
     }
 
@@ -4180,367 +4173,3 @@ body {
     box-shadow: 0 0 20px rgba(255, 255, 255, 0.3);
 }
 
-/* ========================================
-   NEW FILTER BUTTON COMPONENT
-   ======================================== */
-
-/* Container positioning - SITS IN SVG INTEGRATED CONTAINER */
-.new-filter-container {
-    position: absolute;
-    top: -28px;
-    left: 50%;
-    transform: translateX(-50%);
-    z-index: 10000;
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-    gap: 8px;
-    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-    user-select: none;
-    opacity: 0;
-    animation: showNewFilter 0.5s ease-in-out 3.5s forwards;
-    pointer-events: auto;
-}
-
-/* Expanded state: show all 6 sections */
-.new-filter-container.filter-expanded {
-    width: 510px; /* 6 sections × 85px */
-}
-
-.new-filter-container > * {
-    pointer-events: auto;
-}
-
-@keyframes showNewFilter {
-    to { opacity: 1; }
-}
-
-/* Main filter button */
-.new-filter-btn {
-    position: relative;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 6px;
-    padding: 8px 14px;
-    border: none;
-    border-radius: 8px;
-    /* Animated radial gradient background like timeline milestones */
-    --pos-x: 50%;
-    --pos-y: 50%;
-    --spread-x: 150%;
-    --spread-y: 150%;
-    --color-1: rgba(20, 40, 60, 0.9);
-    --color-2: rgba(30, 50, 70, 0.8);
-    --color-3: rgba(40, 80, 120, 0.7);
-    --color-4: rgba(60, 120, 180, 0.6);
-    --color-5: rgba(80, 140, 200, 0.5);
-    background: radial-gradient(
-        var(--spread-x) var(--spread-y) at var(--pos-x) var(--pos-y),
-        var(--color-1) 37.35%,
-        var(--color-2) 61.36%,
-        var(--color-3) 78.42%,
-        var(--color-4) 89.52%,
-        var(--color-5) 100%
-    );
-    backdrop-filter: blur(10px);
-    -webkit-backdrop-filter: blur(10px);
-    border: 1px solid rgba(255, 255, 255, 0.2);
-    box-shadow: 0 6px 24px 0 rgba(0, 0, 0, 0.1);
-    color: white;
-    font-family: 'Montserrat', sans-serif;
-    font-size: 12px;
-    font-weight: 500;
-    cursor: pointer;
-    transition:
-        --pos-x 0.5s,
-        --pos-y 0.5s,
-        --spread-x 0.5s,
-        --spread-y 0.5s,
-        --color-1 0.5s,
-        --color-2 0.5s,
-        --color-3 0.5s,
-        --color-4 0.5s,
-        --color-5 0.5s,
-        transform 0.3s ease;
-    isolation: isolate;
-    white-space: nowrap;
-    min-width: 84px;
-    height: 28px;
-}
-
-/* Position Filter button at 4th section when expanded (center at 297.5px) */
-/* Use transform instead of left to avoid jumps during container width animation */
-.filter-expanded .new-filter-btn {
-    transform: translateX(calc(-50% + 42.5px)) scale(1.02);
-}
-
-.new-filter-btn:hover {
-    --color-1: rgba(0, 180, 216, 0.9);
-    --color-2: rgba(0, 150, 200, 0.8);
-    --color-3: rgba(0, 200, 255, 0.7);
-    --color-4: rgba(40, 220, 255, 0.6);
-    --color-5: rgba(80, 240, 255, 0.5);
-    --pos-x: 30%;
-    --pos-y: 70%;
-    transform: translateY(-1px);
-}
-
-.new-filter-btn:active {
-    opacity: 0.6;
-}
-
-/* Filter icon */
-.filter-icon {
-    width: 14px;
-    height: 14px;
-    color: white;
-}
-
-/* Filter count badge */
-.filter-count {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    width: 14px;
-    height: 14px;
-    margin-left: 3px;
-    background: rgb(59, 130, 246);
-    color: white;
-    border-radius: 50%;
-    font-size: 10px;
-    font-weight: 600;
-}
-
-/* Filter options containers - positioned to align with SVG sections */
-.filter-options-left,
-.filter-options-right {
-    position: absolute;
-    top: 0;
-    height: 100%;
-    opacity: 0;
-    visibility: hidden;
-    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-}
-
-.filter-options-left {
-    left: 0;
-    width: 255px; /* 3 sections × 85px */
-}
-
-.filter-options-right {
-    right: 0;
-    width: 170px; /* 2 sections × 85px */
-}
-
-/* Position Operations button in 1st section (center at 42.5px) */
-.filter-operations {
-    position: absolute;
-    left: 42.5px;
-    top: -1px;
-    transform: translateX(-50%);
-}
-
-/* Position Tech button in 2nd section (center at 127.5px) */
-.filter-tech {
-    position: absolute;
-    left: 127.5px;
-    top: -1px;
-    transform: translateX(-50%);
-}
-
-/* Position Completed button in 3rd section (center at 212.5px) */
-.filter-completed {
-    position: absolute;
-    left: 212.5px;
-    top: -1px;
-    transform: translateX(-50%);
-}
-
-/* Position In Progress button in 5th section (center at 382.5px absolute = 42.5px relative) */
-.filter-in-progress {
-    position: absolute;
-    left: 42.5px;
-    top: -1px;
-    transform: translateX(-50%);
-}
-
-/* Position Future button in 6th section (center at 467.5px absolute = 127.5px relative) */
-.filter-future {
-    position: absolute;
-    left: 127.5px;
-    top: -1px;
-    transform: translateX(-50%);
-}
-
-.filter-options-left.visible,
-.filter-options-right.visible {
-    opacity: 1;
-    visibility: visible;
-}
-
-/* Individual filter option buttons - Transparent clickable layers */
-.filter-option-btn {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    padding: 6px 12px;
-    border: 1px solid rgba(255, 255, 255, 0.15);
-    border-radius: 6px;
-    /* Animated radial gradient background */
-    --pos-x: 50%;
-    --pos-y: 50%;
-    --spread-x: 150%;
-    --spread-y: 150%;
-    --color-1: rgba(30, 30, 30, 0.85);
-    --color-2: rgba(40, 40, 40, 0.75);
-    --color-3: rgba(50, 50, 50, 0.65);
-    --color-4: rgba(60, 60, 60, 0.55);
-    --color-5: rgba(70, 70, 70, 0.45);
-    background: radial-gradient(
-        var(--spread-x) var(--spread-y) at var(--pos-x) var(--pos-y),
-        var(--color-1) 37.35%,
-        var(--color-2) 61.36%,
-        var(--color-3) 78.42%,
-        var(--color-4) 89.52%,
-        var(--color-5) 100%
-    );
-    backdrop-filter: blur(8px);
-    -webkit-backdrop-filter: blur(8px);
-    color: rgba(255, 255, 255, 0.9);
-    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
-    font-size: 8px;
-    font-weight: 700;
-    letter-spacing: 0.5px;
-    text-transform: uppercase;
-    line-height: 12.8px;
-    cursor: pointer;
-    opacity: 0;
-    white-space: nowrap;
-    width: 80px;
-    height: 28px;
-    transition:
-        --pos-x 0.5s,
-        --pos-y 0.5s,
-        --spread-x 0.5s,
-        --spread-y 0.5s,
-        --color-1 0.5s,
-        --color-2 0.5s,
-        --color-3 0.5s,
-        --color-4 0.5s,
-        --color-5 0.5s,
-        opacity 0.3s ease,
-        transform 0.3s ease;
-}
-
-/* Operations button - Purple gradient */
-.filter-option-btn.filter-operations:hover {
-    --color-1: rgba(153, 68, 255, 0.9);
-    --color-2: rgba(120, 40, 200, 0.8);
-    --color-3: rgba(140, 60, 220, 0.7);
-    --color-4: rgba(170, 90, 240, 0.6);
-    --color-5: rgba(190, 110, 255, 0.5);
-    --pos-x: 30%;
-    --pos-y: 70%;
-    transform: translateY(-1px);
-}
-
-/* Tech button - Blue gradient */
-.filter-option-btn.filter-tech:hover {
-    --color-1: rgba(0, 120, 255, 0.9);
-    --color-2: rgba(0, 90, 200, 0.8);
-    --color-3: rgba(0, 140, 255, 0.7);
-    --color-4: rgba(40, 160, 255, 0.6);
-    --color-5: rgba(80, 180, 255, 0.5);
-    --pos-x: 30%;
-    --pos-y: 70%;
-    transform: translateY(-1px);
-}
-
-/* Completed button - Green/emerald gradient */
-.filter-option-btn.filter-completed:hover {
-    --color-1: rgba(42, 95, 74, 0.9);
-    --color-2: rgba(30, 71, 55, 0.8);
-    --color-3: rgba(196, 148, 31, 0.7);
-    --color-4: rgba(0, 200, 81, 0.6);
-    --color-5: rgba(0, 255, 150, 0.5);
-    --pos-x: 30%;
-    --pos-y: 70%;
-    transform: translateY(-1px);
-}
-
-/* In Progress button - Gray/white gradient */
-.filter-option-btn.filter-in-progress:hover {
-    --color-1: rgba(200, 200, 200, 0.9);
-    --color-2: rgba(160, 160, 160, 0.8);
-    --color-3: rgba(220, 220, 220, 0.7);
-    --color-4: rgba(240, 240, 240, 0.6);
-    --color-5: rgba(255, 255, 255, 0.5);
-    --pos-x: 30%;
-    --pos-y: 70%;
-    transform: translateY(-1px);
-}
-
-/* Future button - Gold gradient */
-.filter-option-btn.filter-future:hover {
-    --color-1: rgba(255, 215, 0, 0.9);
-    --color-2: rgba(255, 170, 0, 0.8);
-    --color-3: rgba(255, 221, 68, 0.7);
-    --color-4: rgba(184, 156, 70, 0.6);
-    --color-5: rgba(107, 90, 30, 0.5);
-    --pos-x: 30%;
-    --pos-y: 70%;
-    transform: translateY(-1px);
-}
-
-.filter-option-btn:active {
-    transform: scale(0.98);
-}
-
-/* Clear button */
-.filter-clear-btn {
-    position: relative;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    padding: 6px 14px;
-    border: none;
-    border-radius: 14px;
-    background: rgba(239, 68, 68, 0.2);
-    backdrop-filter: blur(10px);
-    -webkit-backdrop-filter: blur(10px);
-    border: 1px solid rgba(239, 68, 68, 0.3);
-    box-shadow: 0 3px 12px 0 rgba(239, 68, 68, 0.2);
-    color: rgb(239, 68, 68);
-    cursor: pointer;
-    transition: all 0.3s ease;
-    isolation: isolate;
-    opacity: 0;
-    visibility: hidden;
-    transform: scale(0.8);
-    min-width: 80px;
-    height: 28px;
-}
-
-.filter-clear-btn.visible {
-    opacity: 1;
-    visibility: visible;
-    transform: scale(1);
-}
-
-.filter-clear-btn:hover {
-    transform: scale(1.05);
-    background: rgba(239, 68, 68, 0.3);
-    border-color: rgba(239, 68, 68, 0.4);
-}
-
-.filter-clear-btn:active {
-    transform: scale(0.95);
-}
-
-.filter-clear-btn svg {
-    width: 12px;
-    height: 12px;
-}
-
-/* All color-specific styling removed - buttons are now transparent clickable layers */

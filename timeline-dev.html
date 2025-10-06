@@ -10,7 +10,7 @@
 
     <!-- Include both CSS files -->
     <link rel="stylesheet" href="timeline-styles.css?v=20251002215200">
-    <link rel="stylesheet" href="timeline-clean-test.css?FEED=CYAN11">
+    <link rel="stylesheet" href="timeline-clean-test.css?FEED=CYAN12">
 </head>
 <body>
     <!-- Three.js Shader Intro Animation (3 second overlay) -->
@@ -1763,6 +1763,35 @@
         };
     </script>
 
+    <!-- UI Orchestrator - Centralized State Management -->
+    <script>
+        const UIOrchestrator = {
+            state: {
+                filterExpanded: false,
+                feedActive: false
+            },
+            listeners: [],
+
+            subscribe(callback) {
+                this.listeners.push(callback);
+            },
+
+            setFilterExpanded(isExpanded) {
+                this.state.filterExpanded = isExpanded;
+                this.notify('filter', isExpanded);
+            },
+
+            setFeedActive(isActive) {
+                this.state.feedActive = isActive;
+                this.notify('feed', isActive);
+            },
+
+            notify(component, value) {
+                this.listeners.forEach(fn => fn(component, value));
+            }
+        };
+    </script>
+
     <!-- Filter Functionality Script -->
     <script>
         document.addEventListener('DOMContentLoaded', function() {
@@ -1781,10 +1810,12 @@
                 if (isExpanded) {
                     // Collapse and clear all filters
                     filterBar.setAttribute('data-expanded', 'false');
+                    UIOrchestrator.setFilterExpanded(false);
                     clearAllFilters();
                 } else {
                     // Expand
                     filterBar.setAttribute('data-expanded', 'true');
+                    UIOrchestrator.setFilterExpanded(true);
                 }
             });
 
@@ -1817,6 +1848,7 @@
                     const isExpanded = filterBar.getAttribute('data-expanded') === 'true';
                     if (isExpanded) {
                         filterBar.setAttribute('data-expanded', 'false');
+                        UIOrchestrator.setFilterExpanded(false);
                     }
                 }
             });
@@ -1896,6 +1928,7 @@
                 if (isFeedActive) {
                     // Show Feed, hide Timeline
                     feedButton.classList.add('active');
+                    UIOrchestrator.setFeedActive(true);
                     timelineViewport.style.opacity = '0';
                     setTimeout(() => {
                         timelineViewport.style.display = 'none';
@@ -1907,6 +1940,7 @@
                 } else {
                     // Show Timeline, hide Feed
                     feedButton.classList.remove('active');
+                    UIOrchestrator.setFeedActive(false);
                     feedView.classList.remove('active');
                     setTimeout(() => {
                         feedView.style.display = 'none';
@@ -1922,6 +1956,27 @@
             const today = new Date();
             const options = { month: 'short', day: 'numeric', year: 'numeric' };
             document.getElementById('feedDate').textContent = today.toLocaleDateString('en-US', options);
+        });
+    </script>
+
+    <!-- Feed Button Movement Script -->
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const feedButtonContainer = document.querySelector('.feed-button-container');
+
+            // Subscribe to orchestrator for filter expansion changes
+            UIOrchestrator.subscribe((component, value) => {
+                if (component === 'filter') {
+                    // Move Feed button based on filter expansion
+                    if (value === true) {
+                        // Filter expanded - move Feed button to the right
+                        feedButtonContainer.style.transform = 'translateX(435px)';
+                    } else {
+                        // Filter collapsed - return Feed button to original position
+                        feedButtonContainer.style.transform = 'translateX(2.375px)';
+                    }
+                }
+            });
         });
     </script>
 

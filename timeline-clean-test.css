@@ -3752,7 +3752,7 @@ body {
 }
 
 /* ================================
-   FILTER BUTTON STYLES
+   FILTER BUTTON & FEED BUTTON STYLES
    ================================ */
 
 /* Filter Container */
@@ -3760,7 +3760,16 @@ body {
     position: absolute;
     top: -37.3px;
     left: 50%;
-    transform: translateX(-50%);
+    transform: translateX(-102.375px);
+    z-index: 10;
+}
+
+/* Feed Button Container - Positioned to the right of Filter */
+.feed-button-container {
+    position: absolute;
+    top: -37.3px;
+    left: 50%;
+    transform: translateX(2.375px);
     z-index: 10;
 }
 
@@ -3769,7 +3778,7 @@ body {
     display: flex;
     align-items: center;
     justify-content: center;
-    height: 28px;
+    height: 25.27px;
     background: rgba(0, 0, 0, 0.8);
     border: 1.5px solid rgba(255, 255, 255, 0.2);
     border-radius: 14px;
@@ -3782,7 +3791,7 @@ body {
     animation: timelineBorderGlow 15s ease-in-out infinite;
     overflow: hidden;
     transition: width 0.3s ease;
-    width: 99px;
+    width: 94.05px;
 }
 
 .filter-bar[data-expanded="true"] {
@@ -3904,6 +3913,213 @@ body {
 .filter-option.active {
     filter: brightness(1.4);
     box-shadow: inset 0 0 15px rgba(255, 255, 255, 0.3);
+}
+
+/* ================================
+   THE FEED BUTTON STYLES
+   ================================ */
+
+/* The Feed Button - Cyan Blue with Dynamic Color Design */
+.feed-button {
+    border: none;
+    cursor: pointer;
+    font-family: 'Roboto', sans-serif;
+    font-size: 0.56rem;
+    font-weight: 600;
+    letter-spacing: 0.33px;
+    color: #00ffff;
+    text-transform: uppercase;
+    padding: 0 13px;
+    height: 25.27px;
+    width: 94.05px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 6px;
+    white-space: nowrap;
+    background: radial-gradient(150% 180.06% at 11.14% 140%,
+        #000 37.35%,
+        #08122c 61.36%,
+        #1e3a6a 78.42%,
+        #4678b8 89.52%,
+        #00ffff 100%);
+    border: 0.95px solid rgba(0, 255, 255, 0.4);
+    border-radius: 14px;
+    box-shadow:
+        0 0 30px rgba(0, 255, 255, 0.4),
+        0 0 20px rgba(0, 255, 255, 0.3),
+        0 1px 3px rgba(0, 0, 0, 0.12),
+        0 1px 2px rgba(0, 0, 0, 0.24),
+        inset 0 1px 0 rgba(255, 255, 255, 0.1);
+    animation: timelineBorderGlow 15s ease-in-out infinite;
+    transition: filter 0.2s ease;
+}
+
+.feed-button svg {
+    width: 11px;
+    height: 11px;
+}
+
+.feed-button:hover {
+    filter: brightness(1.2);
+}
+
+.feed-button.active {
+    filter: brightness(1.5);
+    box-shadow:
+        0 0 40px rgba(100, 200, 255, 0.5),
+        0 0 25px rgba(100, 200, 255, 0.3),
+        0 1px 3px rgba(0, 0, 0, 0.12),
+        0 1px 2px rgba(0, 0, 0, 0.24),
+        inset 0 1px 0 rgba(255, 255, 255, 0.2);
+}
+
+/* ================================
+   THE FEED VIEW STYLES
+   ================================ */
+
+/* Feed View Container - Same dimensions and positioning as timeline-viewport */
+.feed-view {
+    position: relative;
+    width: 1160px;
+    height: 200px;
+    margin: 0 auto;
+    opacity: 0;
+    transition: opacity 0.5s ease;
+    display: flex;
+    flex-direction: column;
+    padding: 40px 60px;
+    box-sizing: border-box;
+    overflow: hidden;
+}
+
+.feed-view.active {
+    opacity: 1;
+}
+
+/* Feed Header - Static at top */
+.feed-header {
+    flex-shrink: 0;
+    margin-bottom: 30px;
+}
+
+.feed-header-row {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    margin-bottom: 10px;
+    font-family: 'Roboto', sans-serif;
+    font-size: 1.1rem;
+    color: rgba(255, 255, 255, 0.9);
+}
+
+.feed-person {
+    font-weight: 700;
+    color: #ffd700;
+}
+
+.feed-department {
+    color: rgba(100, 200, 255, 0.9);
+}
+
+.feed-project {
+    font-weight: 600;
+    color: rgba(255, 255, 255, 0.95);
+}
+
+.feed-date {
+    color: rgba(255, 255, 255, 0.7);
+    font-size: 0.9rem;
+}
+
+.feed-separator {
+    color: rgba(255, 255, 255, 0.4);
+}
+
+/* Progress Bar */
+.feed-progress-container {
+    margin-top: 20px;
+}
+
+.feed-progress-label {
+    font-size: 0.95rem;
+    color: rgba(255, 255, 255, 0.8);
+    margin-bottom: 8px;
+    font-weight: 600;
+}
+
+#feedCompletion {
+    color: #00ff96;
+    font-weight: 700;
+}
+
+.feed-progress-bar {
+    width: 100%;
+    height: 8px;
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 4px;
+    overflow: hidden;
+}
+
+.feed-progress-fill {
+    height: 100%;
+    background: linear-gradient(90deg, #00ff96 0%, #00c851 100%);
+    border-radius: 4px;
+    transition: width 0.5s ease;
+}
+
+/* Feed Scrolling Container */
+.feed-scroll-container {
+    flex: 1;
+    position: relative;
+    overflow: hidden;
+    mask-image: linear-gradient(to bottom,
+        transparent 0%,
+        black 10%,
+        black 90%,
+        transparent 100%);
+}
+
+.feed-scroll-content {
+    position: absolute;
+    width: 100%;
+    animation: feedScroll 30s linear infinite;
+}
+
+.feed-scroll-content:hover {
+    animation-play-state: paused;
+}
+
+@keyframes feedScroll {
+    0% {
+        transform: translateY(0);
+    }
+    100% {
+        transform: translateY(-50%);
+    }
+}
+
+/* Feed Item Styling */
+.feed-item {
+    display: flex;
+    align-items: flex-start;
+    gap: 15px;
+    padding: 15px 0;
+    font-family: 'Roboto', sans-serif;
+    font-size: 1rem;
+    color: rgba(255, 255, 255, 0.85);
+    line-height: 1.6;
+}
+
+.feed-item-icon {
+    flex-shrink: 0;
+    font-size: 1.3rem;
+    width: 30px;
+    text-align: center;
+}
+
+.feed-item-text {
+    flex: 1;
 }
 
 

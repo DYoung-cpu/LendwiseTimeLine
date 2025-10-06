@@ -10,7 +10,7 @@
 
     <!-- Include both CSS files -->
     <link rel="stylesheet" href="timeline-styles.css?v=20251002215200">
-    <link rel="stylesheet" href="timeline-clean-test.css?NAV=FIX2">
+    <link rel="stylesheet" href="timeline-clean-test.css?FEED=CYAN11">
 </head>
 <body>
     <!-- Three.js Shader Intro Animation (3 second overlay) -->
@@ -125,6 +125,19 @@
                             <button class="filter-option in-progress" data-category="in-progress">IN PROGRESS</button>
                             <button class="filter-option future" data-category="future">FUTURE</button>
                         </div>
+                    </div>
+
+                    <!-- The Feed Button -->
+                    <div class="feed-button-container">
+                        <button class="feed-button" id="feedToggle">
+                            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <rect x="3" y="3" width="7" height="7"/>
+                                <rect x="14" y="3" width="7" height="7"/>
+                                <rect x="3" y="14" width="7" height="7"/>
+                                <rect x="14" y="14" width="7" height="7"/>
+                            </svg>
+                            THE FEED
+                        </button>
                     </div>
 
                     <div class="timeline-viewport">
@@ -274,6 +287,37 @@
                         </div>
                     </div>
                     </div> <!-- End timeline-viewport -->
+
+                    <!-- The Feed View (hidden by default) -->
+                    <div class="feed-view" id="feedView" style="display: none;">
+                        <!-- Feed Header -->
+                        <div class="feed-header">
+                            <div class="feed-header-row">
+                                <span class="feed-person">David Young</span>
+                                <span class="feed-separator">|</span>
+                                <span class="feed-department">Project Development</span>
+                            </div>
+                            <div class="feed-header-row">
+                                <span class="feed-project">PFN Landing Page</span>
+                                <span class="feed-separator">|</span>
+                                <span class="feed-date" id="feedDate">Oct 6, 2025</span>
+                            </div>
+                            <div class="feed-progress-container">
+                                <div class="feed-progress-label">Project Completion: <span id="feedCompletion">85%</span></div>
+                                <div class="feed-progress-bar">
+                                    <div class="feed-progress-fill" style="width: 85%"></div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Feed Scrolling Container -->
+                        <div class="feed-scroll-container">
+                            <div class="feed-scroll-content" id="feedContent">
+                                <!-- Feed items will be populated by JavaScript -->
+                            </div>
+                        </div>
+                    </div>
+
                     </div> <!-- End timeline-border-container -->
                 </div>
             </div>
@@ -1804,6 +1848,80 @@
                 });
                 applyFilters();
             }
+        });
+    </script>
+
+    <!-- The Feed Toggle & Data Script -->
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const feedButton = document.getElementById('feedToggle');
+            const feedView = document.getElementById('feedView');
+            const timelineViewport = document.querySelector('.timeline-viewport');
+            const feedContent = document.getElementById('feedContent');
+
+            // Feed activity data
+            const feedActivities = [
+                { icon: '✅', text: 'Implemented filter button with 6 category options for project filtering' },
+                { icon: '✅', text: 'Corrected color gradient on timeline milestones to match design system' },
+                { icon: '✅', text: 'Linked Gmail integration for automated contact form submissions' },
+                { icon: '✅', text: 'Fixed navigation circle alignment with timeline main line' },
+                { icon: '⚡', text: 'Added aurora glow effects synchronized across all UI elements' },
+                { icon: '🎨', text: 'Implemented position persistence system with localStorage' },
+                { icon: '🔧', text: 'Created vertical position controls for timeline adjustments' },
+                { icon: '✅', text: 'Updated gradient stops to match milestone design: 37.35%, 61.36%, 78.42%, 89.52%, 100%' },
+                { icon: '📝', text: 'Added project memory system for session continuity' },
+                { icon: '🐛', text: 'Resolved star background rendering issue with script tag closure' },
+                { icon: '✅', text: 'Implemented horizontal expanding filter with seamless color transitions' },
+                { icon: '🎯', text: 'Positioned owl and carousel elements for optimal visual balance' },
+                { icon: '⚡', text: 'Created clean slate removal system for filter code reset' },
+                { icon: '📊', text: 'Built "The Feed" activity tracking system for project transparency' },
+                { icon: '✨', text: 'Added smooth fade transitions between Timeline and Feed views' }
+            ];
+
+            // Populate feed content (duplicate for seamless loop)
+            const feedHTML = feedActivities.map(activity => `
+                <div class="feed-item">
+                    <div class="feed-item-icon">${activity.icon}</div>
+                    <div class="feed-item-text">${activity.text}</div>
+                </div>
+            `).join('');
+            feedContent.innerHTML = feedHTML + feedHTML; // Duplicate for seamless loop
+
+            // Toggle between Timeline and Feed views
+            let isFeedActive = false;
+
+            feedButton.addEventListener('click', function() {
+                isFeedActive = !isFeedActive;
+
+                if (isFeedActive) {
+                    // Show Feed, hide Timeline
+                    feedButton.classList.add('active');
+                    timelineViewport.style.opacity = '0';
+                    setTimeout(() => {
+                        timelineViewport.style.display = 'none';
+                        feedView.style.display = 'flex';
+                        setTimeout(() => {
+                            feedView.classList.add('active');
+                        }, 50);
+                    }, 500);
+                } else {
+                    // Show Timeline, hide Feed
+                    feedButton.classList.remove('active');
+                    feedView.classList.remove('active');
+                    setTimeout(() => {
+                        feedView.style.display = 'none';
+                        timelineViewport.style.display = 'block';
+                        setTimeout(() => {
+                            timelineViewport.style.opacity = '1';
+                        }, 50);
+                    }, 500);
+                }
+            });
+
+            // Update date to today
+            const today = new Date();
+            const options = { month: 'short', day: 'numeric', year: 'numeric' };
+            document.getElementById('feedDate').textContent = today.toLocaleDateString('en-US', options);
         });
     </script>
 

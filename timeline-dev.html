@@ -10,7 +10,7 @@
 
     <!-- Include both CSS files -->
     <link rel="stylesheet" href="timeline-styles.css?v=20251002215200">
-    <link rel="stylesheet" href="timeline-clean-test.css?v=20251005090500">
+    <link rel="stylesheet" href="timeline-clean-test.css?FILTER=GRAD1">
 </head>
 <body>
     <!-- Three.js Shader Intro Animation (3 second overlay) -->
@@ -100,11 +100,32 @@
                                     <stop offset="75%" style="stop-color:#082c1a;stop-opacity:1" />
                                     <stop offset="100%" style="stop-color:#000000;stop-opacity:1" />
                                 </radialGradient>
-
                             </defs>
                             <!-- Main border outline (stroke only) -->
                             <path class="border-path" id="border-path" stroke="rgba(255, 255, 255, 0.15)" stroke-width="1" fill="none"/>
                         </svg>
+
+                    <!-- Filter Button Container -->
+                    <div class="filter-container">
+                        <div class="filter-bar" data-expanded="false">
+                            <!-- Left options (hidden when collapsed) -->
+                            <button class="filter-option operations" data-category="operations">OPERATIONS</button>
+                            <button class="filter-option tech" data-category="tech">TECH</button>
+                            <button class="filter-option completed" data-category="completed">COMPLETED</button>
+
+                            <!-- Center trigger (always visible) -->
+                            <button class="filter-trigger">
+                                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                    <polygon points="22 3 2 3 10 12.46 10 19 14 21 14 12.46 22 3"/>
+                                </svg>
+                                FILTER
+                            </button>
+
+                            <!-- Right options (hidden when collapsed) -->
+                            <button class="filter-option in-progress" data-category="in-progress">IN PROGRESS</button>
+                            <button class="filter-option future" data-category="future">FUTURE</button>
+                        </div>
+                    </div>
 
                     <div class="timeline-viewport">
                         <!-- Timeline Line -->
@@ -1698,10 +1719,99 @@
         };
     </script>
 
+    <!-- Filter Functionality Script -->
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const filterBar = document.querySelector('.filter-bar');
+            const filterTrigger = document.querySelector('.filter-trigger');
+            const filterOptions = document.querySelectorAll('.filter-option');
+            const milestones = document.querySelectorAll('.timeline-milestone');
+
+            let activeFilters = [];
+
+            // Toggle filter expansion
+            filterTrigger.addEventListener('click', function(e) {
+                e.stopPropagation();
+                const isExpanded = filterBar.getAttribute('data-expanded') === 'true';
+
+                if (isExpanded) {
+                    // Collapse and clear all filters
+                    filterBar.setAttribute('data-expanded', 'false');
+                    clearAllFilters();
+                } else {
+                    // Expand
+                    filterBar.setAttribute('data-expanded', 'true');
+                }
+            });
+
+            // Handle filter option clicks
+            filterOptions.forEach(option => {
+                option.addEventListener('click', function(e) {
+                    e.stopPropagation();
+                    const category = this.getAttribute('data-category');
+
+                    // Toggle active state
+                    this.classList.toggle('active');
+
+                    // Update active filters array
+                    if (this.classList.contains('active')) {
+                        if (!activeFilters.includes(category)) {
+                            activeFilters.push(category);
+                        }
+                    } else {
+                        activeFilters = activeFilters.filter(f => f !== category);
+                    }
+
+                    // Apply filters
+                    applyFilters();
+                });
+            });
+
+            // Close filter when clicking outside
+            document.addEventListener('click', function(e) {
+                if (!filterBar.contains(e.target)) {
+                    const isExpanded = filterBar.getAttribute('data-expanded') === 'true';
+                    if (isExpanded) {
+                        filterBar.setAttribute('data-expanded', 'false');
+                    }
+                }
+            });
+
+            // Apply filters to milestones
+            function applyFilters() {
+                if (activeFilters.length === 0) {
+                    // Show all milestones
+                    milestones.forEach(milestone => {
+                        milestone.style.display = '';
+                    });
+                } else {
+                    // Show only matching milestones
+                    milestones.forEach(milestone => {
+                        const hasMatch = activeFilters.some(filter =>
+                            milestone.classList.contains(filter)
+                        );
+
+                        milestone.style.display = hasMatch ? '' : 'none';
+                    });
+                }
+            }
+
+            // Clear all filters
+            function clearAllFilters() {
+                activeFilters = [];
+                filterOptions.forEach(option => {
+                    option.classList.remove('active');
+                });
+                applyFilters();
+            }
+        });
+    </script>
+
     <!-- Include JavaScript files -->
     <script src="intro-animation.js?v=20251003142500"></script>
     <script src="modern-timeline.js?v=20251004150000"></script>
-    <script src="timeline-stars.js?v=20251005080500"></script>
+    <script src="timeline-stars.js?v=20251003150000"></script>
     </div> <!-- End of main-content -->
+
 </body>
 </html>

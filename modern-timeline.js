@@ -1427,11 +1427,13 @@ function setupPositionControls() {
     const savedPositions = JSON.parse(localStorage.getItem('lendwisePositions') || '{}');
     const defaultPositions = {
         header: 0,
-        timeline: 0,
-        owl: 0,
-        carousel: 120
+        timeline: -61,
+        owl: 65,
+        carousel: 162
     };
     const positions = { ...defaultPositions, ...savedPositions };
+    console.log('Loaded positions from localStorage:', savedPositions);
+    console.log('Final positions to apply:', positions);
 
     // Create control panel with sliders
     const controlPanel = document.createElement('div');
@@ -1667,42 +1669,42 @@ function setupPositionControls() {
 
     // Reset Button
     document.getElementById('reset-positions').addEventListener('click', () => {
-        // Reset positions object
+        // Reset positions object to YOUR preferred defaults
         positions.header = 0;
-        positions.timeline = 0;
-        positions.owl = 0;
-        positions.carousel = 120;
+        positions.timeline = -61;
+        positions.owl = 65;
+        positions.carousel = 162;
 
         // Reset all sliders
         headerSlider.value = 0;
-        timelineSlider.value = 0;
-        owlSlider.value = 0;
-        carouselSlider.value = 120;
+        timelineSlider.value = -61;
+        owlSlider.value = 65;
+        carouselSlider.value = 162;
 
         // Update displays
         document.getElementById('header-value').textContent = '0px';
-        document.getElementById('timeline-value').textContent = '0px';
-        document.getElementById('owl-value').textContent = '0px';
-        document.getElementById('carousel-value').textContent = '120px';
+        document.getElementById('timeline-value').textContent = '-61px';
+        document.getElementById('owl-value').textContent = '65px';
+        document.getElementById('carousel-value').textContent = '162px';
 
-        // Reset element positions
+        // Reset element positions to YOUR preferred defaults
         if (headerElement) headerElement.style.transform = 'translateY(0px)';
-        if (timelineElement) timelineElement.style.transform = 'translateY(0px)';
+        if (timelineElement) timelineElement.style.transform = 'translateY(-61px)';
 
-        // Reset owl position (simple 2D centering)
-        const owl = document.querySelector('.landing-owl');
+        // Reset owl position
+        const owl = document.getElementById('landingOwl');
         if (owl) {
-            owl.style.transform = 'translate(-50%, -50%)';
+            owl.style.transform = 'translate(-50%, calc(-50% + 65px))';
         }
 
         // Reset carousel position
         if (carouselElement) {
-            carouselElement.style.transform = `translate(-50%, calc(-50% + 120px))`;
+            carouselElement.style.transform = `translate(-50%, calc(-50% + 162px))`;
         }
 
-        // Clear localStorage
-        localStorage.removeItem('lendwisePositions');
-        console.log('All positions reset to defaults and cleared from storage');
+        // Save the reset positions (don't clear localStorage - keep your preferred positions)
+        savePositions();
+        console.log('All positions reset to your preferred defaults:', positions);
     });
 
     // Make text editable

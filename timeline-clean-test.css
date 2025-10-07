@@ -400,7 +400,7 @@ html, body {
 .timeline-line-container {
     position: relative;
     width: 1160px;  /* Reduced to fit actual content (last item at 76% + padding) */
-    height: 135px;  /* Reduced by 25% for compact layout */
+    height: 164px;  /* Increased by 20% total (135 * 1.21 = 163.35) for more vertical space */
     transition: transform 0.5s cubic-bezier(0.4, 0, 0.2, 1);
     will-change: transform;
     cursor: grab;
@@ -3755,22 +3755,37 @@ body {
    FILTER BUTTON & FEED BUTTON STYLES
    ================================ */
 
-/* Filter Container */
+/* Filter Container - Expands right */
 .filter-container {
     position: absolute;
     top: -37.3px;
     left: 50%;
-    transform: translateX(-102.375px);
+    transform: translateX(-165.025px);  /* Center position when collapsed */
     z-index: 10;
+    display: flex;
+    justify-content: flex-start;  /* Align left, expand right */
+    transition: transform 0.3s ease;
 }
 
-/* Feed Button Container - Positioned to the right of Filter */
+/* WISR Button Container - Center position */
+.wisr-button-container {
+    position: absolute;
+    top: -37.3px;
+    left: 50%;
+    transform: translateX(-61px);  /* Center: -(122px / 2) */
+    z-index: 10;
+    transition: transform 0.3s ease;
+}
+
+/* Feed Button Container - Expands right */
 .feed-button-container {
     position: absolute;
     top: -37.3px;
     left: 50%;
-    transform: translateX(2.375px);
+    transform: translateX(71px);  /* Right position when collapsed */
     z-index: 10;
+    display: flex;
+    justify-content: flex-start;  /* Keep left edge fixed */
     transition: transform 0.3s ease;
 }
 
@@ -3778,7 +3793,7 @@ body {
 .filter-bar {
     display: flex;
     align-items: center;
-    justify-content: center;
+    justify-content: flex-start;  /* Align to left, extend right */
     height: 25.27px;
     background: rgba(0, 0, 0, 0.8);
     border: 1.5px solid rgba(255, 255, 255, 0.2);
@@ -3796,7 +3811,7 @@ body {
 }
 
 .filter-bar[data-expanded="true"] {
-    width: 528px;
+    width: 528px;  /* Expands to the right */
 }
 
 /* Base Button Styling */
@@ -3847,12 +3862,27 @@ body {
     width: 0;
     padding: 0;
     overflow: hidden;
+    margin: 0 2px;  /* Gaps between pill buttons */
+    border-radius: 10px;  /* Individual pill shape */
+    border: 1px solid rgba(0, 0, 0, 0.25);  /* Subtle border for definition */
 }
 
 .filter-bar[data-expanded="true"] .filter-option {
     opacity: 1;
     width: auto;
     padding: 0 20px;
+}
+
+/* Extra spacing for first filter option */
+.filter-option:first-of-type {
+    margin-left: 3px;
+}
+
+/* Last filter option blends seamlessly into bar border */
+.filter-option:last-of-type {
+    margin-right: 0;  /* No gap - blend into border */
+    border-radius: 10px 14px 14px 10px;  /* Match bar's curve on right */
+    border-right: none;  /* Blend with bar border */
 }
 
 /* Operations Button - Purple Gradient */
@@ -3920,31 +3950,14 @@ body {
    THE FEED BUTTON STYLES
    ================================ */
 
-/* The Feed Button - Cyan Blue with Dynamic Color Design */
-.feed-button {
-    border: none;
-    cursor: pointer;
-    font-family: 'Roboto', sans-serif;
-    font-size: 0.56rem;
-    font-weight: 600;
-    letter-spacing: 0.33px;
-    color: #00ffff;
-    text-transform: uppercase;
-    padding: 0 13px;
-    height: 25.27px;
-    width: 94.05px;
+/* Feed Bar - Rounded Rectangle Container */
+.feed-bar {
     display: flex;
     align-items: center;
-    justify-content: center;
-    gap: 6px;
-    white-space: nowrap;
-    background: radial-gradient(150% 180.06% at 11.14% 140%,
-        #000 37.35%,
-        #08122c 61.36%,
-        #1e3a6a 78.42%,
-        #4678b8 89.52%,
-        #00ffff 100%);
-    border: 0.95px solid rgba(0, 255, 255, 0.4);
+    justify-content: flex-start;  /* Align to left, extend right */
+    height: 25.27px;
+    background: rgba(0, 0, 0, 0.8);
+    border: 1.5px solid rgba(0, 255, 255, 0.3);
     border-radius: 14px;
     box-shadow:
         0 0 30px rgba(0, 255, 255, 0.4),
@@ -3953,23 +3966,258 @@ body {
         0 1px 2px rgba(0, 0, 0, 0.24),
         inset 0 1px 0 rgba(255, 255, 255, 0.1);
     animation: timelineBorderGlow 15s ease-in-out infinite;
-    transition: filter 0.2s ease;
+    overflow: hidden;
+    transition: width 0.3s ease;
+    width: 94.05px;
 }
 
-.feed-button svg {
+.feed-bar[data-expanded="true"] {
+    width: 620px;  /* Expands to the right */
+}
+
+/* Feed Options and Trigger Base Styling */
+.feed-option,
+.feed-trigger {
+    border: none;
+    cursor: pointer;
+    font-family: 'Roboto', sans-serif;
+    font-size: 0.56rem;
+    font-weight: 600;
+    letter-spacing: 0.33px;
+    color: white;
+    text-transform: uppercase;
+    padding: 0 13px;
+    height: 100%;
+    flex: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 6px;
+    transition: opacity 0.3s ease, width 0.3s ease, filter 0.2s ease;
+    white-space: nowrap;
+}
+
+/* Center Trigger Button - Always Visible */
+.feed-trigger {
+    background: radial-gradient(150% 180.06% at 11.14% 140%,
+        #000 37.35%,
+        #08122c 61.36%,
+        #1e3a6a 78.42%,
+        #4678b8 89.52%,
+        #00ffff 100%);
+    color: #00ffff;
+    flex: 0 0 99px;
+}
+
+.feed-trigger svg {
     width: 11px;
     height: 11px;
 }
 
-.feed-button:hover {
+.feed-trigger:hover {
     filter: brightness(1.2);
 }
 
-.feed-button.active {
+/* Feed Options - Hidden When Collapsed */
+.feed-option {
+    opacity: 0;
+    width: 0;
+    padding: 0;
+    overflow: hidden;
+    margin: 0 2px;  /* Gaps between pill buttons */
+    border-radius: 10px;  /* Individual pill shape */
+    border: 1px solid rgba(0, 0, 0, 0.25);  /* Subtle border for definition */
+}
+
+.feed-bar[data-expanded="true"] .feed-option {
+    opacity: 1;
+    width: auto;
+    padding: 0 20px;
+}
+
+/* Extra spacing for first feed option */
+.feed-option:first-of-type {
+    margin-left: 3px;
+}
+
+/* Last feed option blends seamlessly into bar border */
+.feed-option:last-of-type {
+    margin-right: 0;  /* No gap - blend into border */
+    border-radius: 10px 14px 14px 10px;  /* Match bar's curve on right */
+    border-right: none;  /* Blend with bar border */
+}
+
+/* Marketing Button - Gold/Orange Gradient */
+.feed-option.marketing {
+    background: radial-gradient(150% 180.06% at 11.14% 140%,
+        #000 37.35%,
+        #2c1408 61.36%,
+        #6a3a1e 78.42%,
+        #ff8c42 89.52%,
+        #ffa500 100%);
+}
+
+/* Processing Button - Blue/Cyan Gradient */
+.feed-option.processing {
+    background: radial-gradient(150% 180.06% at 11.14% 140%,
+        #000 37.35%,
+        #08122c 61.36%,
+        #1e3a6a 78.42%,
+        #4678b8 89.52%,
+        #4488ff 100%);
+}
+
+/* Underwriting Button - Green Gradient */
+.feed-option.underwriting {
+    background: radial-gradient(150% 180.06% at 11.14% 140%,
+        #000 37.35%,
+        #082c1a 61.36%,
+        #1e6a46 78.42%,
+        #00c851 89.52%,
+        #00ff96 100%);
+}
+
+/* Lock Desk Button - Purple/Magenta Gradient */
+.feed-option.lock-desk {
+    background: radial-gradient(150% 180.06% at 11.14% 140%,
+        #000 37.35%,
+        #1a082c 61.36%,
+        #4a1e6a 78.42%,
+        #8646b8 89.52%,
+        #9944ff 100%);
+}
+
+/* Hover Effects */
+.feed-option:hover {
+    filter: brightness(1.3);
+}
+
+/* Active State */
+.feed-option.active,
+.feed-trigger.active {
+    filter: brightness(1.4);
+    box-shadow: inset 0 0 15px rgba(255, 255, 255, 0.3);
+}
+
+/* ================================
+   MEET WISR BUTTON STYLES
+   ================================ */
+
+/* Keyframes exactly from React StarBorder */
+@keyframes star-movement-bottom {
+    0% {
+        transform: translate(0%, 0%);
+        opacity: 1;
+    }
+    100% {
+        transform: translate(-100%, 0%);
+        opacity: 0;
+    }
+}
+
+@keyframes star-movement-top {
+    0% {
+        transform: translate(0%, 0%);
+        opacity: 1;
+    }
+    100% {
+        transform: translate(100%, 0%);
+        opacity: 0;
+    }
+}
+
+/* WISR Button - Outer container for shimmer effect */
+.wisr-button {
+    position: relative;
+    cursor: pointer;
+    padding: 1px;
+    height: 25.27px;
+    width: 94.05px;
+    display: inline-block;
+    background: transparent;
+    border: none;
+    border-radius: 14px;
+    overflow: hidden;
+    transition: filter 0.2s ease, transform 0.2s ease;
+}
+
+/* Bottom shimmer - exact same gold as border */
+.wisr-button::before {
+    content: '';
+    position: absolute;
+    width: 300%;
+    height: 50%;
+    bottom: -11px;
+    right: -250%;
+    border-radius: 50%;
+    background: radial-gradient(circle, #FFD700 0%, #FFD700 8%, transparent 15%);
+    animation: star-movement-bottom 6s linear infinite alternate;
+    z-index: 0;
+    opacity: 1;
+}
+
+/* Top shimmer - exact same gold as border */
+.wisr-button::after {
+    content: '';
+    position: absolute;
+    width: 300%;
+    height: 50%;
+    top: -10px;
+    left: -250%;
+    border-radius: 50%;
+    background: radial-gradient(circle, #FFD700 0%, #FFD700 8%, transparent 15%);
+    animation: star-movement-top 6s linear infinite alternate;
+    z-index: 0;
+    opacity: 1;
+}
+
+/* Button inner content with background and border */
+.wisr-button-text {
+    position: relative;
+    z-index: 1;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0 13px;
+    font-family: 'Roboto', sans-serif;
+    font-size: 0.56rem;
+    font-weight: 600;
+    letter-spacing: 0.33px;
+    color: #ffffff;
+    text-transform: uppercase;
+    white-space: nowrap;
+    background: radial-gradient(150% 180.06% at 11.14% 140%,
+        #000 37.35%,
+        #0d3d1a 61.36%,
+        #1a6b33 78.42%,
+        #4db870 89.52%,
+        #FFD700 100%);
+    border: 0.29px solid #FFD700;
+    border-radius: 13px;
+    box-shadow:
+        0 0 30px rgba(255, 215, 0, 0.4),
+        0 0 20px rgba(255, 215, 0, 0.3),
+        0 1px 3px rgba(0, 0, 0, 0.12),
+        0 1px 2px rgba(0, 0, 0, 0.24),
+        inset 0 1px 0 rgba(255, 255, 255, 0.1);
+}
+
+.wisr-button:hover {
+    filter: brightness(1.2);
+    transform: translateY(-1px);
+}
+
+.wisr-button:active {
+    transform: translateY(0);
+}
+
+.wisr-button.active {
     filter: brightness(1.5);
     box-shadow:
-        0 0 40px rgba(100, 200, 255, 0.5),
-        0 0 25px rgba(100, 200, 255, 0.3),
+        0 0 40px rgba(255, 215, 0, 0.6),
+        0 0 25px rgba(255, 215, 0, 0.4),
         0 1px 3px rgba(0, 0, 0, 0.12),
         0 1px 2px rgba(0, 0, 0, 0.24),
         inset 0 1px 0 rgba(255, 255, 255, 0.2);
@@ -3983,13 +4231,13 @@ body {
 .feed-view {
     position: relative;
     width: 1160px;
-    height: 200px;
+    height: 242px;  /* Increased by 21% total (200 * 1.21 = 242) for more vertical space */
     margin: 0 auto;
     opacity: 0;
     transition: opacity 0.5s ease;
     display: flex;
     flex-direction: column;
-    padding: 40px 60px;
+    padding: 20px 60px;
     box-sizing: border-box;
     overflow: hidden;
 }
@@ -3998,20 +4246,17 @@ body {
     opacity: 1;
 }
 
-/* Feed Header - Static at top */
+/* Feed Header - Single Compact Line */
 .feed-header {
     flex-shrink: 0;
-    margin-bottom: 30px;
-}
-
-.feed-header-row {
+    margin-bottom: 8px;
     display: flex;
     align-items: center;
-    gap: 15px;
-    margin-bottom: 10px;
+    gap: 10px;
     font-family: 'Roboto', sans-serif;
-    font-size: 1.1rem;
-    color: rgba(255, 255, 255, 0.9);
+    font-size: 0.75rem;
+    color: rgba(255, 255, 255, 0.85);
+    line-height: 1.2;
 }
 
 .feed-person {
@@ -4029,51 +4274,25 @@ body {
 }
 
 .feed-date {
-    color: rgba(255, 255, 255, 0.7);
-    font-size: 0.9rem;
+    color: rgba(255, 255, 255, 0.6);
 }
 
-.feed-separator {
-    color: rgba(255, 255, 255, 0.4);
-}
-
-/* Progress Bar */
-.feed-progress-container {
-    margin-top: 20px;
-}
-
-.feed-progress-label {
-    font-size: 0.95rem;
-    color: rgba(255, 255, 255, 0.8);
-    margin-bottom: 8px;
+.feed-completion {
+    color: #00ff96;
     font-weight: 600;
 }
 
-#feedCompletion {
-    color: #00ff96;
-    font-weight: 700;
-}
-
-.feed-progress-bar {
-    width: 100%;
-    height: 8px;
-    background: rgba(255, 255, 255, 0.1);
-    border-radius: 4px;
-    overflow: hidden;
-}
-
-.feed-progress-fill {
-    height: 100%;
-    background: linear-gradient(90deg, #00ff96 0%, #00c851 100%);
-    border-radius: 4px;
-    transition: width 0.5s ease;
+.feed-separator {
+    color: rgba(255, 255, 255, 0.3);
+    font-size: 0.7rem;
 }
 
 /* Feed Scrolling Container */
 .feed-scroll-container {
     flex: 1;
     position: relative;
-    overflow: hidden;
+    overflow-y: auto;
+    overflow-x: hidden;
     mask-image: linear-gradient(to bottom,
         transparent 0%,
         black 10%,
@@ -4081,14 +4300,28 @@ body {
         transparent 100%);
 }
 
-.feed-scroll-content {
-    position: absolute;
-    width: 100%;
-    animation: feedScroll 30s linear infinite;
+/* Custom scrollbar styling for feed */
+.feed-scroll-container::-webkit-scrollbar {
+    width: 8px;
 }
 
-.feed-scroll-content:hover {
-    animation-play-state: paused;
+.feed-scroll-container::-webkit-scrollbar-track {
+    background: rgba(255, 255, 255, 0.05);
+    border-radius: 4px;
+}
+
+.feed-scroll-container::-webkit-scrollbar-thumb {
+    background: rgba(0, 255, 255, 0.3);
+    border-radius: 4px;
+}
+
+.feed-scroll-container::-webkit-scrollbar-thumb:hover {
+    background: rgba(0, 255, 255, 0.5);
+}
+
+.feed-scroll-content {
+    width: 100%;
+    animation: feedScroll 60s linear infinite;
 }
 
 @keyframes feedScroll {
@@ -4104,12 +4337,10 @@ body {
 .feed-item {
     display: flex;
     align-items: flex-start;
-    gap: 15px;
-    padding: 15px 0;
+    gap: 12px;
+    padding: 10px 0;
     font-family: 'Roboto', sans-serif;
-    font-size: 1rem;
-    color: rgba(255, 255, 255, 0.85);
-    line-height: 1.6;
+    line-height: 1.5;
 }
 
 .feed-item-icon {
@@ -4119,8 +4350,23 @@ body {
     text-align: center;
 }
 
-.feed-item-text {
+.feed-item-content {
     flex: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+}
+
+.feed-item-date {
+    font-size: 0.8rem;
+    color: rgba(255, 255, 255, 0.5);
+    font-weight: 500;
+    letter-spacing: 0.5px;
+}
+
+.feed-item-text {
+    font-size: 1rem;
+    color: rgba(255, 255, 255, 0.85);
 }
 
 

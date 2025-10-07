@@ -10,7 +10,7 @@
 
     <!-- Include both CSS files -->
     <link rel="stylesheet" href="timeline-styles.css?v=20251002215200">
-    <link rel="stylesheet" href="timeline-clean-test.css?FEED=CYAN12">
+    <link rel="stylesheet" href="timeline-clean-test.css?FEED=CYAN17">
 </head>
 <body>
     <!-- Three.js Shader Intro Animation (3 second overlay) -->
@@ -108,12 +108,7 @@
                     <!-- Filter Button Container -->
                     <div class="filter-container">
                         <div class="filter-bar" data-expanded="false">
-                            <!-- Left options (hidden when collapsed) -->
-                            <button class="filter-option operations" data-category="operations">OPERATIONS</button>
-                            <button class="filter-option tech" data-category="tech">TECH</button>
-                            <button class="filter-option completed" data-category="completed">COMPLETED</button>
-
-                            <!-- Center trigger (always visible) -->
+                            <!-- Trigger first (left position) -->
                             <button class="filter-trigger">
                                 <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                                     <polygon points="22 3 2 3 10 12.46 10 19 14 21 14 12.46 22 3"/>
@@ -121,22 +116,41 @@
                                 FILTER
                             </button>
 
-                            <!-- Right options (hidden when collapsed) -->
+                            <!-- Filter options extend to the right (hidden when collapsed) -->
+                            <button class="filter-option operations" data-category="operations">OPERATIONS</button>
+                            <button class="filter-option tech" data-category="tech">TECH</button>
+                            <button class="filter-option completed" data-category="completed">COMPLETED</button>
                             <button class="filter-option in-progress" data-category="in-progress">IN PROGRESS</button>
                             <button class="filter-option future" data-category="future">FUTURE</button>
                         </div>
                     </div>
 
-                    <!-- The Feed Button -->
+                    <!-- The Feed Button with Dropdown -->
                     <div class="feed-button-container">
-                        <button class="feed-button" id="feedToggle">
-                            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                                <rect x="3" y="3" width="7" height="7"/>
-                                <rect x="14" y="3" width="7" height="7"/>
-                                <rect x="3" y="14" width="7" height="7"/>
-                                <rect x="14" y="14" width="7" height="7"/>
-                            </svg>
-                            THE FEED
+                        <div class="feed-bar" data-expanded="false">
+                            <!-- Trigger first (left position) -->
+                            <button class="feed-trigger" id="feedTrigger">
+                                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                    <rect x="3" y="3" width="7" height="7"/>
+                                    <rect x="14" y="3" width="7" height="7"/>
+                                    <rect x="3" y="14" width="7" height="7"/>
+                                    <rect x="14" y="14" width="7" height="7"/>
+                                </svg>
+                                THE FEED
+                            </button>
+
+                            <!-- Department options extend to the right (hidden when collapsed) -->
+                            <button class="feed-option marketing" data-department="marketing">MARKETING</button>
+                            <button class="feed-option processing" data-department="processing">PROCESSING</button>
+                            <button class="feed-option underwriting" data-department="underwriting">UNDERWRITING</button>
+                            <button class="feed-option lock-desk" data-department="lock-desk">LOCK DESK</button>
+                        </div>
+                    </div>
+
+                    <!-- WISR Button -->
+                    <div class="wisr-button-container">
+                        <button class="wisr-button" id="wisrButton">
+                            <span class="wisr-button-text">MEET WISR</span>
                         </button>
                     </div>
 
@@ -290,24 +304,17 @@
 
                     <!-- The Feed View (hidden by default) -->
                     <div class="feed-view" id="feedView" style="display: none;">
-                        <!-- Feed Header -->
+                        <!-- Feed Header - Single Compact Line -->
                         <div class="feed-header">
-                            <div class="feed-header-row">
-                                <span class="feed-person">David Young</span>
-                                <span class="feed-separator">|</span>
-                                <span class="feed-department">Project Development</span>
-                            </div>
-                            <div class="feed-header-row">
-                                <span class="feed-project">PFN Landing Page</span>
-                                <span class="feed-separator">|</span>
-                                <span class="feed-date" id="feedDate">Oct 6, 2025</span>
-                            </div>
-                            <div class="feed-progress-container">
-                                <div class="feed-progress-label">Project Completion: <span id="feedCompletion">85%</span></div>
-                                <div class="feed-progress-bar">
-                                    <div class="feed-progress-fill" style="width: 85%"></div>
-                                </div>
-                            </div>
+                            <span class="feed-person">David Young</span>
+                            <span class="feed-separator">|</span>
+                            <span class="feed-department">Project Development</span>
+                            <span class="feed-separator">|</span>
+                            <span class="feed-project">PFN Landing Page</span>
+                            <span class="feed-separator">|</span>
+                            <span class="feed-date" id="feedDate">Oct 6, 2025</span>
+                            <span class="feed-separator">|</span>
+                            <span class="feed-completion" id="feedCompletion">85% Complete</span>
                         </div>
 
                         <!-- Feed Scrolling Container -->
@@ -1883,51 +1890,157 @@
         });
     </script>
 
-    <!-- The Feed Toggle & Data Script -->
+    <!-- The Feed Dropdown & Data Script -->
     <script>
         document.addEventListener('DOMContentLoaded', function() {
-            const feedButton = document.getElementById('feedToggle');
+            const feedBar = document.querySelector('.feed-bar');
+            const feedTrigger = document.querySelector('.feed-trigger');
+            const feedOptions = document.querySelectorAll('.feed-option');
             const feedView = document.getElementById('feedView');
             const timelineViewport = document.querySelector('.timeline-viewport');
             const feedContent = document.getElementById('feedContent');
 
-            // Feed activity data
-            const feedActivities = [
-                { icon: '✅', text: 'Implemented filter button with 6 category options for project filtering' },
-                { icon: '✅', text: 'Corrected color gradient on timeline milestones to match design system' },
-                { icon: '✅', text: 'Linked Gmail integration for automated contact form submissions' },
-                { icon: '✅', text: 'Fixed navigation circle alignment with timeline main line' },
-                { icon: '⚡', text: 'Added aurora glow effects synchronized across all UI elements' },
-                { icon: '🎨', text: 'Implemented position persistence system with localStorage' },
-                { icon: '🔧', text: 'Created vertical position controls for timeline adjustments' },
-                { icon: '✅', text: 'Updated gradient stops to match milestone design: 37.35%, 61.36%, 78.42%, 89.52%, 100%' },
-                { icon: '📝', text: 'Added project memory system for session continuity' },
-                { icon: '🐛', text: 'Resolved star background rendering issue with script tag closure' },
-                { icon: '✅', text: 'Implemented horizontal expanding filter with seamless color transitions' },
-                { icon: '🎯', text: 'Positioned owl and carousel elements for optimal visual balance' },
-                { icon: '⚡', text: 'Created clean slate removal system for filter code reset' },
-                { icon: '📊', text: 'Built "The Feed" activity tracking system for project transparency' },
-                { icon: '✨', text: 'Added smooth fade transitions between Timeline and Feed views' }
-            ];
-
-            // Populate feed content (duplicate for seamless loop)
-            const feedHTML = feedActivities.map(activity => `
-                <div class="feed-item">
-                    <div class="feed-item-icon">${activity.icon}</div>
-                    <div class="feed-item-text">${activity.text}</div>
-                </div>
-            `).join('');
-            feedContent.innerHTML = feedHTML + feedHTML; // Duplicate for seamless loop
-
-            // Toggle between Timeline and Feed views
+            let currentDepartment = 'marketing'; // Default department
             let isFeedActive = false;
 
-            feedButton.addEventListener('click', function() {
-                isFeedActive = !isFeedActive;
+            // Department-specific feed data
+            const departmentFeeds = {
+                marketing: [
+                { date: 'Oct 6, 2025 3:45 PM', icon: '🎯', text: 'Launched UIOrchestrator for seamless component coordination across timeline interface' },
+                { date: 'Oct 6, 2025 2:30 PM', icon: '✨', text: 'Deployed The Feed preview panel with auto-scroll and manual control capabilities' },
+                { date: 'Oct 6, 2025 1:15 PM', icon: '✅', text: 'Achieved perfect Filter button animation with smooth Feed button displacement' },
+                { date: 'Oct 6, 2025 11:20 AM', icon: '🎨', text: 'Implemented cyan blue electrified styling for Feed button matching design system' },
+                { date: 'Oct 6, 2025 9:45 AM', icon: '⚡', text: 'Resolved navigation circle alignment - now perfectly centered on timeline' },
+                { date: 'Oct 5, 2025 4:30 PM', icon: '🏆', text: 'Successfully integrated horizontal expanding Filter with 6 category options' },
+                { date: 'Oct 5, 2025 2:15 PM', icon: '🔧', text: 'Overcame challenge: Filter expansion covering adjacent buttons - solved with orchestrator' },
+                { date: 'Oct 5, 2025 11:00 AM', icon: '💡', text: 'Breakthrough: Implemented aurora glow synchronization across all UI elements' },
+                { date: 'Oct 4, 2025 5:20 PM', icon: '✅', text: 'Completed position persistence system - timeline remembers user adjustments' },
+                { date: 'Oct 4, 2025 3:45 PM', icon: '🎯', text: 'Shipped vertical position controls for precise timeline placement' },
+                { date: 'Oct 4, 2025 1:30 PM', icon: '📊', text: 'Milestone: Gradient color system standardized at 37.35%, 61.36%, 78.42%, 89.52%, 100%' },
+                { date: 'Oct 3, 2025 4:50 PM', icon: '⚡', text: 'Victory: Star background rendering bug eliminated after 12-hour debug session' },
+                { date: 'Oct 3, 2025 2:15 PM', icon: '🐛', text: 'Challenge faced: Script tag closure causing visual artifacts - resolved' },
+                { date: 'Oct 3, 2025 11:30 AM', icon: '🎨', text: 'Enhanced owl and carousel positioning for optimal visual balance' },
+                { date: 'Oct 2, 2025 5:40 PM', icon: '✅', text: 'Integrated Gmail API for automated contact form processing' },
+                { date: 'Oct 2, 2025 3:20 PM', icon: '💪', text: 'Conquered complex CSS masking for timeline border glow effects' },
+                { date: 'Oct 2, 2025 1:10 PM', icon: '🔥', text: 'Launched interactive timeline with drag-and-drop milestone controls' },
+                { date: 'Oct 1, 2025 4:30 PM', icon: '🎯', text: 'Deployed Three.js shader intro animation - 3-second cinematic experience' },
+                { date: 'Oct 1, 2025 2:45 PM', icon: '✨', text: 'Milestone: Timeline viewport fully responsive with border frame system' },
+                { date: 'Oct 1, 2025 11:15 AM', icon: '⚡', text: 'Implemented real-time color gradient transitions for milestone categories' },
+                { date: 'Sep 30, 2025 5:00 PM', icon: '🏗️', text: 'Foundation complete: Core timeline architecture with 11 milestone cards' },
+                { date: 'Sep 30, 2025 2:30 PM', icon: '🎨', text: 'Design system established: Aurora glow, radial gradients, dynamic colors' },
+                { date: 'Sep 30, 2025 10:45 AM', icon: '💡', text: 'Project kickoff: LendWise Landing Page interactive timeline concept approved' },
+                { date: 'Sep 29, 2025 4:15 PM', icon: '📝', text: 'Requirements finalized: 25-state expansion, Mission Control CRM, licensing milestones' },
+                { date: 'Sep 29, 2025 1:20 PM', icon: '🤝', text: 'Team alignment: Development, design, and product teams synchronized on vision' },
+                { date: 'Sep 28, 2025 3:50 PM', icon: '🔍', text: 'Research phase complete: Analyzed 15+ mortgage industry landing pages for inspiration' },
+                { date: 'Sep 28, 2025 11:30 AM', icon: '🎯', text: 'Stakeholder approval: Timeline concept chosen over traditional static approach' },
+                { date: 'Sep 27, 2025 5:10 PM', icon: '💪', text: 'Challenge overcome: Secured buy-in for ambitious interactive experience vs. simple page' },
+                { date: 'Sep 27, 2025 2:00 PM', icon: '✅', text: 'Technical feasibility confirmed: Three.js + custom CSS animations viable' },
+                { date: 'Sep 27, 2025 10:15 AM', icon: '🚀', text: 'Vision set: Create most impressive mortgage lender landing page in industry' }
+                ],
+                processing: [
+                    { date: 'Oct 6, 2025 4:15 PM', icon: '📋', text: 'File #2453: Initial disclosures sent to borrower Smith' },
+                    { date: 'Oct 6, 2025 3:00 PM', icon: '✅', text: 'File #2451: Appraisal ordered for 123 Main St' },
+                    { date: 'Oct 6, 2025 1:45 PM', icon: '📄', text: 'File #2449: Title report received and cleared' },
+                    { date: 'Oct 6, 2025 11:30 AM', icon: '🏠', text: 'File #2447: HOA documents uploaded to system' },
+                    { date: 'Oct 6, 2025 9:15 AM', icon: '💰', text: 'File #2445: Income verification completed' },
+                    { date: 'Oct 5, 2025 5:30 PM', icon: '📊', text: 'File #2443: Asset statements received from borrower' },
+                    { date: 'Oct 5, 2025 3:20 PM', icon: '🔍', text: 'File #2441: Property inspection scheduled for Monday' },
+                    { date: 'Oct 5, 2025 1:10 PM', icon: '✅', text: 'File #2439: Employment verification completed' }
+                ],
+                underwriting: [
+                    { date: 'Oct 6, 2025 4:45 PM', icon: '✅', text: 'File #2452: Clear to close issued - congratulations!' },
+                    { date: 'Oct 6, 2025 2:30 PM', icon: '📝', text: 'File #2450: Conditional approval - 3 conditions outstanding' },
+                    { date: 'Oct 6, 2025 12:15 PM', icon: '🔍', text: 'File #2448: Initial underwriting review completed' },
+                    { date: 'Oct 6, 2025 10:00 AM', icon: '📄', text: 'File #2446: Additional documentation requested from borrower' },
+                    { date: 'Oct 5, 2025 4:50 PM', icon: '⚠️', text: 'File #2444: Suspended pending updated credit report' },
+                    { date: 'Oct 5, 2025 2:35 PM', icon: '✅', text: 'File #2442: All conditions cleared - moving to final review' },
+                    { date: 'Oct 5, 2025 11:20 AM', icon: '📊', text: 'File #2440: DTI ratio reviewed and approved' },
+                    { date: 'Oct 5, 2025 9:05 AM', icon: '🏦', text: 'File #2438: Desktop underwriter findings analyzed' }
+                ],
+                'lock-desk': [
+                    { date: 'Oct 6, 2025 4:00 PM', icon: '🔒', text: 'File #2453: Rate locked at 6.875% for 30-day term' },
+                    { date: 'Oct 6, 2025 2:15 PM', icon: '📈', text: 'Market Update: Rates up 0.125% from morning' },
+                    { date: 'Oct 6, 2025 11:45 AM', icon: '💼', text: 'File #2451: Extension request approved - 15 days added' },
+                    { date: 'Oct 6, 2025 9:30 AM', icon: '📊', text: 'Daily Rate Sheet published - improved pricing on Jumbos' },
+                    { date: 'Oct 5, 2025 5:15 PM', icon: '🔒', text: 'File #2449: Float expired - borrower elected to lock at current rates' },
+                    { date: 'Oct 5, 2025 3:40 PM', icon: '⚡', text: 'Breaking: Fed announcement impact - rates adjusting' },
+                    { date: 'Oct 5, 2025 1:25 PM', icon: '💰', text: 'File #2447: Rate lock confirmed with investor' },
+                    { date: 'Oct 5, 2025 10:10 AM', icon: '📉', text: 'Market Alert: 10-year treasury down, favorable pricing expected' }
+                ]
+            };
 
-                if (isFeedActive) {
-                    // Show Feed, hide Timeline
-                    feedButton.classList.add('active');
+            // Toggle feed dropdown expansion
+            feedTrigger.addEventListener('click', function(e) {
+                e.stopPropagation();
+                const isExpanded = feedBar.getAttribute('data-expanded') === 'true';
+
+                if (isExpanded) {
+                    // Collapse
+                    feedBar.setAttribute('data-expanded', 'false');
+                    clearAllDepartmentSelections();
+                } else {
+                    // Expand
+                    feedBar.setAttribute('data-expanded', 'true');
+                }
+            });
+
+            // Handle department option clicks
+            feedOptions.forEach(option => {
+                option.addEventListener('click', function(e) {
+                    e.stopPropagation();
+                    const department = this.getAttribute('data-department');
+
+                    // Set active department
+                    feedOptions.forEach(opt => opt.classList.remove('active'));
+                    this.classList.add('active');
+                    feedTrigger.classList.add('active');
+
+                    currentDepartment = department;
+
+                    // Load department feed and show feed view
+                    loadDepartmentFeed(department);
+                    showFeedView();
+
+                    // Collapse dropdown after selection
+                    setTimeout(() => {
+                        feedBar.setAttribute('data-expanded', 'false');
+                    }, 300);
+                });
+            });
+
+            // Close dropdown when clicking outside
+            document.addEventListener('click', function(e) {
+                if (!feedBar.contains(e.target)) {
+                    const isExpanded = feedBar.getAttribute('data-expanded') === 'true';
+                    if (isExpanded) {
+                        feedBar.setAttribute('data-expanded', 'false');
+                    }
+                }
+            });
+
+            // Load department-specific feed
+            function loadDepartmentFeed(department) {
+                const activities = departmentFeeds[department] || [];
+                const feedHTML = activities.map(activity => `
+                    <div class="feed-item">
+                        <div class="feed-item-icon">${activity.icon}</div>
+                        <div class="feed-item-content">
+                            <div class="feed-item-date">${activity.date}</div>
+                            <div class="feed-item-text">${activity.text}</div>
+                        </div>
+                    </div>
+                `).join('');
+
+                feedContent.innerHTML = feedHTML + feedHTML; // Duplicate for seamless loop
+
+                // Update feed header
+                document.querySelector('.feed-department').textContent = department.toUpperCase().replace('-', ' ');
+            }
+
+            // Show feed view
+            function showFeedView() {
+                if (!isFeedActive) {
+                    isFeedActive = true;
                     UIOrchestrator.setFeedActive(true);
                     timelineViewport.style.opacity = '0';
                     setTimeout(() => {
@@ -1937,20 +2050,50 @@
                             feedView.classList.add('active');
                         }, 50);
                     }, 500);
-                } else {
-                    // Show Timeline, hide Feed
-                    feedButton.classList.remove('active');
-                    UIOrchestrator.setFeedActive(false);
-                    feedView.classList.remove('active');
+                }
+            }
+
+            // Hide feed view (return to timeline)
+            function hideFeedView() {
+                isFeedActive = false;
+                feedTrigger.classList.remove('active');
+                UIOrchestrator.setFeedActive(false);
+                feedView.classList.remove('active');
+                setTimeout(() => {
+                    feedView.style.display = 'none';
+                    timelineViewport.style.display = 'block';
                     setTimeout(() => {
-                        feedView.style.display = 'none';
-                        timelineViewport.style.display = 'block';
-                        setTimeout(() => {
-                            timelineViewport.style.opacity = '1';
-                        }, 50);
-                    }, 500);
+                        timelineViewport.style.opacity = '1';
+                    }, 50);
+                }, 500);
+            }
+
+            // Clear all department selections
+            function clearAllDepartmentSelections() {
+                feedOptions.forEach(opt => opt.classList.remove('active'));
+                if (!isFeedActive) {
+                    feedTrigger.classList.remove('active');
+                }
+            }
+
+            // Auto-scroll management
+            feedView.addEventListener('mouseenter', function() {
+                feedContent.style.animationPlayState = 'paused';
+            });
+
+            feedView.addEventListener('mouseleave', function() {
+                feedContent.style.animationPlayState = 'running';
+            });
+
+            // Close feed view when clicking trigger while feed is active
+            feedTrigger.addEventListener('click', function(e) {
+                if (isFeedActive && feedBar.getAttribute('data-expanded') === 'false') {
+                    hideFeedView();
                 }
             });
+
+            // Initialize with Marketing feed
+            loadDepartmentFeed('marketing');
 
             // Update date to today
             const today = new Date();
@@ -1959,24 +2102,66 @@
         });
     </script>
 
-    <!-- Feed Button Movement Script -->
+    <!-- Button Centering Script - Keep All Buttons Centered -->
     <script>
         document.addEventListener('DOMContentLoaded', function() {
-            const feedButtonContainer = document.querySelector('.feed-button-container');
+            const filterContainer = document.querySelector('.filter-container');
+            const wisrContainer = document.querySelector('.wisr-button-container');
+            const feedContainer = document.querySelector('.feed-button-container');
+            const feedBar = document.querySelector('.feed-bar');
+            const filterBar = document.querySelector('.filter-bar');
 
-            // Subscribe to orchestrator for filter expansion changes
+            // Button widths
+            const FILTER_COLLAPSED = 94.05;
+            const FILTER_EXPANDED = 528;
+            const JOIN_WIDTH = 94.05;  // Updated for "THE LIST"
+            const FEED_COLLAPSED = 94.05;
+            const FEED_EXPANDED = 620;
+            const GAP = 10;
+
+            function calculateCenterPositions(filterExpanded, feedExpanded) {
+                // Calculate total width
+                const filterWidth = filterExpanded ? FILTER_EXPANDED : FILTER_COLLAPSED;
+                const feedWidth = feedExpanded ? FEED_EXPANDED : FEED_COLLAPSED;
+                const totalWidth = filterWidth + GAP + JOIN_WIDTH + GAP + feedWidth;
+
+                // Calculate starting position to center the group
+                const startX = -(totalWidth / 2);
+
+                // Position each button
+                const filterX = startX;
+                const joinX = startX + filterWidth + GAP;
+                const feedX = startX + filterWidth + GAP + JOIN_WIDTH + GAP;
+
+                return { filterX, joinX, feedX };
+            }
+
+            function updatePositions() {
+                const filterExpanded = filterBar.getAttribute('data-expanded') === 'true';
+                const feedExpanded = feedBar.getAttribute('data-expanded') === 'true';
+
+                const positions = calculateCenterPositions(filterExpanded, feedExpanded);
+
+                filterContainer.style.transform = `translateX(${positions.filterX}px)`;
+                wisrContainer.style.transform = `translateX(${positions.joinX}px)`;
+                feedContainer.style.transform = `translateX(${positions.feedX}px)`;
+            }
+
+            // Subscribe to orchestrator
             UIOrchestrator.subscribe((component, value) => {
-                if (component === 'filter') {
-                    // Move Feed button based on filter expansion
-                    if (value === true) {
-                        // Filter expanded - move Feed button to the right
-                        feedButtonContainer.style.transform = 'translateX(435px)';
-                    } else {
-                        // Filter collapsed - return Feed button to original position
-                        feedButtonContainer.style.transform = 'translateX(2.375px)';
-                    }
+                if (component === 'filter' || component === 'feed') {
+                    // Small delay to ensure DOM is updated
+                    setTimeout(updatePositions, 10);
                 }
             });
+
+            // Watch for attribute changes on both bars
+            const observer = new MutationObserver(updatePositions);
+            observer.observe(filterBar, { attributes: true, attributeFilter: ['data-expanded'] });
+            observer.observe(feedBar, { attributes: true, attributeFilter: ['data-expanded'] });
+
+            // Initial positioning
+            updatePositions();
         });
     </script>
 

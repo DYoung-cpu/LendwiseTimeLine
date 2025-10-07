@@ -3770,7 +3770,7 @@ body {
 /* WISR Button Container - Center position */
 .wisr-button-container {
     position: absolute;
-    top: -37.3px;
+    top: -39.3px;
     left: 50%;
     transform: translateX(-61px);  /* Center: -(122px / 2) */
     z-index: 10;
@@ -4151,7 +4151,7 @@ body {
     right: -250%;
     border-radius: 50%;
     background: radial-gradient(circle, #FFD700 0%, #FFD700 8%, transparent 15%);
-    animation: star-movement-bottom 6s linear infinite alternate;
+    animation: star-movement-bottom 3.25s linear infinite;
     z-index: 0;
     opacity: 1;
 }
@@ -4166,7 +4166,7 @@ body {
     left: -250%;
     border-radius: 50%;
     background: radial-gradient(circle, #FFD700 0%, #FFD700 8%, transparent 15%);
-    animation: star-movement-top 6s linear infinite alternate;
+    animation: star-movement-top 3.25s linear infinite;
     z-index: 0;
     opacity: 1;
 }
@@ -4194,7 +4194,7 @@ body {
         #1a6b33 78.42%,
         #4db870 89.52%,
         #FFD700 100%);
-    border: 0.29px solid #FFD700;
+    border: 0.145px solid #A28900;
     border-radius: 13px;
     box-shadow:
         0 0 30px rgba(255, 215, 0, 0.4),

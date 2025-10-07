@@ -3868,7 +3868,7 @@ body {
     border: 1px solid rgba(0, 0, 0, 0.25);
     border-left: none;
     margin-right: 2px;
-    overflow: visible;
+    overflow: hidden;
 }
 
 /* Silver shimmer - hidden by default, shown when expanded */
@@ -4078,7 +4078,7 @@ body {
         #00ffff 100%);
     color: #00ffff;
     flex: 0 0 99px;
-    overflow: visible;
+    overflow: hidden;
 }
 
 /* Cyan shimmer - hidden by default, shown when expanded */
@@ -4257,6 +4257,12 @@ body {
     border-radius: 14px;
     overflow: hidden;
     transition: filter 0.2s ease, transform 0.2s ease;
+    box-shadow:
+        0 0 30px rgba(255, 215, 0, 0.3),
+        0 0 20px rgba(255, 215, 0, 0.2),
+        0 1px 3px rgba(0, 0, 0, 0.12),
+        0 1px 2px rgba(0, 0, 0, 0.24);
+    animation: timelineBorderGlow 15s ease-in-out infinite;
 }
 
 /* Bottom shimmer - exact same gold as border */
@@ -4314,12 +4320,6 @@ body {
         #FFD700 100%);
     border: 0.145px solid #A28900;
     border-radius: 13px;
-    box-shadow:
-        0 0 30px rgba(255, 215, 0, 0.4),
-        0 0 20px rgba(255, 215, 0, 0.3),
-        0 1px 3px rgba(0, 0, 0, 0.12),
-        0 1px 2px rgba(0, 0, 0, 0.24),
-        inset 0 1px 0 rgba(255, 255, 255, 0.1);
 }
 
 .wisr-button:hover {

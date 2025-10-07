@@ -3764,7 +3764,13 @@ body {
     z-index: 10;
     display: flex;
     justify-content: flex-start;  /* Align left, expand right */
-    transition: transform 0.3s ease;
+    transition: transform 0.3s ease, opacity 0.3s ease;
+    opacity: 1;
+}
+
+.filter-container.hidden {
+    opacity: 0;
+    pointer-events: none;
 }
 
 /* WISR Button Container - Center position */
@@ -3774,7 +3780,13 @@ body {
     left: 50%;
     transform: translateX(-61px);  /* Center: -(122px / 2) */
     z-index: 10;
-    transition: transform 0.3s ease;
+    transition: transform 0.3s ease, opacity 0.3s ease;
+    opacity: 1;
+}
+
+.wisr-button-container.hidden {
+    opacity: 0;
+    pointer-events: none;
 }
 
 /* Feed Button Container - Expands right */
@@ -3786,7 +3798,13 @@ body {
     z-index: 10;
     display: flex;
     justify-content: flex-start;  /* Keep left edge fixed */
-    transition: transform 0.3s ease;
+    transition: transform 0.3s ease, opacity 0.3s ease;
+    opacity: 1;
+}
+
+.feed-button-container.hidden {
+    opacity: 0;
+    pointer-events: none;
 }
 
 /* Filter Bar - Rounded Rectangle Container */
@@ -3838,6 +3856,7 @@ body {
 
 /* Center Trigger Button - Always Visible */
 .filter-trigger {
+    position: relative;
     background: radial-gradient(150% 180.06% at 11.14% 140%,
         #000 37.35%,
         #1a1a1a 61.36%,
@@ -3845,11 +3864,62 @@ body {
         #a0a0a0 89.52%,
         #d0d0d0 100%);
     flex: 0 0 99px;
+    border-radius: 14px 10px 10px 14px;
+    border: 1px solid rgba(0, 0, 0, 0.25);
+    border-left: none;
+    margin-right: 2px;
+    overflow: visible;
+}
+
+/* Silver shimmer - hidden by default, shown when expanded */
+.filter-shimmer-wrapper {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+}
+
+.filter-bar[data-expanded="true"] .filter-shimmer-wrapper {
+    opacity: 1;
+}
+
+.filter-shimmer-wrapper::before {
+    content: '';
+    position: absolute;
+    width: 300%;
+    height: 50%;
+    bottom: -11px;
+    right: -250%;
+    border-radius: 50%;
+    background: radial-gradient(circle, #C0C0C0 0%, #C0C0C0 8%, transparent 15%);
+    animation: star-movement-bottom 3.25s linear infinite;
+    z-index: 0;
+    opacity: 1;
+}
+
+.filter-shimmer-wrapper::after {
+    content: '';
+    position: absolute;
+    width: 300%;
+    height: 50%;
+    top: -10px;
+    left: -250%;
+    border-radius: 50%;
+    background: radial-gradient(circle, #C0C0C0 0%, #C0C0C0 8%, transparent 15%);
+    animation: star-movement-top 3.25s linear infinite;
+    z-index: 0;
+    opacity: 1;
 }
 
 .filter-trigger svg {
     width: 11px;
     height: 11px;
+    position: relative;
+    z-index: 1;
 }
 
 .filter-trigger:hover {
@@ -3999,6 +4069,7 @@ body {
 
 /* Center Trigger Button - Always Visible */
 .feed-trigger {
+    position: relative;
     background: radial-gradient(150% 180.06% at 11.14% 140%,
         #000 37.35%,
         #08122c 61.36%,
@@ -4007,11 +4078,58 @@ body {
         #00ffff 100%);
     color: #00ffff;
     flex: 0 0 99px;
+    overflow: visible;
+}
+
+/* Cyan shimmer - hidden by default, shown when expanded */
+.feed-shimmer-wrapper {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+}
+
+.feed-bar[data-expanded="true"] .feed-shimmer-wrapper {
+    opacity: 1;
+}
+
+.feed-shimmer-wrapper::before {
+    content: '';
+    position: absolute;
+    width: 300%;
+    height: 50%;
+    bottom: -11px;
+    right: -250%;
+    border-radius: 50%;
+    background: radial-gradient(circle, #00ffff 0%, #00ffff 8%, transparent 15%);
+    animation: star-movement-bottom 3.25s linear infinite;
+    z-index: 0;
+    opacity: 1;
+}
+
+.feed-shimmer-wrapper::after {
+    content: '';
+    position: absolute;
+    width: 300%;
+    height: 50%;
+    top: -10px;
+    left: -250%;
+    border-radius: 50%;
+    background: radial-gradient(circle, #00ffff 0%, #00ffff 8%, transparent 15%);
+    animation: star-movement-top 3.25s linear infinite;
+    z-index: 0;
+    opacity: 1;
 }
 
 .feed-trigger svg {
     width: 11px;
     height: 11px;
+    position: relative;
+    z-index: 1;
 }
 
 .feed-trigger:hover {

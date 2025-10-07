@@ -110,6 +110,7 @@
                         <div class="filter-bar" data-expanded="false">
                             <!-- Trigger first (left position) -->
                             <button class="filter-trigger">
+                                <span class="filter-shimmer-wrapper"></span>
                                 <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                                     <polygon points="22 3 2 3 10 12.46 10 19 14 21 14 12.46 22 3"/>
                                 </svg>
@@ -130,6 +131,7 @@
                         <div class="feed-bar" data-expanded="false">
                             <!-- Trigger first (left position) -->
                             <button class="feed-trigger" id="feedTrigger">
+                                <span class="feed-shimmer-wrapper"></span>
                                 <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                                     <rect x="3" y="3" width="7" height="7"/>
                                     <rect x="14" y="3" width="7" height="7"/>
@@ -1813,16 +1815,24 @@
             filterTrigger.addEventListener('click', function(e) {
                 e.stopPropagation();
                 const isExpanded = filterBar.getAttribute('data-expanded') === 'true';
+                const wisrContainer = document.querySelector('.wisr-button-container');
+                const feedContainer = document.querySelector('.feed-button-container');
 
                 if (isExpanded) {
                     // Collapse and clear all filters
                     filterBar.setAttribute('data-expanded', 'false');
                     UIOrchestrator.setFilterExpanded(false);
                     clearAllFilters();
+                    // Fade in other buttons
+                    wisrContainer.classList.remove('hidden');
+                    feedContainer.classList.remove('hidden');
                 } else {
                     // Expand
                     filterBar.setAttribute('data-expanded', 'true');
                     UIOrchestrator.setFilterExpanded(true);
+                    // Fade out other buttons
+                    wisrContainer.classList.add('hidden');
+                    feedContainer.classList.add('hidden');
                 }
             });
 
@@ -1973,14 +1983,22 @@
             feedTrigger.addEventListener('click', function(e) {
                 e.stopPropagation();
                 const isExpanded = feedBar.getAttribute('data-expanded') === 'true';
+                const wisrContainer = document.querySelector('.wisr-button-container');
+                const filterContainer = document.querySelector('.filter-container');
 
                 if (isExpanded) {
                     // Collapse
                     feedBar.setAttribute('data-expanded', 'false');
                     clearAllDepartmentSelections();
+                    // Fade in other buttons
+                    wisrContainer.classList.remove('hidden');
+                    filterContainer.classList.remove('hidden');
                 } else {
                     // Expand
                     feedBar.setAttribute('data-expanded', 'true');
+                    // Fade out other buttons
+                    wisrContainer.classList.add('hidden');
+                    filterContainer.classList.add('hidden');
                 }
             });
 
@@ -2120,9 +2138,31 @@
             const GAP = 10;
 
             function calculateCenterPositions(filterExpanded, feedExpanded) {
-                // Calculate total width
-                const filterWidth = filterExpanded ? FILTER_EXPANDED : FILTER_COLLAPSED;
-                const feedWidth = feedExpanded ? FEED_EXPANDED : FEED_COLLAPSED;
+                // When FILTER is expanded, only show FILTER (hide WISR and FEED)
+                if (filterExpanded) {
+                    const filterWidth = FILTER_EXPANDED;
+                    const startX = -(filterWidth / 2);
+                    return {
+                        filterX: startX,
+                        joinX: 0, // Hidden
+                        feedX: 0  // Hidden
+                    };
+                }
+
+                // When FEED is expanded, only show FEED (hide FILTER and WISR)
+                if (feedExpanded) {
+                    const feedWidth = FEED_EXPANDED;
+                    const startX = -(feedWidth / 2);
+                    return {
+                        filterX: 0, // Hidden
+                        joinX: 0,   // Hidden
+                        feedX: startX
+                    };
+                }
+
+                // Default: all three buttons visible
+                const filterWidth = FILTER_COLLAPSED;
+                const feedWidth = FEED_COLLAPSED;
                 const totalWidth = filterWidth + GAP + JOIN_WIDTH + GAP + feedWidth;
 
                 // Calculate starting position to center the group

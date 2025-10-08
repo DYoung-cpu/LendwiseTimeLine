@@ -3776,7 +3776,7 @@ body {
 /* WISR Button Container - Center position */
 .wisr-button-container {
     position: absolute;
-    top: -39.3px;
+    top: -41.83px;
     left: 50%;
     transform: translateX(-61px);  /* Center: -(122px / 2) */
     z-index: 10;
@@ -3841,7 +3841,7 @@ body {
     font-size: 0.56rem;
     font-weight: 600;
     letter-spacing: 0.33px;
-    color: white;
+    color: #C0C0C0;
     text-transform: uppercase;
     padding: 0 13px;
     height: 100%;
@@ -3868,7 +3868,7 @@ body {
     border: 1px solid rgba(0, 0, 0, 0.25);
     border-left: none;
     margin-right: 2px;
-    overflow: hidden;
+    overflow: visible;
 }
 
 /* Silver shimmer - hidden by default, shown when expanded */
@@ -3881,6 +3881,8 @@ body {
     pointer-events: none;
     opacity: 0;
     transition: opacity 0.3s ease;
+    overflow: hidden;
+    border-radius: 14px 10px 10px 14px;
 }
 
 .filter-bar[data-expanded="true"] .filter-shimmer-wrapper {
@@ -3891,12 +3893,12 @@ body {
     content: '';
     position: absolute;
     width: 300%;
-    height: 50%;
-    bottom: -11px;
+    height: 15px;
+    bottom: -7px;
     right: -250%;
     border-radius: 50%;
-    background: radial-gradient(circle, #C0C0C0 0%, #C0C0C0 8%, transparent 15%);
-    animation: star-movement-bottom 3.25s linear infinite;
+    background: radial-gradient(ellipse, #C0C0C0 0%, #C0C0C0 8%, transparent 15%);
+    animation: star-movement-bottom 2s linear infinite;
     z-index: 0;
     opacity: 1;
 }
@@ -3905,12 +3907,12 @@ body {
     content: '';
     position: absolute;
     width: 300%;
-    height: 50%;
-    top: -10px;
+    height: 15px;
+    top: -7px;
     left: -250%;
     border-radius: 50%;
-    background: radial-gradient(circle, #C0C0C0 0%, #C0C0C0 8%, transparent 15%);
-    animation: star-movement-top 3.25s linear infinite;
+    background: radial-gradient(ellipse, #C0C0C0 0%, #C0C0C0 8%, transparent 15%);
+    animation: star-movement-top 2s linear infinite;
     z-index: 0;
     opacity: 1;
 }
@@ -4078,7 +4080,11 @@ body {
         #00ffff 100%);
     color: #00ffff;
     flex: 0 0 99px;
-    overflow: hidden;
+    border-radius: 10px 14px 14px 10px;
+    border: 1px solid rgba(0, 0, 0, 0.25);
+    border-right: none;
+    margin-left: 2px;
+    overflow: visible;
 }
 
 /* Cyan shimmer - hidden by default, shown when expanded */
@@ -4091,6 +4097,8 @@ body {
     pointer-events: none;
     opacity: 0;
     transition: opacity 0.3s ease;
+    overflow: hidden;
+    border-radius: 10px 14px 14px 10px;
 }
 
 .feed-bar[data-expanded="true"] .feed-shimmer-wrapper {
@@ -4101,12 +4109,12 @@ body {
     content: '';
     position: absolute;
     width: 300%;
-    height: 50%;
-    bottom: -11px;
+    height: 15px;
+    bottom: -7px;
     right: -250%;
     border-radius: 50%;
-    background: radial-gradient(circle, #00ffff 0%, #00ffff 8%, transparent 15%);
-    animation: star-movement-bottom 3.25s linear infinite;
+    background: radial-gradient(ellipse, #00ffff 0%, #00ffff 8%, transparent 15%);
+    animation: star-movement-bottom 2s linear infinite;
     z-index: 0;
     opacity: 1;
 }
@@ -4115,12 +4123,12 @@ body {
     content: '';
     position: absolute;
     width: 300%;
-    height: 50%;
-    top: -10px;
+    height: 15px;
+    top: -7px;
     left: -250%;
     border-radius: 50%;
-    background: radial-gradient(circle, #00ffff 0%, #00ffff 8%, transparent 15%);
-    animation: star-movement-top 3.25s linear infinite;
+    background: radial-gradient(ellipse, #00ffff 0%, #00ffff 8%, transparent 15%);
+    animation: star-movement-top 2s linear infinite;
     z-index: 0;
     opacity: 1;
 }
@@ -4309,7 +4317,6 @@ body {
     font-size: 0.56rem;
     font-weight: 600;
     letter-spacing: 0.33px;
-    color: #ffffff;
     text-transform: uppercase;
     white-space: nowrap;
     background: radial-gradient(150% 180.06% at 11.14% 140%,
@@ -4320,6 +4327,29 @@ body {
         #FFD700 100%);
     border: 0.145px solid #A28900;
     border-radius: 13px;
+}
+
+.wisr-button-text::before {
+    content: 'MEET WISR';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0 13px;
+    background: linear-gradient(180deg,
+        #FFD700 0%,
+        #FFA500 25%,
+        #FFD700 50%,
+        #DAA520 75%,
+        #FFD700 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    z-index: 2;
 }
 
 .wisr-button:hover {

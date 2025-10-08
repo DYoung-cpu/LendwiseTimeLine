@@ -1378,7 +1378,7 @@ html, body {
     /* Removed transition - conflicts with JavaScript animation */
     will-change: transform; /* Optimize for transform changes */
     transform: translateZ(0); /* Force GPU acceleration */
-    backface-visibility: hidden; /* Prevent flicker */
+    backface-visibility: visible; /* Match cards for consistent rendering */
     top: 160px;  /* Moved down for more spacing between timeline and carousel */
 }
 
@@ -1405,7 +1405,7 @@ html, body {
     justify-content: center;
     cursor: grab;
     /* Removed opacity transition - handled by JavaScript */
-    will-change: opacity, transform;
+    will-change: transform;
     backface-visibility: visible;
     z-index: 50;  /* Below owl (100) but above background */
     background-size: cover;
@@ -1456,6 +1456,55 @@ html, body {
     font-size: 0.7rem;
     color: rgba(255, 255, 255, 0.7);
     line-height: 1.2;
+}
+
+/* Card background media (image/gif/video) */
+.gallery-card .card-background-media {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center 35%;
+    border-radius: 12px;
+    z-index: 0;
+}
+
+/* WISR card - gradient background from transparent edges to black center */
+.gallery-card[data-id="wisr"] {
+    background: linear-gradient(
+        to bottom,
+        transparent 0%,
+        rgba(0, 0, 0, 0.4) 15%,
+        rgba(0, 0, 0, 0.7) 20%,
+        rgba(0, 0, 0, 0.9) 25%,
+        rgba(0, 0, 0, 1) 30%,
+        rgba(0, 0, 0, 1) 70%,
+        rgba(0, 0, 0, 0.9) 75%,
+        rgba(0, 0, 0, 0.7) 80%,
+        rgba(0, 0, 0, 0.4) 85%,
+        transparent 100%
+    ) !important;
+    backdrop-filter: blur(10px) !important;
+}
+
+/* WISR card specific - show complete video without mask */
+.gallery-card[data-id="wisr"] .card-background-media {
+    object-fit: contain;
+    object-position: center center;
+    transform: scale(1.0);
+}
+
+/* Hide text overlay on WISR card to show full owl */
+.gallery-card[data-id="wisr"] .card-content {
+    display: none;
+}
+
+/* Ensure content stays on top with proper z-index */
+.gallery-card.has-image .card-content {
+    z-index: 1;
+    position: relative;
 }
 
 .gallery-card.active {
@@ -3776,9 +3825,9 @@ body {
 /* WISR Button Container - Center position */
 .wisr-button-container {
     position: absolute;
-    top: -41.83px;
+    top: -36.61px;
     left: 50%;
-    transform: translateX(-61px);  /* Center: -(122px / 2) */
+    transform: translateX(-57.5px);  /* Center: -(115px / 2) */
     z-index: 10;
     transition: transform 0.3s ease, opacity 0.3s ease;
     opacity: 1;
@@ -3794,7 +3843,7 @@ body {
     position: absolute;
     top: -37.3px;
     left: 50%;
-    transform: translateX(71px);  /* Right position when collapsed */
+    transform: translateX(65px);  /* Right position when collapsed - WISR ends at 57.5px, add ~8px gap */
     z-index: 10;
     display: flex;
     justify-content: flex-start;  /* Keep left edge fixed */
@@ -4080,10 +4129,10 @@ body {
         #00ffff 100%);
     color: #00ffff;
     flex: 0 0 99px;
-    border-radius: 10px 14px 14px 10px;
+    border-radius: 14px;
     border: 1px solid rgba(0, 0, 0, 0.25);
     border-right: none;
-    margin-left: 2px;
+    margin-left: 0;
     overflow: visible;
 }
 
@@ -4258,7 +4307,7 @@ body {
     cursor: pointer;
     padding: 1px;
     height: 25.27px;
-    width: 94.05px;
+    width: 115px;
     display: inline-block;
     background: transparent;
     border: none;
@@ -4327,6 +4376,7 @@ body {
         #FFD700 100%);
     border: 0.145px solid #A28900;
     border-radius: 13px;
+    color: transparent;
 }
 
 .wisr-button-text::before {
@@ -4339,7 +4389,7 @@ body {
     display: flex;
     align-items: center;
     justify-content: center;
-    padding: 0 13px;
+    padding: 0 13px 0 38px;
     background: linear-gradient(180deg,
         #FFD700 0%,
         #FFA500 25%,
@@ -4350,6 +4400,29 @@ body {
     -webkit-text-fill-color: transparent;
     background-clip: text;
     z-index: 2;
+}
+
+/* Circular video icon in WISR button */
+.wisr-icon-video {
+    display: inline-block;
+    width: 19.2px;
+    height: 19.2px;
+    border-radius: 50%;
+    overflow: hidden;
+    margin-right: 5px;
+    position: relative;
+    border: 0.2px solid rgba(255, 215, 0, 0.6);
+    box-shadow: 0 0 8px rgba(255, 215, 0, 0.4);
+    flex-shrink: 0;
+    background: black;
+    z-index: 3;
+}
+
+.wisr-icon-video video {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
 }
 
 .wisr-button:hover {

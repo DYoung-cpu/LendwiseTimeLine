@@ -149,9 +149,9 @@ function startAutoRotation(galleryTrack, cards) {
 
             // Owl is now outside gallery-track, no need to update during rotation
 
-            // Update opacities every 3 frames for smoother transitions
+            // Update opacities every 8 frames to reduce jitter and improve performance
             frameCount++;
-            if (frameCount % 3 === 0) {
+            if (frameCount % 8 === 0) {
                 updateAllCardOpacities(cards);
             }
         }

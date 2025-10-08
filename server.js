@@ -4,8 +4,17 @@ const path = require("path");
 const app = express();
 const PORT = process.env.PORT || 3005;
 
-// Serve static files
-app.use(express.static(path.join(__dirname)));
+// Serve static files with no caching for development
+app.use(express.static(path.join(__dirname), {
+  setHeaders: (res, filePath) => {
+    if (filePath.endsWith('.css') || filePath.endsWith('.html') || filePath.endsWith('.js')) {
+      res.set('Cache-Control', 'no-store, no-cache, must-revalidate, proxy-revalidate');
+      res.set('Pragma', 'no-cache');
+      res.set('Expires', '0');
+      res.set('Surrogate-Control', 'no-store');
+    }
+  }
+}));
 
 // Main route
 app.get("/", (req, res) => {

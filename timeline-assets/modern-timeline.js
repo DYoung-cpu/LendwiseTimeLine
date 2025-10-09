@@ -61,7 +61,8 @@ function initializeCarouselGallery() {
 
     cards.forEach((card, index) => {
         const angle = index * anglePerCard;
-        const transform = `rotateY(${angle}deg) translateZ(${galleryConfig.radius}px)`;
+        // Use CSS variable for z-offset instead of fixed translateZ
+        const transform = `rotateY(${angle}deg) translateZ(calc(${galleryConfig.radius}px + var(--z-offset, 0) * 0.1px))`;
         card.style.transform = transform;
         // Store the base transform as a data attribute
         card.dataset.baseTransform = transform;
@@ -144,16 +145,26 @@ function startAutoRotation(galleryTrack, cards) {
     let frameCount = 0;
     function rotate() {
         if (galleryConfig.isAutoRotating) {
+            // Remove rotation-stopped class during rotation for performance
+            cards.forEach(c => c.classList.remove('rotation-stopped'));
+
             galleryConfig.currentRotation += galleryConfig.autoRotateSpeed;
             galleryTrack.style.transform = `rotateY(${galleryConfig.currentRotation}deg)`;
 
             // Owl is now outside gallery-track, no need to update during rotation
 
-            // Update opacities every 8 frames to reduce jitter and improve performance
+            // Update opacities every 12 frames to reduce jitter and improve performance
             frameCount++;
-            if (frameCount % 8 === 0) {
+            if (frameCount % 12 === 0) {
                 updateAllCardOpacities(cards);
             }
+        } else {
+            // Add rotation-stopped class when rotation stops
+            cards.forEach(c => {
+                if (c.classList.contains('active')) {
+                    c.classList.add('rotation-stopped');
+                }
+            });
         }
 
         galleryConfig.animationFrame = requestAnimationFrame(rotate);
@@ -188,15 +199,14 @@ function updateCardOpacity(card, angle) {
 
     card.style.opacity = opacity;
 
-    // Dynamic z-index based on position relative to owl
-    // Cards in front (angle -90 to 90) get higher z-index
-    // Cards in back (angle 90 to 180 or -90 to -180) get lower z-index
+    // Use CSS custom property for z-layering instead of z-index
+    // This avoids expensive stacking context recalculation
     if (absAngle <= 90) {
-        // Front-facing cards - above owl
-        card.style.zIndex = 1000 + (90 - absAngle);
+        // Front-facing cards - positive offset
+        card.style.setProperty('--z-offset', (90 - absAngle).toFixed(1));
     } else {
-        // Back-facing cards - below owl
-        card.style.zIndex = 100 + (180 - absAngle);
+        // Back-facing cards - negative offset
+        card.style.setProperty('--z-offset', (-(180 - absAngle)).toFixed(1));
     }
 
     // Add/remove active class for front-facing cards

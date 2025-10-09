@@ -1392,8 +1392,8 @@ html, body {
     top: 50%;  /* LOCKED */
     margin-left: -65px;  /* Half of card width (130/2) */
     margin-top: -71px;  /* Half of new card height (142/2) */
-    background: rgba(255, 255, 255, 0.15);
-    backdrop-filter: blur(10px);
+    background: rgba(255, 255, 255, 0.20);
+    /* Removed backdrop-filter for performance - using solid background instead */
     border: 2px solid rgba(255, 255, 255, 0.2);
     border-radius: 12px;
     padding: 15px;
@@ -1407,7 +1407,8 @@ html, body {
     /* Removed opacity transition - handled by JavaScript */
     will-change: transform;
     backface-visibility: visible;
-    z-index: 50;  /* Below owl (100) but above background */
+    /* z-index removed - using translateZ for layering to avoid layout recalc */
+    --z-offset: 0;
     background-size: cover;
     background-position: center;
     background-repeat: no-repeat;
@@ -1420,10 +1421,10 @@ html, body {
 }
 
 .gallery-card.has-image .card-content {
-    background: linear-gradient(to top, rgba(10, 25, 47, 0.95) 0%, rgba(10, 25, 47, 0.7) 50%, transparent 100%);
+    background: linear-gradient(to top, rgba(10, 25, 47, 0.98) 0%, rgba(10, 25, 47, 0.85) 50%, transparent 100%);
     padding: 10px;
     border-radius: 0 0 10px 10px;
-    backdrop-filter: blur(5px);
+    /* Removed backdrop-filter for carousel performance */
     position: absolute;
     bottom: 0;
     width: 100%;
@@ -1476,28 +1477,65 @@ html, body {
     background: linear-gradient(
         to bottom,
         transparent 0%,
-        rgba(0, 0, 0, 0.4) 15%,
-        rgba(0, 0, 0, 0.7) 20%,
-        rgba(0, 0, 0, 0.9) 25%,
+        rgba(0, 0, 0, 0.8) 20%,
         rgba(0, 0, 0, 1) 30%,
-        rgba(0, 0, 0, 1) 70%,
-        rgba(0, 0, 0, 0.9) 75%,
-        rgba(0, 0, 0, 0.7) 80%,
-        rgba(0, 0, 0, 0.4) 85%,
+        rgba(0, 0, 0, 0.8) 80%,
         transparent 100%
     ) !important;
-    backdrop-filter: blur(10px) !important;
+    /* Removed backdrop-filter - major performance killer during 3D rotation */
+    contain: layout style; /* Removed 'paint' for better 3D transform performance */
+    will-change: transform, opacity;
 }
 
 /* WISR card specific - show complete video without mask */
 .gallery-card[data-id="wisr"] .card-background-media {
     object-fit: contain;
     object-position: center center;
-    transform: scale(1.0);
+    transform: scale(1.0) translateZ(0);
+    /* Removed redundant will-change - parent card handles it */
+    /* GPU acceleration maintained via translateZ */
 }
 
 /* Hide text overlay on WISR card to show full owl */
 .gallery-card[data-id="wisr"] .card-content {
+    display: none;
+}
+
+/* Our Story card - show full animation, hide text overlay */
+.gallery-card[data-id="inception"] .card-content {
+    display: none;
+}
+
+.gallery-card[data-id="inception"] .card-background-media {
+    object-fit: contain;
+    object-position: center center;
+    width: 100%;
+    height: 100%;
+}
+
+/* Headquarters card - no background, show full office image */
+.gallery-card[data-id="location"] .card-content {
+    background: none !important;
+    padding: 5px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+}
+
+.gallery-card[data-id="location"] .card-content h3 {
+    font-size: 16px;
+    font-weight: bold;
+    color: #ffffff;
+    text-shadow: 0 2px 8px rgba(0, 0, 0, 0.95),
+                 0 0 20px rgba(0, 0, 0, 0.8);
+    margin: 0;
+    text-align: center;
+}
+
+/* Hide other text on headquarters card - only show title */
+.gallery-card[data-id="location"] .card-content .card-date,
+.gallery-card[data-id="location"] .card-content .card-description {
     display: none;
 }
 
@@ -1512,8 +1550,13 @@ html, body {
     box-shadow: 0 8px 32px rgba(255, 215, 0, 0.3),
                 0 0 20px rgba(255, 215, 0, 0.2),
                 inset 0 0 20px rgba(255, 215, 0, 0.1);
-    animation: border-glow 2s ease-in-out infinite;
+    /* Animation disabled during rotation for performance */
     transform: scale(1.02);
+}
+
+/* Only animate glow when rotation has stopped */
+.gallery-card.active.rotation-stopped {
+    animation: border-glow 2s ease-in-out infinite;
 }
 
 @keyframes border-glow {
@@ -3809,7 +3852,7 @@ body {
     position: absolute;
     top: -37.3px;
     left: 50%;
-    transform: translateX(-165.025px);  /* Center position when collapsed */
+    transform: translateX(-312.5px);  /* Shifted left 35px to center stack */
     z-index: 10;
     display: flex;
     justify-content: flex-start;  /* Align left, expand right */
@@ -3827,7 +3870,7 @@ body {
     position: absolute;
     top: -36.61px;
     left: 50%;
-    transform: translateX(-57.5px);  /* Center: -(115px / 2) */
+    transform: translateX(-122.5px);  /* Shifted left 35px to center stack */
     z-index: 10;
     transition: transform 0.3s ease, opacity 0.3s ease;
     opacity: 1;
@@ -3843,7 +3886,7 @@ body {
     position: absolute;
     top: -37.3px;
     left: 50%;
-    transform: translateX(65px);  /* Right position when collapsed - WISR ends at 57.5px, add ~8px gap */
+    transform: translateX(-22.5px);  /* Shifted left 35px to center stack */
     z-index: 10;
     display: flex;
     justify-content: flex-start;  /* Keep left edge fixed */
@@ -4591,3 +4634,121 @@ body {
 }
 
 
+
+*/
+
+/* Marketing Button Container */
+
+/* Marketing Button */
+
+/* Shimmer Effect */
+
+
+
+/* Hover State */
+
+/* Active State */
+
+/* Button Text */
+
+/* ================================
+   MARKETING BUTTON STYLES
+   ================================ */
+
+/* Marketing Button Container - Positioned to right of FEED */
+/* Marketing Button Container - Positioned to right of FEED */
+.marketing-button-container {
+    position: absolute !important;
+    top: -37.3px !important;
+    left: 50% !important;
+    transform: translateX(185px) !important;  /* Right of FEED: FEED starts at 65px, FEED width ~110px, gap 10px = 185px */
+    z-index: 10 !important;
+    transition: transform 0.3s ease, opacity 0.3s ease;
+    opacity: 1 !important;
+}
+
+.marketing-button-container.hidden {
+    opacity: 0;
+    pointer-events: none;
+}
+
+/* Marketing Button - Matches FEED button style */
+.marketing-button {
+    position: relative;
+    background: radial-gradient(150% 180.06% at 11.14% 140%,
+        #000 37.35%,
+        #2c0808 61.36%,
+        #6a1e1e 78.42%,
+        #e63946 89.52%,
+        #ff073a 100%);
+    color: #ffffff;
+    border: none;
+    border-radius: 14px;
+    cursor: pointer;
+    font-family: 'Roboto', sans-serif;
+    font-size: 0.56rem;
+    font-weight: 600;
+    letter-spacing: 0.33px;
+    text-transform: uppercase;
+    padding: 0 16px;
+    height: 25.27px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 6px;
+    transition: all 0.2s ease;
+    white-space: nowrap;
+    overflow: hidden;
+    box-shadow: 0 0 30px rgba(255, 7, 58, 0.3),
+                0 0 20px rgba(255, 7, 58, 0.2);
+}
+
+/* Shimmer Effect */
+.marketing-shimmer-wrapper {
+    position: absolute;
+    inset: 0;
+    border-radius: 14px;
+    overflow: hidden;
+    pointer-events: none;
+}
+
+.marketing-shimmer-wrapper::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(
+        90deg,
+        transparent 0%,
+        rgba(255, 255, 255, 0.3) 50%,
+        transparent 100%
+    );
+    animation: shimmer-marketing 3s infinite;
+}
+
+@keyframes shimmer-marketing {
+    0% {
+        left: -100%;
+    }
+    50%, 100% {
+        left: 100%;
+    }
+}
+
+/* Hover State */
+.marketing-button:hover {
+    filter: brightness(1.3);
+}
+
+/* Active State */
+.marketing-button:active {
+    filter: brightness(1.5);
+}
+
+/* Button Text */
+.marketing-button-text {
+    position: relative;
+    z-index: 1;
+}

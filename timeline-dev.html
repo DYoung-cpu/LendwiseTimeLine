@@ -10,7 +10,7 @@
 
     <!-- Include both CSS files -->
     <link rel="stylesheet" href="timeline-styles.css?v=20251002215200">
-    <link rel="stylesheet" href="timeline-clean-test.css?FEED=CYAN17">
+    <link rel="stylesheet" href="timeline-clean-test.css?v=MARKETING-FIX-IMPORTANT">
 </head>
 <body>
     <!-- Three.js Shader Intro Animation (3 second overlay) -->
@@ -160,6 +160,14 @@
                                 </span>
                                 MEET WISR
                             </span>
+                        </button>
+                    </div>
+
+                    <!-- Marketing Button -->
+                    <div class="marketing-button-container" style="position: absolute; top: -37.3px; left: 50%; transform: translateX(175.375px); z-index: 10;">
+                        <button class="marketing-button" id="marketingButton">
+                            <span class="marketing-shimmer-wrapper"></span>
+                            <span class="marketing-button-text">MARKETING</span>
                         </button>
                     </div>
 
@@ -355,12 +363,10 @@
                 <div class="gallery-track" id="galleryTrack">
                     <!-- Gallery Cards -->
                     <!-- Inception Card -->
-                    <div class="gallery-card" data-category="foundation" data-index="0" data-id="inception">
+                    <div class="gallery-card has-image" data-category="foundation" data-index="0" data-id="inception">
+                        <img src="our-story.gif" alt="Our Story - Four Partners" class="card-background-media">
                         <div class="card-content">
-                            <div class="card-icon">🚀</div>
-                            <h3>Our Story</h3>
-                            <p class="card-date">March 2025</p>
-                            <p class="card-description">Building the Future</p>
+                            <!-- Content hidden - text is in video -->
                         </div>
                     </div>
 

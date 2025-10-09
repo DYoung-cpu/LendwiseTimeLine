@@ -3984,29 +3984,26 @@ body {
 .filter-shimmer-wrapper::before {
     content: '';
     position: absolute;
-    width: 300%;
-    height: 15px;
-    bottom: -7px;
-    right: -250%;
-    border-radius: 50%;
-    background: radial-gradient(ellipse, #C0C0C0 0%, #C0C0C0 8%, transparent 15%);
-    animation: star-movement-bottom 2s linear infinite;
-    z-index: 0;
-    opacity: 1;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(
+        90deg,
+        transparent 0%,
+        rgba(255, 255, 255, 0.3) 50%,
+        transparent 100%
+    );
+    animation: shimmer-filter 3s infinite;
 }
 
-.filter-shimmer-wrapper::after {
-    content: '';
-    position: absolute;
-    width: 300%;
-    height: 15px;
-    top: -7px;
-    left: -250%;
-    border-radius: 50%;
-    background: radial-gradient(ellipse, #C0C0C0 0%, #C0C0C0 8%, transparent 15%);
-    animation: star-movement-top 2s linear infinite;
-    z-index: 0;
-    opacity: 1;
+@keyframes shimmer-filter {
+    0% {
+        left: -100%;
+    }
+    50%, 100% {
+        left: 100%;
+    }
 }
 
 .filter-trigger svg {
@@ -4682,7 +4679,7 @@ body {
         #e63946 89.52%,
         #ff073a 100%);
     color: #ffffff;
-    border: none;
+    border: 1px solid rgba(0, 0, 0, 0.25);
     border-radius: 14px;
     cursor: pointer;
     font-family: 'Roboto', sans-serif;
@@ -4712,30 +4709,7 @@ body {
     pointer-events: none;
 }
 
-.marketing-shimmer-wrapper::before {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: -100%;
-    width: 100%;
-    height: 100%;
-    background: linear-gradient(
-        90deg,
-        transparent 0%,
-        rgba(255, 255, 255, 0.3) 50%,
-        transparent 100%
-    );
-    animation: shimmer-marketing 3s infinite;
-}
-
-@keyframes shimmer-marketing {
-    0% {
-        left: -100%;
-    }
-    50%, 100% {
-        left: 100%;
-    }
-}
+/* Shimmer removed from marketing button */
 
 /* Hover State */
 .marketing-button:hover {

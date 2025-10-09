@@ -164,7 +164,7 @@
                     </div>
 
                     <!-- Marketing Button -->
-                    <div class="marketing-button-container" style="position: absolute; top: -37.3px; left: 50%; transform: translateX(175.375px); z-index: 10;">
+                    <div class="marketing-button-container" style="position: absolute; top: -37.3px; left: 50%; transform: translateX(168.63px); z-index: 10;">
                         <button class="marketing-button" id="marketingButton">
                             <span class="marketing-shimmer-wrapper"></span>
                             <span class="marketing-button-text">MARKETING</span>
@@ -2086,6 +2086,7 @@
                 const isExpanded = filterBar.getAttribute('data-expanded') === 'true';
                 const wisrContainer = document.querySelector('.wisr-button-container');
                 const feedContainer = document.querySelector('.feed-button-container');
+                const marketingContainer = document.querySelector('.marketing-button-container');
 
                 if (isExpanded) {
                     // Collapse and clear all filters
@@ -2095,6 +2096,7 @@
                     // Fade in other buttons
                     wisrContainer.classList.remove('hidden');
                     feedContainer.classList.remove('hidden');
+                    marketingContainer.classList.remove('hidden');
                 } else {
                     // Expand
                     filterBar.setAttribute('data-expanded', 'true');
@@ -2102,6 +2104,7 @@
                     // Fade out other buttons
                     wisrContainer.classList.add('hidden');
                     feedContainer.classList.add('hidden');
+                    marketingContainer.classList.add('hidden');
                 }
             });
 

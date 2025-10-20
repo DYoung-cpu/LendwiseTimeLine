@@ -10,7 +10,7 @@
 
     <!-- Include both CSS files -->
     <link rel="stylesheet" href="timeline-styles.css?v=20251002215200">
-    <link rel="stylesheet" href="timeline-clean-test.css?v=1760938887">
+    <link rel="stylesheet" href="timeline-clean-test.css?v=1760942295">
 </head>
 <body>
     <!-- Three.js Shader Intro Animation (3 second overlay) -->
@@ -122,7 +122,7 @@
 
                             <!-- Filter options extend to the right (hidden when collapsed) -->
                             <button class="filter-option operations" data-category="operations">OPERATIONS</button>
-                            <button class="filter-option tech" data-category="tech">TECH</button>
+                            <button class="filter-option tech" data-category="technology">TECH</button>
                             <button class="filter-option completed" data-category="completed">COMPLETED</button>
                             <button class="filter-option in-progress" data-category="in-progress">IN PROGRESS</button>
                             <button class="filter-option future" data-category="future">FUTURE</button>
@@ -193,7 +193,7 @@
                         <div class="timeline-milestones">
 
                             <!-- Inception - March 2025 -->
-                            <div class="timeline-milestone completed" data-index="0" data-milestone="inception" style="left: 100px;">
+                            <div class="timeline-milestone operations completed" data-index="0" data-milestone="inception" style="left: 100px;">
                                 <div class="milestone-connector bottom"></div>
                                 <div class="milestone-dot">
                                     <span class="milestone-icon-small">Inception</span>
@@ -211,7 +211,7 @@
                             </div>
 
                             <!-- NMLS Approval - May 2025 (Purple, Low) -->
-                            <div class="timeline-milestone operations" data-index="3" data-milestone="nmls" style="left: 357px;">
+                            <div class="timeline-milestone completed" data-index="3" data-milestone="nmls" style="left: 357px;">
                                 <div class="milestone-connector bottom"></div>
                                 <div class="milestone-dot">
                                     <span class="milestone-icon-small">NMLS</span>
@@ -220,7 +220,7 @@
                             </div>
 
                             <!-- DRE Approval - May 2025 (Purple, Low) -->
-                            <div class="timeline-milestone operations" data-index="4" data-milestone="dre" style="left: 486px;">
+                            <div class="timeline-milestone completed" data-index="4" data-milestone="dre" style="left: 486px;">
                                 <div class="milestone-connector top"></div>
                                 <div class="milestone-dot">
                                     <span class="milestone-icon-small">CA DRE</span>
@@ -229,7 +229,7 @@
                             </div>
 
                             <!-- Q3 2024 - Location -->
-                            <div class="timeline-milestone completed" data-index="5" data-milestone="headquarters" style="left: 614px;">
+                            <div class="timeline-milestone operations completed" data-index="5" data-milestone="headquarters" style="left: 614px;">
                                 <div class="milestone-connector bottom"></div>
                                 <div class="milestone-dot">
                                     <span class="milestone-icon-small">Headquarters</span>
@@ -238,7 +238,7 @@
                             </div>
 
                             <!-- The Team - July 2025 -->
-                            <div class="timeline-milestone completed" data-index="6" data-milestone="staff" style="left: 743px;">
+                            <div class="timeline-milestone operations completed" data-index="6" data-milestone="staff" style="left: 743px;">
                                 <div class="milestone-connector top"></div>
                                 <div class="milestone-dot">
                                     <span class="milestone-icon-small">The Team</span>
@@ -247,7 +247,7 @@
                             </div>
 
                             <!-- Website - September 2025 -->
-                            <div class="timeline-milestone completed" data-index="7" data-milestone="website" style="left: 871px;">
+                            <div class="timeline-milestone technology completed" data-index="7" data-milestone="website" style="left: 871px;">
                                 <div class="milestone-connector top"></div>
                                 <div class="milestone-dot">
                                     <span class="milestone-icon-small">Website</span>
@@ -310,7 +310,7 @@
                             </div>
 
                             <!-- Google Analytics - November 2025 -->
-                            <div class="timeline-milestone completed" data-index="14" data-milestone="analytics" style="left: 1771px;">
+                            <div class="timeline-milestone technology completed" data-index="14" data-milestone="analytics" style="left: 1771px;">
                                 <div class="milestone-connector top"></div>
                                 <div class="milestone-dot">
                                     <span class="milestone-icon-small">Analytics</span>
@@ -2156,6 +2156,8 @@
                 const wisrContainer = document.querySelector('.wisr-button-container');
                 const feedContainer = document.querySelector('.feed-button-container');
                 const marketingContainer = document.querySelector('.marketing-button-container');
+                const onboardingContainer = document.querySelector('.onboarding-button-container');
+                const filterContainer = document.querySelector('.filter-container');
 
                 if (isExpanded) {
                     // Collapse and clear all filters
@@ -2166,6 +2168,9 @@
                     wisrContainer.classList.remove('hidden');
                     feedContainer.classList.remove('hidden');
                     marketingContainer.classList.remove('hidden');
+                    onboardingContainer.classList.remove('hidden');
+                    // Reset filter position to collapsed position
+                    filterContainer.style.setProperty('transform', 'translateX(-271.84px)', 'important');
                 } else {
                     // Expand
                     filterBar.setAttribute('data-expanded', 'true');
@@ -2174,6 +2179,9 @@
                     wisrContainer.classList.add('hidden');
                     feedContainer.classList.add('hidden');
                     marketingContainer.classList.add('hidden');
+                    onboardingContainer.classList.add('hidden');
+                    // Center the expanded filter bar on page
+                    filterContainer.style.setProperty('transform', 'translateX(-137.72px)', 'important');
                 }
             });
 
@@ -2207,6 +2215,9 @@
                     if (isExpanded) {
                         const wisrContainer = document.querySelector('.wisr-button-container');
                         const feedContainer = document.querySelector('.feed-button-container');
+                        const marketingContainer = document.querySelector('.marketing-button-container');
+                        const onboardingContainer = document.querySelector('.onboarding-button-container');
+                        const filterContainer = document.querySelector('.filter-container');
 
                         filterBar.setAttribute('data-expanded', 'false');
                         UIOrchestrator.setFilterExpanded(false);
@@ -2214,6 +2225,10 @@
                         // Fade in other buttons
                         wisrContainer.classList.remove('hidden');
                         feedContainer.classList.remove('hidden');
+                        marketingContainer.classList.remove('hidden');
+                        onboardingContainer.classList.remove('hidden');
+                        // Reset filter position to collapsed position
+                        filterContainer.style.setProperty('transform', 'translateX(-271.84px)', 'important');
                     }
                 }
             });

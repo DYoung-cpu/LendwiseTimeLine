@@ -4748,7 +4748,7 @@ body {
     transform: translateX(172.35px) !important;  /* Calculated: Equal spacing, centered */
     z-index: 10 !important;
     transition: transform 0.3s ease, opacity 0.3s ease;
-    opacity: 1 !important;
+    opacity: 1;
 }
 
 .onboarding-button-container.hidden {

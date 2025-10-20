@@ -10,7 +10,7 @@
 
     <!-- Include both CSS files -->
     <link rel="stylesheet" href="timeline-styles.css?v=20251002215200">
-    <link rel="stylesheet" href="timeline-clean-test.css?v=20251020061500">
+    <link rel="stylesheet" href="timeline-clean-test.css?v=20251020084500">
 </head>
 <body>
     <!-- Three.js Shader Intro Animation (3 second overlay) -->
@@ -401,18 +401,25 @@
                     <div class="gallery-card" data-category="product" data-index="3">
                         <div class="card-content">
                             <div class="card-icon">💻</div>
-                            <h3>Encompass</h3>
-                            <p class="card-date">Aug 2024</p>
-                            <p class="card-description">LOS integrated</p>
+                            <h3>POS</h3>
+                            <p class="card-date">Point of Sale</p>
+                            <p class="card-description">In Progress</p>
                         </div>
                     </div>
 
-                    <div class="gallery-card" data-category="team" data-index="4" data-id="team">
-                        <div class="card-content">
-                            <div class="card-icon">👥</div>
+                    <div class="gallery-card has-image" data-category="team" data-index="4" data-id="team">
+                        <!-- Sliding photos container -->
+                        <div class="team-photos-slider">
+                            <div class="team-photo-track">
+                                <img src="sara-cohen.png" alt="Sara Cohen" class="team-photo active">
+                                <img src="alberto-martinez.png" alt="Alberto Martinez" class="team-photo">
+                                <img src="kailey.png" alt="Kailey Kildunne" class="team-photo">
+                                <img src="udeshika-amini.jpg" alt="Udeshika Amini" class="team-photo">
+                            </div>
+                        </div>
+                        <!-- Text overlay at top -->
+                        <div class="card-content team-card-text">
                             <h3>The Team</h3>
-                            <p class="card-date">Jul 2025</p>
-                            <p class="card-description">Our talented professionals</p>
                         </div>
                     </div>
 
@@ -478,12 +485,10 @@
                         </div>
                     </div>
 
-                    <div class="gallery-card" data-category="product" data-index="11" data-id="onboarding">
+                    <div class="gallery-card has-image" data-category="product" data-index="11" data-id="onboarding">
+                        <img src="onboarding.png" alt="Onboarding" class="card-background-media">
                         <div class="card-content">
-                            <div class="card-icon">📋</div>
-                            <h3>Onboarding</h3>
-                            <p class="card-date">In Progress</p>
-                            <p class="card-description">Digital Portal</p>
+                            <!-- Content hidden - text is in image -->
                         </div>
                     </div>
                 </div><!-- gallery-track -->
@@ -1070,6 +1075,148 @@
         </div>
     </div>
 
+    <!-- Fullscreen Onboarding Modal -->
+    <div id="onboarding-modal" class="fullscreen-modal">
+        <!-- Close button -->
+        <button class="modal-close-btn" onclick="closeOnboardingModal()">×</button>
+
+        <!-- Modal Content Container -->
+        <div class="inception-modal-content">
+            <!-- Hero Section -->
+            <div class="inception-hero">
+                <h1 class="hero-title">LendWise Onboarding Portal</h1>
+                <p class="hero-tagline">Your Journey Starts Here · Simple · Fast · Digital</p>
+            </div>
+
+            <!-- Onboarding Steps Section -->
+            <div class="team-container">
+                <h2 class="section-title">Getting Started with LendWise</h2>
+                <p style="text-align: center; max-width: 800px; margin: 0 auto 40px; color: rgba(255, 255, 255, 0.8); line-height: 1.6;">
+                    Our streamlined digital onboarding process gets you up and running quickly.
+                    Follow these simple steps to join the LendWise family and start closing loans faster.
+                </p>
+
+                <!-- Onboarding Steps Grid -->
+                <div class="team-grid">
+                    <!-- Step 1: Application -->
+                    <div class="team-member">
+                        <div class="member-image-container" style="background: linear-gradient(135deg, rgba(100, 200, 255, 0.2), rgba(100, 200, 255, 0.05)); display: flex; align-items: center; justify-content: center; font-size: 4rem;">
+                            📋
+                        </div>
+                        <div class="member-details">
+                            <h3>Step 1: Application</h3>
+                            <p class="member-role" style="color: rgba(100, 200, 255, 0.9);">Submit Your Information</p>
+                            <p class="member-bio">
+                                Complete our simple online application form. Provide your basic information,
+                                licensing details, and business background. Takes about 10-15 minutes.
+                            </p>
+                            <div class="member-skills">
+                                <span>Digital Form</span>
+                                <span>Quick Process</span>
+                                <span>Secure Platform</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Step 2: Documentation -->
+                    <div class="team-member">
+                        <div class="member-image-container" style="background: linear-gradient(135deg, rgba(255, 215, 0, 0.2), rgba(255, 215, 0, 0.05)); display: flex; align-items: center; justify-content: center; font-size: 4rem;">
+                            📄
+                        </div>
+                        <div class="member-details">
+                            <h3>Step 2: Documentation</h3>
+                            <p class="member-role" style="color: rgba(255, 215, 0, 0.9);">Upload Required Documents</p>
+                            <p class="member-bio">
+                                Upload your licensing credentials, proof of insurance, and compliance documents.
+                                Our secure portal makes document submission simple and fast.
+                            </p>
+                            <div class="member-skills">
+                                <span>Drag & Drop Upload</span>
+                                <span>Encrypted Storage</span>
+                                <span>Real-time Status</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Step 3: Review & Approval -->
+                    <div class="team-member">
+                        <div class="member-image-container" style="background: linear-gradient(135deg, rgba(76, 175, 80, 0.2), rgba(76, 175, 80, 0.05)); display: flex; align-items: center; justify-content: center; font-size: 4rem;">
+                            ✅
+                        </div>
+                        <div class="member-details">
+                            <h3>Step 3: Review & Approval</h3>
+                            <p class="member-role" style="color: rgba(76, 175, 80, 0.9);">Fast Track Processing</p>
+                            <p class="member-bio">
+                                Our compliance team reviews your application within 24-48 hours.
+                                We'll notify you immediately once approved and schedule your orientation.
+                            </p>
+                            <div class="member-skills">
+                                <span>24-48 Hour Review</span>
+                                <span>Email Notifications</span>
+                                <span>Direct Support</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Step 4: Orientation & Training -->
+                    <div class="team-member">
+                        <div class="member-image-container" style="background: linear-gradient(135deg, rgba(156, 39, 176, 0.2), rgba(156, 39, 176, 0.05)); display: flex; align-items: center; justify-content: center; font-size: 4rem;">
+                            🎓
+                        </div>
+                        <div class="member-details">
+                            <h3>Step 4: Orientation</h3>
+                            <p class="member-role" style="color: rgba(156, 39, 176, 0.9);">Get Up to Speed</p>
+                            <p class="member-bio">
+                                Join our comprehensive orientation session. Learn our systems, meet the team,
+                                and get hands-on training with our platform and tools.
+                            </p>
+                            <div class="member-skills">
+                                <span>Live Training</span>
+                                <span>Platform Walkthrough</span>
+                                <span>Q&A Session</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Call to Action -->
+                <div style="text-align: center; margin-top: 60px; padding: 40px; background: linear-gradient(135deg, rgba(100, 200, 255, 0.1), transparent); border-radius: 20px; border: 1px solid rgba(100, 200, 255, 0.3);">
+                    <h2 style="font-size: 2rem; margin-bottom: 20px; color: #ffffff;">Ready to Get Started?</h2>
+                    <p style="font-size: 1.1rem; color: rgba(255, 255, 255, 0.8); margin-bottom: 30px; max-width: 600px; margin-left: auto; margin-right: auto;">
+                        The onboarding portal will be available soon. Contact us to begin your journey with LendWise.
+                    </p>
+                    <div style="display: flex; gap: 20px; justify-content: center; flex-wrap: wrap;">
+                        <button style="padding: 15px 40px; background: linear-gradient(135deg, rgba(100, 200, 255, 0.3), rgba(100, 200, 255, 0.1)); border: 2px solid rgba(100, 200, 255, 0.6); color: white; font-size: 1.1rem; font-weight: 600; border-radius: 10px; cursor: pointer; transition: all 0.3s ease;">
+                            Coming Soon
+                        </button>
+                        <button onclick="closeOnboardingModal()" style="padding: 15px 40px; background: linear-gradient(135deg, rgba(255, 215, 0, 0.2), rgba(255, 215, 0, 0.05)); border: 2px solid rgba(255, 215, 0, 0.5); color: white; font-size: 1.1rem; font-weight: 600; border-radius: 10px; cursor: pointer; transition: all 0.3s ease;">
+                            Back to Timeline
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Timeline Preview -->
+                <div style="margin-top: 60px; text-align: center;">
+                    <h3 style="font-size: 1.5rem; color: rgba(255, 255, 255, 0.9); margin-bottom: 20px;">Expected Timeline</h3>
+                    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 20px; max-width: 1000px; margin: 0 auto;">
+                        <div style="padding: 20px; background: rgba(10, 25, 47, 0.6); border-radius: 10px; border: 1px solid rgba(100, 200, 255, 0.3);">
+                            <div style="font-size: 2rem; color: rgba(100, 200, 255, 0.9); margin-bottom: 10px;">15 min</div>
+                            <div style="font-size: 0.9rem; color: rgba(255, 255, 255, 0.7);">Application</div>
+                        </div>
+                        <div style="padding: 20px; background: rgba(10, 25, 47, 0.6); border-radius: 10px; border: 1px solid rgba(255, 215, 0, 0.3);">
+                            <div style="font-size: 2rem; color: rgba(255, 215, 0, 0.9); margin-bottom: 10px;">24-48h</div>
+                            <div style="font-size: 0.9rem; color: rgba(255, 255, 255, 0.7);">Review Period</div>
+                        </div>
+                        <div style="padding: 20px; background: rgba(10, 25, 47, 0.6); border-radius: 10px; border: 1px solid rgba(76, 175, 80, 0.3);">
+                            <div style="font-size: 2rem; color: rgba(76, 175, 80, 0.9); margin-bottom: 10px;">2-3 days</div>
+                            <div style="font-size: 0.9rem; color: rgba(255, 255, 255, 0.7);">Full Onboarding</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
     <!-- Fullscreen WISR AI Modal -->
     <div id="wisr-modal" class="fullscreen-modal">
         <!-- Close button -->
@@ -1394,7 +1541,7 @@
                 <div class="integration-grid">
                     <div class="integration-item">
                         <span class="integration-icon">💼</span>
-                        <span>Encompass LOS</span>
+                        <span>POS</span>
                     </div>
                     <div class="integration-item">
                         <span class="integration-icon">📊</span>
@@ -1485,8 +1632,8 @@
                     <div class="integration-items">
                         <div class="integration-card">
                             <div class="integration-logo">📊</div>
-                            <h4>Encompass</h4>
-                            <p>Complete LOS integration for seamless loan origination and processing workflows</p>
+                            <h4>POS</h4>
+                            <p>Point of Sale system integration for streamlined loan origination workflows</p>
                             <div class="integration-features">
                                 <span>Real-time sync</span>
                                 <span>Automated workflows</span>
@@ -2766,6 +2913,133 @@
                 modalVideo.src = '';
             }
         }
+
+        // ONBOARDING Button Click Handler
+        document.addEventListener('DOMContentLoaded', function() {
+            const onboardingButton = document.getElementById('onboardingButton');
+
+            if (onboardingButton) {
+                onboardingButton.addEventListener('click', function(e) {
+                    e.stopPropagation();
+
+                    // Find the carousel elements
+                    const galleryTrack = document.getElementById('galleryTrack');
+                    const cards = document.querySelectorAll('.gallery-card');
+                    const onboardingCard = document.querySelector('.gallery-card[data-id="onboarding"]');
+
+                    if (!galleryTrack || !onboardingCard || cards.length === 0) return;
+
+                    // Onboarding card is at index 11
+                    const targetCardIndex = 11;
+                    const anglePerCard = 360 / cards.length;
+                    const targetRotation = -targetCardIndex * anglePerCard;
+
+                    // Stop auto-rotation (access global config from modern-timeline.js)
+                    if (typeof galleryConfig !== 'undefined') {
+                        galleryConfig.isAutoRotating = false;
+                    }
+
+                    // Animate rotation to bring Onboarding card to front
+                    galleryTrack.style.transition = 'transform 0.8s ease-in-out';
+                    galleryTrack.style.transform = `rotateY(${targetRotation}deg)`;
+
+                    // Update card opacities after rotation
+                    if (typeof updateAllCardOpacities === 'function') {
+                        updateAllCardOpacities(cards);
+                    }
+
+                    // After rotation completes (1200ms), apply glow and open modal
+                    setTimeout(() => {
+                        // Get the current rotation angle of the card
+                        const currentTransform = onboardingCard.style.transform || onboardingCard.dataset.baseTransform;
+                        const rotationMatch = currentTransform.match(/rotateY\(([-\d.]+)deg\)/);
+                        const currentRotation = rotationMatch ? rotationMatch[1] : '0';
+
+                        // Store the original transform
+                        onboardingCard.dataset.originalTransform = currentTransform;
+                        onboardingCard.dataset.currentRotation = currentRotation;
+
+                        // Apply the glow with the current rotation maintained
+                        onboardingCard.style.setProperty('--card-rotation', `${currentRotation}deg`);
+                        onboardingCard.classList.add('selected-glow');
+
+                        // Open Onboarding modal after glow animation (600ms)
+                        setTimeout(() => {
+                            if (typeof openOnboardingModal === 'function') {
+                                openOnboardingModal();
+                            }
+                        }, 600);
+                    }, 1200);
+
+                    // Resume auto-rotation after animation (2000ms)
+                    setTimeout(() => {
+                        galleryTrack.style.transition = '';
+                        if (typeof galleryConfig !== 'undefined') {
+                            galleryConfig.isAutoRotating = true;
+                        }
+                    }, 2000);
+                });
+            }
+        });
+
+        // Open Onboarding Modal Function
+        function openOnboardingModal() {
+            const onboardingModal = document.getElementById('onboarding-modal');
+            if (onboardingModal) {
+                onboardingModal.classList.add('active');
+            }
+        }
+
+        // Close Onboarding Modal Function
+        function closeOnboardingModal() {
+            const onboardingModal = document.getElementById('onboarding-modal');
+            if (onboardingModal) {
+                onboardingModal.classList.remove('active');
+            }
+        }
+
+        // Team card photo slider
+        function initTeamPhotoSlider() {
+            const teamCard = document.querySelector('.gallery-card[data-id="team"]');
+            if (!teamCard) return;
+
+            const photos = teamCard.querySelectorAll('.team-photo');
+            if (photos.length === 0) return;
+
+            let currentIndex = 0;
+            const rotationInterval = 2500; // 2.5 seconds per photo
+
+            function slideToNext() {
+                const currentPhoto = photos[currentIndex];
+                const nextIndex = (currentIndex + 1) % photos.length;
+                const nextPhoto = photos[nextIndex];
+
+                // Add exiting class to current photo
+                currentPhoto.classList.add('exiting');
+                currentPhoto.classList.remove('active');
+
+                // Add active class to next photo
+                nextPhoto.classList.remove('exiting');
+                nextPhoto.classList.add('active');
+
+                // Update index
+                currentIndex = nextIndex;
+
+                // Clean up exiting class after transition
+                setTimeout(() => {
+                    currentPhoto.classList.remove('exiting');
+                }, 800);
+            }
+
+            // Start the slider
+            setInterval(slideToNext, rotationInterval);
+        }
+
+        // Initialize after page load
+        document.addEventListener('DOMContentLoaded', function() {
+            // Wait for carousel to initialize, then start team slider
+            setTimeout(initTeamPhotoSlider, 1000);
+        });
     </script>
 
     <!-- Include JavaScript files -->

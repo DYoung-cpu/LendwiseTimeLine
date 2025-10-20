@@ -1414,14 +1414,14 @@ html, body {
     background-repeat: no-repeat;
 }
 
-/* Cards with background images */
+/* Cards with background images - no transparency */
 .gallery-card.has-image {
-    background-color: transparent;
+    background-color: rgba(10, 25, 47, 1);
     border: 2px solid rgba(255, 215, 0, 0.3);
 }
 
 .gallery-card.has-image .card-content {
-    background: linear-gradient(to top, rgba(10, 25, 47, 0.98) 0%, rgba(10, 25, 47, 0.85) 50%, transparent 100%);
+    background: linear-gradient(to top, rgba(10, 25, 47, 1) 0%, rgba(10, 25, 47, 0.95) 50%, rgba(10, 25, 47, 0.8) 100%);
     padding: 10px;
     border-radius: 0 0 10px 10px;
     /* Removed backdrop-filter for carousel performance */
@@ -1472,16 +1472,9 @@ html, body {
     z-index: 0;
 }
 
-/* WISR card - gradient background from transparent edges to black center */
+/* WISR card - solid black background, no transparency */
 .gallery-card[data-id="wisr"] {
-    background: linear-gradient(
-        to bottom,
-        transparent 0%,
-        rgba(0, 0, 0, 0.8) 20%,
-        rgba(0, 0, 0, 1) 30%,
-        rgba(0, 0, 0, 0.8) 80%,
-        transparent 100%
-    ) !important;
+    background: rgba(0, 0, 0, 1) !important;
     /* Removed backdrop-filter - major performance killer during 3D rotation */
     contain: layout style; /* Removed 'paint' for better 3D transform performance */
     will-change: transform, opacity;
@@ -1604,6 +1597,83 @@ html, body {
     display: none;
 }
 
+/* Onboarding card - full image fill, hide text overlay */
+.gallery-card[data-id="onboarding"] .card-background-media {
+    object-fit: cover;
+    object-position: center center;
+    width: 100%;
+    height: 100%;
+}
+
+.gallery-card[data-id="onboarding"] .card-content {
+    display: none;
+}
+
+/* Team card - sliding photo animation */
+.gallery-card[data-id="team"] {
+    position: relative;
+    overflow: hidden;
+}
+
+.gallery-card[data-id="team"] .team-photos-slider {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+}
+
+.gallery-card[data-id="team"] .team-photo-track {
+    position: relative;
+    width: 100%;
+    height: 100%;
+}
+
+.gallery-card[data-id="team"] .team-photo {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center center;
+    opacity: 0;
+    transform: translateX(100%);
+    transition: transform 0.8s ease-in-out, opacity 0.8s ease-in-out;
+}
+
+.gallery-card[data-id="team"] .team-photo.active {
+    opacity: 1;
+    transform: translateX(0);
+}
+
+.gallery-card[data-id="team"] .team-photo.exiting {
+    opacity: 0;
+    transform: translateX(-100%);
+}
+
+/* Team card text overlay at top - minimal header strip */
+.gallery-card[data-id="team"] .team-card-text {
+    position: absolute !important;
+    top: 0 !important;
+    left: 0 !important;
+    width: 100% !important;
+    background: linear-gradient(to bottom, rgba(10, 25, 47, 0.9) 0%, rgba(10, 25, 47, 0.6) 50%, transparent 100%) !important;
+    padding: 8px 10px !important;
+    z-index: 10 !important;
+    border-radius: 0 !important;
+    height: 35px !important;
+}
+
+.gallery-card[data-id="team"] .team-card-text h3 {
+    font-size: 0.9rem;
+    margin: 0;
+    color: white;
+    text-align: center;
+    line-height: 1.2;
+}
+
 /* Ensure content stays on top with proper z-index */
 .gallery-card.has-image .card-content {
     z-index: 1;
@@ -1695,7 +1765,7 @@ html, body {
 
 /* Don't change background on hover for image cards */
 .gallery-card.has-image:hover {
-    background-color: rgba(10, 25, 47, 0.7);
+    background-color: rgba(10, 25, 47, 1);
 }
 
 /* Gallery Owl - Smaller (100px) */

@@ -10,7 +10,7 @@
 
     <!-- Include both CSS files -->
     <link rel="stylesheet" href="timeline-styles.css?v=20251002215200">
-    <link rel="stylesheet" href="timeline-clean-test.css?v=20251019203500">
+    <link rel="stylesheet" href="timeline-clean-test.css?v=1760938887">
 </head>
 <body>
     <!-- Three.js Shader Intro Animation (3 second overlay) -->
@@ -105,6 +105,9 @@
                             <path class="border-path" id="border-path" stroke="rgba(255, 255, 255, 0.15)" stroke-width="1" fill="none"/>
                         </svg>
 
+                    <!-- Button Stack Wrapper - Centers all buttons as one unit -->
+                    <div class="button-stack-wrapper">
+
                     <!-- Filter Button Container -->
                     <div class="filter-container">
                         <div class="filter-bar" data-expanded="false">
@@ -164,12 +167,22 @@
                     </div>
 
                     <!-- Marketing Button -->
-                    <div class="marketing-button-container" style="position: absolute; top: -37.3px; left: 50%; transform: translateX(168.63px); z-index: 10;">
+                    <div class="marketing-button-container" style="position: absolute; top: -37.3px; left: 50%; transform: translateX(71.16px); z-index: 10;">
                         <button class="marketing-button" id="marketingButton">
                             <span class="marketing-shimmer-wrapper"></span>
                             <span class="marketing-button-text">MARKETING</span>
                         </button>
                     </div>
+
+                    <!-- Onboarding Button -->
+                    <div class="onboarding-button-container" style="position: absolute; top: -37.3px; left: 50%; transform: translateX(172.35px); z-index: 10;">
+                        <button class="onboarding-button" id="onboardingButton">
+                            <span class="onboarding-shimmer-wrapper"></span>
+                            <span class="onboarding-button-text">ONBOARDING</span>
+                        </button>
+                    </div>
+
+                    </div><!-- End button-stack-wrapper -->
 
                     <div class="timeline-viewport">
                         <!-- Timeline Line -->

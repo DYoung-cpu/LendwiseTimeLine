@@ -3844,6 +3844,19 @@ body {
 }
 
 /* ================================
+   BUTTON STACK WRAPPER (Centers all buttons as one unit)
+   ================================ */
+.button-stack-wrapper {
+    position: absolute;
+    top: 0;
+    left: 50%;
+    transform: translateX(-55.64px);  /* Shifts entire button stack to true center */
+    z-index: 10;
+    width: 0;  /* No width - children position absolutely */
+    height: 0;  /* No height - just a positioning reference point */
+}
+
+/* ================================
    FILTER BUTTON & FEED BUTTON STYLES
    ================================ */
 
@@ -3852,7 +3865,7 @@ body {
     position: absolute;
     top: -37.3px;
     left: 50%;
-    transform: translateX(-312.5px);  /* Shifted left 35px to center stack */
+    transform: translateX(-271.84px);  /* Equal spacing, centered */
     z-index: 10;
     display: flex;
     justify-content: flex-start;  /* Align left, expand right */
@@ -3870,7 +3883,7 @@ body {
     position: absolute;
     top: -36.61px;
     left: 50%;
-    transform: translateX(-122.5px);  /* Shifted left 35px to center stack */
+    transform: translateX(-162.84px);  /* Equal spacing, centered */
     z-index: 10;
     transition: transform 0.3s ease, opacity 0.3s ease;
     opacity: 1;
@@ -3886,7 +3899,7 @@ body {
     position: absolute;
     top: -37.3px;
     left: 50%;
-    transform: translateX(-22.5px);  /* Shifted left 35px to center stack */
+    transform: translateX(-37.84px);  /* Equal spacing, centered */
     z-index: 10;
     display: flex;
     justify-content: flex-start;  /* Keep left edge fixed */
@@ -4652,13 +4665,12 @@ body {
    MARKETING BUTTON STYLES
    ================================ */
 
-/* Marketing Button Container - Positioned to right of FEED */
-/* Marketing Button Container - Positioned to right of FEED */
+/* Marketing Button Container */
 .marketing-button-container {
     position: absolute !important;
     top: -37.3px !important;
     left: 50% !important;
-    transform: translateX(185px) !important;  /* Right of FEED: FEED starts at 65px, FEED width ~110px, gap 10px = 185px */
+    transform: translateX(71.16px) !important;  /* Equal spacing, centered */
     z-index: 10 !important;
     transition: transform 0.3s ease, opacity 0.3s ease;
     opacity: 1 !important;
@@ -4723,6 +4735,79 @@ body {
 
 /* Button Text */
 .marketing-button-text {
+    position: relative;
+    z-index: 1;
+}
+
+/* ===== ONBOARDING BUTTON ===== */
+
+.onboarding-button-container {
+    position: absolute !important;
+    top: -37.3px !important;
+    left: 50% !important;
+    transform: translateX(172.35px) !important;  /* Calculated: Equal spacing, centered */
+    z-index: 10 !important;
+    transition: transform 0.3s ease, opacity 0.3s ease;
+    opacity: 1 !important;
+}
+
+.onboarding-button-container.hidden {
+    opacity: 0;
+    pointer-events: none;
+}
+
+/* Onboarding Button - Matches THE FEED button style with Cyan gradient */
+.onboarding-button {
+    position: relative;
+    background: radial-gradient(150% 180.06% at 11.14% 140%,
+        #000 37.35%,
+        #08122c 61.36%,
+        #1e3a6a 78.42%,
+        #4678b8 89.52%,
+        #00ffff 100%);
+    color: #00ffff;
+    border: 1px solid rgba(0, 0, 0, 0.25);
+    border-radius: 14px;
+    cursor: pointer;
+    font-family: 'Roboto', sans-serif;
+    font-size: 0.56rem;
+    font-weight: 600;
+    letter-spacing: 0.33px;
+    text-transform: uppercase;
+    padding: 0 16px;
+    height: 25.27px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 6px;
+    transition: all 0.2s ease;
+    white-space: nowrap;
+    overflow: hidden;
+    box-shadow: 0 0 30px rgba(0, 255, 255, 0.3),
+                0 0 20px rgba(0, 255, 255, 0.2);
+}
+
+/* Shimmer Effect */
+.onboarding-shimmer-wrapper {
+    position: absolute;
+    inset: 0;
+    border-radius: 14px;
+    overflow: hidden;
+    pointer-events: none;
+}
+
+/* Hover State */
+.onboarding-button:hover {
+    filter: brightness(1.3);
+}
+
+/* Active State */
+.onboarding-button:active {
+    filter: brightness(1.5);
+}
+
+/* Button Text */
+.onboarding-button-text {
     position: relative;
     z-index: 1;
 }

@@ -1596,6 +1596,59 @@
         </div>
     </div>
 
+    <!-- Fullscreen MARKETING Modal -->
+    <div id="marketing-modal" class="fullscreen-modal">
+        <!-- Close button -->
+        <button class="modal-close-btn" onclick="closeMarketingModal()">×</button>
+
+        <!-- Modal Content Container -->
+        <div class="inception-modal-content">
+            <!-- Hero Section -->
+            <div class="inception-hero">
+                <h1 class="hero-title">Marketing Gallery</h1>
+                <p class="hero-tagline">AI-Generated Marketing Content · Cutting-Edge Technology · Your Brand, Elevated</p>
+            </div>
+
+            <!-- Marketing Vision Section -->
+            <div class="vision-section">
+                <h2 class="section-title">Our Marketing Content</h2>
+                <div class="vision-content">
+                    <p>
+                        Leveraging the latest AI video generation technology including <strong>Google Veo 3</strong>,
+                        we create stunning marketing content that captures attention and drives engagement.
+                    </p>
+                    <p>
+                        Each piece is crafted to tell our story, showcase our technology, and connect with our audience
+                        in meaningful ways. Click any video below to watch in full screen.
+                    </p>
+                </div>
+            </div>
+
+            <!-- Bento Grid Gallery Container -->
+            <div class="bento-gallery-container" id="social-media-content">
+                <div class="bento-grid" id="bentoGrid">
+                    <!-- Videos will be dynamically inserted here by marketing-gallery.js -->
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Video Modal Overlay (Full Screen Player) -->
+    <div id="videoModalOverlay" class="video-modal-overlay">
+        <button class="video-modal-close">×</button>
+        <div class="video-modal-content">
+            <div class="video-modal-player">
+                <video id="modalVideo" controls autoplay></video>
+            </div>
+            <div class="video-modal-info">
+                <h3 id="modalVideoTitle"></h3>
+                <p id="modalVideoDesc"></p>
+            </div>
+            <!-- Video Dock for Navigation -->
+            <div id="videoDock" class="video-dock"></div>
+        </div>
+    </div>
+
     <!-- Milestone Data -->
     <script>
         const milestoneData = {
@@ -2559,10 +2612,53 @@
         });
     </script>
 
+    <!-- MARKETING Button Click Handler -->
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const marketingButton = document.getElementById('marketingButton');
+            const marketingModal = document.getElementById('marketing-modal');
+
+            if (marketingButton && marketingModal) {
+                marketingButton.addEventListener('click', function(e) {
+                    e.stopPropagation();
+                    marketingModal.classList.add('active');
+
+                    // Initialize marketing gallery if it hasn't been initialized
+                    if (typeof initializeMarketingGallery === 'function') {
+                        initializeMarketingGallery();
+                    }
+                });
+            }
+        });
+
+        // Close Marketing Modal Function
+        function closeMarketingModal() {
+            const marketingModal = document.getElementById('marketing-modal');
+            const videoModalOverlay = document.getElementById('videoModalOverlay');
+            const modalVideo = document.getElementById('modalVideo');
+
+            if (marketingModal) {
+                marketingModal.classList.remove('active');
+            }
+
+            // Also close the video modal if it's open
+            if (videoModalOverlay) {
+                videoModalOverlay.style.display = 'none';
+            }
+
+            // Pause and clear video
+            if (modalVideo) {
+                modalVideo.pause();
+                modalVideo.src = '';
+            }
+        }
+    </script>
+
     <!-- Include JavaScript files -->
     <script src="intro-animation.js?v=20251003142500"></script>
     <script src="modern-timeline.js?v=20251004150000"></script>
     <script src="timeline-stars.js?v=20251003150000"></script>
+    <script src="timeline-assets/marketing-gallery.js?v=20251019000000"></script>
 
     </div> <!-- End of main-content -->
 

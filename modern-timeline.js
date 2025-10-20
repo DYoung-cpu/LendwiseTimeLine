@@ -344,56 +344,9 @@ function updateCardOpacity(card, angle) {
         card.style.zIndex = 100 + (180 - absAngle);
     }
 
-    // Proximity-based gold glow effect - based on physical distance to owl
-    // Get owl position
-    const owlElement = document.querySelector('.landing-owl .wisr-video-circle') ||
-                       document.querySelector('.landing-owl');
-
-    if (owlElement) {
-        const owlRect = owlElement.getBoundingClientRect();
-        const owlCenterX = owlRect.left + owlRect.width / 2;
-        const owlCenterY = owlRect.top + owlRect.height / 2;
-
-        // Get card position
-        const cardRect = card.getBoundingClientRect();
-        const cardCenterX = cardRect.left + cardRect.width / 2;
-        const cardCenterY = cardRect.top + cardRect.height / 2;
-
-        // Calculate distance from card center to owl center
-        const distance = Math.sqrt(
-            Math.pow(cardCenterX - owlCenterX, 2) +
-            Math.pow(cardCenterY - owlCenterY, 2)
-        );
-
-        const glowDistanceThreshold = 450; // Distance in pixels where glow starts
-
-        // Only glow cards that are visually in front (angle <= 135 degrees from center)
-        // This is wider than before to include cards near the owl sides
-        const isVisuallyInFront = absAngle <= 135;
-
-        if (distance <= glowDistanceThreshold && isVisuallyInFront) {
-            // Calculate glow intensity with exponential curve for better visibility
-            // Using squared falloff: more prominent glow at farther distances
-            const normalizedDistance = distance / glowDistanceThreshold;
-            const rawGlowIntensity = 1 - Math.pow(normalizedDistance, 2);
-
-            // Ensure minimum 30% glow for visibility - cards either glow visibly or not at all
-            const glowIntensity = Math.max(0.3, rawGlowIntensity);
-
-            // Apply gold glow border and shadow based on proximity
-            const glowStrength = glowIntensity * 1.0; // Max opacity 1.0
-            const shadowSpread = 20 + (glowIntensity * 50); // 20px to 70px
-            const shadowStrength = glowStrength * 0.9; // Strong shadow
-
-            card.style.setProperty('border-color', `rgba(255, 215, 0, ${glowStrength})`, 'important');
-            card.style.setProperty('box-shadow', `0 0 ${shadowSpread}px rgba(255, 215, 0, ${shadowStrength})`, 'important');
-
-        } else {
-            // No glow - reset to default
-            card.style.setProperty('border-color', 'rgba(255, 255, 255, 0.2)', 'important');
-            card.style.setProperty('box-shadow', 'none', 'important');
-        }
-    }
+    // Glow effect removed - keep default card styling
+    card.style.setProperty('border-color', 'rgba(255, 255, 255, 0.2)', 'important');
+    card.style.setProperty('box-shadow', 'none', 'important');
 
     // Add/remove active class for front-facing cards
     if (absAngle < 30) {

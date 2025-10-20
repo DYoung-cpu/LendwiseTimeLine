@@ -1507,7 +1507,7 @@ html, body {
 }
 
 .gallery-card[data-id="inception"] .card-background-media {
-    object-fit: contain;
+    object-fit: cover;
     object-position: center center;
     width: 100%;
     height: 100%;
@@ -1536,6 +1536,71 @@ html, body {
 /* Hide other text on headquarters card - only show title */
 .gallery-card[data-id="location"] .card-content .card-date,
 .gallery-card[data-id="location"] .card-content .card-description {
+    display: none;
+}
+
+/* Marketing card - full video fill corner to corner and centered text */
+.gallery-card[data-id="marketing"] .card-background-media {
+    object-fit: cover;
+    object-position: center center;
+    width: 100%;
+    height: 100%;
+}
+
+.gallery-card[data-id="marketing"] .card-content {
+    background: none !important;
+    padding: 0 !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    text-align: center !important;
+    position: absolute !important;
+    top: 50% !important;
+    left: 50% !important;
+    transform: translate(-50%, -50%) !important;
+    width: auto !important;
+    bottom: auto !important;
+    border-radius: 0 !important;
+}
+
+.gallery-card[data-id="marketing"] .card-content h3 {
+    font-size: 18px;
+    font-weight: bold;
+    color: #ffffff;
+    text-shadow: 0 2px 8px rgba(0, 0, 0, 0.95),
+                 0 0 20px rgba(0, 0, 0, 0.8);
+    margin: 0;
+    text-align: center;
+}
+
+/* Hide other text on marketing card - only show title */
+.gallery-card[data-id="marketing"] .card-content .card-icon,
+.gallery-card[data-id="marketing"] .card-content .card-date,
+.gallery-card[data-id="marketing"] .card-content .card-description {
+    display: none;
+}
+
+/* Mission Control card - full image fill, hide text overlay */
+.gallery-card[data-id="mission-control"] .card-background-media {
+    object-fit: cover;
+    object-position: center center;
+    width: 100%;
+    height: 100%;
+}
+
+.gallery-card[data-id="mission-control"] .card-content {
+    display: none;
+}
+
+/* Licensing card - full image fill, hide text overlay */
+.gallery-card[data-id="licensing"] .card-background-media {
+    object-fit: cover;
+    object-position: center center;
+    width: 100%;
+    height: 100%;
+}
+
+.gallery-card[data-id="licensing"] .card-content {
     display: none;
 }
 

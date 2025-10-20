@@ -405,12 +405,15 @@
                         </div>
                     </div>
 
-                    <div class="gallery-card" data-category="expansion" data-index="5">
+                    <div class="gallery-card has-image" data-category="marketing" data-index="5" data-id="marketing">
+                        <video class="card-background-media" autoplay muted loop playsinline>
+                            <source src="timeline-assets/videos/lendwise-superhero.mp4" type="video/mp4">
+                        </video>
                         <div class="card-content">
-                            <div class="card-icon">🗺️</div>
-                            <h3>Multi-State</h3>
-                            <p class="card-date">Oct 2024</p>
-                            <p class="card-description">7 states licensed</p>
+                            <div class="card-icon">🎬</div>
+                            <h3>Marketing</h3>
+                            <p class="card-date">AI-Powered</p>
+                            <p class="card-description">Video Content</p>
                         </div>
                     </div>
 
@@ -2616,20 +2619,83 @@
     <script>
         document.addEventListener('DOMContentLoaded', function() {
             const marketingButton = document.getElementById('marketingButton');
-            const marketingModal = document.getElementById('marketing-modal');
 
-            if (marketingButton && marketingModal) {
+            if (marketingButton) {
                 marketingButton.addEventListener('click', function(e) {
                     e.stopPropagation();
-                    marketingModal.classList.add('active');
 
-                    // Initialize marketing gallery if it hasn't been initialized
-                    if (typeof initializeMarketingGallery === 'function') {
-                        initializeMarketingGallery();
+                    // Find the carousel elements
+                    const galleryTrack = document.getElementById('galleryTrack');
+                    const cards = document.querySelectorAll('.gallery-card');
+                    const marketingCard = document.querySelector('.gallery-card[data-id="marketing"]');
+
+                    if (!galleryTrack || !marketingCard || cards.length === 0) return;
+
+                    // Marketing card is at index 5
+                    const targetCardIndex = 5;
+                    const anglePerCard = 360 / cards.length;
+                    const targetRotation = -targetCardIndex * anglePerCard;
+
+                    // Stop auto-rotation (access global config from modern-timeline.js)
+                    if (typeof galleryConfig !== 'undefined') {
+                        galleryConfig.isAutoRotating = false;
                     }
+
+                    // Animate rotation to bring Marketing card to front
+                    galleryTrack.style.transition = 'transform 0.8s ease-in-out';
+                    galleryTrack.style.transform = `rotateY(${targetRotation}deg)`;
+
+                    // Update card opacities after rotation
+                    if (typeof updateAllCardOpacities === 'function') {
+                        updateAllCardOpacities(cards);
+                    }
+
+                    // After rotation completes (1200ms), apply glow and open modal
+                    setTimeout(() => {
+                        // Get the current rotation angle of the card
+                        const currentTransform = marketingCard.style.transform || marketingCard.dataset.baseTransform;
+                        const rotationMatch = currentTransform.match(/rotateY\(([-\d.]+)deg\)/);
+                        const currentRotation = rotationMatch ? rotationMatch[1] : '0';
+
+                        // Store the original transform
+                        marketingCard.dataset.originalTransform = currentTransform;
+                        marketingCard.dataset.currentRotation = currentRotation;
+
+                        // Apply the glow with the current rotation maintained
+                        marketingCard.style.setProperty('--card-rotation', `${currentRotation}deg`);
+                        marketingCard.classList.add('selected-glow');
+
+                        // Open Marketing modal after glow animation (600ms)
+                        setTimeout(() => {
+                            if (typeof openMarketingModal === 'function') {
+                                openMarketingModal();
+                            }
+                        }, 600);
+                    }, 1200);
+
+                    // Resume auto-rotation after animation (2000ms)
+                    setTimeout(() => {
+                        galleryTrack.style.transition = '';
+                        if (typeof galleryConfig !== 'undefined') {
+                            galleryConfig.isAutoRotating = true;
+                        }
+                    }, 2000);
                 });
             }
         });
+
+        // Open Marketing Modal Function
+        function openMarketingModal() {
+            const marketingModal = document.getElementById('marketing-modal');
+            if (marketingModal) {
+                marketingModal.classList.add('active');
+
+                // Initialize marketing gallery if it hasn't been initialized
+                if (typeof initializeMarketingGallery === 'function') {
+                    initializeMarketingGallery();
+                }
+            }
+        }
 
         // Close Marketing Modal Function
         function closeMarketingModal() {

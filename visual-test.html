@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Filter Button Position Test</title>
+    <style>
+        body {
+            font-family: monospace;
+            padding: 20px;
+            background: #1a1a1a;
+            color: #fff;
+        }
+        .test-container {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+        .result {
+            padding: 20px;
+            margin: 20px 0;
+            border: 1px solid #444;
+            border-radius: 8px;
+        }
+        .success { border-color: #0f0; background: rgba(0,255,0,0.1); }
+        .warning { border-color: #ff0; background: rgba(255,255,0,0.1); }
+        .error { border-color: #f00; background: rgba(255,0,0,0.1); }
+        code { background: #333; padding: 2px 6px; border-radius: 3px; }
+        button {
+            background: #444;
+            color: #fff;
+            border: 1px solid #666;
+            padding: 10px 20px;
+            cursor: pointer;
+            border-radius: 4px;
+            font-family: monospace;
+        }
+        button:hover { background: #555; }
+    </style>
+</head>
+<body>
+    <div class="test-container">
+        <h1>Filter Button Position Verification</h1>
+        <p>This tool checks if the filter button is centered in the border gap.</p>
+
+        <button onclick="runTest()">Run Test</button>
+
+        <div id="results"></div>
+    </div>
+
+    <script>
+        function runTest() {
+            const iframe = document.createElement('iframe');
+            iframe.src = 'timeline-dev.html';
+            iframe.style.display = 'none';
+            document.body.appendChild(iframe);
+
+            setTimeout(() => {
+                try {
+                    const doc = iframe.contentDocument;
+                    const btn = doc.querySelector('.new-filter-btn');
+                    const borderContainer = doc.querySelector('.timeline-border-container');
+                    const container = doc.querySelector('.new-filter-container');
+
+                    if (!btn || !borderContainer || !container) {
+                        showResult('error', 'Could not find required elements');
+                        return;
+                    }
+
+                    const btnRect = btn.getBoundingClientRect();
+                    const borderRect = borderContainer.getBoundingClientRect();
+                    const style = window.getComputedStyle(container);
+
+                    const gapCenter = borderRect.top + 35;
+                    const btnCenter = btnRect.top + (btnRect.height / 2);
+                    const diff = Math.abs(gapCenter - btnCenter);
+
+                    const results = `
+                        <h3>Test Results:</h3>
+                        <p>CSS <code>top</code> value: <code>${style.top}</code></p>
+                        <p>Border gap center Y: <code>${gapCenter.toFixed(2)}px</code></p>
+                        <p>Button center Y: <code>${btnCenter.toFixed(2)}px</code></p>
+                        <p>Difference: <code>${diff.toFixed(2)}px</code></p>
+                        <p>Tolerance: <code>3px</code></p>
+                    `;
+
+                    if (diff < 3) {
+                        showResult('success', results + '<h3>✓ Button is properly centered!</h3>');
+                    } else if (diff < 10) {
+                        showResult('warning', results + '<h3>⚠ Button is close but may need minor adjustment</h3>');
+                    } else {
+                        showResult('error', results + '<h3>✗ Button position needs adjustment</h3>');
+                    }
+                } catch (e) {
+                    showResult('error', 'Error: ' + e.message);
+                } finally {
+                    document.body.removeChild(iframe);
+                }
+            }, 6000);
+        }
+
+        function showResult(type, html) {
+            const div = document.createElement('div');
+            div.className = 'result ' + type;
+            div.innerHTML = html;
+            document.getElementById('results').innerHTML = '';
+            document.getElementById('results').appendChild(div);
+        }
+    </script>
+</body>
+</html>

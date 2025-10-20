@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Verify Carousel Drag</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            padding: 20px;
+            background: #1a1a1a;
+            color: white;
+        }
+        .status {
+            padding: 10px;
+            margin: 10px 0;
+            border-radius: 5px;
+        }
+        .pass { background: #004d00; border: 1px solid #00ff00; }
+        .fail { background: #4d0000; border: 1px solid #ff0000; }
+        .info { background: #003d4d; border: 1px solid #00ccff; }
+        code {
+            background: #333;
+            padding: 2px 5px;
+            border-radius: 3px;
+        }
+    </style>
+</head>
+<body>
+    <h1>🔍 Carousel Drag Status Check</h1>
+    <div id="results"></div>
+
+    <script>
+        const results = document.getElementById('results');
+
+        function addStatus(message, type = 'info') {
+            const div = document.createElement('div');
+            div.className = `status ${type}`;
+            div.innerHTML = message;
+            results.appendChild(div);
+        }
+
+        // Check if we can access the main page's functions
+        setTimeout(() => {
+            // Check if modern-timeline.js loaded
+            addStatus('Checking JavaScript files...', 'info');
+
+            if (typeof setupMouseDragRotation !== 'undefined') {
+                addStatus('✓ <code>setupMouseDragRotation</code> function is loaded', 'pass');
+            } else {
+                addStatus('✗ <code>setupMouseDragRotation</code> function NOT found', 'fail');
+            }
+
+            if (typeof galleryConfig !== 'undefined') {
+                addStatus('✓ <code>galleryConfig</code> is loaded', 'pass');
+                addStatus(`Current rotation: ${galleryConfig.currentRotation}°`, 'info');
+                addStatus(`Auto-rotating: ${galleryConfig.isAutoRotating}`, 'info');
+            } else {
+                addStatus('✗ <code>galleryConfig</code> NOT found', 'fail');
+            }
+
+            // Check carousel container
+            const container = document.querySelector('.circular-gallery-container');
+            if (container) {
+                const cursor = window.getComputedStyle(container).cursor;
+                addStatus(`✓ Carousel container found`, 'pass');
+                addStatus(`Cursor style: <code>${cursor}</code>`, cursor === 'grab' ? 'pass' : 'fail');
+            } else {
+                addStatus('✗ Carousel container NOT found', 'fail');
+            }
+
+            // Check cards
+            const cards = document.querySelectorAll('.gallery-card');
+            addStatus(`Found ${cards.length} cards`, cards.length > 0 ? 'pass' : 'fail');
+
+            if (cards.length > 0) {
+                const firstCardCursor = window.getComputedStyle(cards[0]).cursor;
+                addStatus(`Card cursor: <code>${firstCardCursor}</code>`, firstCardCursor === 'grab' ? 'pass' : 'fail');
+            }
+
+            // Instructions
+            addStatus('<h3>💡 Next Steps:</h3>', 'info');
+            addStatus('1. Hard refresh your browser: <code>Ctrl+Shift+R</code> (Windows) or <code>Cmd+Shift+R</code> (Mac)', 'info');
+            addStatus('2. Clear browser cache for localhost', 'info');
+            addStatus('3. Close and reopen browser completely', 'info');
+            addStatus('4. Try viewing <a href="http://localhost:8000/timeline-dev.html" style="color: #00ccff;">timeline-dev.html</a>', 'info');
+
+        }, 1000);
+    </script>
+
+    <!-- Load the timeline scripts to check -->
+    <script src="intro-animation.js?v=20251003142500"></script>
+    <script src="modern-timeline.js?v=20251003142500"></script>
+</body>
+</html>

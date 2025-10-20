@@ -1,0 +1,273 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Fixed Border Test - No Line Behind Filter</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 50px;
+            background: linear-gradient(135deg, #1a1a2e 0%, #0f0f1e 100%);
+            font-family: 'Montserrat', sans-serif;
+            min-height: 100vh;
+        }
+
+        .main-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding-top: 100px;
+        }
+
+        /* Timeline Border Container - Full border */
+        .timeline-border-container {
+            position: relative;
+            border: 1px solid rgba(255, 255, 255, 0.15);
+            border-radius: 12px;
+            background: rgba(255, 255, 255, 0.04);
+            backdrop-filter: blur(10px);
+            padding: 30px 60px;
+            margin: 0 auto;
+            margin-top: 15px;
+            box-shadow:
+                0 0 20px rgba(255, 255, 255, 0.1),
+                0 1px 3px rgba(0, 0, 0, 0.12);
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        /* Mask to hide border behind filter */
+        .timeline-border-container::before {
+            content: '';
+            position: absolute;
+            top: -2px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 140px;
+            height: 4px;
+            background: linear-gradient(135deg, #1a1a2e 0%, #0f0f1e 100%);
+            z-index: 99;
+            transition: width 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        /* Expanded state - container physically changes */
+        .timeline-border-container.filter-expanded {
+            padding: 50px 60px 30px;
+            margin-top: 0;
+            transform: translateY(-15px);
+        }
+
+        .timeline-border-container.filter-expanded::before {
+            width: 200px;
+        }
+
+        /* Filter Container */
+        .new-filter-container {
+            position: absolute;
+            top: -15px;
+            left: 50%;
+            transform: translateX(-50%);
+            z-index: 100;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        /* Filter Button with SOLID background */
+        .new-filter-btn {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            padding: 8px 20px;
+            /* CRITICAL: Solid background to hide border */
+            background: #1a1a2e;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 8px;
+            color: white;
+            font-size: 13px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow:
+                inset 0 2px 4px rgba(0, 0, 0, 0.3),
+                inset 0 -2px 3px rgba(0, 0, 0, 0.4),
+                0 1px 0 rgba(255, 255, 255, 0.1);
+        }
+
+        .new-filter-btn:hover {
+            background: linear-gradient(135deg, #1f1f33 0%, #141428 100%);
+            transform: scale(1.02);
+        }
+
+        .filter-expanded .new-filter-btn {
+            min-width: 140px;
+            transform: scale(1.05);
+            padding: 10px 24px;
+        }
+
+        /* Filter Options */
+        .filter-options {
+            display: flex;
+            gap: 6px;
+            opacity: 0;
+            visibility: hidden;
+            transition: all 0.3s ease;
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+        }
+
+        .filter-options.left {
+            right: calc(100% + 10px);
+        }
+
+        .filter-options.right {
+            left: calc(100% + 10px);
+        }
+
+        .filter-options.visible {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        .filter-option-btn {
+            padding: 6px 12px;
+            background: rgba(255, 255, 255, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 6px;
+            color: white;
+            font-size: 11px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        /* Timeline content */
+        .timeline-content {
+            height: 200px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: rgba(255, 255, 255, 0.5);
+            font-size: 18px;
+        }
+
+        /* Status display */
+        .status-display {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            background: rgba(0, 0, 0, 0.8);
+            padding: 20px;
+            border-radius: 8px;
+            color: white;
+            max-width: 350px;
+        }
+
+        .status-display h3 {
+            margin: 0 0 15px 0;
+            font-size: 16px;
+            color: #00ff00;
+        }
+
+        .status-display ul {
+            margin: 10px 0;
+            padding-left: 20px;
+            font-size: 13px;
+            line-height: 1.8;
+        }
+
+        .status-display .check {
+            color: #00ff00;
+        }
+
+        .status-display .key-point {
+            background: rgba(0, 255, 0, 0.1);
+            padding: 10px;
+            border-radius: 4px;
+            margin-top: 15px;
+        }
+    </style>
+</head>
+<body>
+    <div class="main-container">
+        <div class="timeline-border-container" id="borderContainer">
+            <div class="new-filter-container">
+                <!-- Left options -->
+                <div class="filter-options left" id="leftOptions">
+                    <button class="filter-option-btn">Operations</button>
+                    <button class="filter-option-btn">Tech</button>
+                </div>
+
+                <!-- Main Filter Button -->
+                <button class="new-filter-btn" id="filterBtn">
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <polygon points="22,3 2,3 10,12.46 10,19 14,21 14,12.46"></polygon>
+                    </svg>
+                    <span>Filter</span>
+                </button>
+
+                <!-- Right options -->
+                <div class="filter-options right" id="rightOptions">
+                    <button class="filter-option-btn">Completed</button>
+                    <button class="filter-option-btn">Future</button>
+                </div>
+            </div>
+
+            <div class="timeline-content">
+                Timeline Content Area
+            </div>
+        </div>
+    </div>
+
+    <div class="status-display">
+        <h3>✅ FIXES IMPLEMENTED</h3>
+
+        <strong>What was fixed:</strong>
+        <ul>
+            <li class="check">✓ Filter button has solid #1a1a2e background</li>
+            <li class="check">✓ Border line no longer visible behind filter</li>
+            <li class="check">✓ Border container animates when filter expands</li>
+            <li class="check">✓ Container padding changes: 30px → 50px top</li>
+            <li class="check">✓ Container moves up 15px when expanded</li>
+            <li class="check">✓ Mask widens to cover expanded filter area</li>
+        </ul>
+
+        <div class="key-point">
+            <strong>KEY SOLUTION:</strong><br>
+            • Solid background on filter button<br>
+            • Mask element hides border gap<br>
+            • Container shape animates on expand
+        </div>
+
+        <strong>Test it:</strong><br>
+        Click the filter button to see the border container physically expand and reshape!
+    </div>
+
+    <script>
+        let isOpen = false;
+
+        document.getElementById('filterBtn').addEventListener('click', function() {
+            isOpen = !isOpen;
+            const container = document.getElementById('borderContainer');
+            const leftOpts = document.getElementById('leftOptions');
+            const rightOpts = document.getElementById('rightOptions');
+
+            if (isOpen) {
+                container.classList.add('filter-expanded');
+                leftOpts.classList.add('visible');
+                rightOpts.classList.add('visible');
+                console.log('✅ Filter expanded - border container reshaped');
+            } else {
+                container.classList.remove('filter-expanded');
+                leftOpts.classList.remove('visible');
+                rightOpts.classList.remove('visible');
+                console.log('✅ Filter collapsed - border container returned to normal');
+            }
+        });
+
+        // Log initial state
+        console.log('✅ Fixed border implementation loaded');
+        console.log('✅ Filter has solid background - no border line visible');
+        console.log('✅ Click filter to test border container animation');
+    </script>
+</body>
+</html>

@@ -1,0 +1,662 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Light Blue Feed Background Options</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Roboto', Arial, sans-serif;
+            background: #000;
+            color: white;
+            padding: 40px;
+        }
+
+        h1 {
+            text-align: center;
+            margin-bottom: 40px;
+            color: #00ffff;
+        }
+
+        .preview-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(500px, 1fr));
+            gap: 30px;
+            max-width: 1600px;
+            margin: 0 auto;
+        }
+
+        .preview-card {
+            border: 2px solid rgba(0, 255, 255, 0.3);
+            border-radius: 8px;
+            padding: 20px;
+            background: rgba(10, 10, 10, 0.5);
+        }
+
+        .preview-title {
+            font-size: 1.2rem;
+            margin-bottom: 15px;
+            color: #ffd700;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .copy-button {
+            background: rgba(0, 255, 255, 0.2);
+            border: 1px solid rgba(0, 255, 255, 0.5);
+            color: #00ffff;
+            padding: 5px 15px;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 0.85rem;
+            transition: all 0.2s;
+        }
+
+        .copy-button:hover {
+            background: rgba(0, 255, 255, 0.3);
+            border-color: #00ffff;
+        }
+
+        .feed-mock {
+            width: 100%;
+            height: 200px;
+            margin-bottom: 15px;
+            padding: 20px 60px;
+            display: flex;
+            flex-direction: column;
+            border-radius: 4px;
+            overflow: hidden;
+        }
+
+        .mock-header {
+            font-size: 0.7rem;
+            margin-bottom: 8px;
+            color: rgba(255, 255, 255, 0.85);
+            display: flex;
+            gap: 10px;
+            align-items: center;
+        }
+
+        .mock-person { color: #ffd700; font-weight: 700; }
+        .mock-department { color: rgba(100, 200, 255, 0.9); }
+        .mock-project { color: rgba(255, 255, 255, 0.95); font-weight: 600; }
+        .mock-date { color: rgba(255, 255, 255, 0.6); }
+        .mock-completion { color: #00ff96; font-weight: 600; }
+        .mock-separator { color: rgba(255, 255, 255, 0.3); }
+
+        .mock-feed-items {
+            flex: 1;
+            overflow-y: auto;
+        }
+
+        .mock-item {
+            display: flex;
+            gap: 12px;
+            padding: 10px 0;
+            font-size: 0.85rem;
+            line-height: 1.5;
+        }
+
+        .mock-icon {
+            font-size: 1.1rem;
+        }
+
+        .mock-item-date {
+            font-size: 0.7rem;
+            color: rgba(255, 255, 255, 0.5);
+            margin-bottom: 3px;
+        }
+
+        .mock-item-text {
+            color: rgba(255, 255, 255, 0.85);
+        }
+
+        .code-block {
+            background: rgba(0, 0, 0, 0.7);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 4px;
+            padding: 15px;
+            font-family: 'Courier New', monospace;
+            font-size: 0.85rem;
+            color: #00ff96;
+            overflow-x: auto;
+        }
+
+        /* LIGHT BLUE BACKGROUND OPTIONS */
+
+        /* Option 1: Soft Sky Blue Gradient */
+        .bg-option-1 {
+            background: linear-gradient(135deg,
+                rgba(70, 130, 180, 0.75),   /* Steel blue */
+                rgba(100, 149, 237, 0.78)   /* Cornflower blue */
+            );
+            border: 1px solid rgba(135, 206, 250, 0.6);  /* Sky blue border */
+            box-shadow: 0 0 30px rgba(70, 130, 180, 0.3);
+        }
+
+        /* Option 2: Light Cyan Glow */
+        .bg-option-2 {
+            background:
+                radial-gradient(ellipse at top, rgba(0, 191, 255, 0.4), transparent 60%),
+                linear-gradient(180deg, rgba(65, 150, 200, 0.75), rgba(85, 170, 220, 0.78));
+            border: 1px solid rgba(0, 191, 255, 0.7);  /* Deep sky blue */
+            box-shadow: inset 0 0 60px rgba(0, 191, 255, 0.3);
+        }
+
+        /* Option 3: Frosted Ice Blue */
+        .bg-option-3 {
+            background: rgba(95, 158, 205, 0.70);  /* Light steel blue */
+            backdrop-filter: blur(25px);
+            border: 1px solid rgba(176, 224, 230, 0.7);  /* Powder blue */
+            box-shadow:
+                inset 0 0 50px rgba(135, 206, 250, 0.25),
+                0 0 40px rgba(70, 130, 180, 0.2);
+        }
+
+        /* Option 4: Ocean Blue with Sparkle */
+        .bg-option-4 {
+            background:
+                radial-gradient(circle at 30% 40%, rgba(135, 206, 250, 0.4), transparent 40%),
+                radial-gradient(circle at 70% 70%, rgba(100, 149, 237, 0.35), transparent 40%),
+                linear-gradient(135deg, rgba(70, 130, 180, 0.72), rgba(95, 158, 205, 0.75));
+            border: 1px solid rgba(176, 224, 230, 0.6);
+            box-shadow: 0 0 35px rgba(100, 149, 237, 0.3);
+        }
+
+        /* Option 5: Electric Bright Blue */
+        .bg-option-5 {
+            background: linear-gradient(135deg,
+                rgba(30, 144, 255, 0.7),    /* Dodger blue */
+                rgba(65, 105, 225, 0.73)    /* Royal blue */
+            );
+            border: 1px solid rgba(0, 191, 255, 0.8);
+            box-shadow:
+                inset 0 0 60px rgba(30, 144, 255, 0.3),
+                0 0 40px rgba(30, 144, 255, 0.2);
+        }
+
+        /* Option 6: Aqua Blue Shimmer */
+        .bg-option-6 {
+            background:
+                repeating-linear-gradient(
+                    45deg,
+                    transparent,
+                    transparent 10px,
+                    rgba(127, 255, 212, 0.08) 10px,
+                    rgba(127, 255, 212, 0.08) 20px
+                ),
+                linear-gradient(135deg, rgba(64, 224, 208, 0.65), rgba(72, 209, 204, 0.68));
+            border: 1px solid rgba(127, 255, 212, 0.7);  /* Aquamarine */
+            box-shadow: 0 0 30px rgba(64, 224, 208, 0.25);
+        }
+
+        /* Option 7: Soft Powder Blue */
+        .bg-option-7 {
+            background: linear-gradient(135deg,
+                rgba(176, 224, 230, 0.65),   /* Powder blue */
+                rgba(175, 238, 238, 0.68)    /* Pale turquoise */
+            );
+            border: 1px solid rgba(176, 224, 230, 0.8);
+            box-shadow: 0 0 40px rgba(176, 224, 230, 0.3);
+        }
+
+        /* Option 8: Steel Blue Professional */
+        .bg-option-8 {
+            background:
+                linear-gradient(to bottom right, rgba(70, 130, 180, 0.68), rgba(100, 149, 237, 0.68)),
+                radial-gradient(circle at 80% 20%, rgba(135, 206, 250, 0.3), transparent 50%);
+            border: 1px solid rgba(100, 149, 237, 0.7);
+            box-shadow: inset 0 0 50px rgba(70, 130, 180, 0.2);
+        }
+
+        /* Option 9: Light Azure Glow */
+        .bg-option-9 {
+            background:
+                radial-gradient(ellipse at center, rgba(240, 248, 255, 0.15), transparent 60%),
+                linear-gradient(135deg, rgba(30, 144, 255, 0.65), rgba(65, 105, 225, 0.68));
+            border: 1px solid rgba(135, 206, 250, 0.75);
+            box-shadow:
+                0 0 50px rgba(30, 144, 255, 0.25),
+                inset 0 0 40px rgba(240, 248, 255, 0.15);
+        }
+    </style>
+</head>
+<body>
+    <h1>🎨 Light Blue Feed Background Options</h1>
+
+    <div class="preview-grid">
+        <!-- Option 1 -->
+        <div class="preview-card">
+            <div class="preview-title">
+                Option 1: Soft Sky Blue Gradient
+                <button class="copy-button" onclick="copyCode('code1')">Copy CSS</button>
+            </div>
+            <div class="feed-mock bg-option-1">
+                <div class="mock-header">
+                    <span class="mock-person">David Young</span>
+                    <span class="mock-separator">|</span>
+                    <span class="mock-department">Project Development</span>
+                    <span class="mock-separator">|</span>
+                    <span class="mock-project">PFN Landing Page</span>
+                    <span class="mock-separator">|</span>
+                    <span class="mock-date">Oct 6, 2025</span>
+                    <span class="mock-separator">|</span>
+                    <span class="mock-completion">85% Complete</span>
+                </div>
+                <div class="mock-feed-items">
+                    <div class="mock-item">
+                        <div class="mock-icon">🎯</div>
+                        <div>
+                            <div class="mock-item-date">Oct 6, 2025 3:45 PM</div>
+                            <div class="mock-item-text">Launched UIOrchestrator for seamless coordination</div>
+                        </div>
+                    </div>
+                    <div class="mock-item">
+                        <div class="mock-icon">✨</div>
+                        <div>
+                            <div class="mock-item-date">Oct 6, 2025 2:30 PM</div>
+                            <div class="mock-item-text">Deployed The Feed preview panel</div>
+                        </div>
+                    </div>
+                    <div class="mock-item">
+                        <div class="mock-icon">✅</div>
+                        <div>
+                            <div class="mock-item-date">Oct 6, 2025 1:15 PM</div>
+                            <div class="mock-item-text">Achieved perfect Filter animation</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="code-block" id="code1">background: linear-gradient(135deg, rgba(70, 130, 180, 0.75), rgba(100, 149, 237, 0.78));<br>border: 1px solid rgba(135, 206, 250, 0.6);<br>box-shadow: 0 0 30px rgba(70, 130, 180, 0.3);</div>
+        </div>
+
+        <!-- Option 2 -->
+        <div class="preview-card">
+            <div class="preview-title">
+                Option 2: Light Cyan Glow
+                <button class="copy-button" onclick="copyCode('code2')">Copy CSS</button>
+            </div>
+            <div class="feed-mock bg-option-2">
+                <div class="mock-header">
+                    <span class="mock-person">David Young</span>
+                    <span class="mock-separator">|</span>
+                    <span class="mock-department">Project Development</span>
+                    <span class="mock-separator">|</span>
+                    <span class="mock-project">PFN Landing Page</span>
+                    <span class="mock-separator">|</span>
+                    <span class="mock-date">Oct 6, 2025</span>
+                    <span class="mock-separator">|</span>
+                    <span class="mock-completion">85% Complete</span>
+                </div>
+                <div class="mock-feed-items">
+                    <div class="mock-item">
+                        <div class="mock-icon">🎯</div>
+                        <div>
+                            <div class="mock-item-date">Oct 6, 2025 3:45 PM</div>
+                            <div class="mock-item-text">Launched UIOrchestrator for seamless coordination</div>
+                        </div>
+                    </div>
+                    <div class="mock-item">
+                        <div class="mock-icon">✨</div>
+                        <div>
+                            <div class="mock-item-date">Oct 6, 2025 2:30 PM</div>
+                            <div class="mock-item-text">Deployed The Feed preview panel</div>
+                        </div>
+                    </div>
+                    <div class="mock-item">
+                        <div class="mock-icon">✅</div>
+                        <div>
+                            <div class="mock-item-date">Oct 6, 2025 1:15 PM</div>
+                            <div class="mock-item-text">Achieved perfect Filter animation</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="code-block" id="code2">background: radial-gradient(ellipse at top, rgba(0, 191, 255, 0.4), transparent 60%),<br>&nbsp;&nbsp;linear-gradient(180deg, rgba(65, 150, 200, 0.75), rgba(85, 170, 220, 0.78));<br>border: 1px solid rgba(0, 191, 255, 0.7);<br>box-shadow: inset 0 0 60px rgba(0, 191, 255, 0.3);</div>
+        </div>
+
+        <!-- Option 3 -->
+        <div class="preview-card">
+            <div class="preview-title">
+                Option 3: Frosted Ice Blue
+                <button class="copy-button" onclick="copyCode('code3')">Copy CSS</button>
+            </div>
+            <div class="feed-mock bg-option-3">
+                <div class="mock-header">
+                    <span class="mock-person">David Young</span>
+                    <span class="mock-separator">|</span>
+                    <span class="mock-department">Project Development</span>
+                    <span class="mock-separator">|</span>
+                    <span class="mock-project">PFN Landing Page</span>
+                    <span class="mock-separator">|</span>
+                    <span class="mock-date">Oct 6, 2025</span>
+                    <span class="mock-separator">|</span>
+                    <span class="mock-completion">85% Complete</span>
+                </div>
+                <div class="mock-feed-items">
+                    <div class="mock-item">
+                        <div class="mock-icon">🎯</div>
+                        <div>
+                            <div class="mock-item-date">Oct 6, 2025 3:45 PM</div>
+                            <div class="mock-item-text">Launched UIOrchestrator for seamless coordination</div>
+                        </div>
+                    </div>
+                    <div class="mock-item">
+                        <div class="mock-icon">✨</div>
+                        <div>
+                            <div class="mock-item-date">Oct 6, 2025 2:30 PM</div>
+                            <div class="mock-item-text">Deployed The Feed preview panel</div>
+                        </div>
+                    </div>
+                    <div class="mock-item">
+                        <div class="mock-icon">✅</div>
+                        <div>
+                            <div class="mock-item-date">Oct 6, 2025 1:15 PM</div>
+                            <div class="mock-item-text">Achieved perfect Filter animation</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="code-block" id="code3">background: rgba(95, 158, 205, 0.70);<br>backdrop-filter: blur(25px);<br>border: 1px solid rgba(176, 224, 230, 0.7);<br>box-shadow: inset 0 0 50px rgba(135, 206, 250, 0.25), 0 0 40px rgba(70, 130, 180, 0.2);</div>
+        </div>
+
+        <!-- Option 4 -->
+        <div class="preview-card">
+            <div class="preview-title">
+                Option 4: Ocean Blue with Sparkle
+                <button class="copy-button" onclick="copyCode('code4')">Copy CSS</button>
+            </div>
+            <div class="feed-mock bg-option-4">
+                <div class="mock-header">
+                    <span class="mock-person">David Young</span>
+                    <span class="mock-separator">|</span>
+                    <span class="mock-department">Project Development</span>
+                    <span class="mock-separator">|</span>
+                    <span class="mock-project">PFN Landing Page</span>
+                    <span class="mock-separator">|</span>
+                    <span class="mock-date">Oct 6, 2025</span>
+                    <span class="mock-separator">|</span>
+                    <span class="mock-completion">85% Complete</span>
+                </div>
+                <div class="mock-feed-items">
+                    <div class="mock-item">
+                        <div class="mock-icon">🎯</div>
+                        <div>
+                            <div class="mock-item-date">Oct 6, 2025 3:45 PM</div>
+                            <div class="mock-item-text">Launched UIOrchestrator for seamless coordination</div>
+                        </div>
+                    </div>
+                    <div class="mock-item">
+                        <div class="mock-icon">✨</div>
+                        <div>
+                            <div class="mock-item-date">Oct 6, 2025 2:30 PM</div>
+                            <div class="mock-item-text">Deployed The Feed preview panel</div>
+                        </div>
+                    </div>
+                    <div class="mock-item">
+                        <div class="mock-icon">✅</div>
+                        <div>
+                            <div class="mock-item-date">Oct 6, 2025 1:15 PM</div>
+                            <div class="mock-item-text">Achieved perfect Filter animation</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="code-block" id="code4">background: radial-gradient(circle at 30% 40%, rgba(135, 206, 250, 0.4), transparent 40%),<br>&nbsp;&nbsp;radial-gradient(circle at 70% 70%, rgba(100, 149, 237, 0.35), transparent 40%),<br>&nbsp;&nbsp;linear-gradient(135deg, rgba(70, 130, 180, 0.72), rgba(95, 158, 205, 0.75));<br>border: 1px solid rgba(176, 224, 230, 0.6);<br>box-shadow: 0 0 35px rgba(100, 149, 237, 0.3);</div>
+        </div>
+
+        <!-- Option 5 -->
+        <div class="preview-card">
+            <div class="preview-title">
+                Option 5: Electric Bright Blue
+                <button class="copy-button" onclick="copyCode('code5')">Copy CSS</button>
+            </div>
+            <div class="feed-mock bg-option-5">
+                <div class="mock-header">
+                    <span class="mock-person">David Young</span>
+                    <span class="mock-separator">|</span>
+                    <span class="mock-department">Project Development</span>
+                    <span class="mock-separator">|</span>
+                    <span class="mock-project">PFN Landing Page</span>
+                    <span class="mock-separator">|</span>
+                    <span class="mock-date">Oct 6, 2025</span>
+                    <span class="mock-separator">|</span>
+                    <span class="mock-completion">85% Complete</span>
+                </div>
+                <div class="mock-feed-items">
+                    <div class="mock-item">
+                        <div class="mock-icon">🎯</div>
+                        <div>
+                            <div class="mock-item-date">Oct 6, 2025 3:45 PM</div>
+                            <div class="mock-item-text">Launched UIOrchestrator for seamless coordination</div>
+                        </div>
+                    </div>
+                    <div class="mock-item">
+                        <div class="mock-icon">✨</div>
+                        <div>
+                            <div class="mock-item-date">Oct 6, 2025 2:30 PM</div>
+                            <div class="mock-item-text">Deployed The Feed preview panel</div>
+                        </div>
+                    </div>
+                    <div class="mock-item">
+                        <div class="mock-icon">✅</div>
+                        <div>
+                            <div class="mock-item-date">Oct 6, 2025 1:15 PM</div>
+                            <div class="mock-item-text">Achieved perfect Filter animation</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="code-block" id="code5">background: linear-gradient(135deg, rgba(30, 144, 255, 0.7), rgba(65, 105, 225, 0.73));<br>border: 1px solid rgba(0, 191, 255, 0.8);<br>box-shadow: inset 0 0 60px rgba(30, 144, 255, 0.3), 0 0 40px rgba(30, 144, 255, 0.2);</div>
+        </div>
+
+        <!-- Option 6 -->
+        <div class="preview-card">
+            <div class="preview-title">
+                Option 6: Aqua Blue Shimmer
+                <button class="copy-button" onclick="copyCode('code6')">Copy CSS</button>
+            </div>
+            <div class="feed-mock bg-option-6">
+                <div class="mock-header">
+                    <span class="mock-person">David Young</span>
+                    <span class="mock-separator">|</span>
+                    <span class="mock-department">Project Development</span>
+                    <span class="mock-separator">|</span>
+                    <span class="mock-project">PFN Landing Page</span>
+                    <span class="mock-separator">|</span>
+                    <span class="mock-date">Oct 6, 2025</span>
+                    <span class="mock-separator">|</span>
+                    <span class="mock-completion">85% Complete</span>
+                </div>
+                <div class="mock-feed-items">
+                    <div class="mock-item">
+                        <div class="mock-icon">🎯</div>
+                        <div>
+                            <div class="mock-item-date">Oct 6, 2025 3:45 PM</div>
+                            <div class="mock-item-text">Launched UIOrchestrator for seamless coordination</div>
+                        </div>
+                    </div>
+                    <div class="mock-item">
+                        <div class="mock-icon">✨</div>
+                        <div>
+                            <div class="mock-item-date">Oct 6, 2025 2:30 PM</div>
+                            <div class="mock-item-text">Deployed The Feed preview panel</div>
+                        </div>
+                    </div>
+                    <div class="mock-item">
+                        <div class="mock-icon">✅</div>
+                        <div>
+                            <div class="mock-item-date">Oct 6, 2025 1:15 PM</div>
+                            <div class="mock-item-text">Achieved perfect Filter animation</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="code-block" id="code6">background: repeating-linear-gradient(45deg, transparent, transparent 10px, rgba(127, 255, 212, 0.08) 10px, rgba(127, 255, 212, 0.08) 20px),<br>&nbsp;&nbsp;linear-gradient(135deg, rgba(64, 224, 208, 0.65), rgba(72, 209, 204, 0.68));<br>border: 1px solid rgba(127, 255, 212, 0.7);<br>box-shadow: 0 0 30px rgba(64, 224, 208, 0.25);</div>
+        </div>
+
+        <!-- Option 7 -->
+        <div class="preview-card">
+            <div class="preview-title">
+                Option 7: Soft Powder Blue
+                <button class="copy-button" onclick="copyCode('code7')">Copy CSS</button>
+            </div>
+            <div class="feed-mock bg-option-7">
+                <div class="mock-header">
+                    <span class="mock-person">David Young</span>
+                    <span class="mock-separator">|</span>
+                    <span class="mock-department">Project Development</span>
+                    <span class="mock-separator">|</span>
+                    <span class="mock-project">PFN Landing Page</span>
+                    <span class="mock-separator">|</span>
+                    <span class="mock-date">Oct 6, 2025</span>
+                    <span class="mock-separator">|</span>
+                    <span class="mock-completion">85% Complete</span>
+                </div>
+                <div class="mock-feed-items">
+                    <div class="mock-item">
+                        <div class="mock-icon">🎯</div>
+                        <div>
+                            <div class="mock-item-date">Oct 6, 2025 3:45 PM</div>
+                            <div class="mock-item-text">Launched UIOrchestrator for seamless coordination</div>
+                        </div>
+                    </div>
+                    <div class="mock-item">
+                        <div class="mock-icon">✨</div>
+                        <div>
+                            <div class="mock-item-date">Oct 6, 2025 2:30 PM</div>
+                            <div class="mock-item-text">Deployed The Feed preview panel</div>
+                        </div>
+                    </div>
+                    <div class="mock-item">
+                        <div class="mock-icon">✅</div>
+                        <div>
+                            <div class="mock-item-date">Oct 6, 2025 1:15 PM</div>
+                            <div class="mock-item-text">Achieved perfect Filter animation</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="code-block" id="code7">background: linear-gradient(135deg, rgba(176, 224, 230, 0.65), rgba(175, 238, 238, 0.68));<br>border: 1px solid rgba(176, 224, 230, 0.8);<br>box-shadow: 0 0 40px rgba(176, 224, 230, 0.3);</div>
+        </div>
+
+        <!-- Option 8 -->
+        <div class="preview-card">
+            <div class="preview-title">
+                Option 8: Steel Blue Professional
+                <button class="copy-button" onclick="copyCode('code8')">Copy CSS</button>
+            </div>
+            <div class="feed-mock bg-option-8">
+                <div class="mock-header">
+                    <span class="mock-person">David Young</span>
+                    <span class="mock-separator">|</span>
+                    <span class="mock-department">Project Development</span>
+                    <span class="mock-separator">|</span>
+                    <span class="mock-project">PFN Landing Page</span>
+                    <span class="mock-separator">|</span>
+                    <span class="mock-date">Oct 6, 2025</span>
+                    <span class="mock-separator">|</span>
+                    <span class="mock-completion">85% Complete</span>
+                </div>
+                <div class="mock-feed-items">
+                    <div class="mock-item">
+                        <div class="mock-icon">🎯</div>
+                        <div>
+                            <div class="mock-item-date">Oct 6, 2025 3:45 PM</div>
+                            <div class="mock-item-text">Launched UIOrchestrator for seamless coordination</div>
+                        </div>
+                    </div>
+                    <div class="mock-item">
+                        <div class="mock-icon">✨</div>
+                        <div>
+                            <div class="mock-item-date">Oct 6, 2025 2:30 PM</div>
+                            <div class="mock-item-text">Deployed The Feed preview panel</div>
+                        </div>
+                    </div>
+                    <div class="mock-item">
+                        <div class="mock-icon">✅</div>
+                        <div>
+                            <div class="mock-item-date">Oct 6, 2025 1:15 PM</div>
+                            <div class="mock-item-text">Achieved perfect Filter animation</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="code-block" id="code8">background: linear-gradient(to bottom right, rgba(70, 130, 180, 0.68), rgba(100, 149, 237, 0.68)),<br>&nbsp;&nbsp;radial-gradient(circle at 80% 20%, rgba(135, 206, 250, 0.3), transparent 50%);<br>border: 1px solid rgba(100, 149, 237, 0.7);<br>box-shadow: inset 0 0 50px rgba(70, 130, 180, 0.2);</div>
+        </div>
+
+        <!-- Option 9 -->
+        <div class="preview-card">
+            <div class="preview-title">
+                Option 9: Light Azure Glow
+                <button class="copy-button" onclick="copyCode('code9')">Copy CSS</button>
+            </div>
+            <div class="feed-mock bg-option-9">
+                <div class="mock-header">
+                    <span class="mock-person">David Young</span>
+                    <span class="mock-separator">|</span>
+                    <span class="mock-department">Project Development</span>
+                    <span class="mock-separator">|</span>
+                    <span class="mock-project">PFN Landing Page</span>
+                    <span class="mock-separator">|</span>
+                    <span class="mock-date">Oct 6, 2025</span>
+                    <span class="mock-separator">|</span>
+                    <span class="mock-completion">85% Complete</span>
+                </div>
+                <div class="mock-feed-items">
+                    <div class="mock-item">
+                        <div class="mock-icon">🎯</div>
+                        <div>
+                            <div class="mock-item-date">Oct 6, 2025 3:45 PM</div>
+                            <div class="mock-item-text">Launched UIOrchestrator for seamless coordination</div>
+                        </div>
+                    </div>
+                    <div class="mock-item">
+                        <div class="mock-icon">✨</div>
+                        <div>
+                            <div class="mock-item-date">Oct 6, 2025 2:30 PM</div>
+                            <div class="mock-item-text">Deployed The Feed preview panel</div>
+                        </div>
+                    </div>
+                    <div class="mock-item">
+                        <div class="mock-icon">✅</div>
+                        <div>
+                            <div class="mock-item-date">Oct 6, 2025 1:15 PM</div>
+                            <div class="mock-item-text">Achieved perfect Filter animation</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="code-block" id="code9">background: radial-gradient(ellipse at center, rgba(240, 248, 255, 0.15), transparent 60%),<br>&nbsp;&nbsp;linear-gradient(135deg, rgba(30, 144, 255, 0.65), rgba(65, 105, 225, 0.68));<br>border: 1px solid rgba(135, 206, 250, 0.75);<br>box-shadow: 0 0 50px rgba(30, 144, 255, 0.25), inset 0 0 40px rgba(240, 248, 255, 0.15);</div>
+        </div>
+    </div>
+
+    <script>
+        function copyCode(id) {
+            const codeBlock = document.getElementById(id);
+            const text = codeBlock.textContent;
+
+            navigator.clipboard.writeText(text).then(() => {
+                const button = event.target;
+                const originalText = button.textContent;
+                button.textContent = 'Copied!';
+                button.style.background = 'rgba(0, 255, 100, 0.3)';
+                button.style.borderColor = '#00ff96';
+
+                setTimeout(() => {
+                    button.textContent = originalText;
+                    button.style.background = '';
+                    button.style.borderColor = '';
+                }, 2000);
+            });
+        }
+    </script>
+</body>
+</html>

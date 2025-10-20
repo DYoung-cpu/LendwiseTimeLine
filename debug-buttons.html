@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Button Debug</title>
+    <style>
+        body { background: #000; color: #fff; font-family: monospace; padding: 20px; }
+        .info { margin: 10px 0; padding: 10px; background: #222; }
+    </style>
+</head>
+<body>
+    <h1>Button Positioning Debug</h1>
+    <div id="output"></div>
+    <script>
+        setTimeout(() => {
+            const buttons = {
+                filter: document.querySelector('.filter-container'),
+                feed: document.querySelector('.feed-button-container'),
+                wisr: document.querySelector('.wisr-button-container'),
+                marketing: document.querySelector('.marketing-button-container')
+            };
+            
+            let html = '';
+            for (let [name, btn] of Object.entries(buttons)) {
+                if (btn) {
+                    const rect = btn.getBoundingClientRect();
+                    const computed = window.getComputedStyle(btn);
+                    html += `<div class="info">
+                        <strong>${name.toUpperCase()}</strong><br>
+                        Position: ${computed.position}<br>
+                        Top: ${computed.top}<br>
+                        Left: ${computed.left}<br>
+                        Transform: ${computed.transform}<br>
+                        BoundingRect: x=${rect.x.toFixed(1)}, y=${rect.y.toFixed(1)}, width=${rect.width.toFixed(1)}
+                    </div>`;
+                }
+            }
+            document.getElementById('output').innerHTML = html;
+        }, 1000);
+    </script>
+    <iframe src="http://localhost:3005" style="width:100%; height:600px; border:1px solid #fff; margin-top:20px;"></iframe>
+</body>
+</html>

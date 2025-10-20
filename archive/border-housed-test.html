@@ -1,0 +1,302 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Filter Embedded in Border - Test</title>
+    <style>
+        /* Page background - CRITICAL for the illusion */
+        body {
+            margin: 0;
+            padding: 50px;
+            background: linear-gradient(135deg, #1a1a2e 0%, #0f0f1e 100%);
+            font-family: 'Montserrat', sans-serif;
+            min-height: 100vh;
+        }
+
+        /* Container to hold everything */
+        .main-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding-top: 100px;
+        }
+
+        /* Timeline Border Container - CONTINUOUS border */
+        .timeline-border-container {
+            position: relative;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 12px;
+            background: rgba(255, 255, 255, 0.04);
+            backdrop-filter: blur(10px);
+            padding: 40px 60px;
+            margin: 0 auto;
+            box-shadow:
+                0 0 30px rgba(255, 255, 255, 0.1),
+                0 1px 3px rgba(0, 0, 0, 0.12),
+                inset 0 1px 0 rgba(255, 255, 255, 0.1);
+        }
+
+        /* Filter Container - Positioned to OVERLAP border */
+        .new-filter-container {
+            position: absolute;
+            top: -15px; /* Negative positioning to sit ON the border line */
+            left: 50%;
+            transform: translateX(-50%);
+            z-index: 100;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        /* Filter Button - KEY: Background matches page to create "embedded" effect */
+        .new-filter-btn {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            padding: 8px 20px;
+            /* CRITICAL: Background creates the illusion */
+            background: linear-gradient(135deg, #1a1a2e 0%, #0f0f1e 100%);
+            /* Border matches container border */
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 8px;
+            color: white;
+            font-size: 13px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            /* Additional styling for glass effect */
+            box-shadow:
+                0 2px 10px rgba(0, 0, 0, 0.2),
+                inset 0 1px 0 rgba(255, 255, 255, 0.1);
+        }
+
+        .new-filter-btn:hover {
+            background: linear-gradient(135deg,
+                rgba(255, 255, 255, 0.08) 0%,
+                rgba(255, 255, 255, 0.05) 100%);
+            border-color: rgba(255, 255, 255, 0.3);
+            transform: scale(1.02);
+        }
+
+        /* Filter icon */
+        .filter-icon {
+            width: 14px;
+            height: 14px;
+        }
+
+        /* Filter Options - Hidden by default */
+        .filter-options-left,
+        .filter-options-right {
+            display: flex;
+            gap: 6px;
+            opacity: 0;
+            visibility: hidden;
+            transition: all 0.3s ease;
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+        }
+
+        .filter-options-left {
+            right: calc(100% + 10px);
+        }
+
+        .filter-options-right {
+            left: calc(100% + 10px);
+        }
+
+        /* When filter is open */
+        .filter-open .filter-options-left,
+        .filter-open .filter-options-right {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        /* Option buttons */
+        .filter-option-btn {
+            padding: 6px 12px;
+            background: rgba(255, 255, 255, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 6px;
+            color: white;
+            font-size: 11px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        .filter-option-btn:hover {
+            background: rgba(255, 255, 255, 0.15);
+            transform: scale(1.05);
+        }
+
+        /* Timeline content (placeholder) */
+        .timeline-content {
+            height: 200px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: rgba(255, 255, 255, 0.5);
+            font-size: 18px;
+        }
+
+        /* Demo controls */
+        .demo-controls {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            background: rgba(0, 0, 0, 0.8);
+            padding: 20px;
+            border-radius: 8px;
+            color: white;
+        }
+
+        .demo-controls h3 {
+            margin: 0 0 15px 0;
+            font-size: 14px;
+        }
+
+        .demo-controls button {
+            display: block;
+            width: 100%;
+            padding: 8px;
+            margin: 5px 0;
+            background: rgba(255, 255, 255, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            color: white;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+
+        .demo-controls button:hover {
+            background: rgba(255, 255, 255, 0.2);
+        }
+
+        /* Visual guide */
+        .visual-note {
+            position: absolute;
+            top: -50px;
+            left: 50%;
+            transform: translateX(-50%);
+            color: rgba(255, 255, 255, 0.6);
+            font-size: 12px;
+            white-space: nowrap;
+        }
+
+        .visual-note::after {
+            content: '↓';
+            display: block;
+            text-align: center;
+            font-size: 20px;
+            margin-top: 5px;
+        }
+    </style>
+</head>
+<body>
+    <div class="main-container">
+        <!-- Visual indicator -->
+        <div class="visual-note">Filter embedded in border line</div>
+
+        <!-- Timeline Border Container -->
+        <div class="timeline-border-container">
+            <!-- Filter Button Container - EMBEDDED in border -->
+            <div class="new-filter-container" id="filterContainer">
+                <!-- Left filter options -->
+                <div class="filter-options-left">
+                    <button class="filter-option-btn">Operations</button>
+                    <button class="filter-option-btn">Tech</button>
+                    <button class="filter-option-btn">Completed</button>
+                </div>
+
+                <!-- Main Filter Button -->
+                <button class="new-filter-btn" id="filterBtn">
+                    <svg class="filter-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <polygon points="22,3 2,3 10,12.46 10,19 14,21 14,12.46"></polygon>
+                    </svg>
+                    <span>Filter</span>
+                </button>
+
+                <!-- Right filter options -->
+                <div class="filter-options-right">
+                    <button class="filter-option-btn">In Progress</button>
+                    <button class="filter-option-btn">Future</button>
+                </div>
+            </div>
+
+            <!-- Timeline content placeholder -->
+            <div class="timeline-content">
+                Timeline Content Area
+            </div>
+        </div>
+    </div>
+
+    <!-- Demo Controls -->
+    <div class="demo-controls">
+        <h3>Test Controls</h3>
+        <button onclick="toggleFilter()">Toggle Filter</button>
+        <button onclick="changeBorderColor()">Test Border Color</button>
+        <button onclick="changeBackground()">Test BG Match</button>
+        <button onclick="resetStyles()">Reset</button>
+        <div style="margin-top: 15px; font-size: 11px; line-height: 1.4;">
+            <strong>Key Points:</strong><br>
+            • Filter at top: -15px<br>
+            • BG matches page<br>
+            • Border continuous<br>
+            • No vertical expansion
+        </div>
+    </div>
+
+    <script>
+        let isOpen = false;
+
+        function toggleFilter() {
+            isOpen = !isOpen;
+            const container = document.getElementById('filterContainer');
+
+            if (isOpen) {
+                container.classList.add('filter-open');
+            } else {
+                container.classList.remove('filter-open');
+            }
+        }
+
+        function changeBorderColor() {
+            const container = document.querySelector('.timeline-border-container');
+            const btn = document.querySelector('.new-filter-btn');
+
+            container.style.borderColor = 'rgba(100, 255, 100, 0.3)';
+            btn.style.borderColor = 'rgba(100, 255, 100, 0.3)';
+
+            setTimeout(() => {
+                container.style.borderColor = '';
+                btn.style.borderColor = '';
+            }, 2000);
+        }
+
+        function changeBackground() {
+            const btn = document.querySelector('.new-filter-btn');
+
+            // Show what happens without matching background
+            btn.style.background = 'rgba(255, 0, 0, 0.2)';
+
+            setTimeout(() => {
+                btn.style.background = '';
+            }, 2000);
+        }
+
+        function resetStyles() {
+            const container = document.querySelector('.timeline-border-container');
+            const btn = document.querySelector('.new-filter-btn');
+
+            container.style = '';
+            btn.style = '';
+
+            // Reset filter state
+            document.getElementById('filterContainer').classList.remove('filter-open');
+            isOpen = false;
+        }
+
+        // Click handler for filter button
+        document.getElementById('filterBtn').addEventListener('click', toggleFilter);
+    </script>
+</body>
+</html>

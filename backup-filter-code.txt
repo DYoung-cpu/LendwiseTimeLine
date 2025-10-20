@@ -1,0 +1,38 @@
+=== FILTER CODE BACKUP - Created 2025-10-06 ===
+Complete backup of all filter-related code for future restoration
+
+=== HTML: SVG GRADIENTS (timeline-dev.html lines 104-129) ===
+                                <!-- Gray/Silver gradient for Filter (center) -->
+                                <radialGradient id="filterGradient" cx="50%" cy="20%" r="80%">
+                                    <stop offset="0%" style="stop-color:#d0d0d0;stop-opacity:1" />
+                                    <stop offset="25%" style="stop-color:#a0a0a0;stop-opacity:1" />
+                                    <stop offset="50%" style="stop-color:#4a4a4a;stop-opacity:1" />
+                                    <stop offset="75%" style="stop-color:#1a1a1a;stop-opacity:1" />
+                                    <stop offset="100%" style="stop-color:#000000;stop-opacity:1" />
+                                </radialGradient>
+
+                                <!-- Orange/Amber gradient for In Progress -->
+                                <radialGradient id="inProgressGradient" cx="50%" cy="20%" r="80%">
+                                    <stop offset="0%" style="stop-color:#ff7316;stop-opacity:1" />
+                                    <stop offset="25%" style="stop-color:#ff8c42;stop-opacity:1" />
+                                    <stop offset="50%" style="stop-color:#6a3a1e;stop-opacity:1" />
+                                    <stop offset="75%" style="stop-color:#2c1408;stop-opacity:1" />
+                                    <stop offset="100%" style="stop-color:#000000;stop-opacity:1" />
+                                </radialGradient>
+
+                                <!-- Gold gradient for Future -->
+                                <radialGradient id="futureGradient" cx="50%" cy="20%" r="80%">
+                                    <stop offset="0%" style="stop-color:#ffdd44;stop-opacity:1" />
+                                    <stop offset="25%" style="stop-color:#b89c46;stop-opacity:1" />
+                                    <stop offset="50%" style="stop-color:#6b5a1e;stop-opacity:1" />
+                                    <stop offset="75%" style="stop-color:#2c2008;stop-opacity:1" />
+                                    <stop offset="100%" style="stop-color:#000000;stop-opacity:1" />
+                                </radialGradient>
+
+=== HTML: SVG ELEMENTS (timeline-dev.html lines 133-136) ===
+                            <!-- Filter container sections (will be dynamically created by JS) -->
+                            <g id="filter-sections"></g>
+                            <!-- Filter button border outline -->
+                            <path id="filter-border" stroke="rgba(255, 255, 255, 0.15)" stroke-width="1" fill="none" d=""></path>
+
+=== Backup complete - See timeline-dev.html and timeline-clean-test.css for full code ===

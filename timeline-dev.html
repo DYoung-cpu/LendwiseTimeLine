@@ -10,7 +10,7 @@
 
     <!-- Include both CSS files -->
     <link rel="stylesheet" href="timeline-styles.css?v=20251002215200">
-    <link rel="stylesheet" href="timeline-clean-test.css?v=1760942295">
+    <link rel="stylesheet" href="timeline-clean-test.css?v=1760945059">
 </head>
 <body>
     <!-- Three.js Shader Intro Animation (3 second overlay) -->
@@ -2191,17 +2191,13 @@
                     e.stopPropagation();
                     const category = this.getAttribute('data-category');
 
-                    // Toggle active state
-                    this.classList.toggle('active');
+                    // Single-select behavior: Clear all other filters first
+                    filterOptions.forEach(opt => opt.classList.remove('active'));
+                    activeFilters = [];
 
-                    // Update active filters array
-                    if (this.classList.contains('active')) {
-                        if (!activeFilters.includes(category)) {
-                            activeFilters.push(category);
-                        }
-                    } else {
-                        activeFilters = activeFilters.filter(f => f !== category);
-                    }
+                    // Activate only the clicked filter
+                    this.classList.add('active');
+                    activeFilters.push(category);
 
                     // Apply filters
                     applyFilters();
@@ -2249,6 +2245,34 @@
 
                         milestone.style.display = hasMatch ? '' : 'none';
                     });
+                }
+
+                // Center the filtered items in the viewport
+                centerVisibleItems();
+            }
+
+            // Center visible timeline items in the viewport
+            function centerVisibleItems() {
+                const timelineViewport = document.querySelector('.timeline-viewport');
+                if (!timelineViewport) return;
+
+                const visibleMilestones = Array.from(milestones).filter(m => m.style.display !== 'none');
+
+                if (visibleMilestones.length > 0) {
+                    // Get the leftmost and rightmost visible items
+                    const firstItem = visibleMilestones[0];
+                    const lastItem = visibleMilestones[visibleMilestones.length - 1];
+
+                    // Calculate the center point of the entire group
+                    const groupLeft = firstItem.offsetLeft;
+                    const groupRight = lastItem.offsetLeft + lastItem.offsetWidth;
+                    const groupCenter = (groupLeft + groupRight) / 2;
+
+                    // Calculate scroll position to center the entire group
+                    const scrollLeft = groupCenter - (timelineViewport.offsetWidth / 2);
+
+                    // Smooth scroll to center
+                    timelineViewport.scrollTo({ left: scrollLeft, behavior: 'smooth' });
                 }
             }
 
@@ -2749,8 +2773,8 @@
     </script>
 
     <!-- Include JavaScript files -->
-    <script src="intro-animation.js?v=20251003142500"></script>
-    <script src="modern-timeline.js?v=20251004150000"></script>
+    <script src="intro-animation.js?v=20251020004500"></script>
+    <script src="modern-timeline.js?v=20251020004500"></script>
     <script src="timeline-stars.js?v=20251003150000"></script>
     <script src="timeline-assets/marketing-gallery.js?v=20251019000000"></script>
 

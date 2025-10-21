@@ -90,53 +90,6 @@ function initializeCarouselGallery() {
     startAutoRotation(galleryTrack, cards);
 }
 
-// Setup scroll-based rotation control
-function setupScrollRotation(galleryTrack, cards) {
-    // Throttled scroll handler using requestAnimationFrame
-    let scrollTicking = false;
-    let lastScrollRotation = -1;
-
-    function handleScroll() {
-        // Stop auto-rotation when scrolling
-        galleryConfig.isAutoRotating = false;
-        clearTimeout(galleryConfig.scrollTimeout);
-
-        // Calculate rotation based on scroll progress (like React component)
-        const scrollableHeight = document.documentElement.scrollHeight - window.innerHeight;
-        const scrollProgress = scrollableHeight > 0 ? window.scrollY / scrollableHeight : 0;
-        galleryConfig.currentRotation = scrollProgress * 360;
-
-        // Apply rotation to gallery
-        galleryTrack.style.transform = `rotateY(${galleryConfig.currentRotation}deg)`;
-
-        // Counter-rotate the owl to keep it stationary
-        const landingOwl = document.querySelector('.gallery-track .landing-owl');
-        if (landingOwl) {
-            landingOwl.style.transform = `rotateY(${-galleryConfig.currentRotation}deg) translate(-50%, -50%)`;
-        }
-
-        // Only update opacities if rotation changed significantly (more than 5 degrees)
-        const currentRotationInt = Math.floor(galleryConfig.currentRotation / 5);
-        if (currentRotationInt !== lastScrollRotation) {
-            lastScrollRotation = currentRotationInt;
-            updateAllCardOpacities(cards);
-        }
-
-        scrollTicking = false;
-    }
-
-    window.addEventListener('scroll', () => {
-        if (!scrollTicking) {
-            requestAnimationFrame(handleScroll);
-            scrollTicking = true;
-        }
-
-        // Resume auto-rotation after scrolling stops
-        galleryConfig.scrollTimeout = setTimeout(() => {
-            galleryConfig.isAutoRotating = true;
-        }, 150);  // Match React's 150ms timeout
-    });
-}
 
 // Setup mouse drag rotation control
 function setupMouseDragRotation(galleryTrack, cards) {
@@ -398,57 +351,6 @@ function getMilestoneIdByIndex(index) {
     return milestoneIds[index] || null;
 }
 
-// Get milestone-specific details for modal
-function getMilestoneDetails(dataId) {
-    const details = {
-        'inception': `
-            <h4>Company Foundation</h4>
-            <p>March 2025 marks the beginning of our journey</p>
-            <ul>
-                <li>Founded by industry veterans</li>
-                <li>Initial seed funding secured</li>
-                <li>Core team assembled</li>
-            </ul>
-        `,
-        'dre': `
-            <h4>Digital Real Estate Platform</h4>
-            <p>Revolutionary real estate technology</p>
-            <ul>
-                <li>AI-powered property matching</li>
-                <li>Integrated transaction management</li>
-                <li>Smart contract automation</li>
-            </ul>
-        `,
-        'founded': `
-            <h4>Technology Stack</h4>
-            <p>Cutting-edge technology infrastructure</p>
-            <ul>
-                <li>Cloud-native architecture</li>
-                <li>Machine learning integration</li>
-                <li>Blockchain-ready systems</li>
-            </ul>
-        `,
-        'integrations': `
-            <h4>System Integrations</h4>
-            <p>Seamless connectivity across platforms</p>
-            <ul>
-                <li>API-first approach</li>
-                <li>Real-time data synchronization</li>
-                <li>Third-party service integration</li>
-            </ul>
-        `,
-        'nationwide': `
-            <h4>Growth & Expansion</h4>
-            <p>Scaling nationwide operations</p>
-            <ul>
-                <li>Multi-state licensing</li>
-                <li>Regional partnerships</li>
-                <li>24/7 support infrastructure</li>
-            </ul>
-        `
-    };
-    return details[dataId] || '<p>Details coming soon...</p>';
-}
 
 // Setup timeline milestone clicks
 function setupTimelineClicks() {
@@ -1423,7 +1325,3 @@ function applyElementPositions() {
 // ========================================
 
 // Filter system is now inline in HTML - no setup needed
-function setupFilterContainer() {
-    console.log('✅ New filter system loaded inline - no setup required');
-    return;
-}

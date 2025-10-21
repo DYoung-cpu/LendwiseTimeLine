@@ -394,7 +394,7 @@ function setupNavigationButtons() {
 
 // Get milestone ID by card index
 function getMilestoneIdByIndex(index) {
-    const milestoneIds = ['founded', 'nmls', 'dre', 'dfpi', 'encompass', 'dscr', 'multistate', 'crm', 'wisr', 'fhava', 'underwriting', 'nationwide'];
+    const milestoneIds = ['inception', 'location', 'licensing', 'pos', 'team', 'marketing', 'mission-control', 'wisr', 'integrations', 'google-sponsor', 'underwriting', 'onboarding'];
     return milestoneIds[index] || null;
 }
 
@@ -548,15 +548,29 @@ function setupTimelineClicks() {
 
 // Open modal with milestone details
 function openModal(id) {
-    const data = milestoneData[id];
-    if (!data) return;
-
-    // Check if this is the inception milestone
+    // Check for special fullscreen modals FIRST (before requiring data)
     if (id === 'inception') {
-        // Open the fullscreen inception modal instead
         openInceptionModal();
         return;
     }
+
+    if (id === 'marketing') {
+        openMarketingModal();
+        return;
+    }
+
+    if (id === 'onboarding') {
+        openOnboardingModal();
+        return;
+    }
+
+    if (id === 'integrations') {
+        openIntegrationsModal();
+        return;
+    }
+
+    const data = milestoneData[id];
+    if (!data) return;
 
     // Get modal element once at the beginning
     const modal = document.getElementById('timeline-modal');
@@ -593,13 +607,6 @@ function openModal(id) {
     if (id === 'wisr') {
         // Open the fullscreen WISR modal instead
         openWisrModal();
-        return;
-    }
-
-    // Check if this is the Integrations milestone
-    if (id === 'integrations') {
-        // Open the fullscreen Integrations modal instead
-        openIntegrationsModal();
         return;
     }
 
@@ -876,6 +883,8 @@ function closeWisrModal() {
 // Open Integrations Modal
 function openIntegrationsModal() {
     const modal = document.getElementById('integrations-modal');
+    if (!modal) return;
+
     modal.classList.add('active');
     document.body.style.overflow = 'hidden';
 

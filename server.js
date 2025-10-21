@@ -6,6 +6,7 @@ const PORT = process.env.PORT || 3005;
 
 // Serve static files with no caching for development
 app.use(express.static(path.join(__dirname), {
+  index: false,  // Disable automatic index.html serving
   setHeaders: (res, filePath) => {
     if (filePath.endsWith('.css') || filePath.endsWith('.html') || filePath.endsWith('.js')) {
       res.set('Cache-Control', 'no-store, no-cache, must-revalidate, proxy-revalidate');
@@ -18,7 +19,7 @@ app.use(express.static(path.join(__dirname), {
 
 // Main route
 app.get("/", (req, res) => {
-  res.sendFile(path.join(__dirname, "index.html"));
+  res.sendFile(path.join(__dirname, "timeline-dev.html"));
 });
 
 // Start server

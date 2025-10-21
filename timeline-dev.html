@@ -1836,6 +1836,95 @@
         console.log('✅ Loaded', Object.keys(milestoneData).length, 'milestones from data/milestones.js');
     </script>
 
+    <!-- Modal Manager - Unified Modal Management System -->
+    <script src="js/modal-manager.js"></script>
+    <script>
+        // Initialize Modal Manager
+        const modalManager = new ModalManager();
+
+        // Register Standard Timeline Modal
+        modalManager.register('timeline-modal', {
+            elementId: 'timeline-modal',
+            type: 'standard',
+            closeButtonId: 'modal-close'
+        });
+
+        // Register Fullscreen Modals
+        modalManager.register('inception', {
+            elementId: 'inception-modal',
+            type: 'fullscreen',
+            closeButtonId: 'inception-close'
+        });
+
+        modalManager.register('licensing', {
+            elementId: 'licensing-modal',
+            type: 'fullscreen',
+            closeButtonId: 'licensing-modal-close'
+        });
+
+        modalManager.register('headquarters', {
+            elementId: 'headquarters-modal',
+            type: 'fullscreen',
+            closeButtonId: 'headquarters-modal-close'
+        });
+
+        modalManager.register('team', {
+            elementId: 'team-modal',
+            type: 'fullscreen',
+            closeButtonId: 'team-modal-close'
+        });
+
+        modalManager.register('wisr', {
+            elementId: 'wisr-modal',
+            type: 'fullscreen',
+            closeButtonId: 'wisr-modal-close'
+        });
+
+        modalManager.register('integrations', {
+            elementId: 'integrations-modal',
+            type: 'fullscreen',
+            closeButtonId: 'integrations-modal-close'
+        });
+
+        modalManager.register('marketing', {
+            elementId: 'marketing-modal',
+            type: 'fullscreen',
+            closeButtonId: 'marketing-modal-close',
+            onOpen: function() {
+                // Initialize marketing gallery if available
+                if (typeof initializeMarketingGallery === 'function') {
+                    initializeMarketingGallery();
+                }
+            },
+            onClose: function() {
+                // Clean up video modal
+                const videoModalOverlay = document.getElementById('videoModalOverlay');
+                const modalVideo = document.getElementById('modalVideo');
+
+                if (videoModalOverlay) {
+                    videoModalOverlay.style.display = 'none';
+                }
+
+                if (modalVideo) {
+                    modalVideo.pause();
+                    modalVideo.src = '';
+                }
+            }
+        });
+
+        modalManager.register('onboarding', {
+            elementId: 'onboarding-modal',
+            type: 'fullscreen',
+            closeButtonId: 'onboarding-modal-close'
+        });
+
+        // Setup all modal event handlers
+        // This replaces the old setupModalHandlers() function
+        modalManager.setupHandlers();
+
+        console.log('✅ ModalManager initialized with', modalManager.modals.size, 'modals');
+    </script>
+
     <!-- UI Orchestrator - Centralized State Management -->
     <script>
         const UIOrchestrator = {
@@ -2463,38 +2552,15 @@
         });
 
         // Open Marketing Modal Function
+        // Delegates to ModalManager (onOpen hook handles gallery initialization)
         function openMarketingModal() {
-            const marketingModal = document.getElementById('marketing-modal');
-            if (marketingModal) {
-                marketingModal.classList.add('active');
-
-                // Initialize marketing gallery if it hasn't been initialized
-                if (typeof initializeMarketingGallery === 'function') {
-                    initializeMarketingGallery();
-                }
-            }
+            modalManager.open('marketing');
         }
 
         // Close Marketing Modal Function
+        // Delegates to ModalManager (onClose hook handles video cleanup)
         function closeMarketingModal() {
-            const marketingModal = document.getElementById('marketing-modal');
-            const videoModalOverlay = document.getElementById('videoModalOverlay');
-            const modalVideo = document.getElementById('modalVideo');
-
-            if (marketingModal) {
-                marketingModal.classList.remove('active');
-            }
-
-            // Also close the video modal if it's open
-            if (videoModalOverlay) {
-                videoModalOverlay.style.display = 'none';
-            }
-
-            // Pause and clear video
-            if (modalVideo) {
-                modalVideo.pause();
-                modalVideo.src = '';
-            }
+            modalManager.close();
         }
 
         // ONBOARDING Button Click Handler
@@ -2566,19 +2632,15 @@
         });
 
         // Open Onboarding Modal Function
+        // Delegates to ModalManager
         function openOnboardingModal() {
-            const onboardingModal = document.getElementById('onboarding-modal');
-            if (onboardingModal) {
-                onboardingModal.classList.add('active');
-            }
+            modalManager.open('onboarding');
         }
 
         // Close Onboarding Modal Function
+        // Delegates to ModalManager
         function closeOnboardingModal() {
-            const onboardingModal = document.getElementById('onboarding-modal');
-            if (onboardingModal) {
-                onboardingModal.classList.remove('active');
-            }
+            modalManager.close();
         }
 
         // Team card photo slider

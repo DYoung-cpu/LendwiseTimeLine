@@ -155,9 +155,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 if (typeof applyElementPositions !== 'undefined') {
                     applyElementPositions();
                 }
-                if (typeof setupModalHandlers !== 'undefined') {
-                    setupModalHandlers();
-                }
+                // Modal handlers now setup via modalManager.setupHandlers() in timeline-dev.html
                 // Filter system is now inline in HTML - no setup needed
                 console.log('✅ New filter system loaded inline');
                 console.log('✅ Timeline initialized after 3-second intro');

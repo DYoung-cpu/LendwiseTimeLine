@@ -450,31 +450,37 @@ function setupTimelineClicks() {
 
 // Open modal with milestone details
 function openModal(id) {
-    // Check for special fullscreen modals FIRST (before requiring data)
-    if (id === 'inception') {
-        openInceptionModal();
+    // Route special fullscreen modals to ModalManager
+    // These modals don't need data from milestoneData
+    if (id === 'inception' || id === 'marketing' || id === 'onboarding' || id === 'integrations') {
+        modalManager.open(id);
         return;
     }
 
-    if (id === 'marketing') {
-        openMarketingModal();
-        return;
-    }
-
-    if (id === 'onboarding') {
-        openOnboardingModal();
-        return;
-    }
-
-    if (id === 'integrations') {
-        openIntegrationsModal();
-        return;
-    }
-
+    // Get milestone data for data-driven modals
     const data = milestoneData[id];
     if (!data) return;
 
-    // Get modal element once at the beginning
+    // Map milestone IDs to their fullscreen modal IDs
+    // Some milestone IDs open different modals
+    const modalRoutes = {
+        'licensing': 'licensing',
+        'dre': 'licensing',
+        'headquarters': 'headquarters',
+        'location': 'headquarters',
+        'staff': 'team',
+        'team': 'team',
+        'wisr': 'wisr'
+    };
+
+    // Check if this milestone uses a fullscreen modal
+    const fullscreenModalId = modalRoutes[id];
+    if (fullscreenModalId) {
+        modalManager.open(fullscreenModalId, data);
+        return;
+    }
+
+    // For standard timeline-modal, populate content first, then open
     const modal = document.getElementById('timeline-modal');
 
     // Add special styling for Google sponsor modal
@@ -484,64 +490,47 @@ function openModal(id) {
         modal.removeAttribute('data-sponsor');
     }
 
-    // Check if this is the licensing milestone
-    if (id === 'licensing' || id === 'dre') {
-        // Open the fullscreen licensing modal instead
-        openLicensingModal();
-        return;
-    }
-
-    // Check if this is the headquarters/location milestone
-    if (id === 'headquarters' || id === 'location') {
-        // Open the fullscreen headquarters modal instead
-        openHeadquartersModal();
-        return;
-    }
-
-    // Check if this is the team/staff milestone
-    if (id === 'staff' || id === 'team') {
-        // Open the fullscreen team modal instead
-        openTeamModal();
-        return;
-    }
-
-    // Check if this is the WISR AI milestone
-    if (id === 'wisr') {
-        // Open the fullscreen WISR modal instead
-        openWisrModal();
-        return;
-    }
-
     const standardContent = document.getElementById('standard-content');
     const locationContent = document.getElementById('location-content');
 
-    // Check if this is the location milestone
+    // Check if this uses location-specific content
+    // NOTE: This seems redundant with 'headquarters' routing above
+    // Keeping for safety - may need cleanup later
     if (id === 'location') {
         // Hide standard content, show location content
         standardContent.style.display = 'none';
         locationContent.style.display = 'block';
 
         // Setup location-specific content
-        setupLocationModal(data);
+        setupLocationModalContent(data);
     } else {
         // Show standard content, hide location content
         standardContent.style.display = 'block';
         locationContent.style.display = 'none';
 
-        // Setup standard modal content
-        const modalIcon = modal.querySelector('.modal-icon');
-        const modalTitle = modal.querySelector('#modal-title');
-        const modalDateBadge = modal.querySelector('#modal-date-badge');
-        const modalCategoryBadge = modal.querySelector('#modal-category-badge');
-        const modalDescription = modal.querySelector('#modal-description');
-        const modalDetails = modal.querySelector('#modal-details');
+        // Populate standard modal content
+        populateStandardModalContent(modal, data);
+    }
 
-        // Set modal content
-        modalIcon.textContent = data.icon;
-        modalTitle.textContent = data.title;
-        modalDateBadge.textContent = data.date;
-        modalCategoryBadge.textContent = data.category;
-        modalDescription.textContent = data.description;
+    // Let ModalManager handle showing the modal
+    modalManager.open('timeline-modal', data);
+}
+
+// Separated content population function (no modal show/hide logic)
+function populateStandardModalContent(modal, data) {
+    const modalIcon = modal.querySelector('.modal-icon');
+    const modalTitle = modal.querySelector('#modal-title');
+    const modalDateBadge = modal.querySelector('#modal-date-badge');
+    const modalCategoryBadge = modal.querySelector('#modal-category-badge');
+    const modalDescription = modal.querySelector('#modal-description');
+    const modalDetails = modal.querySelector('#modal-details');
+
+    // Set modal content
+    modalIcon.textContent = data.icon;
+    modalTitle.textContent = data.title;
+    modalDateBadge.textContent = data.date;
+    modalCategoryBadge.textContent = data.category;
+    modalDescription.textContent = data.description;
 
     // Build details HTML
     let detailsHTML = '';
@@ -602,16 +591,11 @@ function openModal(id) {
         `;
     }
 
-        modalDetails.innerHTML = detailsHTML;
-    }
-
-    // Show modal
-    modal.classList.add('active');
-    document.body.style.overflow = 'hidden';
+    modalDetails.innerHTML = detailsHTML;
 }
 
-// Setup enhanced location modal content
-function setupLocationModal(data) {
+// Setup enhanced location modal content (content-only, no show/hide logic)
+function setupLocationModalContent(data) {
     const modal = document.getElementById('timeline-modal');
 
     // Set header info
@@ -697,170 +681,11 @@ function setupLocationModal(data) {
     }
 }
 
-// Close modal
-function closeModal() {
-    const modal = document.getElementById('timeline-modal');
-    modal.classList.remove('active');
-    document.body.style.overflow = 'auto';
-}
-
-// Open Inception Modal
-function openInceptionModal() {
-    const modal = document.getElementById('inception-modal');
-    modal.classList.add('active');
-    document.body.style.overflow = 'hidden';
-
-    // Remove glow from cards after modal opens
-    setTimeout(() => {
-        document.querySelectorAll('.selected-glow').forEach(card => {
-            card.classList.remove('selected-glow');
-        });
-    }, 1000);
-}
-
-// Close Inception Modal
-function closeInceptionModal() {
-    const modal = document.getElementById('inception-modal');
-    modal.classList.remove('active');
-    document.body.style.overflow = 'auto';
-
-    // Remove any remaining glow effects
-    document.querySelectorAll('.selected-glow').forEach(card => {
-        card.classList.remove('selected-glow');
-    });
-}
-
-// Open Licensing Modal
-function openLicensingModal() {
-    const modal = document.getElementById('licensing-modal');
-    modal.classList.add('active');
-    document.body.style.overflow = 'hidden';
-
-    // Remove glow from cards after modal opens
-    setTimeout(() => {
-        document.querySelectorAll('.selected-glow').forEach(card => {
-            card.classList.remove('selected-glow');
-        });
-    }, 1000);
-}
-
-// Close Licensing Modal
-function closeLicensingModal() {
-    const modal = document.getElementById('licensing-modal');
-    modal.classList.remove('active');
-    document.body.style.overflow = 'auto';
-
-    // Remove any remaining glow effects
-    document.querySelectorAll('.selected-glow').forEach(card => {
-        card.classList.remove('selected-glow');
-    });
-}
-
-// Open WISR Modal
-function openWisrModal() {
-    const modal = document.getElementById('wisr-modal');
-    modal.classList.add('active');
-    document.body.style.overflow = 'hidden';
-
-    // Remove glow from cards after modal opens
-    setTimeout(() => {
-        document.querySelectorAll('.selected-glow').forEach(card => {
-            card.classList.remove('selected-glow');
-        });
-    }, 1000);
-}
-
-// Close WISR Modal
-function closeWisrModal() {
-    const modal = document.getElementById('wisr-modal');
-    modal.classList.remove('active');
-    document.body.style.overflow = 'auto';
-
-    // Remove any remaining glow effects
-    document.querySelectorAll('.selected-glow').forEach(card => {
-        card.classList.remove('selected-glow');
-    });
-}
-
-// Open Integrations Modal
-function openIntegrationsModal() {
-    const modal = document.getElementById('integrations-modal');
-    if (!modal) return;
-
-    modal.classList.add('active');
-    document.body.style.overflow = 'hidden';
-
-    // Remove glow from cards after modal opens
-    setTimeout(() => {
-        document.querySelectorAll('.selected-glow').forEach(card => {
-            card.classList.remove('selected-glow');
-        });
-    }, 1000);
-}
-
-// Close Integrations Modal
-function closeIntegrationsModal() {
-    const modal = document.getElementById('integrations-modal');
-    modal.classList.remove('active');
-    document.body.style.overflow = 'auto';
-
-    // Remove any remaining glow effects
-    document.querySelectorAll('.selected-glow').forEach(card => {
-        card.classList.remove('selected-glow');
-    });
-}
-
-// Open Team Modal
-function openTeamModal() {
-    const modal = document.getElementById('team-modal');
-    modal.classList.add('active');
-    document.body.style.overflow = 'hidden';
-
-    // Remove glow from cards after modal opens
-    setTimeout(() => {
-        document.querySelectorAll('.selected-glow').forEach(card => {
-            card.classList.remove('selected-glow');
-        });
-    }, 1000);
-}
-
-// Close Team Modal
-function closeTeamModal() {
-    const modal = document.getElementById('team-modal');
-    modal.classList.remove('active');
-    document.body.style.overflow = 'auto';
-
-    // Remove any remaining glow effects
-    document.querySelectorAll('.selected-glow').forEach(card => {
-        card.classList.remove('selected-glow');
-    });
-}
-
-// Open Headquarters Modal
-function openHeadquartersModal() {
-    const modal = document.getElementById('headquarters-modal');
-    modal.classList.add('active');
-    document.body.style.overflow = 'hidden';
-
-    // Remove glow from cards after modal opens
-    setTimeout(() => {
-        document.querySelectorAll('.selected-glow').forEach(card => {
-            card.classList.remove('selected-glow');
-        });
-    }, 1000);
-}
-
-// Close Headquarters Modal
-function closeHeadquartersModal() {
-    const modal = document.getElementById('headquarters-modal');
-    modal.classList.remove('active');
-    document.body.style.overflow = 'auto';
-
-    // Remove any remaining glow effects
-    document.querySelectorAll('.selected-glow').forEach(card => {
-        card.classList.remove('selected-glow');
-    });
-}
+// ========================================
+// MODAL FUNCTIONS - Now managed by ModalManager
+// ========================================
+// All open/close functions have been consolidated into the ModalManager class
+// See: js/modal-manager.js and timeline-dev.html (modal registrations)
 
 // Change HQ Gallery Image
 function changeHQImage(imageSrc, imageTitle, thumbElement) {
@@ -891,143 +716,6 @@ function changeHQImage(imageSrc, imageTitle, thumbElement) {
 }
 
 // Setup modal event handlers
-function setupModalHandlers() {
-    const modal = document.getElementById('timeline-modal');
-    const inceptionModal = document.getElementById('inception-modal');
-
-    if (modal) {
-        // Close button handler
-        const closeButton = modal.querySelector('.modal-close');
-        if (closeButton) {
-            closeButton.addEventListener('click', closeModal);
-        }
-
-        // Click outside to close
-        modal.addEventListener('click', (e) => {
-            if (e.target === modal) {
-                closeModal();
-            }
-        });
-    }
-
-    // Setup inception modal handlers
-    if (inceptionModal) {
-        // Click outside to close
-        inceptionModal.addEventListener('click', (e) => {
-            if (e.target === inceptionModal) {
-                closeInceptionModal();
-            }
-        });
-    }
-
-    // Also handle clicks outside licensing modal
-    const licensingModal = document.getElementById('licensing-modal');
-    if (licensingModal) {
-        licensingModal.addEventListener('click', (e) => {
-            if (e.target === licensingModal) {
-                closeLicensingModal();
-            }
-        });
-    }
-
-    // Also handle clicks outside headquarters modal
-    const headquartersModal = document.getElementById('headquarters-modal');
-    if (headquartersModal) {
-        headquartersModal.addEventListener('click', (e) => {
-            if (e.target === headquartersModal) {
-                closeHeadquartersModal();
-            }
-        });
-    }
-
-    // Also handle clicks outside team modal
-    const teamModal = document.getElementById('team-modal');
-    if (teamModal) {
-        teamModal.addEventListener('click', (e) => {
-            if (e.target === teamModal) {
-                closeTeamModal();
-            }
-        });
-    }
-
-    // Also handle clicks outside WISR modal
-    const wisrModal = document.getElementById('wisr-modal');
-    if (wisrModal) {
-        wisrModal.addEventListener('click', (e) => {
-            if (e.target === wisrModal) {
-                closeWisrModal();
-            }
-        });
-        // Add close button handler for WISR modal
-        const wisrCloseBtn = document.getElementById('wisr-modal-close');
-        if (wisrCloseBtn) {
-            wisrCloseBtn.addEventListener('click', closeWisrModal);
-        }
-    }
-
-    // Add close button handlers for other fullscreen modals
-    const inceptionCloseBtn = document.getElementById('inception-close');
-    if (inceptionCloseBtn) {
-        inceptionCloseBtn.addEventListener('click', closeInceptionModal);
-    }
-
-    const licensingCloseBtn = document.getElementById('licensing-modal-close');
-    if (licensingCloseBtn) {
-        licensingCloseBtn.addEventListener('click', closeLicensingModal);
-    }
-
-    const headquartersCloseBtn = document.getElementById('headquarters-modal-close');
-    if (headquartersCloseBtn) {
-        headquartersCloseBtn.addEventListener('click', closeHeadquartersModal);
-    }
-
-    const teamCloseBtn = document.getElementById('team-modal-close');
-    if (teamCloseBtn) {
-        teamCloseBtn.addEventListener('click', closeTeamModal);
-    }
-
-    // Add handlers for Integrations modal
-    const integrationsModal = document.getElementById('integrations-modal');
-    if (integrationsModal) {
-        integrationsModal.addEventListener('click', (e) => {
-            if (e.target === integrationsModal) {
-                closeIntegrationsModal();
-            }
-        });
-        // Add close button handler
-        const integrationsCloseBtn = document.getElementById('integrations-modal-close');
-        if (integrationsCloseBtn) {
-            integrationsCloseBtn.addEventListener('click', closeIntegrationsModal);
-        }
-    }
-
-    // Escape key to close any active modal
-    document.addEventListener('keydown', (e) => {
-        if (e.key === 'Escape') {
-            if (modal && modal.classList.contains('active')) {
-                closeModal();
-            }
-            if (inceptionModal && inceptionModal.classList.contains('active')) {
-                closeInceptionModal();
-            }
-            if (licensingModal && licensingModal.classList.contains('active')) {
-                closeLicensingModal();
-            }
-            if (headquartersModal && headquartersModal.classList.contains('active')) {
-                closeHeadquartersModal();
-            }
-            if (teamModal && teamModal.classList.contains('active')) {
-                closeTeamModal();
-            }
-            if (wisrModal && wisrModal.classList.contains('active')) {
-                closeWisrModal();
-            }
-            if (integrationsModal && integrationsModal.classList.contains('active')) {
-                closeIntegrationsModal();
-            }
-        }
-    });
-}
 
 // Setup Timeline Horizontal Navigation with Drag Support
 function setupTimelineNavigation() {
